@@ -10,21 +10,20 @@ import com.mongodb.async.client.MongoClients
 import net.darkdevelopers.darkbedrock.darkness.general.configs.Config
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
-import net.darkdevelopers.darkbedrock.darkness.general.databases.mysql.MySQLData
 
 @Suppress("unused")
 data class MongoDB(private val pair: Pair<String, Int>) {
 
     lateinit var client: MongoClient
-    //    private lateinit var database: MongoDatabase
     private val host: String = pair.first
     private val port: Int = pair.second
-//    val collections: MutableMap<String, MongoCollection<Document>> = mutableMapOf()
 
-    private constructor(config: Config = GsonConfig(ConfigData("configs", "mongodb.json"))) : this(try {
+    private constructor() : this(GsonConfig(ConfigData("configs", "mongodb.json")))
+
+    constructor(config: Config) : this(try {
         MongoData.createMongoData(config)
     } catch (ex: NullPointerException) {
-        MySQLData.printDefaultMySQLDataInConfigFile(config)
+        MongoData.printDefaultMongoDataInConfigFile(config)
         println()
         println("[MongoDB] Please enter the MongoDB data")
         println()
@@ -44,25 +43,7 @@ data class MongoDB(private val pair: Pair<String, Int>) {
 
     companion object {
         var simpleInstance: MongoDB? = null
+            get() = if (field == null) MongoDB() else field
             private set
-            get() {
-                if (field == null) field = MongoDB()
-                return field
-            }
     }
-
-
-//    fun getCollection(key: String) = getCollection(key, key)
-//
-//    @Suppress("MemberVisibilityCanBePrivate")
-//    fun getCollection(key: String, collectionKey: String): MongoCollection<Document> {
-//        val collection = database.getCollection(collectionKey)
-//                ?: throw NullPointerException("Collection by $collectionKey can not be null")
-//        collections[key] = collection
-//        return collection
-//    }
-
-//    private fun setDatabase() {
-//        database = client.getDatabase("MainDB")
-//    }
 }

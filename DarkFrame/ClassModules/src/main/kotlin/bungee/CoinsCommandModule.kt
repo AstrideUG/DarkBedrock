@@ -26,7 +26,7 @@ class CoinsCommandModule : Module, Command(
 ) {
     override val description: ModuleDescription = ModuleDescription("CoinsCommandModule", "1.0", "Lars Artmann | LartyHD", "This module adds the coins command")
 
-    private val asyncMap: IntAsyncMap = MongoIntAsyncMap(MongoDB(), "MainDB", "server")
+    private val asyncMap: IntAsyncMap = MongoIntAsyncMap(MongoDB.simpleInstance!!, "MainDB", "server")
 
     override fun perform(sender: CommandSender, args: Array<String>) = if (args.isEmpty())
         isPlayer(sender, {
