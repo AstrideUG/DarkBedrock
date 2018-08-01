@@ -21,7 +21,7 @@ data class MongoDB(private val pair: Pair<String, Int>) {
     private val port: Int = pair.second
 //    val collections: MutableMap<String, MongoCollection<Document>> = mutableMapOf()
 
-    constructor(config: Config = GsonConfig(ConfigData("configs", "mongodb.json"))) : this(try {
+    private constructor(config: Config = GsonConfig(ConfigData("configs", "mongodb.json"))) : this(try {
         MongoData.createMongoData(config)
     } catch (ex: NullPointerException) {
         MySQLData.printDefaultMySQLDataInConfigFile(config)
@@ -41,6 +41,16 @@ data class MongoDB(private val pair: Pair<String, Int>) {
 //        setDatabase()
         return this
     }
+
+    companion object {
+        var simpleInstance: MongoDB? = null
+            private set
+            get() {
+                if (field == null) field = MongoDB()
+                return field
+            }
+    }
+
 
 //    fun getCollection(key: String) = getCollection(key, key)
 //
