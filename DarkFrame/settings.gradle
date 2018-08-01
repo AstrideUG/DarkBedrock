@@ -1,8 +1,4 @@
 rootProject.name = 'DarkFrame'
 includeFlat("Darkness")
-include 'NoRainModule'
-include 'BungeeCommands'
 include 'ClassModules'
-include 'LobbyModule'
-include 'PlayerHider'
 
