@@ -15,7 +15,6 @@ import javax.swing.JOptionPane
  * Mail: segdo@segdogames.com
  */
 fun main(args: Array<String>) {
-
     val message = "Dies ist ein Minecraft-Spigot-Bungeecord-Mod-Framework von LartyHD aka. Lars Artmann und Segdo aka. Dominik Milenko"
 
     if (GraphicsEnvironment.isHeadless())
