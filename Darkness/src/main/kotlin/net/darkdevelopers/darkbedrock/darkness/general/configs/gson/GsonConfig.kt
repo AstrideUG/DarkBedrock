@@ -34,7 +34,11 @@ open class GsonConfig(override val configData: ConfigData) : DefaultConfig {
     override fun <O> getAs(key: String): O? = jsonObject[key] as? O
 
     override fun <I> put(key: String, value: I): GsonConfig {
-        if (value?.toString() == null) jsonObject.remove(key) else jsonObject.add(key, JsonPrimitive(value.toString()))
+        when {
+            value is JsonElement -> jsonObject.add(key, value)
+            value?.toString() == null -> jsonObject.remove(key)
+            else -> jsonObject.add(key, JsonPrimitive(value.toString()))
+        }
         return this
     }
 

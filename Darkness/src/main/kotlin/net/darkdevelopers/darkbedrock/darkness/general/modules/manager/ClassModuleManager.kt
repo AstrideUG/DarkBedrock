@@ -36,7 +36,7 @@ class ClassModuleManager(folder: File) : ModuleManager(folder) {
     private fun addModules(file: File) {
         if (file.isFile) {
             var name = file.name
-            if (name.endsWith(".class")) {
+            if (name.endsWith(".class") && !name.contains('$')) {
                 name = name.substring(0, name.length - 6)
                 if (modulesToLoad.contains(name))
                     System.err.println("Two modules named \"$name\" were found in the class module folder")

@@ -32,6 +32,7 @@ class BukkitGsonConfig(override val configData: ConfigData) : GsonConfig(configD
      * This method does not save the config!
      */
     fun setLocation(key: String, location: Location): BukkitGsonConfig {
+
         put(key, JsonObject().apply {
             addProperty("world", location.world.name)
             addProperty("x", location.x)
@@ -75,7 +76,7 @@ class BukkitGsonConfig(override val configData: ConfigData) : GsonConfig(configD
         val jsonObject = jsonObject.get(key)?.asJsonObject ?: throw NullPointerException("jsonObject can not be null")
         return Location(
                 Bukkit.getWorld(jsonObject.get("world").asString),
-                jsonObject.get("x")!!.asDouble,
+                jsonObject.get("x").asDouble,
                 jsonObject.get("y").asDouble,
                 jsonObject.get("z").asDouble,
                 jsonObject.get("yaw").asFloat,
