@@ -9,6 +9,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.PlayerLoginEvent
+import java.io.File
 
 /**
  * @author Lars Artmann | LartyHD
@@ -18,7 +19,7 @@ import org.bukkit.event.player.PlayerLoginEvent
 class OnlyProxyJoinModule : Module, Listener(DarkFrame.instance) {
     override val description: ModuleDescription = ModuleDescription("OnlyProxyJoinModule", "1.0", "Lars Artmann | LartyHD", "This module asks if the host address is valid")
 
-    private val config = GsonConfig(ConfigData(description.name, "config.json")).load()
+    private val config = GsonConfig(ConfigData("modules${File.separator}${description.name}", "config.json")).load()
     private val proxys = config.getAs<JsonArray>("proxys")
             ?: throw NullPointerException("proxys can not be null")
     private val ips = HashSet<String>().apply { proxys.forEach { add(it.asString) } }

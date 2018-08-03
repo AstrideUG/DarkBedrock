@@ -32,7 +32,6 @@ class BukkitGsonConfig(override val configData: ConfigData) : GsonConfig(configD
      * This method does not save the config!
      */
     fun setLocation(key: String, location: Location): BukkitGsonConfig {
-
         put(key, JsonObject().apply {
             addProperty("world", location.world.name)
             addProperty("x", location.x)

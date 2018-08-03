@@ -11,6 +11,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.Command
 import net.darkdevelopers.darkbedrock.darkness.spigot.configs.gson.BukkitGsonConfig
 import org.bukkit.command.CommandSender
+import java.io.File
 
 /**
  * @author Lars Artmann | LartyHD
@@ -19,12 +20,12 @@ import org.bukkit.command.CommandSender
  */
 class SpawnCommandModule : Module, Command(
         DarkFrame.instance,
-        GsonConfig(ConfigData("SpawnCommandModule", "config.json")).load().getAs<JsonPrimitive>("CommandName")?.asString
+        GsonConfig(ConfigData("modules${File.separator}SpawnCommandModule", "config.json")).load().getAs<JsonPrimitive>("CommandName")?.asString
                 ?: throw NullPointerException("CommandName can not be null")
 ) {
     override val description: ModuleDescription = ModuleDescription("SpawnCommandModule", "1.0", "Lars Artmann | LartyHD", "")
 
-    private val location = BukkitGsonConfig(ConfigData("SpawnCommandModule", "config.json")).load().getLocation("SpawnLocation")
+    private val location = BukkitGsonConfig(ConfigData("modules${File.separator}${description.name}", "config.json")).load().getLocation("SpawnLocation")
 
 //    init {
 //        BukkitGsonConfig(ConfigData("SpawnCommandModule", "test.json")).setLocation("SpawnLocation", Location(Bukkit.getWorlds()[0], 0.0, 0.0, 0.0, 0F, 0F)).save()
