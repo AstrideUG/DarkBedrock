@@ -3,11 +3,9 @@
  */
 
 import com.google.gson.JsonPrimitive
-import com.sk89q.worldedit.EditSession
 import com.sk89q.worldedit.Vector
 import com.sk89q.worldedit.bukkit.BukkitWorld
-import com.sk89q.worldedit.bukkit.WorldEditPlugin
-import com.sk89q.worldedit.schematic.MCEditSchematicFormat
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
@@ -33,20 +31,9 @@ class SchematicLoaderModule : Module {
     override fun start() = loadSchematic(config.getLocationWithOutYawAndPitch("PasteLocation"))
 
     private fun loadSchematic(location: Location) {
-        Bukkit.getPluginManager().getPlugin("WorldEdit") as? WorldEditPlugin
-                ?: throw NullPointerException("WorldEdit must be installed")
-        val editSession = EditSession(BukkitWorld(location.world), Int.MAX_VALUE)
-//        val clipboard = CuboidClipboard.loadSchematic(schematic)
-//                ?: throw NullPointerException("clipboard can not be null")
-//        clipboard.paste(editSession, Vector(location.x, location.y, location.z), noAir)
-        MCEditSchematicFormat.getFormat(schematic).load(schematic).paste(editSession, Vector(location.x, location.y, location.z), noAir)
-
-////        val session = worldEdit.worldEdit?.editSessionFactory?.getEditSession(BukkitWorld(location.world), Int.MAX_VALUE)
-////                ?: throw NullPointerException("EditSession can not be null")
-//        (MCEditSchematicFormat.getFormat(schematic)?.load(schematic)
-//                ?: throw NullPointerException("clipboard can not be null"))
-//                .paste(editSession, Vector(location.x, location.y, location.z), noAir)
-
+        Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit")
+                ?: throw NullPointerException("FastAsyncWorldEdit must be installed")
+        ClipboardFormat.SCHEMATIC.load(schematic).paste(BukkitWorld(location.world), Vector(location.x, location.y, location.z), true, !noAir, null)
     }
 
 }
