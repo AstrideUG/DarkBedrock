@@ -34,8 +34,7 @@ abstract class ModuleManager(val folder: File) {
     protected fun loadModule(folder: File, clazz: String) {
         try {
             val loader = URLClassLoader(arrayOf(folder.toURI().toURL()), javaClass.classLoader)
-            val rawClass = loader.loadClass(clazz)
-                    ?: return
+            val rawClass = loader.loadClass(clazz) ?: return
             val module = isModule(rawClass).newInstance()
             module.description.folder = File("$folder${File.separator}$clazz")
             call(module, "Loaded") { it.load() }
