@@ -19,7 +19,8 @@ class DarkFrame : DarkPlugin() {
     }
 
     override fun onEnable() = onEnable {
-        EventsListener(this)
+        EventsListener.autoRespawn = false
+        EventsListener.getSimpleInstance(this)
         moduleManager = ClassJavaModuleManager(dataFolder)
         ModulesCommand(this, mapOf(Pair("Class", moduleManager.classModuleManager), Pair("Java", moduleManager.javaModuleManager)))
     }

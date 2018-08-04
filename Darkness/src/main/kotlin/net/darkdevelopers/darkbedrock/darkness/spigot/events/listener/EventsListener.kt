@@ -7,6 +7,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEve
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerKickEvent
@@ -14,21 +15,27 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.util.Vector
+import kotlin.concurrent.thread
 
 /**
  * Created by LartyHD on 22.01.2018  00:14.
  * Last edit 06.07.2018
  */
-class EventsListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
+class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     fun onPlayerDeathEvent(event: PlayerDeathEvent) {
-        event.entity.spigot().respawn()
+        if (!autoRespawn) return
+        thread {
+            Thread.sleep(50)
+            event.entity.spigot().respawn()
+        }
     }
 
     @EventHandler
     fun onAsyncPlayerChatEvent(event: AsyncPlayerChatEvent) {
-        event.format = event.format.replace("%", "%%")
+        val format = event.format ?: return
+        if (format != "<%1\$s> %2\$s") event.format = format.replace("%", "%%")
     }
 
     @EventHandler
@@ -51,5 +58,12 @@ class EventsListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
             Bukkit.getPluginManager().callEvent(playerDisconnectEvent)
             event.leaveMessage = playerDisconnectEvent.leaveMessage
         }
+    }
+
+    companion object {
+        private var instance: EventsListener? = null
+        var autoRespawn: Boolean = true
+
+        fun getSimpleInstance(javaPlugin: JavaPlugin) = if (instance == null) EventsListener(javaPlugin) else instance
     }
 }

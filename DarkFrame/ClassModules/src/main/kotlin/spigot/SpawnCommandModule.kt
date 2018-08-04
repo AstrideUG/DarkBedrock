@@ -27,10 +27,6 @@ class SpawnCommandModule : Module, Command(
 
     private val location = BukkitGsonConfig(ConfigData("modules${File.separator}${description.name}", "config.json")).load().getLocation("SpawnLocation")
 
-//    init {
-//        BukkitGsonConfig(ConfigData("SpawnCommandModule", "test.json")).setLocation("SpawnLocation", Location(Bukkit.getWorlds()[0], 0.0, 0.0, 0.0, 0F, 0F)).save()
-//    }
-
     override fun perform(sender: CommandSender, args: Array<String>) = isPlayer(sender) { it.teleport(location) }
 
 }
