@@ -94,10 +94,17 @@ abstract class Command(val javaPlugin: JavaPlugin,
         sender.sendMessage("Der Command ist nur für Spieler")
     }
 
-    override fun isPlayer(sender: CommandSender, onSuccess: (Player) -> Unit, onFail: () -> Unit) =
-            if (sender is Player) onSuccess(sender) else onFail()
+    override fun isPlayer(sender: CommandSender, onSuccess: (Player) -> Unit, onFail: () -> Unit) {
+        println(sender)
+        println(sender is Player)
+        println(onSuccess)
+        println(onFail)
+        if (sender is Player) onSuccess(sender) else onFail()
+    }
+
 
 }
+
 
 
 
