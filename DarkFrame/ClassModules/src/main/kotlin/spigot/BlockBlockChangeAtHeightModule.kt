@@ -9,6 +9,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
+import org.bukkit.command.CommandSender
 import org.bukkit.event.Cancellable
 import org.bukkit.event.EventHandler
 import org.bukkit.event.block.BlockBreakEvent
@@ -29,25 +30,31 @@ class BlockBlockChangeAtHeightModule : Module, Listener(DarkFrame.instance) {
     private val config = GsonConfig(ConfigData("modules${File.separator}${description.name}", "config.json")).load()
     private val height = config.getAs<JsonPrimitive>("height")?.asInt
             ?: throw NullPointerException("height can not be null")
+    private val blockMessage = config.getAs<JsonPrimitive>("blockMessage")?.asString
+            ?: throw NullPointerException("blockMessage can not be null")
+
 
     @EventHandler
-    fun onBlockBreakEvent(event: BlockBreakEvent) = block(event.block.location.blockY, event)
+    fun onBlockBreakEvent(event: BlockBreakEvent) = block(event.block.location.blockY, event, event.player)
 
     @EventHandler
-    fun onBlockPlaceEvent(event: BlockPlaceEvent) = block(event.block.location.blockY, event)
+    fun onBlockPlaceEvent(event: BlockPlaceEvent) = block(event.block.location.blockY, event, event.player)
 
     @EventHandler
-    fun onPlayerBucketEvent(event: PlayerBucketEmptyEvent) = block(event.blockClicked.location.blockY, event)
+    fun onPlayerBucketEvent(event: PlayerBucketEmptyEvent) = block(event.blockClicked.location.blockY, event, event.player)
 
     @EventHandler
-    fun onPlayerBucketEvent(event: PlayerBucketFillEvent) = block(event.blockClicked.location.blockY, event)
+    fun onPlayerBucketEvent(event: PlayerBucketFillEvent) = block(event.blockClicked.location.blockY, event, event.player)
 
     @EventHandler
     fun onEntitySpawnEvent(event: EntitySpawnEvent) {
         if (event.location.blockY >= height) cancel(event)
     }
 
-    private fun block(heightValue: Int, cancellable: Cancellable) {
-        if (heightValue >= height) cancel(cancellable)
+    private fun block(heightValue: Int, cancellable: Cancellable, sender: CommandSender) {
+        if (heightValue >= height) {
+            sender.sendMessage(blockMessage)
+            cancel(cancellable)
+        }
     }
 }

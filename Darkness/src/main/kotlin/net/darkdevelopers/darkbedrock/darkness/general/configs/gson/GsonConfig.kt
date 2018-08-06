@@ -17,7 +17,11 @@ open class GsonConfig(override val configData: ConfigData) : DefaultConfig {
     protected var jsonObject = JsonObject()
 
     override fun load(): GsonConfig {
-        jsonObject = JsonParser().parse(String(Files.readAllBytes(getFile().toPath()))).asJsonObject
+        try {
+            jsonObject = JsonParser().parse(String(Files.readAllBytes(getFile().toPath()))).asJsonObject
+        } catch (ex: JsonSyntaxException) {
+            save()
+        }
         return this
     }
 
@@ -31,7 +35,14 @@ open class GsonConfig(override val configData: ConfigData) : DefaultConfig {
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun <O> getAs(key: String): O? = jsonObject[key] as? O
+    override fun <O> getAs(key: String): O? {
+        val any = jsonObject[key] as? O
+        if (any == null) {
+            jsonObject.addProperty(key, "null")
+            save()
+        }
+        return any
+    }
 
     override fun <I> put(key: String, value: I): GsonConfig {
         when {

@@ -13,11 +13,14 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    jcenter()
     maven { url = 'https://hub.spigotmc.org/nexus/content/groups/public/' }
     maven { url = 'https://oss.sonatype.org/content/groups/public/' }
     maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { url = 'http://repo.dmulloy2.net/content/groups/public/' }
     maven { url = 'https://oss.sonatype.org/content/repositories/snapshots/' }
+//    flatDir { dirs 'libraries' }
+    mavenLocal()
 }
 
 dependencies {
@@ -31,7 +34,24 @@ dependencies {
     compile group: 'net.md-5', name: 'bungeecord-protocol', version: '1.8-SNAPSHOT'
     compile fileTree(dir: 'libraries', include: '*.jar')
     compile files('../Darkness/build/libs/Darkness-1.0-SNAPSHOT.jar')
+//    compile project(':Darkness')
+//    compile files('$buildDir/classes') {
+//        builtBy: 'compile'
+//    }
 }
+
+task compile {
+    doLast {
+        println 'compiling classes'
+    }
+}
+
+task list(dependsOn: configurations.compile) {
+    doLast {
+        println "classpath = ${configurations.compile.collect { File file -> file.name }}"
+    }
+}
+
 
 compileKotlin { kotlinOptions.jvmTarget = "1.8" }
 
