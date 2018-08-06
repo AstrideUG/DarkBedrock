@@ -10,6 +10,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.md_5.bungee.api.chat.ClickEvent
+import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandMap
@@ -83,7 +84,8 @@ abstract class Command(val javaPlugin: JavaPlugin,
     private fun sendUseMessage(sender: CommandSender, usage: String) {
         val textComponent = TextComponent("$TEXT- $IMPORTANT/$commandName $TEXT$usage")
         isPlayer(sender, {
-            textComponent.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/$commandName $usage")
+            textComponent.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/$commandName ${usage.replace("[", "").replace("]", "").replace("<", "").replace(">", "")}")
+            textComponent.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(TextComponent("${TEXT}Klicke um den Command vorzuschlagen")))
             it.spigot().sendMessage(textComponent)
         }, { sender.sendMessage(textComponent.text) })
     }

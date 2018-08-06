@@ -19,7 +19,7 @@ open class GsonConfig(override val configData: ConfigData) : DefaultConfig {
     override fun load(): GsonConfig {
         try {
             jsonObject = JsonParser().parse(String(Files.readAllBytes(getFile().toPath()))).asJsonObject
-        } catch (ex: JsonSyntaxException) {
+        } catch (ex: IllegalStateException) {
             save()
         }
         return this
@@ -38,7 +38,7 @@ open class GsonConfig(override val configData: ConfigData) : DefaultConfig {
     override fun <O> getAs(key: String): O? {
         val any = jsonObject[key] as? O
         if (any == null) {
-            jsonObject.addProperty(key, "null")
+            put(key, "null")
             save()
         }
         return any
