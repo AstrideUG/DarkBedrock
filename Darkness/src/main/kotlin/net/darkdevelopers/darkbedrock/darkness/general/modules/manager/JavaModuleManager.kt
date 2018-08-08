@@ -7,6 +7,7 @@ package net.darkdevelopers.darkbedrock.darkness.general.modules.manager
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.io.IOException
+import java.lang.reflect.Field
 import java.util.jar.JarFile
 
 
@@ -15,7 +16,7 @@ import java.util.jar.JarFile
  * Created by Lars Artmann | LartyHD on 09.04.2018 01:26.
  * Last edit 19.04.2018
  */
-class JavaModuleManager(folder: File) : ModuleManager(folder) {
+class JavaModuleManager(folder: File, lambdas: Array<(Field) -> Unit> = arrayOf()) : ModuleManager(folder, lambdas) {
     private val modulesToLoad: MutableMap<String, String> = HashMap()
 
     init {

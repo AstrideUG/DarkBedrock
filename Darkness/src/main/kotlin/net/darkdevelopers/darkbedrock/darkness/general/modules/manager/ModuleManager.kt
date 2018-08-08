@@ -4,9 +4,11 @@
 
 package net.darkdevelopers.darkbedrock.darkness.general.modules.manager
 
+import net.darkdevelopers.darkbedrock.darkness.general.annotations.Injector
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import org.bukkit.plugin.InvalidPluginException
 import java.io.File
+import java.lang.reflect.Field
 import java.net.URLClassLoader
 import kotlin.concurrent.thread
 
@@ -17,7 +19,7 @@ import kotlin.concurrent.thread
  * Created by Lars Artmann | LartyHD on 09.04.2018 01:26.
  * Last edit 19.04.2018
  */
-abstract class ModuleManager(val folder: File) {
+abstract class ModuleManager(val folder: File, val lambdas: Array<(Field) -> Unit> = arrayOf()) {
     val modules: MutableSet<Module> = HashSet()
 
     protected fun run() {
@@ -35,10 +37,17 @@ abstract class ModuleManager(val folder: File) {
         try {
             val loader = URLClassLoader(arrayOf(folder.toURI().toURL()), javaClass.classLoader)
             val rawClass = loader.loadClass(clazz) ?: return
-            val module = isModule(rawClass).newInstance()
-            module.description.folder = File("$folder${File.separator}$clazz")
-            call(module, "Loaded") { it.load() }
-            modules.add(module)
+            val module = isModule(rawClass)
+            module.declaredFields.forEach {
+                if (it.isAnnotationPresent(Injector::class.java)) {
+                    it.isAccessible = true
+                    lambdas.forEach { lambda -> lambda(it) }
+                }
+            }
+            val moduleClass = module.newInstance()
+            moduleClass.description.folder = File("$folder${File.separator}$clazz")
+            call(moduleClass, "Loaded") { it.load() }
+            modules.add(moduleClass)
         } catch (ex: Throwable) {
             ex.printStackTrace()
         }
@@ -85,11 +94,9 @@ abstract class ModuleManager(val folder: File) {
     }
 
     fun getModule(name: String): Module? {
-        for (module in modules) {
-            if (module.description.name.toLowerCase() == name.toLowerCase())
-                return module
-        }
+        modules.forEach { if (it.description.name.toLowerCase() == name.toLowerCase()) return it }
         return null
     }
+
 }
 

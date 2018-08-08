@@ -4,6 +4,7 @@ import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.ModulesCommand
 import net.darkdevelopers.darkbedrock.darkness.general.modules.manager.ClassJavaModuleManager
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.listener.EventsListener
 import net.darkdevelopers.darkbedrock.darkness.spigot.plugin.DarkPlugin
+import java.lang.reflect.Field
 
 /**
  * @author Lars Artmann | LartyHD
@@ -19,10 +20,17 @@ class DarkFrame : DarkPlugin() {
     }
 
     override fun onEnable() = onEnable {
-        EventsListener.autoRespawn = false
         EventsListener.getSimpleInstance(this)
-        moduleManager = ClassJavaModuleManager(dataFolder)
+        moduleManager = ClassJavaModuleManager(dataFolder, arrayOf(a()))
         ModulesCommand(this, mapOf(Pair("Class", moduleManager.classModuleManager), Pair("Java", moduleManager.javaModuleManager)))
+    }
+
+    fun a(): (Field) -> Unit {
+        return {
+            if (it.type == javaClass) {
+                it.set(javaClass, this)
+            }
+        }
     }
 
     companion object {

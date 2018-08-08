@@ -1,4 +1,4 @@
-package net.darkdevelopers.darkbedrock.darkness.spigot.external;
+package net.darkdevelopers.darkbedrock.darkness.spigot.copyed;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.command.*;
@@ -6,18 +6,13 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 
-/**
- * Represents a {@link Command} belonging to a plugin
- */
-@SuppressWarnings("unused")
-public final class PluginCommand extends Command implements PluginIdentifiableCommand
+public class ExternalPluginCommand extends Command implements PluginIdentifiableCommand
 {
 	private final Plugin owningPlugin;
 	private CommandExecutor executor;
 	private TabCompleter completer;
 	
-	@SuppressWarnings("unused")
-	public PluginCommand(String name, Plugin owner)
+	public ExternalPluginCommand(String name, Plugin owner)
 	{
 		super(name);
 		this.executor = owner;
@@ -109,7 +104,7 @@ public final class PluginCommand extends Command implements PluginIdentifiableCo
 	}
 	
 	/**
-	 * Gets the owner of this PluginCommand
+	 * Gets the owner of this ExternalPluginCommand
 	 *
 	 * @return Plugin that owns this command
 	 */

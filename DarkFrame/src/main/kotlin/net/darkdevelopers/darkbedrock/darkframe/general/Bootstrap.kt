@@ -21,5 +21,4 @@ fun main(args: Array<String>) {
         println(message)
     else
         JOptionPane.showMessageDialog(null, message)
-
 }

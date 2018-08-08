@@ -62,7 +62,7 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
 
     companion object {
         private var instance: EventsListener? = null
-        var autoRespawn: Boolean = true
+        var autoRespawn: Boolean = false
 
         fun getSimpleInstance(javaPlugin: JavaPlugin) = if (instance == null) EventsListener(javaPlugin) else instance
     }

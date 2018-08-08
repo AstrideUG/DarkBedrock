@@ -5,7 +5,7 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.commands
 
 import net.darkdevelopers.darkbedrock.darkness.general.utils.ReflectUtils.getValueAs
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.interfaces.ICommand
-import net.darkdevelopers.darkbedrock.darkness.spigot.external.PluginCommand
+import net.darkdevelopers.darkbedrock.darkness.spigot.copyed.ExternalPluginCommand
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
@@ -40,7 +40,7 @@ abstract class Command(val javaPlugin: JavaPlugin,
     init {
         val commandMap = getValueAs<CommandMap>(Bukkit.getServer(), "commandMap")
         if (commandMap != null) {
-            val command = PluginCommand(commandName, javaPlugin)
+            val command = ExternalPluginCommand(commandName, javaPlugin)
             commandMap.register(javaPlugin.name, command)
             if (maxLength > 0) usage = when {
                 minLength == 0 -> "|[help]|$usage"
