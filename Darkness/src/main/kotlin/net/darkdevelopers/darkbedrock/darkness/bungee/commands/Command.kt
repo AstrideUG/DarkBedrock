@@ -41,7 +41,7 @@ abstract class Command(val commandName: String,
     override fun execute(sender: CommandSender, args: Array<String>?) {
         hasPermission(sender, permission) {
             when {
-                (args == null || args.isEmpty()) && minLength > 0 -> perform(sender, emptyArray())
+                (args == null || args.isEmpty()) && minLength < 0 -> perform(sender, emptyArray())
                 args == null || args.size < minLength || args.size > maxLength || (maxLength > 0 && args[0].equals("help", true)) ->
                     sendUseMessage(sender)
                 else -> perform(sender, args)
