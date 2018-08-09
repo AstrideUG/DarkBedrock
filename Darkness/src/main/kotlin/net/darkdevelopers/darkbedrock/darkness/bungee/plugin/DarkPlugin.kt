@@ -15,23 +15,22 @@ import net.md_5.bungee.api.plugin.Plugin
 @Suppress("unused")
 open class DarkPlugin : Plugin(), DarkPlugin {
 
-    final override val parameter: MutableMap<String, String> = HashMap()
+    final override val parameter: MutableMap<String, String> = mutableMapOf()
     override var loadTime = 0L
     override var enableTime = 0L
     private val console = ProxyServer.getInstance().console
             ?: throw NullPointerException("BungeeCord console can not be null")
 
-    init {
+    final override fun onLoad() {
         parameter["Name"] = description.name.toString()
         parameter["Main"] = description.main.toString()
         parameter["Version"] = description.version.toString()
-        if (description.author.isNotEmpty()) parameter["Author"] = description.author.toString()
+        if (description.author == null) parameter["Author"] = description.author.toString()
         if (description.description != null) parameter["Description"] = description.description.toString()
         if (description.depends.isNotEmpty()) parameter["Depends"] = description.depends.toString()
         if (description.softDepends.isNotEmpty()) parameter["SoftDepends"] = description.softDepends.toString()
+        onLoad { }
     }
-
-    override fun onLoad() = onLoad { }
 
     override fun onEnable() = onEnable { }
 

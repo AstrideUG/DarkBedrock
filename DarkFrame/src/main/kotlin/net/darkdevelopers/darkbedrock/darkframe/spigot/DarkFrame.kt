@@ -25,12 +25,8 @@ class DarkFrame : DarkPlugin() {
         ModulesCommand(this, mapOf(Pair("Class", moduleManager.classModuleManager), Pair("Java", moduleManager.javaModuleManager)))
     }
 
-    fun a(): (Field) -> Unit {
-        return {
-            if (it.type == javaClass) {
-                it.set(javaClass, this)
-            }
-        }
+    private fun a(): (Field) -> Unit = {
+        if (it.type == javaClass) it.set(javaClass, this)
     }
 
     companion object {

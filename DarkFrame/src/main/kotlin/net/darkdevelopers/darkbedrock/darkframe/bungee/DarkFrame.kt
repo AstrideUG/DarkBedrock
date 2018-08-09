@@ -13,7 +13,7 @@ class DarkFrame : DarkPlugin() {
     private lateinit var moduleManager: ClassJavaModuleManager
 
     init {
-        DarkFrame.instance = this
+        instance = this
     }
 
     override fun onEnable() = onEnable {
