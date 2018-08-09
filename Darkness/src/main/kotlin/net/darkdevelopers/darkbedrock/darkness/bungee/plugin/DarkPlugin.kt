@@ -25,7 +25,7 @@ open class DarkPlugin : Plugin(), DarkPlugin {
         parameter["Name"] = description.name.toString()
         parameter["Main"] = description.main.toString()
         parameter["Version"] = description.version.toString()
-        if (description.author == null) parameter["Author"] = description.author.toString()
+        if (description.author != null) parameter["Author"] = description.author.toString()
         if (description.description != null) parameter["Description"] = description.description.toString()
         if (description.depends.isNotEmpty()) parameter["Depends"] = description.depends.toString()
         if (description.softDepends.isNotEmpty()) parameter["SoftDepends"] = description.softDepends.toString()
