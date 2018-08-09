@@ -2,4 +2,4 @@ name: DarkFrame
 main: net.darkdevelopers.darkbedrock.darkframe.bungee.DarkFrame
 version: 1.0
 author: LartyHD
-  : DarkFrame is a BungeeCord Core Plugin.description
+description: DarkFrame is a BungeeCord Core Plugin.description
