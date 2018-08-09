@@ -8,9 +8,11 @@ import net.darkdevelopers.darkbedrock.darkness.bungee.messages.Colors.IMPORTANT
 import net.darkdevelopers.darkbedrock.darkness.bungee.messages.Colors.TEXT
 import net.darkdevelopers.darkbedrock.darkness.bungee.messages.Messages
 import net.md_5.bungee.api.CommandSender
+import net.md_5.bungee.api.ProxyServer
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.connection.ProxiedPlayer
 import net.md_5.bungee.api.plugin.Command
+import net.md_5.bungee.api.plugin.Plugin
 
 /**
  * @author Lars Artmann | LartyHD
@@ -18,7 +20,7 @@ import net.md_5.bungee.api.plugin.Command
  * Last edit 05.07.2018
  */
 @Suppress("MemberVisibilityCanBePrivate", "LeakingThis", "CanBeParameter", "unused")
-abstract class Command(val commandName: String,
+abstract class Command(val plugin: Plugin, val commandName: String,
                        permission: String = "",
                        override val permissionMessage: String = "",
                        var usage: String = "",
@@ -29,6 +31,7 @@ abstract class Command(val commandName: String,
     val hasHelp = usage.split("|").isNotEmpty()
 
     init {
+        ProxyServer.getInstance().pluginManager.registerCommand(null, this)
         if (maxLength > 0) usage = when {
             minLength == 0 -> "|[help]|$usage"
             hasHelp -> "help|$usage"
