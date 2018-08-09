@@ -60,8 +60,8 @@ abstract class Command(val javaPlugin: JavaPlugin,
     override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>?): Boolean {
         hasPermission(sender) {
             when {
-                args == null || args.isEmpty() -> perform(sender, emptyArray())
-                args.size < minLength || args.size > maxLength || (maxLength > 0 && args[0].equals("help", true)) ->
+                (args == null || args.isEmpty()) && minLength > 0 -> perform(sender, emptyArray())
+                args == null || args.size < minLength || args.size > maxLength || (maxLength > 0 && args[0].equals("help", true)) ->
                     sendUseMessage(sender)
                 else -> perform(sender, args)
             }

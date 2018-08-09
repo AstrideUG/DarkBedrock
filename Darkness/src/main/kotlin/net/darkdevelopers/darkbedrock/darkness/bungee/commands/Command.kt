@@ -12,7 +12,6 @@ import net.md_5.bungee.api.ProxyServer
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.connection.ProxiedPlayer
 import net.md_5.bungee.api.plugin.Command
-import net.md_5.bungee.api.plugin.Plugin
 
 /**
  * @author Lars Artmann | LartyHD
@@ -20,7 +19,7 @@ import net.md_5.bungee.api.plugin.Plugin
  * Last edit 05.07.2018
  */
 @Suppress("MemberVisibilityCanBePrivate", "LeakingThis", "CanBeParameter", "unused")
-abstract class Command(val plugin: Plugin, val commandName: String,
+abstract class Command(val commandName: String,
                        permission: String = "",
                        override val permissionMessage: String = "",
                        var usage: String = "",
@@ -42,8 +41,8 @@ abstract class Command(val plugin: Plugin, val commandName: String,
     override fun execute(sender: CommandSender, args: Array<String>?) {
         hasPermission(sender, permission) {
             when {
-                args == null || args.isEmpty() -> perform(sender, emptyArray())
-                args.size < minLength || args.size > maxLength || (maxLength > 0 && args[0].equals("help", true)) ->
+                (args == null || args.isEmpty()) && minLength > 0 -> perform(sender, emptyArray())
+                args == null || args.size < minLength || args.size > maxLength || (maxLength > 0 && args[0].equals("help", true)) ->
                     sendUseMessage(sender)
                 else -> perform(sender, args)
             }
