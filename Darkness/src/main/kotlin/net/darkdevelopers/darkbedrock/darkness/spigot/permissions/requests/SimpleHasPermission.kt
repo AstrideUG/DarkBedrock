@@ -14,7 +14,7 @@ interface SimpleHasPermission : HasPermission {
     override fun hasPermission(target: CommandSender, permission: String, lambda: () -> Unit) {
         when {
             hasPermission(target, permission) -> lambda()
-            permissionMessage.isNotEmpty() -> target.sendMessage("§cI'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.")
+            permissionMessage.isBlank() -> target.sendMessage("§cI'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.")
             else -> for (line in permissionMessage.replace("<permission>", permission).split("\n")) target.sendMessage(line)
         }
     }

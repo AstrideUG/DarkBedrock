@@ -13,6 +13,8 @@ data class ConfigData(val directory: File, val fileName: String) {
     val file: File = File(directory, fileName)
 
     constructor(directory: String, fileName: String) : this(File(directory), fileName)
+    constructor(directory: File) : this(directory, "config.json")
+    constructor(directory: String) : this(File(directory))
 
     init {
         createFoldersIfNotExists(directory)
