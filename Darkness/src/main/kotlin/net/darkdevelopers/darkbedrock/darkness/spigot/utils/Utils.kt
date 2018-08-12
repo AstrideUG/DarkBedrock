@@ -7,6 +7,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
 import org.bukkit.entity.Player
+import java.awt.SystemColor.text
 import java.util.*
 
 /**
@@ -62,6 +63,11 @@ object Utils {
         }
         return Location(location.world, location.x, location.y, location.z, yaw.toFloat(), location.pitch)
     }
+
+
+    fun sendActionBar(player: Player) =
+            sendPacket(player, PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\":\"$text\"}"), 2.toByte()))
+
 
     fun getTime(time: Long): String {
         var remainingTime = ""
