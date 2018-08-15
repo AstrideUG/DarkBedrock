@@ -44,4 +44,25 @@ class Region(pos1: Location, pos2: Location) {
         return Location(world, maxX, maxY, maxZ)
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Region
+
+        if (min != other.min) return false
+        if (max != other.max) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = min.hashCode()
+        result = 31 * result + max.hashCode()
+        return result
+    }
+
+    override fun toString(): String {
+        return "Region(min=$min, max=$max)"
+    }
 }
