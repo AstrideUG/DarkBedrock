@@ -22,6 +22,7 @@ class Holograms(plugin: Plugin, private val lines: Array<String>, private val lo
     private val armorStands = mutableSetOf<ArmorStand>()
 
     init {
+        lines.reverse()
         create(plugin)
     }
 
@@ -45,7 +46,7 @@ class Holograms(plugin: Plugin, private val lines: Array<String>, private val lo
 
     private fun create(plugin: Plugin) = Bukkit.getScheduler().runTask(plugin) {
         lines.forEach {
-            armorStands.add((location.world.spawnEntity(location, EntityType.ARMOR_STAND) as? ArmorStand
+            if (it != "") armorStands.add((location.world.spawnEntity(location, EntityType.ARMOR_STAND) as? ArmorStand
                     ?: throw  NullPointerException("armorStand can not be null")).apply {
                 customName = it
                 isCustomNameVisible = true
