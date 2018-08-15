@@ -11,7 +11,7 @@ import org.bukkit.Location
  * Created by Lars Artmann | LartyHD on 02.06.2018 18:09.
  * Last edit 02.06.2018
  */
-class BukkitGsonConfig(override val configData: ConfigData) : GsonConfig(configData) {
+class BukkitGsonConfig(configData: ConfigData, jsonObject: JsonObject = JsonObject()) : GsonConfig(configData, jsonObject) {
 
     override fun load(): BukkitGsonConfig {
         super.load()
