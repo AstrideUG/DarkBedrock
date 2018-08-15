@@ -3,23 +3,26 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 import net.minecraft.server.v1_8_R3.EntityLiving
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
+import org.bukkit.plugin.Plugin
 import kotlin.concurrent.thread
 
 
+@Suppress("MemberVisibilityCanBePrivate")
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 09.07.2018 10:45.
  * Last edit 09.07.2018
  */
-class Holograms(private val lines: Array<String>, private val location: Location) {
+class Holograms(plugin: Plugin, private val lines: Array<String>, private val location: Location) {
     private val armorStands = mutableSetOf<ArmorStand>()
 
     init {
-        create()
+        create(plugin)
     }
 
     fun show(time: Long) = Utils.goThroughAllPlayers { show(it, time) }
@@ -40,15 +43,17 @@ class Holograms(private val lines: Array<String>, private val location: Location
 
     fun hide(player: Player) = armorStands.forEach { Utils.sendPacket(player, PacketPlayOutEntityDestroy(it.entityId)) }
 
-    private fun create() = lines.forEach {
-        armorStands.add((location.world.spawnEntity(location, EntityType.ARMOR_STAND) as? ArmorStand
-                ?: throw  NullPointerException("armorStand can not be null")).apply {
-            customName = it
-            isCustomNameVisible = true
-            isVisible = false
-            setGravity(false)
-        })
-        location.add(0.0, DISTANCE, 0.0)
+    private fun create(plugin: Plugin) = Bukkit.getScheduler().runTask(plugin) {
+        lines.forEach {
+            armorStands.add((location.world.spawnEntity(location, EntityType.ARMOR_STAND) as? ArmorStand
+                    ?: throw  NullPointerException("armorStand can not be null")).apply {
+                customName = it
+                isCustomNameVisible = true
+                isVisible = false
+                setGravity(false)
+            })
+            location.add(0.0, DISTANCE, 0.0)
+        }
     }
 
     companion object {

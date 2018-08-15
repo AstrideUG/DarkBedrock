@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin
  * Last edit 02.06.2018
  */
 @Suppress("LeakingThis")
-open class Listener(private val javaPlugin: JavaPlugin, private val pluginManager: PluginManager = Bukkit.getPluginManager(), override val permissionMessage: String = "") : Listener {
+open class Listener(protected val javaPlugin: JavaPlugin, private val pluginManager: PluginManager = Bukkit.getPluginManager(), override val permissionMessage: String = "") : Listener {
 
     init {
         init()
