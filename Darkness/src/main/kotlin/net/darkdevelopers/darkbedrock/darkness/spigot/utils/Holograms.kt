@@ -53,7 +53,7 @@ class Holograms(plugin: Plugin, private val lines: Array<String>, private val lo
                 isVisible = false
                 setGravity(false)
             })
-            location.add(0.0, DISTANCE, 0.0)
+            location.clone().add(0.0, DISTANCE, 0.0)
         }
     }
 
