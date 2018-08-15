@@ -4,6 +4,7 @@
 
 package net.darkdevelopers.darkbedrock.darkness.general.databases.mongodb
 
+import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkness.general.configs.Config
 
 @Suppress("unused")
@@ -11,8 +12,10 @@ object MongoData {
 
     internal fun createMongoData(config: Config): Pair<String, Int> {
         config.load()
-        val host = get<String>(config, "Host")
-        val port = get<Int>(config, "Port")
+        val host = config.getAs<JsonPrimitive>("Host")?.asString
+                ?: throw NullPointerException("The MongoDB host data can not be null")
+        val port = config.getAs<JsonPrimitive>("Port")?.asInt
+                ?: throw NullPointerException("The MongoDB port data can not be null")
         return Pair(host, port)
     }
 

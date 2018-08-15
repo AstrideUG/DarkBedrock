@@ -27,7 +27,8 @@ data class MongoDB(private val pair: Pair<String, Int>) {
         println()
         println("[MongoDB] Please enter the MongoDB data")
         println()
-        throw IllegalArgumentException("The MongoDB data has not configured yet")
+        MongoData.createMongoData(config)
+//        throw IllegalArgumentException("The MongoDB data has not configured yet")
     })
 
     fun connect(): MongoDB {
