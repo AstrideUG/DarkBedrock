@@ -53,5 +53,6 @@ open class GsonConfig(override val configData: ConfigData) : DefaultConfig {
         return this
     }
 
-    private fun formatJson(jsonElement: JsonElement): String = GsonBuilder().setPrettyPrinting().create().toJson(jsonElement)
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun formatJson(jsonElement: JsonElement): String = GsonBuilder().setPrettyPrinting().create().toJson(jsonElement)
 }
