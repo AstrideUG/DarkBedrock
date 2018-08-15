@@ -35,7 +35,10 @@ data class MongoDB(private val mongoData: MongoData) {
 //    }
 
     fun connect(): MongoClient {
-        client = MongoClients.create(ConnectionString("mongodb://${mongoData.username}:${mongoData.password}@${mongoData.host}:${mongoData.port}/"))
+        client = if (mongoData.simple)
+            MongoClients.create(ConnectionString("mongodb://${mongoData.host}:${mongoData.port}"))
+        else
+            MongoClients.create(ConnectionString("mongodb://${mongoData.username}:${mongoData.password}@${mongoData.host}:${mongoData.port}/"))
         return client
     }
 

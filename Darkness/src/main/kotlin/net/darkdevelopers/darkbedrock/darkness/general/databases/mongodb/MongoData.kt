@@ -8,11 +8,15 @@ import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkness.general.configs.Config
 
 @Suppress("unused")
-data class MongoData(val host: String, val port: Int, val username: String, val password: String) {
+data class MongoData(val host: String, val port: Int, val username: String, val password: String, val simple: Boolean) {
+
+
 
     companion object {
         internal fun createMongoData(config: Config): MongoData {
             config.load()
+            val simple = config.getAs<JsonPrimitive>("simple")?.asBoolean
+                    ?: throw NullPointerException("The MongoDB simple data can not be null")
             val host = config.getAs<JsonPrimitive>("host")?.asString
                     ?: throw NullPointerException("The MongoDB host data can not be null")
             val port = config.getAs<JsonPrimitive>("port")?.asInt
@@ -21,15 +25,16 @@ data class MongoData(val host: String, val port: Int, val username: String, val 
                     ?: throw NullPointerException("The MongoDB username data can not be null")
             val password = config.getAs<JsonPrimitive>("password")?.asString
                     ?: throw NullPointerException("The MongoDB password data can not be null")
-            return MongoData(host, port, username, password)
+            return MongoData(host, port, username, password, simple)
         }
 
         internal fun printDefaultMongoDataInConfigFile(config: Config) = config.apply {
             load()
-            put("Host", "localhost")
-            put("Port", 27017)
-            put("Username", "root")
-            put("Password", "123456")
+            put("simple", true)
+            put("host", "localhost")
+            put("port", 27017)
+            put("username", "root")
+            put("password", "123456")
             save()
         }
 
