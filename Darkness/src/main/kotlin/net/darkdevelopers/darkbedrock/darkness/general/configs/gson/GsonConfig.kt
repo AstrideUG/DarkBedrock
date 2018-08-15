@@ -12,7 +12,9 @@ import java.nio.file.Files
  * Last edit 15.08.2018
  */
 @Suppress("unused")
-open class GsonConfig(override val configData: ConfigData, protected var jsonObject: JsonObject = JsonObject()) : DefaultConfig {
+open class GsonConfig(override val configData: ConfigData) : DefaultConfig {
+
+    protected var jsonObject: JsonObject = JsonObject()
 
     override fun load(): GsonConfig {
         try {
@@ -32,8 +34,16 @@ open class GsonConfig(override val configData: ConfigData, protected var jsonObj
         return this
     }
 
-    @Suppress("UNCHECKED_CAST")
     override fun <O> getAs(key: String): O? {
+        val any = jsonObject[key] as? O
+        if (any == null) {
+            put(key, "null")
+            save()
+        }
+        return any
+    }
+
+    fun <O> getAs(key: String, jsonObject: JsonObject): O? {
         val any = jsonObject[key] as? O
         if (any == null) {
             put(key, "null")
