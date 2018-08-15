@@ -34,15 +34,9 @@ open class GsonConfig(override val configData: ConfigData) : DefaultConfig {
         return this
     }
 
-    override fun <O> getAs(key: String): O? {
-        val any = jsonObject[key] as? O
-        if (any == null) {
-            put(key, "null")
-            save()
-        }
-        return any
-    }
+    override fun <O> getAs(key: String): O? = getAs(key, jsonObject)
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun <O> getAs(key: String, jsonObject: JsonObject): O? {
         val any = jsonObject[key] as? O
         if (any == null) {
