@@ -17,7 +17,7 @@ import java.util.*
  */
 class MongoIntAsyncMap(mongoDB: MongoDB, databaseName: String, name: String) : DefaultIntAsyncMap {
 
-    private val collection: MongoCollection<Document> = mongoDB.connect().client.getDatabase(databaseName).getCollection(name)
+    private val collection: MongoCollection<Document> = mongoDB.connect().getDatabase(databaseName).getCollection(name)
 
     override fun get(uuid: UUID, key: String, lambda: (Int) -> Unit) = getDocumentByUUID(uuid).first { document, _ ->
         document ?: return@first

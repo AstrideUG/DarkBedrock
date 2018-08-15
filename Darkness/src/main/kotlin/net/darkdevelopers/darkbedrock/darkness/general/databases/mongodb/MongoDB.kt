@@ -12,11 +12,9 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 
 @Suppress("unused")
-data class MongoDB(private val pair: Pair<String, Int>) {
+data class MongoDB(private val mongoData: MongoData) {
 
     lateinit var client: MongoClient
-    private val host: String = pair.first
-    private val port: Int = pair.second
 
     private constructor() : this(GsonConfig(ConfigData("configs", "mongodb.json")))
 
@@ -27,19 +25,23 @@ data class MongoDB(private val pair: Pair<String, Int>) {
         println()
         println("[MongoDB] Please enter the MongoDB data")
         println()
-        MongoData.createMongoData(config)
-//        throw IllegalArgumentException("The MongoDB data has not configured yet")
+//        MongoData.createMongoData(config)
+        throw IllegalArgumentException("The MongoDB data has not configured yet")
     })
 
-    fun connect(): MongoDB {
-        client = MongoClients.create(ConnectionString("mongodb://$host:$port"))
-        return this
+//    fun connect(): MongoClient {
+//        client = MongoClients.create(ConnectionString("mongodb://${mongoData.host}:${mongoData.port}"))
+//        return client
+//    }
+
+    fun connect(): MongoClient {
+        client = MongoClients.create(ConnectionString("mongodb://${mongoData.username}:${mongoData.password}@${mongoData.host}:${mongoData.port}/"))
+        return client
     }
 
-    fun connect(username: String, password: String, database: String): MongoDB {
-        client = MongoClients.create(ConnectionString("mongodb://$username:$password@$host:$port/$database"))
-//        setDatabase()
-        return this
+    fun connect(database: String): MongoClient {
+        client = MongoClients.create(ConnectionString("mongodb://${mongoData.username}:${mongoData.password}@${mongoData.host}:${mongoData.port}/$database"))
+        return client
     }
 
     companion object {
