@@ -5,6 +5,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.World
 
 /**
  * @author Lars Artmann | LartyHD
@@ -91,10 +92,47 @@ class BukkitGsonConfig(configData: ConfigData) : GsonConfig(configData) {
     fun getLocationWithOutYawAndPitch(key: String) = getLocationWithOutYawAndPitch(key, jsonObject)
 
     fun getLocationWithOutYawAndPitch(key: String?, jsonObject: JsonObject): Location {
-        val read = if (key != null) jsonObject.get(key)?.asJsonObject
+        val read = if (key != null) jsonObject.getAsJsonObject(key)
                 ?: throw NullPointerException("jsonObject can not be null") else jsonObject
         return Location(
                 Bukkit.getWorld(read.get("world").asString),
+                read.get("x").asDouble,
+                read.get("y").asDouble,
+                read.get("z").asDouble
+        )
+    }
+
+
+    fun getLocation(world: World) = getLocation(jsonObject, world)
+
+    fun getLocation(jsonObject: JsonObject, world: World) = getLocation(null, jsonObject, world)
+
+    fun getLocation(key: String, world: World) = getLocation(key, jsonObject, world)
+
+    fun getLocation(key: String?, jsonObject: JsonObject, world: World): Location {
+        val read = if (key != null) jsonObject.get(key)?.asJsonObject
+                ?: throw NullPointerException("jsonObject can not be null") else jsonObject
+        return Location(
+                world,
+                read.get("x").asDouble,
+                read.get("y").asDouble,
+                read.get("z").asDouble,
+                read.get("yaw").asFloat,
+                read.get("pitch").asFloat
+        )
+    }
+
+    fun getLocationWithOutYawAndPitch(world: World) = getLocationWithOutYawAndPitch(jsonObject, world)
+
+    fun getLocationWithOutYawAndPitch(jsonObject: JsonObject, world: World) = getLocationWithOutYawAndPitch(null, jsonObject, world)
+
+    fun getLocationWithOutYawAndPitch(key: String, world: World) = getLocationWithOutYawAndPitch(key, jsonObject, world)
+
+    fun getLocationWithOutYawAndPitch(key: String?, jsonObject: JsonObject, world: World): Location {
+        val read = if (key != null) jsonObject.getAsJsonObject(key)
+                ?: throw NullPointerException("jsonObject can not be null") else jsonObject
+        return Location(
+                world,
                 read.get("x").asDouble,
                 read.get("y").asDouble,
                 read.get("z").asDouble
