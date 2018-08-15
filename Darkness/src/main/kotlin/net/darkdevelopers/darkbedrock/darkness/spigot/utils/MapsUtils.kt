@@ -25,10 +25,9 @@ object MapsUtils {
         throw IndexOutOfBoundsException("No maps in the List")
     else mapNames[Random().nextInt(mapNames.size)]
 
-    fun loadMap(mapName: String) {
-        var world: World? = Bukkit.getWorld(mapName)
-        if (world == null) world = Bukkit.createWorld(WorldCreator(mapName))
-        world ?: return
+    fun loadMap(mapName: String): World {
+        val world = Bukkit.getWorld(mapName) ?: Bukkit.createWorld(WorldCreator(mapName))
+        ?: throw IllegalStateException("world can no be created / loaded")
         world.apply {
             weatherDuration = -1
             time = 6000
@@ -43,6 +42,7 @@ object MapsUtils {
         }
         world.entities.forEach { it.remove() }
         fixBowBug(world)
+        return world
     }
 
     fun equalsBlock(pos1: Location, pos2: Location) = pos1.world === pos2.world && pos1.blockX == pos2.blockX && pos1.blockY == pos2.blockY && pos1.blockZ == pos2.blockZ

@@ -11,7 +11,9 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
  * Last edit 07.07.2018
  */
 class MapVotesHandler(votes: MutableSet<Vote>, private val force: String?) : VotesHandler(votes) {
-    public override fun finishVotes(winner: String) = MapsUtils.loadMap(getMapAndBroadcast(winner))
+    public override fun finishVotes(winner: String) {
+        MapsUtils.loadMap(getMapAndBroadcast(winner))
+    }
 
     private fun getMapAndBroadcast(winner: String): String {
         broadcastMap(winner)
