@@ -45,6 +45,7 @@ class Holograms(plugin: Plugin, private val lines: Array<String>, private val lo
     fun hide(player: Player) = armorStands.forEach { Utils.sendPacket(player, PacketPlayOutEntityDestroy(it.entityId)) }
 
     private fun create(plugin: Plugin) = Bukkit.getScheduler().runTask(plugin) {
+        val clone = location.clone()
         lines.forEach {
             if (it != "") armorStands.add((location.world.spawnEntity(location, EntityType.ARMOR_STAND) as? ArmorStand
                     ?: throw  NullPointerException("armorStand can not be null")).apply {
@@ -53,7 +54,7 @@ class Holograms(plugin: Plugin, private val lines: Array<String>, private val lo
                 isVisible = false
                 setGravity(false)
             })
-            location.clone().add(0.0, DISTANCE, 0.0)
+            clone.add(0.0, DISTANCE, 0.0)
         }
     }
 

@@ -19,19 +19,24 @@ class MongoIntAsyncMap(mongoDB: MongoDB, databaseName: String, name: String) : D
 
     private val collection: MongoCollection<Document> = mongoDB.connect().getDatabase(databaseName).getCollection(name)
 
-    override fun get(uuid: UUID, key: String, lambda: (Int) -> Unit) = getDocumentByUUID(uuid).first { document, /*throwable*/_ ->
+    override fun get(uuid: UUID, key: String, lambda: (Int) -> Unit) = getDocumentByUUID(uuid.toString()).first { document, /*throwable*/_ ->
         if (document == null) collection.insertOne(Document("uuid", uuid.toString()).append(key, 0)) { _, _ -> lambda(0) } else {
             val integer = document.getInteger(key)
             if (integer == null) {
                 document.append(key, 0)
-                lambda(0)
+                updateOne(uuid.toString(), document) { lambda(0) }
             } else lambda(integer)
         }
     }
 
-    override fun set(uuid: UUID, key: String, value: Int, lambda: () -> Unit) = getDocumentByUUID(uuid).first { document, _ ->
-        if (document == null) collection.insertOne(Document("uuid", uuid.toString()).append(key, value)) { _, _ -> lambda() } else document[key] = value
+    override fun set(uuid: UUID, key: String, value: Int, lambda: () -> Unit) = getDocumentByUUID(uuid.toString()).first { document, _ ->
+        if (document == null) collection.insertOne(Document("uuid", uuid.toString()).append(key, value)) { _, _ -> lambda() } else {
+            document[key] = value
+            updateOne(uuid.toString(), document) { lambda() }
+        }
     }
+
+    private fun updateOne(uuid: String, document: Document, lambda: () -> Unit) = collection.updateOne(getFilter(uuid), document) { _, _ -> lambda() }
 
 //    override fun get(uuid: UUID, key: String, lambda: (Int) -> Unit) = get(
 //            uuid,
@@ -74,6 +79,8 @@ class MongoIntAsyncMap(mongoDB: MongoDB, databaseName: String, name: String) : D
 //        }
 //    }
 
-    private fun getDocumentByUUID(uuid: UUID) = collection.find(Filters.eq("uuid", uuid))
+    private fun getDocumentByUUID(uuid: String) = collection.find(getFilter(uuid))
+
+    private fun getFilter(uuid: String) = Filters.eq("uuid", uuid)
 
 }
