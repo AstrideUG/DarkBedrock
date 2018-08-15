@@ -8,7 +8,6 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Items
-import org.bukkit.Difficulty
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -28,7 +27,7 @@ import org.bukkit.plugin.java.JavaPlugin
 abstract class LobbyListener protected constructor(javaPlugin: JavaPlugin, private val lobbyLocation: Location) : Listener(javaPlugin) {
 
     init {
-        lobbyLocation.world.run {
+        lobbyLocation.world.apply {
             setSpawnLocation(lobbyLocation.blockX, lobbyLocation.blockY, lobbyLocation.blockZ)
             time = 6000
             setGameRuleValue("spawnRadius", "0")
@@ -39,7 +38,7 @@ abstract class LobbyListener protected constructor(javaPlugin: JavaPlugin, priva
             isThundering = false
             setStorm(false)
             isAutoSave = false
-            difficulty = Difficulty.PEACEFUL
+//            difficulty = Difficulty.PEACEFUL
         }
 
     }

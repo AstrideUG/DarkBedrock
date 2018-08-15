@@ -7,7 +7,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
  * Created by Lars Artmann | LartyHD on 04.07.2018 03:14.
  * Last edit 04.07.2018
  */
-enum class Messages(private val message: String) {
+enum class Messages(var message: String) {
     NAME("DarkFrame"),
     SERVER_NAME("$PRIMARY${EXTRA}Darkblocks§f$EXTRA.$PRIMARY${EXTRA}net$RESET"),
     PREFIX("$PRIMARY$EXTRA$NAME$IMPORTANT | $RESET"),
