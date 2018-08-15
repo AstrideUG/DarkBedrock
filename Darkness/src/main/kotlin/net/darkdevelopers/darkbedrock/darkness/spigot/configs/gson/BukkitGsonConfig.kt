@@ -9,7 +9,7 @@ import org.bukkit.Location
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.06.2018 18:09.
- * Last edit 02.06.2018
+ * Last edit 15.08.2018
  */
 class BukkitGsonConfig(configData: ConfigData, jsonObject: JsonObject = JsonObject()) : GsonConfig(configData, jsonObject) {
 
@@ -18,12 +18,12 @@ class BukkitGsonConfig(configData: ConfigData, jsonObject: JsonObject = JsonObje
         return this
     }
 
-    override fun save(): GsonConfig {
+    override fun save(): BukkitGsonConfig {
         super.save()
         return this
     }
 
-    override fun <I> put(key: String, value: I): GsonConfig {
+    override fun <I> put(key: String, value: I): BukkitGsonConfig {
         super.put(key, value)
         return this
     }
