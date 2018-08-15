@@ -11,6 +11,7 @@ import org.bukkit.Location
  * Created by Lars Artmann | LartyHD on 02.06.2018 18:09.
  * Last edit 15.08.2018
  */
+@Suppress("MemberVisibilityCanBePrivate")
 class BukkitGsonConfig(configData: ConfigData) : GsonConfig(configData) {
 
     override fun load(): BukkitGsonConfig {
@@ -30,9 +31,12 @@ class BukkitGsonConfig(configData: ConfigData) : GsonConfig(configData) {
 
     fun setLocation(location: Location) = setLocation(location, jsonObject)
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun setLocation(location: Location, jsonObject: JsonObject): BukkitGsonConfig {
-        jsonObject.apply {
+    fun setLocation(location: Location, jsonObject: JsonObject) = setLocation(null, location, jsonObject)
+
+    fun setLocation(key: String, location: Location) = setLocation(key, location, jsonObject)
+
+    fun setLocation(key: String?, location: Location, jsonObject: JsonObject): BukkitGsonConfig {
+        val value = jsonObject.apply {
             addProperty("world", location.world.name)
             addProperty("x", location.x)
             addProperty("y", location.y)
@@ -40,40 +44,60 @@ class BukkitGsonConfig(configData: ConfigData) : GsonConfig(configData) {
             addProperty("yaw", location.yaw)
             addProperty("pitch", location.pitch)
         }
+        if (key != null) put(key, value)
         return this
+    }
+
+    fun getLocation() = getLocation(jsonObject)
+
+    fun getLocation(jsonObject: JsonObject) = getLocation(null, jsonObject)
+
+    fun getLocation(key: String) = getLocation(key, jsonObject)
+
+    fun getLocation(key: String?, jsonObject: JsonObject): Location {
+        val read = if (key != null) jsonObject.get(key)?.asJsonObject
+                ?: throw NullPointerException("jsonObject can not be null") else jsonObject
+        return Location(
+                Bukkit.getWorld(read.get("world").asString),
+                read.get("x").asDouble,
+                read.get("y").asDouble,
+                read.get("z").asDouble,
+                read.get("yaw").asFloat,
+                read.get("pitch").asFloat
+        )
     }
 
     fun setLocationWithOutYawAndPitch(location: Location) = setLocationWithOutYawAndPitch(location, jsonObject)
 
-    fun setLocationWithOutYawAndPitch(location: Location, jsonObject: JsonObject): BukkitGsonConfig {
-        jsonObject.apply {
+    fun setLocationWithOutYawAndPitch(location: Location, jsonObject: JsonObject) = setLocationWithOutYawAndPitch(null, location, jsonObject)
+
+    fun setLocationWithOutYawAndPitch(key: String, location: Location) = setLocationWithOutYawAndPitch(key, location, jsonObject)
+
+    fun setLocationWithOutYawAndPitch(key: String?, location: Location, jsonObject: JsonObject): BukkitGsonConfig {
+        val value = jsonObject.apply {
             addProperty("world", location.world.name)
             addProperty("x", location.x)
             addProperty("y", location.y)
             addProperty("z", location.z)
         }
+        if (key != null) put(key, value)
         return this
     }
 
     fun getLocationWithOutYawAndPitch() = getLocationWithOutYawAndPitch(jsonObject)
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun getLocationWithOutYawAndPitch(jsonObject: JsonObject) = Location(
-            Bukkit.getWorld(jsonObject.get("world").asString),
-            jsonObject.get("x").asDouble,
-            jsonObject.get("y").asDouble,
-            jsonObject.get("z").asDouble
-    )
+    fun getLocationWithOutYawAndPitch(jsonObject: JsonObject) = getLocationWithOutYawAndPitch(null, jsonObject)
 
-    fun getLocation() = getLocation(jsonObject)
+    fun getLocationWithOutYawAndPitch(key: String) = getLocationWithOutYawAndPitch(key, jsonObject)
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun getLocation(jsonObject: JsonObject) = Location(
-            Bukkit.getWorld(jsonObject.get("world").asString),
-            jsonObject.get("x").asDouble,
-            jsonObject.get("y").asDouble,
-            jsonObject.get("z").asDouble,
-            jsonObject.get("yaw").asFloat,
-            jsonObject.get("pitch").asFloat
-    )
+    fun getLocationWithOutYawAndPitch(key: String?, jsonObject: JsonObject): Location {
+        val read = if (key != null) jsonObject.get(key)?.asJsonObject
+                ?: throw NullPointerException("jsonObject can not be null") else jsonObject
+        return Location(
+                Bukkit.getWorld(read.get("world").asString),
+                read.get("x").asDouble,
+                read.get("y").asDouble,
+                read.get("z").asDouble
+        )
+    }
 }

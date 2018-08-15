@@ -3,6 +3,7 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.region
 
+import com.google.gson.JsonObject
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.spigot.configs.gson.BukkitGsonConfig
 import org.bukkit.Location
@@ -19,8 +20,10 @@ class ConfigRegion(configData: ConfigData, private val regionName: String) {
     private val max: Location
 
     init {
-        val pos1 = config.getLocationWithOutYawAndPitch("$regionName.pos1")
-        val pos2 = config.getLocationWithOutYawAndPitch("$regionName.pos2")
+        val jsonObject = config.getAs<JsonObject>(regionName)
+                ?: throw NullPointerException("jsonObject by $regionName can not be null")
+        val pos1 = config.getLocationWithOutYawAndPitch("$regionName.pos1", jsonObject)
+        val pos2 = config.getLocationWithOutYawAndPitch("$regionName.pos2", jsonObject)
         val world = pos1.world ?: throw NullPointerException("world can not be null")
         if (world != pos2.world) throw IllegalArgumentException("pos1 world and pos2 world must be the same")
         min = getMinLocation(world, pos1, pos2)

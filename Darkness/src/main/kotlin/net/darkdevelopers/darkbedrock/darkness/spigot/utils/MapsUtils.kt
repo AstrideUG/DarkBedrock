@@ -5,7 +5,6 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.gson.BukkitGsonConfig
 import org.bukkit.*
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
@@ -45,8 +44,6 @@ object MapsUtils {
         world.entities.forEach { it.remove() }
         fixBowBug(world)
     }
-
-    fun getLocation(configData: ConfigData, prefix: String) = BukkitGsonConfig(configData).load().getLocation(prefix)
 
     fun equalsBlock(pos1: Location, pos2: Location) = pos1.world === pos2.world && pos1.blockX == pos2.blockX && pos1.blockY == pos2.blockY && pos1.blockZ == pos2.blockZ
 
