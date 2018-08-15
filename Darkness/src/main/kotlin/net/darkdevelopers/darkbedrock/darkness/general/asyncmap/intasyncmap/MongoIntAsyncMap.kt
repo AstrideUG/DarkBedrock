@@ -6,8 +6,10 @@ package net.darkdevelopers.darkbedrock.darkness.general.asyncmap.intasyncmap
 
 import com.mongodb.async.client.MongoCollection
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Updates
 import net.darkdevelopers.darkbedrock.darkness.general.databases.mongodb.MongoDB
 import org.bson.Document
+import org.bson.conversions.Bson
 import java.util.*
 
 /**
@@ -30,13 +32,10 @@ class MongoIntAsyncMap(mongoDB: MongoDB, databaseName: String, name: String) : D
     }
 
     override fun set(uuid: UUID, key: String, value: Int, lambda: () -> Unit) = getDocumentByUUID(uuid.toString()).first { document, _ ->
-        if (document == null) collection.insertOne(Document("uuid", uuid.toString()).append(key, value)) { _, _ -> lambda() } else {
-            document[key] = value
-            updateOne(uuid.toString(), document) { lambda() }
-        }
+        if (document == null) collection.insertOne(Document("uuid", uuid.toString()).append(key, value)) { _, _ -> lambda() } else updateOne(uuid.toString(), Updates.set(key, value)) { lambda() }
     }
 
-    private fun updateOne(uuid: String, document: Document, lambda: () -> Unit) = collection.updateOne(getFilter(uuid), document) { _, _ -> lambda() }
+    private fun updateOne(uuid: String, bson: Bson, lambda: () -> Unit) = collection.updateOne(getFilter(uuid), bson) { _, _ -> lambda() }
 
 //    override fun get(uuid: UUID, key: String, lambda: (Int) -> Unit) = get(
 //            uuid,
