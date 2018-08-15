@@ -9,7 +9,7 @@ import java.nio.file.Files
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.06.2018 17:18.
- * Last edit 02.06.2018
+ * Last edit 16.08.2018
  */
 @Suppress("unused")
 open class GsonConfig(override val configData: ConfigData) : DefaultConfig {

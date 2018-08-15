@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerEvent
 
 /**
  * Created by LartyHD on 29.11.2017 14:21.
- * Last edit 15.07.2018
+ * Last edit 15.08.2018
  */
 class PlayerDisconnectEvent(who: Player) : PlayerEvent(who) {
     var leaveMessage: String? = null
