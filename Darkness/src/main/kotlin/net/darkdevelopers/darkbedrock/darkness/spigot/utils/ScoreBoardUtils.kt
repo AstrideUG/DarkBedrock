@@ -18,10 +18,10 @@ object ScoreBoardUtils {
 
     fun sendLobbyScoreBoard(player: Player, mapName: String, displayName: String) {
         val score = arrayListOf<ScoreboardScore>()
-        score.add(setScoreboardScore(" ", 4))
-        score.add(setScoreboardScore("${TEXT}Map$IMPORTANT:", 3))
-        score.add(setScoreboardScore("$PRIMARY$mapName", 2))
-        score.add(setScoreboardScore("  ", 1))
+        score.add(scoreboardScore(" ", 4))
+        score.add(scoreboardScore("${TEXT}Map$IMPORTANT:", 3))
+        score.add(scoreboardScore("$PRIMARY$mapName", 2))
+        score.add(scoreboardScore("  ", 1))
         sendScoreBoard(player, displayName, score)
     }
 
@@ -46,7 +46,8 @@ object ScoreBoardUtils {
         scoreboardScores.forEach { Utils.sendPacket(player, PacketPlayOutScoreboardScore(it)) }
     }
 
-    private fun setScoreboardScore(name: String, score: Int): ScoreboardScore {
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun scoreboardScore(name: String, score: Int): ScoreboardScore {
         val scoreboardScore = ScoreboardScore(scoreboard, objective, name)
         scoreboardScore.score = score
         return scoreboardScore

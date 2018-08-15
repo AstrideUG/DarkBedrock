@@ -478,4 +478,6 @@ object InventoryUtils {
             }
         }
     }
+
+    fun removeItemInHand(player: Player) = if (player.itemInHand == null || player.itemInHand.amount == 1) player.itemInHand = null else player.itemInHand.amount = player.itemInHand.amount - 1
 }
