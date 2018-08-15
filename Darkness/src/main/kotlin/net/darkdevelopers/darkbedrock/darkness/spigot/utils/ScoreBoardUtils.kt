@@ -25,7 +25,8 @@ object ScoreBoardUtils {
         sendScoreBoard(player, displayName, score)
     }
 
-    private fun sendScoreBoard(player: Player, displayName: String, scoreboardScores: List<ScoreboardScore>) {
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun sendScoreBoard(player: Player, displayName: String, scoreboardScores: List<ScoreboardScore>) {
         if (displayName.length >= 32) objective.displayName = displayName.substring(0, 31) else objective.displayName = displayName
         /*
 		 * Remove Packet
