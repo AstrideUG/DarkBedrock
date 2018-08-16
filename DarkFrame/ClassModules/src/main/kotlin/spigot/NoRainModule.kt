@@ -14,12 +14,12 @@ import org.bukkit.event.world.WorldLoadEvent
  * Last edit 05.07.2018
  */
 class NoRainModule : Module, Listener(DarkFrame.instance) {
-    override val description: ModuleDescription = ModuleDescription("NoRainModule", "1.1", "Lars Artmann | LartyHD", "This modules block rain")
+    override val description: ModuleDescription = ModuleDescription("NoRainModule", "1.1.1", "Lars Artmann | LartyHD", "This modules block rain")
 
     override fun init() = Bukkit.getWorlds().forEach(this::clearWeather)
 
     @EventHandler
-    fun onWeatherChangeEvent(event: WeatherChangeEvent) = cancel(event, !event.toWeatherState())
+    fun onWeatherChangeEvent(event: WeatherChangeEvent) = cancel(event, event.toWeatherState())
 
     @EventHandler
     fun onWorldLoadEvent(event: WorldLoadEvent) = clearWeather(event.world)
