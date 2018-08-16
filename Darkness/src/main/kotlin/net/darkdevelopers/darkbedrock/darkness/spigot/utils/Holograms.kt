@@ -1,12 +1,12 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 
+import net.minecraft.server.v1_8_R3.EntityArmorStand
 import net.minecraft.server.v1_8_R3.EntityLiving
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving
 import org.bukkit.Bukkit
 import org.bukkit.Location
-import org.bukkit.entity.ArmorStand
-import org.bukkit.entity.EntityType
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import kotlin.concurrent.thread
@@ -19,7 +19,7 @@ import kotlin.concurrent.thread
  * Last edit 09.07.2018
  */
 class Holograms(plugin: Plugin, private val lines: Array<String>, private val location: Location) {
-    private val armorStands = mutableSetOf<ArmorStand>()
+    private val armorStands = mutableSetOf<EntityArmorStand>()
 
     init {
         lines.reverse()
@@ -42,16 +42,15 @@ class Holograms(plugin: Plugin, private val lines: Array<String>, private val lo
 
     fun show(player: Player) = armorStands.forEach { Utils.sendPacket(player, PacketPlayOutSpawnEntityLiving(it as EntityLiving)) }
 
-    fun hide(player: Player) = armorStands.forEach { Utils.sendPacket(player, PacketPlayOutEntityDestroy(it.entityId)) }
+    fun hide(player: Player) = armorStands.forEach { Utils.sendPacket(player, PacketPlayOutEntityDestroy(it.id)) }
 
     private fun create(plugin: Plugin) = Bukkit.getScheduler().runTask(plugin) {
         val clone = location.clone()
         lines.forEach {
-            if (it != "") armorStands.add((clone.world.spawnEntity(clone, EntityType.ARMOR_STAND) as? ArmorStand
-                    ?: throw  NullPointerException("armorStand can not be null")).apply {
+            if (it != "") armorStands.add(EntityArmorStand((clone.world as CraftWorld).handle, clone.x, clone.y, clone.z).apply {
                 customName = it
-                isCustomNameVisible = true
-                isVisible = false
+                customNameVisible = true
+                isInvisible = true
                 setGravity(false)
             })
             clone.add(0.0, DISTANCE, 0.0)
