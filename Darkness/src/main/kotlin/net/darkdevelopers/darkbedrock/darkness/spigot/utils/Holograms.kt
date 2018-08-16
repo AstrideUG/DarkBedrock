@@ -4,11 +4,9 @@ import net.minecraft.server.v1_8_R3.EntityArmorStand
 import net.minecraft.server.v1_8_R3.EntityLiving
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving
-import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld
 import org.bukkit.entity.Player
-import org.bukkit.plugin.Plugin
 import kotlin.concurrent.thread
 
 
@@ -16,14 +14,14 @@ import kotlin.concurrent.thread
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 09.07.2018 10:45.
- * Last edit 09.07.2018
+ * Last edit 16.08.2018
  */
-class Holograms(plugin: Plugin, private val lines: Array<String>, private val location: Location) {
+class Holograms(/*plugin: Plugin,*/ private val lines: Array<String>, private val location: Location) {
     private val armorStands = mutableSetOf<EntityArmorStand>()
 
     init {
         lines.reverse()
-        create(plugin)
+        create(/*plugin*/)
     }
 
     fun show(time: Long) = Utils.goThroughAllPlayers { show(it, time) }
@@ -44,7 +42,7 @@ class Holograms(plugin: Plugin, private val lines: Array<String>, private val lo
 
     fun hide(player: Player) = armorStands.forEach { Utils.sendPacket(player, PacketPlayOutEntityDestroy(it.id)) }
 
-    private fun create(plugin: Plugin) = Bukkit.getScheduler().runTask(plugin) {
+    private fun create(/*plugin: Plugin*/) /*= Bukkit.getScheduler().runTask(plugin)*/ {
         val clone = location.clone()
         lines.forEach {
             if (it != "") armorStands.add(EntityArmorStand((clone.world as CraftWorld).handle, clone.x, clone.y, clone.z).apply {
