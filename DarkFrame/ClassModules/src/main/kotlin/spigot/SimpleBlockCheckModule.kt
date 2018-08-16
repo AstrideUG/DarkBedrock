@@ -39,7 +39,7 @@ class SimpleBlockCheckModule : Module, Listener(DarkFrame.instance) {
     fun onPlayerInteractEvent(event: PlayerInteractEvent) {
         val player = event.player ?: return
         if (interact[player] == null) interact[player] = 1 else interact[player] = (interact[player]!! + 1)
-        if (interact[player] != null && interact[player]!! >= 10) player.kickPlayer("Too much interacts")
+        if (interact[player] != null && interact[player]!! >= 25) player.kickPlayer("Too much interacts")
         val distance = event.clickedBlock?.location?.distance(player.location) ?: return
         if (event.hasBlock() && distance > 10.0) {
             println(player)

@@ -34,7 +34,7 @@ class PingTrackerModule : Module, Listener, Command(
         aliases = *arrayOf("PingLogger")
 ) {
 
-    override val description: ModuleDescription = ModuleDescription("PingTrackerModule", "1.3", "Lars Artmann | LartyHD", "This module tracks the ping requests")
+    override val description: ModuleDescription = ModuleDescription("PingTrackerModule", "1.3.1", "Lars Artmann | LartyHD", "This module tracks the ping requests")
 
     private val minutePings = mutableSetOf<String>()
     private val hourPings = mutableSetOf<String>()
@@ -88,7 +88,7 @@ class PingTrackerModule : Module, Listener, Command(
 
     @EventHandler
     fun onPostLoginEvent(event: PostLoginEvent) {
-        if (hasPermission(event.player, permission)) {
+        if (hasPermission(event.player, permission) && !players.contains(event.player.uniqueId)) {
             val textComponent = TextComponent("${Messages.PREFIX}${ChatColor.GRAY}Login dich in das ${ChatColor.DARK_GRAY}PingLogger-System ${ChatColor.GRAY}ein${ChatColor.DARK_GRAY}. ${ChatColor.DARK_GRAY}[${ChatColor.GREEN}Login${ChatColor.DARK_GRAY}]")
             textComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/PingTracker")
             event.player.sendMessage(textComponent)
