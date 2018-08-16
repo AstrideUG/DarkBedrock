@@ -26,13 +26,20 @@ import kotlin.concurrent.thread
  * Created by Lars Artmann | LartyHD on 05.07.2018 13:55.
  * Last edit 15.08.2018
  */
-class PingTrackerModule : Module, Listener, Command("PingTracker", "darkframe.modules.commands.PingTracker", aliases = *arrayOf("PingLogger")) {
+class PingTrackerModule : Module, Listener, Command(
+        "PingTracker",
+        "darkframe.modules.commands.PingTracker",
+        usage = "<all>",
+        maxLength = 1,
+        aliases = *arrayOf("PingLogger")
+) {
 
-    override val description: ModuleDescription = ModuleDescription("PingTrackerModule", "1.2", "Lars Artmann | LartyHD", "This module tracks the ping requests")
+    override val description: ModuleDescription = ModuleDescription("PingTrackerModule", "1.3", "Lars Artmann | LartyHD", "This module tracks the ping requests")
 
     private val minutePings = mutableSetOf<String>()
     private val hourPings = mutableSetOf<String>()
     private val dayPings = mutableSetOf<String>()
+    private val allPings = mutableSetOf<String>()
     private val players = mutableSetOf<UUID>()
     private lateinit var config: GsonConfig
 
@@ -54,13 +61,19 @@ class PingTrackerModule : Module, Listener, Command("PingTracker", "darkframe.mo
     }
 
     override fun perform(sender: CommandSender, args: Array<String>) = isPlayer(sender) {
-        val uniqueId = it.uniqueId ?: throw NullPointerException("uniqueId can not be null")
-        if (players.contains(uniqueId)) {
-            players.remove(uniqueId)
-            sender.sendMessage(TextComponent("${Messages.PREFIX}${ChatColor.GRAY}Du bekommst keine weiteren Ping logs"))
-        } else {
-            players.add(uniqueId)
-            sender.sendMessage(TextComponent("${Messages.PREFIX}${ChatColor.GRAY}Du bekommst absofort Ping logs"))
+        when {
+            args.isEmpty() -> {
+                val uniqueId = it.uniqueId ?: throw NullPointerException("uniqueId can not be null")
+                if (players.contains(uniqueId)) {
+                    players.remove(uniqueId)
+                    sender.sendMessage(TextComponent("${Messages.PREFIX}${ChatColor.GRAY}Du bekommst keine weiteren Ping logs"))
+                } else {
+                    players.add(uniqueId)
+                    sender.sendMessage(TextComponent("${Messages.PREFIX}${ChatColor.GRAY}Du bekommst absofort Ping logs"))
+                }
+            }
+            args[0] == "all" -> sender.sendMessage(TextComponent(getMessage("der letzten Zeit", allPings.size)))
+            else -> sendUseMessage(sender)
         }
     }
 
@@ -70,6 +83,7 @@ class PingTrackerModule : Module, Listener, Command("PingTracker", "darkframe.mo
         minutePings.add(ip)
         hourPings.add(ip)
         dayPings.add(ip)
+        allPings.add(ip)
     }
 
     @EventHandler
@@ -85,17 +99,20 @@ class PingTrackerModule : Module, Listener, Command("PingTracker", "darkframe.mo
         try {
             while (true) {
                 Thread.sleep(sleep)
-                val message = "${Colors.TEXT}In $time ${when (pings.size) {
-                    0 -> "wurden ${Colors.IMPORTANT}keine ${Colors.TEXT}Ping's"
-                    1 -> "wurde ${Colors.IMPORTANT}ein ${Colors.TEXT}Ping"
-                    else -> "wurden ${Colors.IMPORTANT}${pings.size} ${Colors.TEXT}Ping's"
-                }} ${Colors.TEXT}dokumentiert"
+                val message = getMessage(time, pings.size)
+                val textComponent = TextComponent("${Messages.PREFIX}$message")
                 println(message)
-                players.forEach { ProxyServer.getInstance().getPlayer(it)?.sendMessage(TextComponent("${Messages.PREFIX}$message")) }
+                players.forEach { ProxyServer.getInstance().getPlayer(it)?.sendMessage(textComponent) }
                 pings.clear()
             }
         } catch (ignored: InterruptedException) {
         }
     }
+
+    private fun getMessage(time: String, pings: Int) = "${Colors.TEXT}In $time ${when (pings) {
+        0 -> "wurden ${Colors.IMPORTANT}keine ${Colors.TEXT}Ping's"
+        1 -> "wurde ${Colors.IMPORTANT}ein ${Colors.TEXT}Ping"
+        else -> "wurden ${Colors.IMPORTANT}$pings ${Colors.TEXT}Ping's"
+    }} ${Colors.TEXT}dokumentiert"
 
 }
