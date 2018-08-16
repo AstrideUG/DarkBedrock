@@ -1,3 +1,4 @@
+
 import com.google.gson.JsonArray
 import net.darkdevelopers.darkbedrock.darkframe.bungee.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.bungee.commands.Command
@@ -10,7 +11,9 @@ import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.CommandSender
 import net.md_5.bungee.api.ProxyServer
+import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.TextComponent
+import net.md_5.bungee.api.event.PostLoginEvent
 import net.md_5.bungee.api.event.ProxyPingEvent
 import net.md_5.bungee.api.plugin.Listener
 import net.md_5.bungee.event.EventHandler
@@ -23,9 +26,9 @@ import kotlin.concurrent.thread
  * Created by Lars Artmann | LartyHD on 05.07.2018 13:55.
  * Last edit 15.08.2018
  */
-class PingTrackerModule : Module, Listener, Command("PingTracker") {
+class PingTrackerModule : Module, Listener, Command("PingTracker", "darkframe.modules.commands.PingTracker", aliases = *arrayOf("PingLogger")) {
 
-    override val description: ModuleDescription = ModuleDescription("PingTrackerModule", "1.1", "Lars Artmann | LartyHD", "This module tracks the ping requests")
+    override val description: ModuleDescription = ModuleDescription("PingTrackerModule", "1.2", "Lars Artmann | LartyHD", "This module tracks the ping requests")
 
     private val minutePings = mutableSetOf<String>()
     private val hourPings = mutableSetOf<String>()
@@ -69,17 +72,26 @@ class PingTrackerModule : Module, Listener, Command("PingTracker") {
         dayPings.add(ip)
     }
 
+    @EventHandler
+    fun onPostLoginEvent(event: PostLoginEvent) {
+        if (hasPermission(event.player, permission)) {
+            val textComponent = TextComponent("${Messages.PREFIX}${ChatColor.GRAY}Login dich in das ${ChatColor.DARK_GRAY}PingLogger-System ${ChatColor.GRAY}ein${ChatColor.DARK_GRAY}. ${ChatColor.DARK_GRAY}[${ChatColor.GREEN}Login${ChatColor.DARK_GRAY}]")
+            textComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/PingTracker")
+            event.player.sendMessage(textComponent)
+        }
+    }
+
     private fun logPing(sleep: Long, time: String, pings: MutableSet<String>) = thread {
         try {
             while (true) {
                 Thread.sleep(sleep)
-                val message = "In $time ${when (pings.size) {
-                    0 -> "wurden ${Colors.IMPORTANT} keine ${Colors.TEXT}Ping's"
-                    1 -> "wurde ${Colors.IMPORTANT} ein ${Colors.TEXT}Ping"
-                    else -> "wurden ${Colors.IMPORTANT} ${pings.size} ${Colors.TEXT}Ping's"
-                }} dokumentiert"
+                val message = "${Colors.TEXT}In $time ${when (pings.size) {
+                    0 -> "wurden ${Colors.IMPORTANT}keine ${Colors.TEXT}Ping's"
+                    1 -> "wurde ${Colors.IMPORTANT}ein ${Colors.TEXT}Ping"
+                    else -> "wurden ${Colors.IMPORTANT}${pings.size} ${Colors.TEXT}Ping's"
+                }} ${Colors.TEXT}dokumentiert"
                 println(message)
-                players.forEach { ProxyServer.getInstance().getPlayer(it)?.sendMessage(TextComponent(message)) }
+                players.forEach { ProxyServer.getInstance().getPlayer(it)?.sendMessage(TextComponent("${Messages.PREFIX}$message")) }
                 pings.clear()
             }
         } catch (ignored: InterruptedException) {
