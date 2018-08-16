@@ -13,11 +13,11 @@ import kotlin.concurrent.thread
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 05.07.2018 13:55.
- * Last edit 13.07.2018
+ * Last edit 15.08.2018
  */
 class PingTrackerModule : Module, Listener(DarkFrame.instance) {
 
-    override val description: ModuleDescription = ModuleDescription("PingTrackerModule", "1.0", "Lars Artmann | LartyHD", "This module tracks the ping requests")
+    override val description: ModuleDescription = ModuleDescription("PingTrackerModule", "1.0.1", "Lars Artmann | LartyHD", "This module tracks the ping requests")
 
     private val minutePings: MutableSet<String> = HashSet()
     private val hourPings: MutableSet<String> = HashSet()
@@ -38,9 +38,18 @@ class PingTrackerModule : Module, Listener(DarkFrame.instance) {
     }
 
     private fun logPing(sleep: Long, time: String, pings: MutableSet<String>) = thread {
-        Thread.sleep(sleep)
-        println("In $time wurden $IMPORTANT${if (pings.size == 1) "${pings.size} ${TEXT}Ping's" else "eine ${TEXT}Ping"} dokumentiert")
-        pings.clear()
+        try {
+            while (true) {
+                Thread.sleep(sleep)
+                println("In $time ${when (pings.size) {
+                    0 -> "wurden $IMPORTANT keine ${TEXT}Ping's"
+                    1 -> "wurde $IMPORTANT ein ${TEXT}Ping"
+                    else -> "wurden $IMPORTANT ${pings.size} ${TEXT}Ping's"
+                }} dokumentiert")
+                pings.clear()
+            }
+        } catch (ignored: InterruptedException) {
+        }
     }
 
 }
