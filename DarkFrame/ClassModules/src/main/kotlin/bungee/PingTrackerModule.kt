@@ -24,17 +24,17 @@ import kotlin.concurrent.thread
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 05.07.2018 13:55.
- * Last edit 15.08.2018
+ * Last edit 17.08.2018
  */
 class PingTrackerModule : Module, Listener, Command(
         "PingTracker",
         "darkframe.modules.commands.PingTracker",
-        usage = "<all>",
+        usage = "[all]",
         maxLength = 1,
         aliases = *arrayOf("PingLogger")
 ) {
 
-    override val description: ModuleDescription = ModuleDescription("PingTrackerModule", "1.3.1", "Lars Artmann | LartyHD", "This module tracks the ping requests")
+    override val description: ModuleDescription = ModuleDescription("PingTrackerModule", "1.3.2", "Lars Artmann | LartyHD", "This module tracks the ping requests")
 
     private val minutePings = mutableSetOf<String>()
     private val hourPings = mutableSetOf<String>()
@@ -72,7 +72,7 @@ class PingTrackerModule : Module, Listener, Command(
                     sender.sendMessage(TextComponent("${Messages.PREFIX}${ChatColor.GRAY}Du bekommst absofort Ping logs"))
                 }
             }
-            args[0] == "all" -> sender.sendMessage(TextComponent(getMessage("der letzten Zeit", allPings.size)))
+            args[0] == "all" -> sender.sendMessage(TextComponent("${Messages.PREFIX}${getMessage("der letzten Zeit", allPings.size)}"))
             else -> sendUseMessage(sender)
         }
     }
