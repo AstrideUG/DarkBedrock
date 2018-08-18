@@ -1,3 +1,6 @@
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
@@ -20,6 +23,8 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
 
 /**
  * @author Lars Artmann | LartyHD
@@ -29,6 +34,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
     override val description: ModuleDescription = ModuleDescription("PlayerHiderModule", "1.0.6", "Lars Artmann | LartyHD", "This module adds a player hider")
 
+    private lateinit var config: GsonConfig
     private var slot: Int = 0
     private val hotBarItem = ItemBuilder(Material.BLAZE_ROD).setName("${SECONDARY}Spieler verstecken").build()
     private val allPlayerItem = ItemBuilder(Material.INK_SACK, 10.toShort()).setName("${SECONDARY}Alle Spieler anzeigen").build()
@@ -43,7 +49,20 @@ class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
             .build()
 
     override fun start() {
-        slot = GsonConfig(ConfigData(description.folder)).load().getAsNotNull<JsonPrimitive>("slot").asInt
+        config = GsonConfig(ConfigData(description.folder)).load()
+        slot = config.getAsNotNull<JsonPrimitive>("slot").asInt
+        try {
+            val create = GsonBuilder().registerTypeAdapter(ItemMeta::class.java, allPlayerItem.itemMeta).create()
+            println(create)
+            val gson = Gson()
+            val toJson = gson.toJson(hotBarItem)
+            println(toJson)
+            println(gson.fromJson(toJson, ItemStack::class.java))
+            val asNotNull = config.getAsNotNull<JsonElement>("hotBarItem")
+            println(asNotNull)
+            println(gson.fromJson(asNotNull, ItemStack::class.java))
+        } catch (ex: Exception) {
+        }
     }
 
     @EventHandler
@@ -66,6 +85,7 @@ class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
                 allPlayerItem -> Utils.goThroughAllPlayers { player.showPlayer(it) }
                 vipPlayerItem -> Utils.goThroughAllPlayers { if (hasPermission(it, "playerhider.vip")) player.showPlayer(it) else player.hidePlayer(it) }
                 noPlayerItem -> Utils.goThroughAllPlayers { player.hidePlayer(it) }
+                else -> return
             }
             val stripColor = ChatColor.stripColor(displayName)
             player.sendMessage("${Messages.PREFIX}${TEXT}Dir werden nun ${stripColor.substring(0, stripColor.length - 2)}t")
