@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 16.01.2018 22:17.
- * Last edit 07.07.2018
+ * Last edit 18.08.2018
  */
 object ScoreBoardUtils {
     private val scoreboard: Scoreboard = Scoreboard()
