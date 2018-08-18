@@ -27,7 +27,7 @@ import org.bukkit.event.player.PlayerJoinEvent
  * Last edit 14.07.2018
  */
 class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
-    override val description: ModuleDescription = ModuleDescription("PlayerHiderModule", "1.0.2", "Lars Artmann | LartyHD", "This module adds a player hider")
+    override val description: ModuleDescription = ModuleDescription("PlayerHiderModule", "1.0.3", "Lars Artmann | LartyHD", "This module adds a player hider")
 
     private var slot: Int = 0
     private val hotBarItem = ItemBuilder(Material.BLAZE_ROD).setName("${SECONDARY}Spieler verstecken").build()
@@ -49,6 +49,7 @@ class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
     @EventHandler
     fun onPlayerJoinEvent(event: PlayerJoinEvent) = event.player.inventory.setItem(slot, hotBarItem)
 
+    @EventHandler
     fun onPlayerInteractEvent(event: PlayerInteractEvent) {
         val action = event.action ?: return
         val item = event.item ?: return
@@ -56,6 +57,7 @@ class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
             event.player.openInventory(inventory)
     }
 
+    @EventHandler
     fun onInventoryClickEvent(event: InventoryClickEvent) {
         val displayName = event.currentItem?.itemMeta?.displayName ?: return
         if (inventory === event.inventory) {
