@@ -1,3 +1,4 @@
+import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
@@ -42,7 +43,7 @@ class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
             .build()
 
     override fun start() {
-        slot = GsonConfig(ConfigData(description.folder, "config.json")).load().getAs<Int>("slot") ?: throw NullPointerException("slot can not be null")
+        slot = GsonConfig(ConfigData(description.folder, "config.json")).load().getAsNotNull<JsonPrimitive>("slot").asInt
     }
 
     @EventHandler
