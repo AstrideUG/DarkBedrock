@@ -27,7 +27,7 @@ import org.bukkit.event.player.PlayerJoinEvent
  * Last edit 14.07.2018
  */
 class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
-    override val description: ModuleDescription = ModuleDescription("PlayerHiderModule", "1.0.3", "Lars Artmann | LartyHD", "This module adds a player hider")
+    override val description: ModuleDescription = ModuleDescription("PlayerHiderModule", "1.0.4", "Lars Artmann | LartyHD", "This module adds a player hider")
 
     private var slot: Int = 0
     private val hotBarItem = ItemBuilder(Material.BLAZE_ROD).setName("${SECONDARY}Spieler verstecken").build()
@@ -64,7 +64,7 @@ class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
             val player = event.whoClicked as? Player ?: throw NullPointerException("player can not be null")
             when (event.currentItem) {
                 allPlayerItem -> Utils.goThroughAllPlayers { player.showPlayer(it) }
-                vipPlayerItem -> Utils.goThroughAllPlayers { if (hasPermission(it, "playerhider.vip")) player.showPlayer(it) else player.hidePlayer(it) }
+                vipPlayerItem -> Utils.goThroughAllPlayers { if (hasPermission(player, "playerhider.vip")) player.showPlayer(it) else player.hidePlayer(it) }
                 noPlayerItem -> Utils.goThroughAllPlayers { player.hidePlayer(it) }
             }
             player.sendMessage("${Messages.PREFIX}${TEXT}Dir werden nun ${ChatColor.stripColor(displayName)}")
