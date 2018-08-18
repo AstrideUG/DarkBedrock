@@ -26,10 +26,9 @@ import org.bukkit.event.player.PlayerJoinEvent
  * Last edit 14.07.2018
  */
 class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
-    override val description: ModuleDescription = ModuleDescription("PlayerHiderModule", "1.0", "Lars Artmann | LartyHD", "This module adds a player hider")
+    override val description: ModuleDescription = ModuleDescription("PlayerHiderModule", "1.0.1", "Lars Artmann | LartyHD", "This module adds a player hider")
 
-    private val slot = GsonConfig(ConfigData(description.folder, "config.json")).load().getAs<Int>("slot")
-            ?: throw NullPointerException("slot can not be null")
+    private var slot: Int = 0
     private val hotBarItem = ItemBuilder(Material.BLAZE_ROD).setName("${SECONDARY}Spieler verstecken").build()
     private val allPlayerItem = ItemBuilder(Material.INK_SACK, 10.toShort()).setName("${SECONDARY}Alle Spieler anzeigen").build()
     private val vipPlayerItem = ItemBuilder(Material.INK_SACK, 11.toShort()).setName("${SECONDARY}Nur sehr wichtige Spieler anzeigen").build()
@@ -41,6 +40,10 @@ class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
             .setItem(2, noPlayerItem)
             .setItem(3, decoItem)
             .build()
+
+    override fun start() {
+        slot = GsonConfig(ConfigData(description.folder, "config.json")).load().getAs<Int>("slot") ?: throw NullPointerException("slot can not be null")
+    }
 
     @EventHandler
     fun onPlayerJoinEvent(event: PlayerJoinEvent) = event.player.inventory.setItem(slot, hotBarItem)
