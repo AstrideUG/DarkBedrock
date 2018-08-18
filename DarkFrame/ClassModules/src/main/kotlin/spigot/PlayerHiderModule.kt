@@ -27,7 +27,7 @@ import org.bukkit.event.player.PlayerJoinEvent
  * Last edit 14.07.2018
  */
 class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
-    override val description: ModuleDescription = ModuleDescription("PlayerHiderModule", "1.0.1", "Lars Artmann | LartyHD", "This module adds a player hider")
+    override val description: ModuleDescription = ModuleDescription("PlayerHiderModule", "1.0.2", "Lars Artmann | LartyHD", "This module adds a player hider")
 
     private var slot: Int = 0
     private val hotBarItem = ItemBuilder(Material.BLAZE_ROD).setName("${SECONDARY}Spieler verstecken").build()
@@ -43,7 +43,7 @@ class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
             .build()
 
     override fun start() {
-        slot = GsonConfig(ConfigData(description.folder, "config.json")).load().getAsNotNull<JsonPrimitive>("slot").asInt
+        slot = GsonConfig(ConfigData(description.folder)).load().getAsNotNull<JsonPrimitive>("slot").asInt
     }
 
     @EventHandler

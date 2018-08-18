@@ -79,10 +79,8 @@ object MapsUtils {
         val name = config.getAs<JsonPrimitive>("name", jsonObject)?.asString
                 ?: throw NullPointerException("map name can not be null")
         val worldName = getWorldName(config, jsonObject)
-        val worldBorder = config.getAs<JsonObject>("worldBoarder", jsonObject)
-                ?: throw NullPointerException("worldBoarder jsonObject can not be null")
         val world = MapsUtils.loadMap(worldName)
-        setWorldBoarder(config, worldBorder, world)
+        setWorldBoarder(config, "worldBoarder", world)
         val spawn = config.getLocation("spawn", jsonObject, world)
         val hologram = config.getLocationWithOutYawAndPitch("hologram", jsonObject, world)
         return Map(name, spawn, hologram, getRegion(config, jsonObject, world), lambda)
@@ -126,6 +124,17 @@ object MapsUtils {
         val pos1 = config.getLocationWithOutYawAndPitch("pos1", region)
         val pos2 = config.getLocationWithOutYawAndPitch("pos2", region)
         return Region(pos1, pos2)
+    }
+
+    fun setWorldBoarder(config: BukkitGsonConfig, key: String, jsonObject: JsonObject, world: World) {
+        val worldBorder = config.getAsNotNull<JsonObject>(key, jsonObject)
+        setWorldBoarder(config, worldBorder, world)
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun setWorldBoarder(config: BukkitGsonConfig, key: String, world: World) {
+        val worldBorder = config.getAsNotNull<JsonObject>(key)
+        setWorldBoarder(config, worldBorder, world)
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
