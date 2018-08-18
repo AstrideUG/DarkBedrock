@@ -60,11 +60,11 @@ class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
     @EventHandler
     fun onInventoryClickEvent(event: InventoryClickEvent) {
         val displayName = event.currentItem?.itemMeta?.displayName ?: return
-        if (inventory === event.inventory) {
-            val player = event.whoClicked as? Player ?: throw NullPointerException("player can not be null")
+        val player = event.whoClicked as? Player ?: throw NullPointerException("player can not be null")
+        if (inventory === player.openInventory.topInventory) {
             when (event.currentItem) {
                 allPlayerItem -> Utils.goThroughAllPlayers { player.showPlayer(it) }
-                vipPlayerItem -> Utils.goThroughAllPlayers { if (hasPermission(player, "playerhider.vip")) player.showPlayer(it) else player.hidePlayer(it) }
+                vipPlayerItem -> Utils.goThroughAllPlayers { if (hasPermission(it, "playerhider.vip")) player.showPlayer(it) else player.hidePlayer(it) }
                 noPlayerItem -> Utils.goThroughAllPlayers { player.hidePlayer(it) }
             }
             val stripColor = ChatColor.stripColor(displayName)
