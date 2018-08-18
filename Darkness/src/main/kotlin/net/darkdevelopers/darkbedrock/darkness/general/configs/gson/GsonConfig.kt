@@ -34,6 +34,12 @@ open class GsonConfig(override val configData: ConfigData) : DefaultConfig {
         return this
     }
 
+    fun <O> getAsNotNull(key: String): O = getAsNotNull(key, jsonObject)
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun <O> getAsNotNull(key: String, jsonObject: JsonObject): O = getAs(key, jsonObject)
+            ?: throw NullPointerException("$key can not be null")
+
     override fun <O> getAs(key: String): O? = getAs(key, jsonObject)
 
     @Suppress("MemberVisibilityCanBePrivate")
