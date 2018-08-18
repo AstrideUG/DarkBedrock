@@ -24,10 +24,10 @@ import org.bukkit.event.player.PlayerJoinEvent
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 14.07.2018 00:00.
- * Last edit 14.07.2018
+ * Last edit 18.08.2018
  */
 class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
-    override val description: ModuleDescription = ModuleDescription("PlayerHiderModule", "1.0.4", "Lars Artmann | LartyHD", "This module adds a player hider")
+    override val description: ModuleDescription = ModuleDescription("PlayerHiderModule", "1.0.5", "Lars Artmann | LartyHD", "This module adds a player hider")
 
     private var slot: Int = 0
     private val hotBarItem = ItemBuilder(Material.BLAZE_ROD).setName("${SECONDARY}Spieler verstecken").build()
@@ -67,7 +67,8 @@ class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
                 vipPlayerItem -> Utils.goThroughAllPlayers { if (hasPermission(player, "playerhider.vip")) player.showPlayer(it) else player.hidePlayer(it) }
                 noPlayerItem -> Utils.goThroughAllPlayers { player.hidePlayer(it) }
             }
-            player.sendMessage("${Messages.PREFIX}${TEXT}Dir werden nun ${ChatColor.stripColor(displayName)}")
+            val stripColor = ChatColor.stripColor(displayName)
+            player.sendMessage("${Messages.PREFIX}${TEXT}Dir werden nun ${stripColor.substring(0, stripColor.length - 2)}t")
             player.closeInventory()
         }
     }
