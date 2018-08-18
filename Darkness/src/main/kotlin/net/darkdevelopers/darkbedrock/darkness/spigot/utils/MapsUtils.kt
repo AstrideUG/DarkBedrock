@@ -78,8 +78,7 @@ object MapsUtils {
     fun getMapAndLoad(config: BukkitGsonConfig, jsonObject: JsonObject, lambda: (Player, MutableMap<UUID, Holograms>) -> Unit): Map {
         val name = config.getAs<JsonPrimitive>("name", jsonObject)?.asString
                 ?: throw NullPointerException("map name can not be null")
-        val worldName = config.getAs<JsonPrimitive>("world", jsonObject)?.asString
-                ?: throw NullPointerException("map world can not be null")
+        val worldName = getWorldName(config, jsonObject)
         val worldBorder = config.getAs<JsonObject>("worldBoarder", jsonObject)
                 ?: throw NullPointerException("worldBoarder jsonObject can not be null")
         val world = MapsUtils.loadMap(worldName)
@@ -88,6 +87,13 @@ object MapsUtils {
         val hologram = config.getLocationWithOutYawAndPitch("hologram", jsonObject, world)
         return Map(name, spawn, hologram, getRegion(config, jsonObject, world), lambda)
     }
+
+    fun getWorldName(config: BukkitGsonConfig) = config.getAs<JsonPrimitive>("world")?.asString
+            ?: throw NullPointerException("world can not be null")
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun getWorldName(config: BukkitGsonConfig, jsonObject: JsonObject) = config.getAs<JsonPrimitive>("world", jsonObject)?.asString
+            ?: throw NullPointerException("world can not be null")
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun getRegion(config: BukkitGsonConfig, jsonObject: JsonObject, world: World): Region {
@@ -100,6 +106,22 @@ object MapsUtils {
 
     fun getRegion(config: BukkitGsonConfig, jsonObject: JsonObject): Region {
         val region = config.getAs<JsonObject>("region", jsonObject)
+                ?: throw NullPointerException("region jsonObject can not be null")
+        val pos1 = config.getLocationWithOutYawAndPitch("pos1", region)
+        val pos2 = config.getLocationWithOutYawAndPitch("pos2", region)
+        return Region(pos1, pos2)
+    }
+
+    fun getRegion(config: BukkitGsonConfig, world: World): Region {
+        val region = config.getAs<JsonObject>("region")
+                ?: throw NullPointerException("region jsonObject can not be null")
+        val pos1 = config.getLocationWithOutYawAndPitch("pos1", region, world)
+        val pos2 = config.getLocationWithOutYawAndPitch("pos2", region, world)
+        return Region(pos1, pos2)
+    }
+
+    fun getRegion(config: BukkitGsonConfig): Region {
+        val region = config.getAs<JsonObject>("region")
                 ?: throw NullPointerException("region jsonObject can not be null")
         val pos1 = config.getLocationWithOutYawAndPitch("pos1", region)
         val pos2 = config.getLocationWithOutYawAndPitch("pos2", region)
