@@ -19,6 +19,7 @@ import java.util.*
  */
 class MongoIntAsyncMap(mongoDB: MongoDB, databaseName: String, name: String) : DefaultIntAsyncMap {
 
+    @Suppress("MemberVisibilityCanBePrivate")
     val collection: MongoCollection<Document> = mongoDB.connect().getDatabase(databaseName).getCollection(name)
 
     override fun get(uuid: UUID, key: String, lambda: (Int) -> Unit) = getDocumentByUUID(uuid.toString()).first { document, /*throwable*/_ ->
