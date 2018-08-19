@@ -14,7 +14,6 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.SECONDARY
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
-import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -37,9 +36,9 @@ class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
     private lateinit var config: GsonConfig
     private var slot: Int = 0
     private val hotBarItem = ItemBuilder(Material.BLAZE_ROD).setName("${SECONDARY}Spieler verstecken").build()
-    private val allPlayerItem = ItemBuilder(Material.INK_SACK, 10.toShort()).setName("${SECONDARY}Alle Spieler anzeigen").build()
-    private val vipPlayerItem = ItemBuilder(Material.INK_SACK, 11.toShort()).setName("${SECONDARY}Nur sehr wichtige Spieler anzeigen").build()
-    private val noPlayerItem = ItemBuilder(Material.INK_SACK, 1.toShort()).setName("${SECONDARY}Keine Spieler anzeigen").build()
+    private val allPlayerItem = ItemBuilder(Material.INK_SACK, 10.toShort()).setName("${SECONDARY}Alle Spieler").build()
+    private val vipPlayerItem = ItemBuilder(Material.INK_SACK, 11.toShort()).setName("${SECONDARY}Wichtige Spieler").build()
+    private val noPlayerItem = ItemBuilder(Material.INK_SACK, 1.toShort()).setName("${SECONDARY}Keine Spieler").build()
     private val decoItem = ItemBuilder(Material.PAPER).setName(hotBarItem.itemMeta.displayName).build()
     private val inventory = InventoryBuilder(InventoryType.BREWING, hotBarItem.itemMeta.displayName)
             .setItem(0, allPlayerItem)
@@ -62,6 +61,7 @@ class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
             println(asNotNull)
             println(gson.fromJson(asNotNull, ItemStack::class.java))
         } catch (ex: Exception) {
+            ex.printStackTrace()
         }
     }
 
@@ -87,8 +87,8 @@ class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
                 noPlayerItem -> Utils.goThroughAllPlayers { player.hidePlayer(it) }
                 else -> return
             }
-            val stripColor = ChatColor.stripColor(displayName)
-            player.sendMessage("${Messages.PREFIX}${TEXT}Dir werden nun ${stripColor.substring(0, stripColor.length - 2)}t")
+
+            player.sendMessage("${Messages.PREFIX}${TEXT}Dir werden nun ${displayName.substring(0, 3).toLowerCase()}${displayName.substring(3)} ${TEXT}angezeigt")
             player.closeInventory()
         }
     }
