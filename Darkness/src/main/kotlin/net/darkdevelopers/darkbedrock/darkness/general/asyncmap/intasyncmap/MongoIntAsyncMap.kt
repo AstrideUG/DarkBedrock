@@ -19,15 +19,12 @@ import java.util.*
  */
 class MongoIntAsyncMap(mongoDB: MongoDB, databaseName: String, name: String) : DefaultIntAsyncMap {
 
-    private val collection: MongoCollection<Document> = mongoDB.connect().getDatabase(databaseName).getCollection(name)
+    val collection: MongoCollection<Document> = mongoDB.connect().getDatabase(databaseName).getCollection(name)
 
     override fun get(uuid: UUID, key: String, lambda: (Int) -> Unit) = getDocumentByUUID(uuid.toString()).first { document, /*throwable*/_ ->
         if (document == null) collection.insertOne(Document("uuid", uuid.toString()).append(key, 0)) { _, _ -> lambda(0) } else {
             val integer = document.getInteger(key)
-            if (integer == null) {
-                document.append(key, 0)
-                updateOne(uuid.toString(), document) { lambda(0) }
-            } else lambda(integer)
+            if (integer == null) updateOne(uuid.toString(), Updates.set(key, 0)) { lambda(0) } else lambda(integer)
         }
     }
 

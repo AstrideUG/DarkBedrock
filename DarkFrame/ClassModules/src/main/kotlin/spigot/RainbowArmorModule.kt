@@ -45,7 +45,7 @@ class RainbowArmorModule : Module, Listener, Command(DarkFrame.instance, "RainBo
                     var handleColor = handleColor(h, 0.005f)
                     handleColor = setArmor(player, handleColor, 0.02f)
                     players[player] = handleColor
-                    player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2, 3, false, false))
+                    player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10, 4, false, false))
                 }
             }
 //            val color = Color.WHITE
@@ -124,10 +124,10 @@ class RainbowArmorModule : Module, Listener, Command(DarkFrame.instance, "RainBo
     private fun addPlayer(player: Player) {
         players[player] = 0.0f
         val inventory = player.inventory
-        inventory.helmet = ItemBuilder(Material.LEATHER_HELMET).setName(name).build()
-        inventory.chestplate = ItemBuilder(Material.LEATHER_CHESTPLATE).setName(name).build()
-        inventory.leggings = ItemBuilder(Material.LEATHER_LEGGINGS).setName(name).build()
-        inventory.boots = ItemBuilder(Material.LEATHER_BOOTS).setName(name).build()
+        inventory.helmet = ItemBuilder(Material.LEATHER_HELMET).setName(name).setUnbreakable().addAllItemFlags().build()
+        inventory.chestplate = ItemBuilder(Material.LEATHER_CHESTPLATE).setName(name).setUnbreakable().addAllItemFlags().build()
+        inventory.leggings = ItemBuilder(Material.LEATHER_LEGGINGS).setName(name).setUnbreakable().addAllItemFlags().build()
+        inventory.boots = ItemBuilder(Material.LEATHER_BOOTS).setName(name).setUnbreakable().addAllItemFlags().build()
     }
 
 
