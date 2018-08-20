@@ -3,6 +3,7 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.events.listener
 
+import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import org.bukkit.Bukkit
@@ -19,7 +20,7 @@ import kotlin.concurrent.thread
 
 /**
  * Created by LartyHD on 22.01.2018  00:14.
- * Last edit 06.07.2018
+ * Last edit 20.08.2018
  */
 class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
@@ -34,7 +35,7 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
 
     @EventHandler
     fun onAsyncPlayerChatEvent(event: AsyncPlayerChatEvent) {
-        val format = event.format ?: return
+        val format = event.format.toNonNull()
         if (format != "<%1\$s> %2\$s") event.format = format.replace("%", "%%")
     }
 
@@ -64,6 +65,6 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
         private var instance: EventsListener? = null
         var autoRespawn: Boolean = false
 
-        fun getSimpleInstance(javaPlugin: JavaPlugin) = if (instance == null) EventsListener(javaPlugin) else instance
+        fun getSimpleInstance(javaPlugin: JavaPlugin) = if (instance == null) EventsListener(javaPlugin) else instance!!
     }
 }

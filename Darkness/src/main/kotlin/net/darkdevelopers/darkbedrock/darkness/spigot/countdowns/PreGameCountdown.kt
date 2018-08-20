@@ -5,13 +5,14 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.TitleUtils
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 
 /**
  * Created by LartyHD on 24.06.2017  18:01.
- * Last edit 06.07.2018
+ * Last edit 20.08.2018
  */
 class PreGameCountdown : Countdown(5) {
 
@@ -26,7 +27,7 @@ class PreGameCountdown : Countdown(5) {
             }
             when (seconds) {
                 10, 5, 4, 3, 2, 1 -> Utils.goThroughAllPlayers {
-                    Utils.sendTitle(it, "$SECONDARY$seconds").sendTimings(it, 1, 18, 1)
+                    TitleUtils(it).sendTitle("$SECONDARY$seconds").sendTimings(1, 18, 1)
                     it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
                 }
             }

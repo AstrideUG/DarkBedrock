@@ -12,17 +12,20 @@ import java.util.*
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 06.07.2018 10:24.
- * Last edit 06.07.2018
+ * Last edit 20.08.2018
  */
 //TODO: WorldBoarder Packets
 object Utils {
     @Suppress("MemberVisibilityCanBePrivate")
-//    val players = Bukkit.getOnlinePlayers()
     fun getPlayers(): MutableCollection<out Player> = Bukkit.getOnlinePlayers()
 
-    fun goThroughAllPlayers(lambda: (Player) -> Unit) = getPlayers().forEach { lambda(it) }
+    inline fun goThroughAllPlayers(lambda: (Player) -> Unit) = getPlayers().forEach { lambda(it) }
 
-    fun sendTitle(player: Player, title: String): Utils {
+    @Deprecated("", ReplaceWith("TitleUtils(player)", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.TitleUtils"), DeprecationLevel.ERROR)
+    fun getTitleBuilder(player: Player) = TitleUtils(player)
+
+    @Deprecated("", ReplaceWith("TitleUtils(player.sendTitle(title)", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils", "org.bukkit.entity.Player", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.TitleUtils"), DeprecationLevel.ERROR)
+    fun sendTitle(player: Player?, title: String): Utils {
         sendPacket(player, PacketPlayOutTitle(
                 PacketPlayOutTitle.EnumTitleAction.TITLE,
                 IChatBaseComponent.ChatSerializer.a("{\"text\": \"$title\"}")
@@ -30,6 +33,7 @@ object Utils {
         return this
     }
 
+    @Deprecated("", ReplaceWith("TitleUtils(player).sendSubTitle(title)", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils", "org.bukkit.entity.Player", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.TitleUtils"), DeprecationLevel.ERROR)
     fun sendSubTitle(player: Player, subtitle: String): Utils {
         sendPacket(player, PacketPlayOutTitle(
                 PacketPlayOutTitle.EnumTitleAction.SUBTITLE,
@@ -38,16 +42,21 @@ object Utils {
         return this
     }
 
+
+    @Deprecated("", ReplaceWith("Utils.getTitleBuilder(player).sendTimings(title)", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils", "org.bukkit.entity.Player", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.TitleUtils"), DeprecationLevel.ERROR)
     fun sendTimings(player: Player, fadeIn: Int, stay: Int, fadeOut: Int): Utils {
         sendPacket(player, PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TIMES, null, fadeIn, stay, fadeOut))
         return this
     }
 
+    fun sendAllPlayerParticle(player: Player, particleType: EnumParticle, loc: Location, speed: Float, amount: Int) = goThroughAllPlayers { sendPlayerParticle(player, particleType, loc, speed, amount) }
+
+    @Suppress("MemberVisibilityCanBePrivate")
     fun sendPlayerParticle(player: Player, particleType: EnumParticle, loc: Location, speed: Float, amount: Int) =
             sendPacket(player, PacketPlayOutWorldParticles(particleType, true, loc.x.toFloat(), loc.y.toFloat(), loc.z.toFloat(), 0F, 0F, 0F, speed, amount, 0))
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun sendPacket(player: Player, packet: Packet<*>) =
+    fun sendPacket(player: Player?, packet: Packet<*>) =
             (player as CraftPlayer).handle.playerConnection.sendPacket(packet)
 
 

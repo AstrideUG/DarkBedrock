@@ -5,13 +5,14 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.TitleUtils
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 
 /**
- * Created by LartyHD on 24.06.2017  16:41.
- * Last edit 06.07.2018
+ * Created by LartyHD on 24.06.2017 16:41.
+ * Last edit 20.08.2018
  */
 class LobbyCountdown(private val minPlayers: Int, private val gameName: String) : Countdown(60) {
 
@@ -31,12 +32,12 @@ class LobbyCountdown(private val minPlayers: Int, private val gameName: String) 
                 10 -> {
 //                    Bukkit.getPluginManager().callEvent(LobbyCountdownLastTenSecondsEvent(this))
                     Utils.goThroughAllPlayers {
-                        Utils.sendTitle(it, gameName).sendSubTitle(it, Messages.SERVER_NAME.toString()).sendTimings(it, 10, 20, 10)
+                        TitleUtils(it).sendTitle(gameName).sendSubTitle(Messages.SERVER_NAME.toString()).sendTimings(10, 20, 10)
                         it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
                     }
                 }
                 5, 4, 3, 2, 1 -> Utils.goThroughAllPlayers {
-                    Utils.sendTitle(it, "$SECONDARY$seconds").sendTimings(it, 1, 18, 1)
+                    TitleUtils(it).sendTitle("$SECONDARY$seconds").sendTimings(1, 18, 1)
                     it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
                 }
             }
