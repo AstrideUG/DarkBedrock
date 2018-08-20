@@ -1,6 +1,4 @@
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonElement
+
 import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
@@ -22,8 +20,6 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.ItemMeta
 
 /**
  * @author Lars Artmann | LartyHD
@@ -50,19 +46,19 @@ class PlayerHiderModule : Module, Listener(DarkFrame.instance) {
     override fun start() {
         config = GsonConfig(ConfigData(description.folder)).load()
         slot = config.getAsNotNull<JsonPrimitive>("slot").asInt
-        try {
-            val create = GsonBuilder().registerTypeAdapter(ItemMeta::class.java, allPlayerItem.itemMeta).create()
-            println(create)
-            val gson = Gson()
-            val toJson = gson.toJson(hotBarItem)
-            println(toJson)
-            println(gson.fromJson(toJson, ItemStack::class.java))
-            val asNotNull = config.getAsNotNull<JsonElement>("hotBarItem")
-            println(asNotNull)
-            println(gson.fromJson(asNotNull, ItemStack::class.java))
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-        }
+//        try {
+//            val create = GsonBuilder().registerTypeAdapter(ItemMeta::class.java, allPlayerItem.itemMeta).create()
+//            println(create)
+//            val gson = Gson()
+//            val toJson = gson.toJson(hotBarItem)
+//            println(toJson)
+//            println(gson.fromJson(toJson, ItemStack::class.java))
+//            val asNotNull = config.getAsNotNull<JsonElement>("hotBarItem")
+//            println(asNotNull)
+//            println(gson.fromJson(asNotNull, ItemStack::class.java))
+//        } catch (ex: Exception) {
+//            ex.printStackTrace()
+//        }
     }
 
     @EventHandler

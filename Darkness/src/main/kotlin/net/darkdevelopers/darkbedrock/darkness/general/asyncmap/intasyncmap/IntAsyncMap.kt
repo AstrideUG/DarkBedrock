@@ -25,7 +25,9 @@ interface IntAsyncMap {
 
     fun remove(uuid: UUID, key: String, count: Int, lambda: () -> Unit)
 
-    fun hasEnough(uuid: UUID, key: String, count: Int, lambda: () -> Unit)
+    fun hasEnough(uuid: UUID, key: String, count: Int, lambda: (Boolean) -> Unit)
 
     fun removeIfEnough(uuid: UUID, key: String, count: Int, lambda: () -> Unit)
+
+    fun removeIfEnough(uuid: UUID, key: String, count: Int, onSuccess: () -> Unit, onFail: () -> Unit)
 }

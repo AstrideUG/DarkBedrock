@@ -46,7 +46,7 @@ object MapsUtils {
             setGameRuleValue("doMobSpawning", "false")
             setGameRuleValue("doFireTick", "false")
         }
-        Bukkit.getScheduler().runTask(null) { world.entities.forEach { it.remove() } }
+        world.entities.forEach { it.remove() }
         fixBowBug(world)
         return world
     }
