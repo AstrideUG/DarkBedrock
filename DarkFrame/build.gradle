@@ -63,8 +63,6 @@ shadowJar {
 //    classifier = 'Hello'
 //    appendix = 'hi'
 //    extension = 'HAllo'
-//    jar1()
-//    jar2()
     appendix = "with-dependencies"
     classifier = ""
     dependencies {
@@ -79,26 +77,42 @@ shadowJar {
     }
 }
 //TODO
-//task jar1(type: Jar) {
+
+//artifacts {
+//    archives withApi
+//    archives withDependencies
+//}
+//
+//task withApi(type: Jar) {
 //    appendix = "with-api"
 //    classifier = ""
 //    dependencies {
 //        include(dependency(files('../Darkness/build/libs/Darkness-1.0-SNAPSHOT.jar')))
 //    }
 //}
-//task jar2(type: Jar) {
+//task withDependencies(type: Jar) {
 //    appendix = "with-dependencies"
 //    classifier = ""
 //    dependencies {
-//        include(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
-//        include(dependency("org.jetbrains.kotlin:kotlin-reflect:1.2.60"))
-//        include(dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0"))
-//        include(dependency("org.jetbrains:annotations:13.0"))
-//        include(dependency(files('../Darkness/build/libs/Darkness-1.0-SNAPSHOT.jar')))
-//        include(dependency(group: 'org.mongodb', name: 'mongodb-driver-async', version: '3.8.0'))
-//        include(dependency(group: 'org.mongodb', name: 'mongodb-driver-core', version: '3.8.0'))
-//        include(dependency(group: 'org.mongodb', name: 'bson', version: '3.8.0'))
+//        from sourceSets.main.allSource
+//        from fileTree(dir: '../Darkness/build/classes/', include: '*.class')
+////        from '../Darkness/build/classes/'
+////        into("org.jetbrains.kotlin:kotlin-stdlib")
+////        include("org.jetbrains.kotlin:kotlin-reflect:1.2.60")
+////        include("org.jetbrains.kotlin:kotlin-stdlib")
+////        include(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
+////        include(dependency("org.jetbrains.kotlin:kotlin-reflect:1.2.60"))
+////        include(dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0"))
+////        include(dependency("org.jetbrains:annotations:13.0"))
+////        include(dependency(files('../Darkness/build/libs/Darkness-1.0-SNAPSHOT.jar')))
+////        include(dependency(group: 'org.mongodb', name: 'mongodb-driver-async', version: '3.8.0'))
+////        include(dependency(group: 'org.mongodb', name: 'mongodb-driver-core', version: '3.8.0'))
+////        include(dependency(group: 'org.mongodb', name: 'bson', version: '3.8.0'))
 //    }
+//}
+//
+//artifact withDependencies {
+//    classifier "sources"
 //}
 
 compileKotlin { kotlinOptions.jvmTarget = "1.8" }
