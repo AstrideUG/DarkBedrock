@@ -34,7 +34,7 @@ class BlockCraftingModule : Module, Listener(DarkFrame.instance) {
     private var allowBypassPermission = false
 
     override fun load() {
-        config = GsonConfig(ConfigData(description.folder))
+        config = GsonConfig(ConfigData(description.folder)).load()
     }
 
     override fun start() {

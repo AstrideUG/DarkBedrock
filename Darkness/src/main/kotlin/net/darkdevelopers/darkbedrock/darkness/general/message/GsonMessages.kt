@@ -26,7 +26,7 @@ class GsonMessages(config: GsonConfig) {
         for (entry1 in availableMessages.entries) {
             for (entry2 in availableMessages.entries) {
                 if (entry1 == entry2) continue
-                availableMessages[entry1.key] = entry1.value.replace("%${entry2.key}%", entry2.value)
+                availableMessages[entry1.key] = entry1.value.replace("%${entry2.key}%", entry2.value, true)
             }
         }
     }

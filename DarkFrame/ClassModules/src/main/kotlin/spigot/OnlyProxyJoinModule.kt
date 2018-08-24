@@ -20,7 +20,7 @@ import java.io.File
 class OnlyProxyJoinModule : Module, Listener(DarkFrame.instance) {
     override val description: ModuleDescription = ModuleDescription("OnlyProxyJoinModule", "1.0", "Lars Artmann | LartyHD", "This module asks if the host address is valid")
 
-    private val config = GsonConfig(ConfigData("modules${File.separator}${description.name}"))
+    private val config = GsonConfig(ConfigData("modules${File.separator}${description.name}")).load()
     private val proxies = config.getAs<JsonArray>("proxies").toNonNull()
     private val ips = mutableSetOf<String>().apply { proxies.forEach { add(it.asString) } }.toSet()
     private val kickMessage: String = config.getAs<JsonPrimitive>("KickMessage")?.asString.toNonNull()
