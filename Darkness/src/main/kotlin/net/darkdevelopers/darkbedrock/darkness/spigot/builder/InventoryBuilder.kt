@@ -6,6 +6,7 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.builder
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.interfaces.IInventoryBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.setDesign
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.sortChestInventory
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.event.inventory.InventoryType
@@ -77,6 +78,11 @@ class InventoryBuilder(private val inventory: Inventory) : IInventoryBuilder {
 
     override fun setDesign(items: List<ItemStack>): IInventoryBuilder {
         inventory.setDesign(items)
+        return this
+    }
+
+    override fun sortChestInventory(itemStacks: List<ItemStack>, addSlots: Int): IInventoryBuilder {
+        inventory.sortChestInventory(itemStacks, addSlots)
         return this
     }
 

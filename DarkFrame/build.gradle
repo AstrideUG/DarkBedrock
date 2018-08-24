@@ -11,7 +11,7 @@ buildscript {
 
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version kotlinVersion
+    id 'org.jetbrains.kotlin.jvm' version '1.2.61'
 }
 
 group group
@@ -48,11 +48,12 @@ dependencies {
     compile(group: 'org.jetbrains.kotlin', name: 'kotlin-reflect')
     compile(group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '0.24.0')
     compile(group: 'org.spigotmc', name: 'spigot-api', version: spigotVersion)
-    compile(group: 'net.md-5', name: 'bungeecord-api', version: bungeeVersion)
-    compile(group: 'net.md-5', name: 'bungeecord-protocol', version: bungeeVersion)
+    compile(group: 'net.md-5', name: 'bungeecord-api', version: '1.8-SNAPSHOT')
+    compile(group: 'net.md-5', name: 'bungeecord-protocol', version: '1.8-SNAPSHOT')
     compile group: 'org.mongodb', name: 'mongodb-driver-async', version: '3.8.0'
     compile fileTree(dir: 'libraries', include: '*.jar')
     compile files('../Darkness/build/libs/Darkness-1.0-SNAPSHOT.jar')
+    compile "com.google.inject:guice:4.0"
 //    compile project(':Darkness')
 //    compile files('$buildDir/classes') {
 //        builtBy: 'compile'
@@ -74,6 +75,7 @@ shadowJar {
         include(dependency(group: 'org.mongodb', name: 'mongodb-driver-async', version: '3.8.0'))
         include(dependency(group: 'org.mongodb', name: 'mongodb-driver-core', version: '3.8.0'))
         include(dependency(group: 'org.mongodb', name: 'bson', version: '3.8.0'))
+        include(dependency("com.google.inject:guice:4.0"))
     }
 }
 //TODO

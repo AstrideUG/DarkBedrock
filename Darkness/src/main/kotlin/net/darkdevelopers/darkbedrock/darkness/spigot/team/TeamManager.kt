@@ -3,6 +3,7 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.team
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.InventoryBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.ItemBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
@@ -140,14 +141,10 @@ class TeamManager(javaPlugin: JavaPlugin, colored: Boolean, teamsCount: Int) : L
         return null
     }
 
-    private fun openTeamGUI(player: Player) {
-        val inventory = Bukkit.createInventory(null, InventoryUtils.getInventorySize(this.teams.size), "${SECONDARY}Teams")
-        InventoryUtils.setDesign(inventory, arrayListOf())
-        val itemStacks = ArrayList<ItemStack>()
-        for (gameTeam in teams) itemStacks.add(getItem(gameTeam, player))
-        InventoryUtils.sortChestInventory(inventory, itemStacks, 0)
-        player.openInventory(inventory)
-    }
+    private fun openTeamGUI(player: Player) = player.openInventory(InventoryBuilder(InventoryUtils.getInventorySize(this.teams.size), "${SECONDARY}Teams")
+            .setDesign()
+            .sortChestInventory(arrayListOf<ItemStack>().apply { teams.forEach { add(getItem(it, player)) } })
+            .build())
 
     @EventHandler
     fun onPlayerInteractEvent(event: PlayerInteractEvent) {

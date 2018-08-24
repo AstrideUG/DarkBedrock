@@ -7,10 +7,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.permissions.Permissions
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.InventoryUtils
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Items
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.ScoreBoardUtils
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.vote.MapVotesHandler
 import net.darkdevelopers.darkbedrock.darkness.spigot.vote.Vote
 import net.darkdevelopers.darkbedrock.darkness.spigot.vote.interfaces.VotesHandler
@@ -138,7 +135,7 @@ class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, privat
         val inventory = InventoryBuilder(InventoryUtils.getInventorySize(maps.size), Items.Settings.FORCE_MAP.displayName).setDesign().build()
         val itemStacks = arrayListOf<ItemStack>()
         maps.forEach { itemStacks.add(ItemBuilder(Material.PAPER).setName("$SECONDARY$it").build()) }
-        InventoryUtils.sortChestInventory(inventory, itemStacks)
+        inventory.sortChestInventory(itemStacks)
         humanEntity.openInventory(inventory)
     }
 

@@ -30,10 +30,8 @@ object InventoryUtils {
 
 }
 
-fun Inventory.sortChestInventory(itemStacks: List<ItemStack>) = sortChestInventory(itemStacks, 0)
-
 //TODO Update The SetItems
-fun Inventory.sortChestInventory(itemStacks: List<ItemStack>, addSlots: Int) {
+fun Inventory.sortChestInventory(itemStacks: List<ItemStack>, addSlots: Int = 0) {
     when (itemStacks.size) {
         1 -> setItem(4 + addSlots, itemStacks[0])
         2 -> {

@@ -1,0 +1,13 @@
+{
+  "language": "de_DE",
+  "languages": {
+    "en_US": {
+      "message1": "Hello",
+      "message2": "World"
+    },
+    "de_DE": {
+      "message1": "Hallo",
+      "message2": "Welt"
+    }
+  }
+}

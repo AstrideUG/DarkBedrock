@@ -9,10 +9,11 @@ import java.lang.reflect.Field
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 03.07.2018 07:30.
- * Last edit 03.07.2018
+ * Last edit 24.08.2018
  */
 class DarkFrame : DarkPlugin() {
 
+    //    internal val injector: Injector = Guice.createInjector(InjectorModule())
     private lateinit var moduleManager: ClassJavaModuleManager
 
     init {
@@ -35,3 +36,5 @@ class DarkFrame : DarkPlugin() {
     }
 
 }
+
+//fun Any.getInjector() = DarkFrame.instance.injector
