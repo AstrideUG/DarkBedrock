@@ -2,12 +2,16 @@
   "language": "de_DE",
   "languages": {
     "en_US": {
-      "message1": "Hello",
-      "message2": "World"
+      "Prefix": "&c&lCosmicSky &8┃ &r",
+      "CanNotCraft": "%Prefix%&7You are not allowed to craft &8<ItemType>"
     },
     "de_DE": {
-      "message1": "Hallo",
-      "message2": "Welt"
+      "Prefix": "&c&lCosmicSky &8┃ &r",
+      "CanNotCraft": "%Prefix%&7Du darfst &8<ItemType> &7nicht craften"
     }
+  },
+  "AllowBypassPermission": true,
+  "permissions": {
+    "Bypass": "BlockCrafting.Bypass.<ItemType>"
   }
 }
