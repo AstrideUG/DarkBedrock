@@ -5,7 +5,7 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.builder
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.interfaces.IInventoryBuilder
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.InventoryUtils
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.setDesign
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.event.inventory.InventoryType
@@ -16,11 +16,8 @@ import org.bukkit.inventory.ItemStack
 @Suppress("unused")
 /**
  * Created by Segdo aka. Dominik Milenko on 11.05.2018 08:46.
- * Project: Darkness
- *
- * Web: https://segdogames.com
- * Mail: segdo@segdogames.com
- * Last edit 07.07.2018
+ * @author Lars Artmann | LartyHD & Segdo aka. Dominik Milenko
+ * Last edit 24.08.2018
  */
 class InventoryBuilder(private val inventory: Inventory) : IInventoryBuilder {
 
@@ -76,13 +73,10 @@ class InventoryBuilder(private val inventory: Inventory) : IInventoryBuilder {
         return this
     }
 
-    override fun setDesign(): IInventoryBuilder {
-        InventoryUtils.setDesign(inventory)
-        return this
-    }
+    override fun setDesign() = setDesign(arrayListOf())
 
     override fun setDesign(items: List<ItemStack>): IInventoryBuilder {
-        InventoryUtils.setDesign(inventory, items)
+        inventory.setDesign(items)
         return this
     }
 

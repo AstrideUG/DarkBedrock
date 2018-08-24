@@ -11,8 +11,15 @@ import org.bukkit.entity.Player
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 20.08.2018 11:28.
- * Last edit 20.08.2018
+ * Last edit 24.08.2018
  */
+
+fun Player.sendTitle(title: String) = TitleUtils.sendTitle(this, title)
+
+fun Player.sendSubTitle(subTitle: String) = TitleUtils.sendTitle(this, subTitle)
+
+fun Player.sendTimings(fadeIn: Int, stay: Int, fadeOut: Int) = TitleUtils.sendTimings(this, fadeIn, stay, fadeOut)
+
 class TitleUtils(private val player: Player) {
 
     companion object {
@@ -31,7 +38,7 @@ class TitleUtils(private val player: Player) {
             return this
         }
 
-        private fun sendTitle(player: Player, title: String): Companion {
+        internal fun sendTitle(player: Player, title: String): Companion {
             Utils.sendPacket(player, PacketPlayOutTitle(
                     PacketPlayOutTitle.EnumTitleAction.TITLE,
                     IChatBaseComponent.ChatSerializer.a("{\"text\": \"$title\"}")
@@ -39,7 +46,7 @@ class TitleUtils(private val player: Player) {
             return this
         }
 
-        private fun sendSubTitle(player: Player, subtitle: String): Companion {
+        internal fun sendSubTitle(player: Player, subtitle: String): Companion {
             Utils.sendPacket(player, PacketPlayOutTitle(
                     PacketPlayOutTitle.EnumTitleAction.SUBTITLE,
                     IChatBaseComponent.ChatSerializer.a("{\"text\": \"$subtitle\"}")
@@ -47,22 +54,25 @@ class TitleUtils(private val player: Player) {
             return this
         }
 
-        private fun sendTimings(player: Player, fadeIn: Int, stay: Int, fadeOut: Int): Companion {
+        internal fun sendTimings(player: Player, fadeIn: Int, stay: Int, fadeOut: Int): Companion {
             Utils.sendPacket(player, PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TIMES, null, fadeIn, stay, fadeOut))
             return this
         }
     }
 
+    @Deprecated("Use Player.sendTitle()")
     fun sendTitle(title: String): TitleUtils {
         sendTitle(player, title)
         return this
     }
 
+    @Deprecated("Use Player.sendSubTitle()")
     fun sendSubTitle(subtitle: String): TitleUtils {
         sendSubTitle(player, subtitle)
         return this
     }
 
+    @Deprecated("Use Player.sendTimings()")
     fun sendTimings(fadeIn: Int, stay: Int, fadeOut: Int): TitleUtils {
         sendTimings(player, fadeIn, stay, fadeOut)
         return this

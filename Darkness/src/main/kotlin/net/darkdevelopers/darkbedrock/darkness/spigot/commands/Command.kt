@@ -3,12 +3,13 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.commands
 
-import net.darkdevelopers.darkbedrock.darkness.general.utils.ReflectUtils.getValueAs
+import net.darkdevelopers.darkbedrock.darkness.general.utils.getValueAs
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.interfaces.ICommand
 import net.darkdevelopers.darkbedrock.darkness.spigot.copyed.ExternalPluginCommand
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -38,7 +39,7 @@ abstract class Command(val javaPlugin: JavaPlugin,
     val hasHelp = usage.split("|").isNotEmpty()
 
     init {
-        val commandMap = getValueAs<CommandMap>(Bukkit.getServer(), "commandMap")
+        val commandMap = Bukkit.getServer().getValueAs<CommandMap>("commandMap")
         if (commandMap != null) {
             val command = ExternalPluginCommand(commandName, javaPlugin)
             commandMap.register(javaPlugin.name, command)
@@ -80,20 +81,21 @@ abstract class Command(val javaPlugin: JavaPlugin,
 
     private fun sendUseMessage(sender: CommandSender, usage: String) {
         val textComponent = TextComponent("$TEXT- $IMPORTANT/$commandName $TEXT$usage")
-        isPlayer(sender, {
+        sender.isPlayer({
             textComponent.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/$commandName ${usage.replace("[", "").replace("]", "").replace("<", "").replace(">", "")}")
             textComponent.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(TextComponent("${TEXT}Klicke um den Command vorzuschlagen")))
             it.spigot().sendMessage(textComponent)
         }, { sender.sendMessage(textComponent.text) })
     }
 
+    @Deprecated("", ReplaceWith("sender.isPlayer() {}", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer"))
     override fun isPlayer(sender: CommandSender, lambda: (Player) -> Unit) = isPlayer(sender, lambda) {
         sender.sendMessage("Der Command ist nur für Spieler")
     }
 
+    @Deprecated("", ReplaceWith("sender.isPlayer({}, {})", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer"))
     override fun isPlayer(sender: CommandSender, onSuccess: (Player) -> Unit, onFail: () -> Unit) =
             if (sender is Player) onSuccess(sender) else onFail()
-
 
 }
 

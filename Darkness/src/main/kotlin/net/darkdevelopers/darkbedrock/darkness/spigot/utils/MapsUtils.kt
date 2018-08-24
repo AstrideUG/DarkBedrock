@@ -8,6 +8,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
+import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.configs.gson.BukkitGsonConfig
 import net.darkdevelopers.darkbedrock.darkness.spigot.region.Region
 import org.bukkit.*
@@ -21,7 +22,7 @@ import kotlin.concurrent.thread
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 04.01.2018 20:31.
- * Last edit 14.07.2018
+ * Last edit 24.08.2018
  */
 object MapsUtils {
     fun loadMapNames(folder: File): List<String> = GsonConfig(ConfigData(folder, "data.json")).load().getAs<List<String>>("maps")?.apply { if (isEmpty()) throw IndexOutOfBoundsException("No maps in the Config") }
@@ -69,15 +70,14 @@ object MapsUtils {
 
     fun getMapsAndLoad(config: BukkitGsonConfig, lambda: (Player, MutableMap<UUID, Holograms>) -> Unit): MutableSet<Map> {
         val maps = mutableSetOf<Map>()
-        val mapsArray = config.getAs<JsonArray>("maps") ?: throw NullPointerException("maps can not be null")
+        val mapsArray = config.getAs<JsonArray>("maps").toNonNull()
         mapsArray.forEach { maps.add(getMapAndLoad(config, it as JsonObject, lambda)) }
         return maps
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun getMapAndLoad(config: BukkitGsonConfig, jsonObject: JsonObject, lambda: (Player, MutableMap<UUID, Holograms>) -> Unit): Map {
-        val name = config.getAs<JsonPrimitive>("name", jsonObject)?.asString
-                ?: throw NullPointerException("map name can not be null")
+        val name = config.getAs<JsonPrimitive>("name", jsonObject)?.asString.toNonNull()
         val worldName = getWorldName(config, jsonObject)
         val world = MapsUtils.loadMap(worldName)
         setWorldBoarder(config, "worldBoarder", world)
@@ -86,104 +86,75 @@ object MapsUtils {
         return Map(name, spawn, hologram, getRegion(config, jsonObject, world), lambda)
     }
 
-    fun getWorldName(config: BukkitGsonConfig) = config.getAs<JsonPrimitive>("world")?.asString
-            ?: throw NullPointerException("world can not be null")
+    fun getWorldName(config: BukkitGsonConfig) = config.getAs<JsonPrimitive>("world")?.asString.toNonNull()
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun getWorldName(config: BukkitGsonConfig, jsonObject: JsonObject) = config.getAs<JsonPrimitive>("world", jsonObject)?.asString
-            ?: throw NullPointerException("world can not be null")
+    fun getWorldName(config: BukkitGsonConfig, jsonObject: JsonObject) =
+            config.getAs<JsonPrimitive>("world", jsonObject)?.asString.toNonNull()
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun getRegion(config: BukkitGsonConfig, jsonObject: JsonObject, world: World): Region {
-        val region = config.getAs<JsonObject>("region", jsonObject)
-                ?: throw NullPointerException("region jsonObject can not be null")
+        val region = config.getAs<JsonObject>("region", jsonObject).toNonNull()
         val pos1 = config.getLocationWithOutYawAndPitch("pos1", region, world)
         val pos2 = config.getLocationWithOutYawAndPitch("pos2", region, world)
         return Region(pos1, pos2)
     }
 
     fun getRegion(config: BukkitGsonConfig, jsonObject: JsonObject): Region {
-        val region = config.getAs<JsonObject>("region", jsonObject)
-                ?: throw NullPointerException("region jsonObject can not be null")
+        val region = config.getAs<JsonObject>("region", jsonObject).toNonNull()
         val pos1 = config.getLocationWithOutYawAndPitch("pos1", region)
         val pos2 = config.getLocationWithOutYawAndPitch("pos2", region)
         return Region(pos1, pos2)
     }
 
     fun getRegion(config: BukkitGsonConfig, world: World): Region {
-        val region = config.getAs<JsonObject>("region")
-                ?: throw NullPointerException("region jsonObject can not be null")
+        val region = config.getAs<JsonObject>("region").toNonNull()
         val pos1 = config.getLocationWithOutYawAndPitch("pos1", region, world)
         val pos2 = config.getLocationWithOutYawAndPitch("pos2", region, world)
         return Region(pos1, pos2)
     }
 
     fun getRegion(config: BukkitGsonConfig): Region {
-        val region = config.getAs<JsonObject>("region")
-                ?: throw NullPointerException("region jsonObject can not be null")
+        val region = config.getAs<JsonObject>("region").toNonNull()
         val pos1 = config.getLocationWithOutYawAndPitch("pos1", region)
         val pos2 = config.getLocationWithOutYawAndPitch("pos2", region)
         return Region(pos1, pos2)
     }
 
-    fun setWorldBoarder(config: BukkitGsonConfig, key: String, jsonObject: JsonObject, world: World) {
-        val worldBorder = config.getAsNotNull<JsonObject>(key, jsonObject)
-        setWorldBoarder(config, worldBorder, world)
-    }
+    fun setWorldBoarder(config: BukkitGsonConfig, key: String, jsonObject: JsonObject, world: World) =
+            setWorldBoarder(config, config.getAsNotNull<JsonObject>(key, jsonObject), world)
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun setWorldBoarder(config: BukkitGsonConfig, key: String, world: World) {
-        val worldBorder = config.getAsNotNull<JsonObject>(key)
-        setWorldBoarder(config, worldBorder, world)
-    }
+    fun setWorldBoarder(config: BukkitGsonConfig, key: String, world: World) =
+            setWorldBoarder(config, config.getAsNotNull<JsonObject>(key), world)
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun setWorldBoarder(config: BukkitGsonConfig, jsonObject: JsonObject, world: World) {
-        val center = config.getAs<JsonObject>("center", jsonObject)
-                ?: throw NullPointerException("center jsonObject can not be null")
-        val damage = config.getAs<JsonObject>("damage", jsonObject)
-                ?: throw NullPointerException("damage jsonObject can not be null")
-        val warning = config.getAs<JsonObject>("warning", jsonObject)
-                ?: throw NullPointerException("warning jsonObject can not be null")
-        val size = config.getAs<JsonPrimitive>("size", jsonObject)?.asDouble
-                ?: throw NullPointerException("worldBorder size can not be null")
-        val x = config.getAs<JsonPrimitive>("x", center)?.asDouble
-                ?: throw NullPointerException("center x can not be null")
-        val z = config.getAs<JsonPrimitive>("z", center)?.asDouble
-                ?: throw NullPointerException("center z can not be null")
-        val buffer = config.getAs<JsonPrimitive>("buffer", damage)?.asDouble
-                ?: throw NullPointerException("damage buffer can not be null")
-        val amount = config.getAs<JsonPrimitive>("amount", damage)?.asDouble
-                ?: throw NullPointerException("damage amount can not be null")
-        val time = config.getAs<JsonPrimitive>("time", warning)?.asInt
-                ?: throw NullPointerException("warning time can not be null")
-        val distance = config.getAs<JsonPrimitive>("distance", warning)?.asInt
-                ?: throw NullPointerException("warning distance can not be null")
+        val center = config.getAs<JsonObject>("center", jsonObject).toNonNull()
+        val damage = config.getAs<JsonObject>("damage", jsonObject).toNonNull()
+        val warning = config.getAs<JsonObject>("warning", jsonObject).toNonNull()
+        val size = config.getAs<JsonPrimitive>("size", jsonObject)?.asDouble.toNonNull()
+        val x = config.getAs<JsonPrimitive>("x", center)?.asDouble.toNonNull()
+        val z = config.getAs<JsonPrimitive>("z", center)?.asDouble.toNonNull()
+        val buffer = config.getAs<JsonPrimitive>("buffer", damage)?.asDouble.toNonNull()
+        val amount = config.getAs<JsonPrimitive>("amount", damage)?.asDouble.toNonNull()
+        val time = config.getAs<JsonPrimitive>("time", warning)?.asInt.toNonNull()
+        val distance = config.getAs<JsonPrimitive>("distance", warning)?.asInt.toNonNull()
         setWorldBoarder(world, size, x, z, buffer, amount, distance, time)
     }
 
 
     fun setWorldBoarder(config: BukkitGsonConfig, world: World) {
-        val center = config.getAs<JsonObject>("center")
-                ?: throw NullPointerException("center jsonObject can not be null")
-        val damage = config.getAs<JsonObject>("damage")
-                ?: throw NullPointerException("damage jsonObject can not be null")
-        val warning = config.getAs<JsonObject>("warning")
-                ?: throw NullPointerException("warning jsonObject can not be null")
-        val size = config.getAs<JsonPrimitive>("size")?.asDouble
-                ?: throw NullPointerException("worldBorder size can not be null")
-        val x = config.getAs<JsonPrimitive>("x", center)?.asDouble
-                ?: throw NullPointerException("center x can not be null")
-        val z = config.getAs<JsonPrimitive>("z", center)?.asDouble
-                ?: throw NullPointerException("center z can not be null")
-        val buffer = config.getAs<JsonPrimitive>("buffer", damage)?.asDouble
-                ?: throw NullPointerException("damage buffer can not be null")
-        val amount = config.getAs<JsonPrimitive>("amount", damage)?.asDouble
-                ?: throw NullPointerException("damage amount can not be null")
-        val time = config.getAs<JsonPrimitive>("time", warning)?.asInt
-                ?: throw NullPointerException("warning time can not be null")
-        val distance = config.getAs<JsonPrimitive>("distance", warning)?.asInt
-                ?: throw NullPointerException("warning distance can not be null")
+        val center = config.getAs<JsonObject>("center").toNonNull()
+        val damage = config.getAs<JsonObject>("damage").toNonNull()
+        val warning = config.getAs<JsonObject>("warning").toNonNull()
+        val size = config.getAs<JsonPrimitive>("size")?.asDouble.toNonNull()
+        val x = config.getAs<JsonPrimitive>("x", center)?.asDouble.toNonNull()
+        val z = config.getAs<JsonPrimitive>("z", center)?.asDouble.toNonNull()
+        val buffer = config.getAs<JsonPrimitive>("buffer", damage)?.asDouble.toNonNull()
+        val amount = config.getAs<JsonPrimitive>("amount", damage)?.asDouble.toNonNull()
+        val time = config.getAs<JsonPrimitive>("time", warning)?.asInt.toNonNull()
+        val distance = config.getAs<JsonPrimitive>("distance", warning)?.asInt.toNonNull()
         setWorldBoarder(world, size, x, z, buffer, amount, distance, time)
     }
 

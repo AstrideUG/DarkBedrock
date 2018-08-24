@@ -60,7 +60,7 @@ object Utils {
             (player as CraftPlayer).handle.playerConnection.sendPacket(packet)
 
 
-    fun randomLook(location: Location): Location {
+    fun Location.randomLook(): Location {
         val random = Random()
         var yaw = 0
         when (random.nextInt(3)) {
@@ -69,7 +69,7 @@ object Utils {
             2 -> yaw = 180
             3 -> yaw = -90
         }
-        return Location(location.world, location.x, location.y, location.z, yaw.toFloat(), location.pitch)
+        return Location(world, x, y, z, yaw.toFloat(), pitch)
     }
 
     private fun broadcast(message: String) {
@@ -77,8 +77,11 @@ object Utils {
         Utils.goThroughAllPlayers { it.sendMessage(message) }
     }
 
-    fun sendActionBar(player: Player, message: String) =
-            sendPacket(player, PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\":\"$message\"}"), 2.toByte()))
+//    fun sendActionBar(player: Player, message: String) =
+//            sendPacket(player, PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\":\"$message\"}"), 2.toByte()))
+
+    fun Player.sendActionBar(message: String) =
+            sendPacket(this, PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\":\"$message\"}"), 2.toByte()))
 
 
     fun getTime(time: Long): String {

@@ -4,17 +4,17 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.61'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:' + kotlinVersion
         classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
     }
 }
 
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.2.60'
+    id 'org.jetbrains.kotlin.jvm' version kotlinVersion
 }
 
-group 'net.darkdevelopers.darkbedrock'
+group group
 
 apply plugin: 'kotlin'
 apply plugin: 'com.github.johnrengelman.shadow'
@@ -47,9 +47,9 @@ dependencies {
     compile(group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib')
     compile(group: 'org.jetbrains.kotlin', name: 'kotlin-reflect')
     compile(group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '0.24.0')
-    compile(group: 'org.spigotmc', name: 'spigot-api', version: '1.8.8-R0.1-SNAPSHOT')
-    compile(group: 'net.md-5', name: 'bungeecord-api', version: '1.8-SNAPSHOT')
-    compile(group: 'net.md-5', name: 'bungeecord-protocol', version: '1.8-SNAPSHOT')
+    compile(group: 'org.spigotmc', name: 'spigot-api', version: spigotVersion)
+    compile(group: 'net.md-5', name: 'bungeecord-api', version: bungeeVersion)
+    compile(group: 'net.md-5', name: 'bungeecord-protocol', version: bungeeVersion)
     compile group: 'org.mongodb', name: 'mongodb-driver-async', version: '3.8.0'
     compile fileTree(dir: 'libraries', include: '*.jar')
     compile files('../Darkness/build/libs/Darkness-1.0-SNAPSHOT.jar')
@@ -67,7 +67,7 @@ shadowJar {
     classifier = ""
     dependencies {
         include(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
-        include(dependency("org.jetbrains.kotlin:kotlin-reflect:1.2.60"))
+        include(dependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"))
         include(dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0"))
         include(dependency("org.jetbrains:annotations:13.0"))
         include(dependency(files('../Darkness/build/libs/Darkness-1.0-SNAPSHOT.jar')))

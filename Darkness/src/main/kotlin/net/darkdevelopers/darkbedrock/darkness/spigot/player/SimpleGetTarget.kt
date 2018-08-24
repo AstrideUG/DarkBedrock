@@ -7,7 +7,7 @@ import org.bukkit.entity.Player
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.06.2018 16:58.
- * Last edit 05.07.2018
+ * Last edit 24.08.2018
  */
 interface SimpleGetTarget : DefaultGetTarget {
 
@@ -17,4 +17,5 @@ interface SimpleGetTarget : DefaultGetTarget {
             else
                 sender.sendMessage(Messages.PLAYER_NOT_ONLINE.toString())
 
+    override fun getTarget(player: Player?, lambda: (Player?) -> Unit) = lambda(player)
 }

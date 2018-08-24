@@ -6,6 +6,7 @@ package net.darkdevelopers.darkbedrock.darkness.general.utils
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 
+@Deprecated("")
 object ReflectUtils {
     fun setValue(any: Any, name: String, value: Any) = try {
         getField(any.javaClass, name)?.set(any, value)
@@ -39,5 +40,33 @@ object ReflectUtils {
         field.isAccessible = true
         return field
     }
+}
+
+fun Any.setValue(name: String, value: Any) = printException { javaClass.getModifiableField(name)?.set(this, value) }
+
+@Suppress("UNCHECKED_CAST")
+fun <O : Any?> Any.getValueAs(name: String) = this.getValue(name) as? O
+
+fun Any.getValue(name: String): Any? {
+    printException { return javaClass.getModifiableField(name)?.get(this) }
+    return null
+}
+
+fun <T : Any> Class<T>.getModifiableField(name: String): Field? {
+    printException {
+        val field = javaClass.getAccessibleField(name)
+        if (Modifier.isFinal(field.modifiers))
+            Field::class.java.getField("modifiers")?.set(field, field.modifiers and Modifier.FINAL.inv())
+        return field
+    }
+    return null
+}
+
+private fun <T : Any> Class<T>.getAccessibleField(name: String): Field = getDeclaredField(name).apply { isAccessible = true }
+
+private inline fun printException(lambda: () -> Unit) = try {
+    lambda()
+} catch (ex: Exception) {
+    ex.printStackTrace()
 }
 

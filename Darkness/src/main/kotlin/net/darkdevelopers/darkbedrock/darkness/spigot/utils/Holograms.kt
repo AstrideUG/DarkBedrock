@@ -14,14 +14,14 @@ import kotlin.concurrent.thread
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 09.07.2018 10:45.
- * Last edit 16.08.2018
+ * Last edit 24.08.2018
  */
-class Holograms(/*plugin: Plugin,*/ private val lines: Array<String>, private val location: Location) {
+class Holograms(private val lines: Array<String>, private val location: Location) {
     private val armorStands = mutableSetOf<EntityArmorStand>()
 
     init {
         lines.reverse()
-        create(/*plugin*/)
+        create()
     }
 
     fun show(time: Long) = Utils.goThroughAllPlayers { show(it, time) }
@@ -42,7 +42,7 @@ class Holograms(/*plugin: Plugin,*/ private val lines: Array<String>, private va
 
     fun hide(player: Player) = armorStands.forEach { Utils.sendPacket(player, PacketPlayOutEntityDestroy(it.id)) }
 
-    private fun create(/*plugin: Plugin*/) /*= Bukkit.getScheduler().runTask(plugin)*/ {
+    private fun create() {
         val clone = location.clone()
         lines.forEach {
             if (it != "") armorStands.add(EntityArmorStand((clone.world as CraftWorld).handle, clone.x, clone.y, clone.z).apply {
