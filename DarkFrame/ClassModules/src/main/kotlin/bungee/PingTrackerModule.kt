@@ -1,4 +1,3 @@
-
 import com.google.gson.JsonArray
 import net.darkdevelopers.darkbedrock.darkframe.bungee.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.bungee.commands.Command
@@ -60,9 +59,9 @@ class PingTrackerModule : Module, Listener, Command(
         config.save()
     }
 
-    override fun perform(sender: CommandSender, args: Array<String>) = isPlayer(sender) {
+    override fun perform(sender: CommandSender, args: Array<String>) {
         when {
-            args.isEmpty() -> {
+            args.isEmpty() -> isPlayer(sender) {
                 val uniqueId = it.uniqueId ?: throw NullPointerException("uniqueId can not be null")
                 if (players.contains(uniqueId)) {
                     players.remove(uniqueId)

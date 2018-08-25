@@ -3,7 +3,7 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.commands
 
-import net.darkdevelopers.darkbedrock.darkness.general.utils.getValueAs
+import net.darkdevelopers.darkbedrock.darkness.general.utils.ReflectUtils
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.interfaces.ICommand
 import net.darkdevelopers.darkbedrock.darkness.spigot.copyed.ExternalPluginCommand
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
@@ -39,7 +39,8 @@ abstract class Command(val javaPlugin: JavaPlugin,
     val hasHelp = usage.split("|").isNotEmpty()
 
     init {
-        val commandMap = Bukkit.getServer().getValueAs<CommandMap>("commandMap")
+        @Suppress("DEPRECATION")
+        val commandMap = ReflectUtils.getValueAs<CommandMap>(Bukkit.getServer(), "commandMap")
         if (commandMap != null) {
             val command = ExternalPluginCommand(commandName, javaPlugin)
             commandMap.register(javaPlugin.name, command)

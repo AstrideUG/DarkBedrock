@@ -34,7 +34,7 @@ class InteractBlockerModule : Module, Listener(DarkFrame.instance) {
     fun onPlayerInteractEvent(event: PlayerInteractEvent) = blocked.forEach {
         if (event.hasBlock() && event.clickedBlock?.type == it && !hasPermission(event.player, "InteractBlocker.bypass") && !hasPermission(event.player, "InteractBlocker.bypass.$it")) {
             cancel(event)
-            event.player.sendMessage("${ChatColor.RED}Du darfst mit ${ChatColor.DARK_RED}$it ${ChatColor.RED}interagieren")
+            event.player.sendMessage("${ChatColor.RED}Du darfst mit ${ChatColor.DARK_RED}$it ${ChatColor.RED}nicht interagieren")
         }
     }
 
