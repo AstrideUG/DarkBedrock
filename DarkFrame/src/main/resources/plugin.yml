@@ -1,6 +1,6 @@
-name: ${project.name}
-main: ${group}.darkframe.spigot.DarkFrame
-version: version
+name: DarkFrame
+main: net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
+version: 1.0-SNAPSHOT
 authors: [LartyHD]
 description: DarkFrame is a Spigot Core Plugin.
-website: ${project.name}
+website: lars-artmann.org
