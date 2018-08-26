@@ -46,7 +46,7 @@ open class GsonConfig(override val configData: ConfigData) : DefaultConfig {
     fun <O> getAs(key: String, jsonObject: JsonObject): O? {
         val any = jsonObject[key] as? O
         if (any == null) {
-            put(key, "null")
+            put(key, JsonNull.INSTANCE)
             save()
         }
         return any
