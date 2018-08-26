@@ -16,6 +16,7 @@ import org.bukkit.ChatColor
 class SpigotGsonMessages(config: GsonConfig) : GsonMessages(config) {
 
     init {
-        availableMessages.forEach { availableMessages[it.key] = ChatColor.stripColor(it.value) }
+        availableMessages.forEach { availableMessages[it.key] = ChatColor.translateAlternateColorCodes('&', it.value) }
     }
+
 }
