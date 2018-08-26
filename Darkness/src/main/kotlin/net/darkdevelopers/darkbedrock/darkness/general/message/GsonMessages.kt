@@ -9,14 +9,12 @@ import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMap
 
-@Suppress("MemberVisibilityCanBePrivate")
-open
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 24.08.2018 23:09.
- * Last edit 25.08.2018
+ * Last edit 26.08.2018
  */
-class GsonMessages(config: GsonConfig) {
+open class GsonMessages(config: GsonConfig) {
 
     private val language = config.getAs<JsonPrimitive>("language")?.asString ?: "en_US"
     private val languages = config.getAsNotNull<JsonObject>("languages").asJsonObject
