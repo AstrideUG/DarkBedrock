@@ -10,6 +10,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMap
 
 @Suppress("MemberVisibilityCanBePrivate")
+open
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 24.08.2018 23:09.
