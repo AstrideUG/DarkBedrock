@@ -9,6 +9,7 @@ import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMapWithSubs
 
+@Suppress("MemberVisibilityCanBePrivate")
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 24.08.2018 23:09.
@@ -17,12 +18,15 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMa
 open class GsonMessages(config: GsonConfig) {
 
     private val language = config.getAs<JsonPrimitive>("language")?.asString ?: "en_US"
-    private val languages = config.getAsNotNull<JsonObject>("languages").asJsonObject
-    private val messages = config.getAsNotNull<JsonObject>(language, languages).asJsonObject
+    private val languages = config.getAsNotNull<JsonObject>("languages")
+    private val messages = config.getAsNotNull<JsonObject>(language, languages)
+    private val globalMessages = config.getAs<JsonObject>("Global", languages)
     private val gsonStringMap = GsonStringMapWithSubs(messages)
-    val availableMessages = gsonStringMap.available
-    val availableMessagesOnInit = gsonStringMap.availableOnInit
-    @Suppress("MemberVisibilityCanBePrivate")
+    val availableMessages = mutableMapOf<String, String>().apply {
+        putAll(gsonStringMap.available)
+        if (globalMessages != null) putAll(GsonStringMapWithSubs(globalMessages).available)
+    }
+    val availableMessagesOnInit = availableMessages.toMap()
     val availableSubMessages = gsonStringMap.availableSubs
 
     init {
