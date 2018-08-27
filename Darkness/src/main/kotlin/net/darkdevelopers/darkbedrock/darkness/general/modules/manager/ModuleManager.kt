@@ -4,7 +4,6 @@
 
 package net.darkdevelopers.darkbedrock.darkness.general.modules.manager
 
-import net.darkdevelopers.darkbedrock.darkness.general.annotations.Injector
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import org.bukkit.plugin.InvalidPluginException
 import java.io.File
@@ -38,12 +37,12 @@ abstract class ModuleManager(val folder: File, val lambdas: Array<(Field) -> Uni
             val loader = URLClassLoader(arrayOf(folder.toURI().toURL()), javaClass.classLoader)
             val rawClass = loader.loadClass(clazz) ?: return
             val module = isModule(rawClass)
-            module.declaredFields.forEach {
-                if (it.isAnnotationPresent(Injector::class.java)) {
-                    it.isAccessible = true
-                    lambdas.forEach { lambda -> lambda(it) }
-                }
-            }
+//            module.declaredFields.forEach {
+//                if (it.isAnnotationPresent(Injector::class.java)) {
+//                    it.isAccessible = true
+//                    lambdas.forEach { lambda -> lambda(it) }
+//                }
+//            }
             val moduleClass = module.newInstance()
             moduleClass.description.folder = File("$folder${File.separator}$clazz")
             call(moduleClass, "Loaded") { it.load() }

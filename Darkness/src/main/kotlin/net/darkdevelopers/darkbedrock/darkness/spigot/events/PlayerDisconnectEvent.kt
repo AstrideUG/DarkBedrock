@@ -11,11 +11,10 @@ import org.bukkit.event.player.PlayerEvent
  * Created by LartyHD on 29.11.2017 14:21.
  * Last edit 15.08.2018
  */
-class PlayerDisconnectEvent(who: Player) : PlayerEvent(who) {
-    var leaveMessage: String? = null
+class PlayerDisconnectEvent(who: Player, message: String) : PlayerEvent(who) {
+    var leaveMessage: String? = message
 
     override fun getHandlers(): HandlerList = handlerList
-
 
     companion object {
         @JvmStatic //Important for Bukkit due to the Java ByteCode

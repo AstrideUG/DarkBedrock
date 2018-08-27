@@ -6,7 +6,8 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.events.listener
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
-import org.bukkit.Bukkit
+import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
+import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.PlayerDeathEvent
@@ -19,10 +20,15 @@ import org.bukkit.util.Vector
 import kotlin.concurrent.thread
 
 /**
- * Created by LartyHD on 22.01.2018  00:14.
- * Last edit 20.08.2018
+ * Created by LartyHD on 22.01.2018 00:14.
+ * Last edit 28.08.2018
  */
 class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
+
+    @EventHandler(priority = EventPriority.LOW)
+    fun onPlayerDeathEvent(event: Event) {
+        if (debug) println("Event{name='${event.eventName}', async=${event.isAsynchronous}, HandlerList(${event.handlers})}")
+    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onPlayerDeathEvent(event: PlayerDeathEvent) {
@@ -47,24 +53,21 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
 
     @EventHandler
     fun onPlayerQuitEvent(event: PlayerQuitEvent) {
-        val playerDisconnectEvent = PlayerDisconnectEvent(event.player)
-        Bukkit.getPluginManager().callEvent(playerDisconnectEvent)
-        event.quitMessage = playerDisconnectEvent.leaveMessage
+        event.quitMessage = PlayerDisconnectEvent(event.player, event.quitMessage).call().leaveMessage
     }
 
     @EventHandler
     fun onPlayerKickEvent(event: PlayerKickEvent) {
-        if (!event.isCancelled) {
-            val playerDisconnectEvent = PlayerDisconnectEvent(event.player)
-            Bukkit.getPluginManager().callEvent(playerDisconnectEvent)
-            event.leaveMessage = playerDisconnectEvent.leaveMessage
-        }
+        if (!event.isCancelled) event.leaveMessage = PlayerDisconnectEvent(event.player, event.leaveMessage).call().leaveMessage
     }
 
     companion object {
         private var instance: EventsListener? = null
         var autoRespawn: Boolean = false
+        var debug: Boolean = false
 
         fun getSimpleInstance(javaPlugin: JavaPlugin) = if (instance == null) EventsListener(javaPlugin) else instance!!
     }
+
+
 }
