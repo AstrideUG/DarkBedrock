@@ -21,6 +21,7 @@ open class GsonMessages(config: GsonConfig) {
     private val messages = config.getAsNotNull<JsonObject>(language, languages).asJsonObject
     private val gsonStringMap = GsonStringMapWithSubs(messages)
     val availableMessages = gsonStringMap.available
+    val availableMessagesOnInit = gsonStringMap.availableOnInit
     @Suppress("MemberVisibilityCanBePrivate")
     val availableSubMessages = gsonStringMap.availableSubs
 
