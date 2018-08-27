@@ -12,7 +12,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMa
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 24.08.2018 23:09.
- * Last edit 26.08.2018
+ * Last edit 28.08.2018
  */
 open class GsonMessages(config: GsonConfig) {
 
