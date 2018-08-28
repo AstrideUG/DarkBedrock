@@ -26,17 +26,17 @@ class InventoryBuilder(private val inventory: Inventory) : IInventoryBuilder {
 
     constructor(slots: Int) : this(null, slots)
 
-    constructor(type: InventoryType, name: String) : this(null, type, name)
+    constructor(type: InventoryType, name: String) : this(null, type, saveTitle(name))
 
-    constructor(slots: Int, name: String) : this(null, slots, name)
+    constructor(slots: Int, name: String) : this(null, slots, saveTitle(name))
 
     constructor(owner: InventoryHolder?, type: InventoryType) : this(Bukkit.createInventory(owner, type))
 
-    constructor(owner: InventoryHolder?, type: InventoryType, name: String) : this(Bukkit.createInventory(owner, type, name))
+    constructor(owner: InventoryHolder?, type: InventoryType, name: String) : this(Bukkit.createInventory(owner, type, saveTitle(name)))
 
     constructor(owner: InventoryHolder?, slots: Int) : this(Bukkit.createInventory(owner, slots))
 
-    constructor(owner: InventoryHolder?, slots: Int, name: String) : this(Bukkit.createInventory(owner, slots, name))
+    constructor(owner: InventoryHolder?, slots: Int, name: String) : this(Bukkit.createInventory(owner, slots, saveTitle(name)))
 
     override fun addItem(itemStack: ItemStack): IInventoryBuilder {
         inventory.addItem(itemStack)
@@ -87,4 +87,13 @@ class InventoryBuilder(private val inventory: Inventory) : IInventoryBuilder {
     }
 
     override fun build() = inventory
+
+    companion object {
+        private fun saveTitle(title: String) = if (title.length > 32) {
+            System.err.println("Title ($title) is longer then 32 characters")
+            title.substring(0, 31)
+        } else title
+    }
 }
+
+
