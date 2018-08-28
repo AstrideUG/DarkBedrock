@@ -21,13 +21,21 @@ class GsonStringMapWithSubs(jsonObject: JsonObject) {
     val availableSubs = mutableMapOf<String, MutableMap<String, String>>()
 
     init {
-        while (subMessages.isNotEmpty()) subMessages.forEach { availableSubs[it.key] = getMessages(it.value.entrySet()) }
+        try {
+            while (subMessages.isNotEmpty())
+                subMessages.forEach {
+                    availableSubs[it.key] = getMessages(it.value.entrySet(), it.key + ".")
+                    subMessages.remove(it.key)
+                }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
     }
 
-    private fun getMessages(entries: Set<Map.Entry<String, JsonElement>>) = getMessages(mutableMapOf(), entries)
+    private fun getMessages(entries: Set<Map.Entry<String, JsonElement>>, prefix: String = "") = getMessages(mutableMapOf(), entries, prefix)
 
-    private fun getMessages(map: MutableMap<String, String>, entries: Set<Map.Entry<String, JsonElement>>) = map.apply {
-        entries.forEach { if (it.value.isJsonObject) subMessages[it.key] = it.value.asJsonObject else this[it.key] = it.value.asString }
+    private fun getMessages(map: MutableMap<String, String>, entries: Set<Map.Entry<String, JsonElement>>, prefix: String = "") = map.apply {
+        entries.forEach { if (it.value.isJsonObject) subMessages[prefix + it.key] = it.value.asJsonObject else this[it.key] = it.value.asString }
     }
 
 }
