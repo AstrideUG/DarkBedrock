@@ -6,6 +6,7 @@ package net.darkdevelopers.darkbedrock.darkness.general.message
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
+import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMapWithSubs
 
@@ -15,12 +16,13 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMa
  * Created by Lars Artmann | LartyHD on 24.08.2018 23:09.
  * Last edit 28.08.2018
  */
-open class GsonMessages(config: GsonConfig) {
+open class GsonMessages(private val config: GsonConfig) {
 
     private val language = config.getAs<JsonPrimitive>("language")?.asString ?: "en_US"
-    private val languages = config.getAsNotNull<JsonObject>("languages")
+    private val useExtraConfigs = config.getAs<JsonPrimitive>("UseExtraConfigs")?.asBoolean ?: false
+    private val languages = if (useExtraConfigs) getJsonObjectByFile(language) else config.getAsNotNull("languages")
+    private val globalMessages: JsonObject? = if (useExtraConfigs) getJsonObjectByFile("global") else config.getAs("global", languages)
     private val messages = config.getAsNotNull<JsonObject>(language, languages)
-    private val globalMessages = config.getAs<JsonObject>("Global", languages)
     private val gsonStringMap = GsonStringMapWithSubs(messages)
     val availableMessages = mutableMapOf<String, String>().apply {
         putAll(gsonStringMap.available)
@@ -45,4 +47,7 @@ open class GsonMessages(config: GsonConfig) {
     }
 
 //    private fun replaceKeysForNotMutableMaps(map: Map<String, String>) = replaceKeys(HashMap(map))
+
+    private fun getJsonObjectByFile(fileName: String) = GsonConfig(ConfigData("${config.getDirectory()}languages", "$fileName.json")).load().jsonObject
+
 }

@@ -1,0 +1,31 @@
+{
+  "language": "de_DE",
+  "languages": {
+    "global": {
+      "Prefix": "%Colors.PRIMARY%%Colors.EXTRA%CosmicSky %Colors.IMPORTANT%┃ %Colors.RESET%",
+      "PrefixForText": "%Prefix%%Colors.TEXT%",
+      "Colors": {
+        "PRIMARY": "&b",
+        "SECONDARY": "&9",
+        "IMPORTANT": "&8",
+        "TEXT": "&7",
+        "EXTRA": "&l",
+        "DESIGN": "&m",
+        "RESET": "&r"
+      }
+    },
+    "de_DE": {
+      "Message1": "%PrefixForText%Das ist die erste Nachicht",
+      "Message2": "%PrefixForText%Das ist die zweite Nachicht\n%PrefixForText%Das war die erste Nachicht: \"%Message1%\"",
+      "Test": {
+        "Test": {
+          "test": "%Prefix%:D",
+          "test2": {
+            "Old": "%Colors.Test.test%Yoo"
+          }
+        },
+        "Test1": "&b"
+      }
+    }
+  }
+}

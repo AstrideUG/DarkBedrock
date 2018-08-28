@@ -14,7 +14,7 @@ import java.nio.file.Files
 @Suppress("unused")
 open class GsonConfig(override val configData: ConfigData) : DefaultConfig {
 
-    protected var jsonObject: JsonObject = JsonObject()
+    var jsonObject: JsonObject = JsonObject()
 
     override fun load(): GsonConfig {
         try {

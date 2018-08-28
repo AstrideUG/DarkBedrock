@@ -1,0 +1,13 @@
+{
+  "Prefix": "%Colors.PRIMARY%%Colors.EXTRA%CosmicSky %Colors.IMPORTANT%┃ %Colors.RESET%",
+  "PrefixForText": "%Prefix%%Colors.TEXT%",
+  "Colors": {
+    "PRIMARY": "&b",
+    "SECONDARY": "&9",
+    "IMPORTANT": "&8",
+    "TEXT": "&7",
+    "EXTRA": "&l",
+    "DESIGN": "&m",
+    "RESET": "&r"
+  }
+}
