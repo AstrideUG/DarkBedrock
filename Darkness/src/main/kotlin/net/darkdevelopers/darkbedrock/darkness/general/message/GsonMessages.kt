@@ -40,7 +40,12 @@ open class GsonMessages(private val config: GsonConfig) {
         for (entry1 in map.entries) {
             for (entry2 in map.entries) {
                 if (entry1 == entry2) continue
-                map[entry1.key] = entry1.value.replace("%$prefix${entry2.key}%", entry2.value, true)
+                val keys = prefix.split('.')
+                val key = "$prefix${entry2.key}"
+                if (keys.size == 1)
+                    map[entry1.key] = entry1.value.replace("%$key%", entry2.value, true)
+                else
+                    map[entry1.key] = entry1.value.replace("%$key%", availableSubMessages[prefix.substring(0, prefix.length)]!![entry2.value]!!, true)
             }
         }
         return map
