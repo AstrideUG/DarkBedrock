@@ -24,16 +24,23 @@ open class GsonMessages(private val config: GsonConfig) {
     private val globalMessages: JsonObject? = if (useExtraConfigs) getJsonObjectByFile("global") else config.getAs("global", languages)
     private val messages = config.getAsNotNull<JsonObject>(language, languages)
     private val gsonStringMap = GsonStringMapWithSubs(messages)
+    private val gsonStringMapWithSubs = if (globalMessages != null) GsonStringMapWithSubs(globalMessages) else null
     val availableMessages = mutableMapOf<String, String>().apply {
         putAll(gsonStringMap.available)
-        if (globalMessages != null) putAll(GsonStringMapWithSubs(globalMessages).available)
+        if (gsonStringMapWithSubs != null) putAll(gsonStringMapWithSubs.available)
+    }
+    val availableSubMessages = mutableMapOf<String, MutableMap<String, String>>().apply {
+        putAll(gsonStringMap.availableSubs)
+        if (gsonStringMapWithSubs != null) putAll(gsonStringMapWithSubs.availableSubs)
     }
     val availableMessagesOnInit = availableMessages.toMap()
-    val availableSubMessages = gsonStringMap.availableSubs
+    val availableSubMessagesOnInit = availableSubMessages.toMap()
 
     init {
         replaceKeys(availableMessages)
         availableSubMessages.forEach { replaceKeys(it.value, "${it.key}.") }
+        println("Messages Loaded: $availableMessages")
+        println("Messages Loaded: $availableSubMessages")
     }
 
     private fun replaceKeys(map: MutableMap<String, String>, prefix: String = ""): MutableMap<String, String> {
