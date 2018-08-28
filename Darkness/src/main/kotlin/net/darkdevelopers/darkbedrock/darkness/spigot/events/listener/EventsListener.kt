@@ -7,9 +7,9 @@ import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
-import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
+import org.bukkit.event.HandlerList
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerKickEvent
@@ -25,10 +25,22 @@ import kotlin.concurrent.thread
  */
 class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
-    @EventHandler(priority = EventPriority.LOW)
-    fun onPlayerDeathEvent(event: Event) {
-        if (debug) println("Event{name='${event.eventName}', async=${event.isAsynchronous}, HandlerList(${event.handlers})}")
+    companion object {
+        private val handlers = HandlerList()
+        private var instance: EventsListener? = null
+        var autoRespawn: Boolean = false
+//        var debug: Boolean = false
+
+        fun getSimpleInstance(javaPlugin: JavaPlugin) = if (instance == null) EventsListener(javaPlugin) else instance!!
+
+//        @JvmStatic
+//        fun Event.getHandlerList() = handlers
     }
+
+//    @EventHandler(priority = EventPriority.LOW)
+//    fun onPlayerDeathEvent(event: Event) {
+//        if (debug) println("Event{name='${event.eventName}', async=${event.isAsynchronous}, HandlerList(${event.handlers})}")
+//    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onPlayerDeathEvent(event: PlayerDeathEvent) {
@@ -60,14 +72,5 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
     fun onPlayerKickEvent(event: PlayerKickEvent) {
         if (!event.isCancelled) event.leaveMessage = PlayerDisconnectEvent(event.player, event.leaveMessage).call().leaveMessage
     }
-
-    companion object {
-        private var instance: EventsListener? = null
-        var autoRespawn: Boolean = false
-        var debug: Boolean = false
-
-        fun getSimpleInstance(javaPlugin: JavaPlugin) = if (instance == null) EventsListener(javaPlugin) else instance!!
-    }
-
 
 }
