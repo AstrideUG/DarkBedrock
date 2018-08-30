@@ -12,7 +12,7 @@ import java.nio.file.Files
  * Last edit 15.08.2018
  */
 @Suppress("unused")
-open class GsonConfig(override val configData: ConfigData) : DefaultConfig {
+open class GsonConfig(override val configData: ConfigData) : DefaultConfig, Cloneable {
 
     var jsonObject: JsonObject = JsonObject()
 
@@ -63,4 +63,13 @@ open class GsonConfig(override val configData: ConfigData) : DefaultConfig {
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun formatJson(jsonElement: JsonElement): String = GsonBuilder().setPrettyPrinting().create().toJson(jsonElement)
+
+
+    override fun clone() {
+        GsonConfig(configData).jsonObject = jsonObject
+    }
+
+    fun copy(jsonObject: JsonObject) {
+        GsonConfig(configData).jsonObject = jsonObject
+    }
 }
