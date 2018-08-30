@@ -65,11 +65,12 @@ open class GsonConfig(override val configData: ConfigData) : DefaultConfig, Clon
     fun formatJson(jsonElement: JsonElement): String = GsonBuilder().setPrettyPrinting().create().toJson(jsonElement)
 
 
-    override fun clone() {
-        GsonConfig(configData).jsonObject = jsonObject
-    }
+    override fun clone() = copy(jsonObject)
 
-    fun copy(jsonObject: JsonObject) {
-        GsonConfig(configData).jsonObject = jsonObject
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun copy(jsonObject: JsonObject): GsonConfig {
+        val gsonConfig = GsonConfig(configData)
+        gsonConfig.jsonObject = jsonObject
+        return gsonConfig
     }
 }
