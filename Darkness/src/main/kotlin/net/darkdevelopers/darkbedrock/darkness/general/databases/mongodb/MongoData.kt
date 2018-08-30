@@ -6,25 +6,19 @@ package net.darkdevelopers.darkbedrock.darkness.general.databases.mongodb
 
 import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkness.general.configs.Config
+import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 
 @Suppress("unused")
 data class MongoData(val host: String, val port: Int, val username: String, val password: String, val simple: Boolean) {
 
-
-
     companion object {
         internal fun createMongoData(config: Config): MongoData {
             config.load()
-            val simple = config.getAs<JsonPrimitive>("simple")?.asBoolean
-                    ?: throw NullPointerException("The MongoDB simple data can not be null")
-            val host = config.getAs<JsonPrimitive>("host")?.asString
-                    ?: throw NullPointerException("The MongoDB host data can not be null")
-            val port = config.getAs<JsonPrimitive>("port")?.asInt
-                    ?: throw NullPointerException("The MongoDB port data can not be null")
-            val username = config.getAs<JsonPrimitive>("username")?.asString
-                    ?: throw NullPointerException("The MongoDB username data can not be null")
-            val password = config.getAs<JsonPrimitive>("password")?.asString
-                    ?: throw NullPointerException("The MongoDB password data can not be null")
+            val simple = config.getAs<JsonPrimitive>("simple")?.asBoolean.toNonNull("The MongoDB simple data")
+            val host = config.getAs<JsonPrimitive>("host")?.asString.toNonNull("The MongoDB host data")
+            val port = config.getAs<JsonPrimitive>("port")?.asInt.toNonNull("The MongoDB port data")
+            val username = config.getAs<JsonPrimitive>("username")?.asString.toNonNull("The MongoDB username data")
+            val password = config.getAs<JsonPrimitive>("password")?.asString.toNonNull("The MongoDB password data")
             return MongoData(host, port, username, password, simple)
         }
 

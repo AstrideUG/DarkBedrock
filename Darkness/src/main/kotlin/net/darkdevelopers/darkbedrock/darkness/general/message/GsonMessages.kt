@@ -37,23 +37,22 @@ open class GsonMessages(private val config: GsonConfig) {
     val availableSubMessagesOnInit = availableSubMessages.toMap()
 
     init {
+        println("Replace Messages: $availableMessages")
+        println("Replace SubMessages: $availableSubMessages")
         replaceKeys(availableMessages)
         availableSubMessages.forEach { replaceKeys(it.value, "${it.key}.") }
-        println("Messages Loaded: $availableMessages")
-        println("Messages Loaded: $availableSubMessages")
+        println("Loaded Messages: $availableMessages")
+        println("Loaded SubMessages: $availableSubMessages")
     }
 
     private fun replaceKeys(map: MutableMap<String, String>, prefix: String = ""): MutableMap<String, String> {
-        for (entry1 in map.entries) {
-            for (entry2 in map.entries) {
-                if (entry1 == entry2) continue
-                val keys = prefix.split('.')
-                val key = "$prefix${entry2.key}"
-                if (keys.size == 1)
-                    map[entry1.key] = entry1.value.replace("%$key%", entry2.value, true)
-                else
-                    map[entry1.key] = entry1.value.replace("%$key%", availableSubMessages[prefix.substring(0, prefix.length)]!![entry2.value]!!, true)
-            }
+        for (entry1 in map.entries) for (entry2 in map.entries) {
+            if (entry1 == entry2) continue
+            val key = "$prefix${entry2.key}"
+            if (availableSubMessages.isEmpty())
+                map[entry1.key] = replace(entry1.value, key, entry2.value)
+            else
+                map[entry1.key] = replace(entry1.value, key, availableSubMessages[prefix.substring(0, prefix.length - 1)]!![entry2.key]!!)
         }
         return map
     }
@@ -61,5 +60,7 @@ open class GsonMessages(private val config: GsonConfig) {
 //    private fun replaceKeysForNotMutableMaps(map: Map<String, String>) = replaceKeys(HashMap(map))
 
     private fun getJsonObjectByFile(fileName: String) = GsonConfig(ConfigData("${config.getDirectory()}languages", "$fileName.json")).load().jsonObject
+
+    private fun replace(input: String, key: String, value: String) = input.replace("%$key%", value, true)
 
 }

@@ -48,8 +48,18 @@ data class MongoDB(private val mongoData: MongoData) {
     }
 
     companion object {
-        var simpleInstance: MongoDB? = null
-            get() = if (field == null) MongoDB() else field
-            private set
+        //        val simpleInstance by Delegate()
+        val simpleInstance by lazy { MongoDB() }
+
+//        var simpleInstance: MongoDB? = null
+//            get() = if (field == null) MongoDB() else field
+//            private set
     }
+
+//    private class Delegate {
+//        var simpleInstance: MongoDB? = null
+//
+//        operator fun getValue(ref: Any?, property: KProperty<*>) = if (simpleInstance == null) MongoDB() else simpleInstance!!
+//    }
 }
+

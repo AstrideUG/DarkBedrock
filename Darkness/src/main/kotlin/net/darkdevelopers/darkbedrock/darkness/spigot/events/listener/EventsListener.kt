@@ -9,7 +9,6 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
-import org.bukkit.event.HandlerList
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerKickEvent
@@ -26,7 +25,7 @@ import kotlin.concurrent.thread
 class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     companion object {
-        private val handlers = HandlerList()
+        //        private val handlers = HandlerList()
         private var instance: EventsListener? = null
         var autoRespawn: Boolean = false
 //        var debug: Boolean = false
