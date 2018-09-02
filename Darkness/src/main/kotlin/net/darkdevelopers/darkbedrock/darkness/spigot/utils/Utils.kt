@@ -84,34 +84,17 @@ object Utils {
             sendPacket(this, PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\":\"$message\"}"), 2.toByte()))
 
 
-    fun getTime(time: Long): String {
+    fun getTime(inputTime: Long): String {
+        val time = Math.abs(inputTime)
+        val sec = time % 60
+        val min = time / 60 % 60
+        val hour = time / 3600 % 24
+        val day = time / 86400
         var remainingTime = ""
-        var seconds = time
-        var minutes = 0L
-        var hours = 0L
-        var days = 0L
-        var years = 0L
-        while (time >= 60) {
-            seconds -= 60
-            minutes++
-        }
-        while (minutes >= 60) {
-            minutes -= 60
-            hours++
-        }
-        while (hours >= 24) {
-            hours -= 24
-            days++
-        }
-        while (days >= 365) {
-            days -= 365
-            years++
-        }
-        if (years == 1L) remainingTime = "$remainingTime${IMPORTANT}ein$TEXT Jahr " else if (years != 0L) remainingTime = "$remainingTime$IMPORTANT$years$TEXT Jahre "
-        if (days == 1L) remainingTime = "$remainingTime${IMPORTANT}ein$TEXT Tag " else if (days != 0L) remainingTime = "$remainingTime$IMPORTANT$days$TEXT Tage "
-        if (hours == 1L) remainingTime = "$remainingTime${IMPORTANT}eine$TEXT Stunde " else if (hours != 0L) remainingTime = "$remainingTime$IMPORTANT$hours$TEXT Stunden "
-        if (minutes == 1L) remainingTime = "$remainingTime${IMPORTANT}eine$TEXT Minute " else if (minutes != 0L) remainingTime = "$remainingTime$IMPORTANT$minutes$TEXT Minuten "
-        if (seconds == 1L) remainingTime = "$remainingTime$IMPORTANT$seconds$TEXT Sekunde " else if (time != 0L) remainingTime = "$remainingTime$IMPORTANT$seconds$TEXT Sekunden "
-        return if (remainingTime.isEmpty()) "${IMPORTANT}0 ${TEXT}Sekunden " else remainingTime.substring(0, remainingTime.length - 1)
+        if (day == 1L) remainingTime = "$remainingTime${IMPORTANT}ein$TEXT Tag " else if (day != 0L) remainingTime = "$remainingTime$IMPORTANT$day$TEXT Tage "
+        if (hour == 1L) remainingTime = "$remainingTime${IMPORTANT}eine$TEXT Stunde " else if (hour != 0L) remainingTime = "$remainingTime$IMPORTANT$hour$TEXT Stunden "
+        if (min == 1L) remainingTime = "$remainingTime${IMPORTANT}eine$TEXT Minute " else if (min != 0L) remainingTime = "$remainingTime$IMPORTANT$min$TEXT Minuten "
+        if (sec == 1L) remainingTime = "$remainingTime$IMPORTANT$sec$TEXT Sekunde " else if (time != 0L) remainingTime = "$remainingTime$IMPORTANT$sec$TEXT Sekunden "
+        return if (remainingTime.isBlank()) "${IMPORTANT}0 ${TEXT}Sekunden " else remainingTime.substring(0, remainingTime.length - 1)
     }
 }
