@@ -5,8 +5,10 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.TitleUtils
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.sendSubTitle
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.sendTimings
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.sendTitle
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 
@@ -32,12 +34,12 @@ class LobbyCountdown(private val minPlayers: Int, private val gameName: String) 
                 10 -> {
 //                    Bukkit.getPluginManager().callEvent(LobbyCountdownLastTenSecondsEvent(this))
                     Utils.goThroughAllPlayers {
-                        TitleUtils(it).sendTitle(gameName).sendSubTitle(Messages.SERVER_NAME.toString()).sendTimings(10, 20, 10)
+                        it.sendTitle(gameName).sendSubTitle(Messages.SERVER_NAME.toString()).sendTimings(10, 20, 10)
                         it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
                     }
                 }
                 5, 4, 3, 2, 1 -> Utils.goThroughAllPlayers {
-                    TitleUtils(it).sendTitle("$SECONDARY$seconds").sendTimings(1, 18, 1)
+                    it.sendTitle("$SECONDARY$seconds").sendTimings(1, 18, 1)
                     it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
                 }
             }
@@ -52,8 +54,8 @@ class LobbyCountdown(private val minPlayers: Int, private val gameName: String) 
         idle = loop(10000) {
             when (minPlayers - Bukkit.getOnlinePlayers().size) {
                 0 -> start()
-                1 -> Bukkit.broadcastMessage("${Messages.PREFIX}" + TEXT + "Warte auf " + IMPORTANT + "einen" + TEXT + " weiteren Spieler...")
-                else -> Bukkit.broadcastMessage("${Messages.PREFIX}" + TEXT + "Warte auf " + IMPORTANT + (minPlayers - Bukkit.getOnlinePlayers().size) + TEXT + " weitere Spieler...")
+                1 -> Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Warte auf ${IMPORTANT}einen$TEXT weiteren Spieler...")
+                else -> Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Warte auf $IMPORTANT${minPlayers - Bukkit.getOnlinePlayers().size}$TEXT weitere Spieler...")
             }
         }
     } else System.err.println("The lobby countdown idle should start, although it is already running")

@@ -14,11 +14,20 @@ import org.bukkit.entity.Player
  * Last edit 24.08.2018
  */
 
-fun Player.sendTitle(title: String) = TitleUtils.sendTitle(this, title)
+fun Player.sendTitle(title: String): Player {
+    TitleUtils.sendTitle(this, title)
+    return this
+}
 
-fun Player.sendSubTitle(subTitle: String) = TitleUtils.sendTitle(this, subTitle)
+fun Player.sendSubTitle(subTitle: String): Player {
+    TitleUtils.sendTitle(this, subTitle)
+    return this
+}
 
-fun Player.sendTimings(fadeIn: Int, stay: Int, fadeOut: Int) = TitleUtils.sendTimings(this, fadeIn, stay, fadeOut)
+fun Player.sendTimings(fadeIn: Int, stay: Int, fadeOut: Int): Player {
+    TitleUtils.sendTimings(this, fadeIn, stay, fadeOut)
+    return this
+}
 
 class TitleUtils(private val player: Player) {
 
