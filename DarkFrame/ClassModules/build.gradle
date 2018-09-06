@@ -1,6 +1,10 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
+ */
+
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.2.60'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.61'
 }
 
 group 'net.darkdevelopers.darkbedrock'
@@ -21,7 +25,7 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.mockito', name: 'mockito-all', version: '2.0.2-beta'
-    compile(group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8')
+    compile(group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib')
     compile(group: 'org.jetbrains.kotlin', name: 'kotlin-reflect')
     compile(group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '0.24.0')
 //    compile group: 'org.spigotmc', name: 'spigot-api', version: '1.8.8-R0.1-SNAPSHOT'

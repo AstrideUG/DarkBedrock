@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.team
 
@@ -28,12 +28,13 @@ import kotlin.Comparator
 
 /**
  * Created by LartyHD on 03.01.2018 12:30.
- * Last edit 07.07.2018
+ * Last edit 06.09.2018
  */
 
 //TODO: Split to manager and listener
 class TeamManager(javaPlugin: JavaPlugin, colored: Boolean, teamsCount: Int) : Listener(javaPlugin) {
 
+    @Suppress("MemberVisibilityCanBePrivate")
     val teams: MutableSet<GameTeam>
 
     private val lowestTeam: GameTeam
@@ -131,6 +132,7 @@ class TeamManager(javaPlugin: JavaPlugin, colored: Boolean, teamsCount: Int) : L
         } else true
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun getTeam(player: Player): GameTeam? {
         for (gameTeam in this.teams) if (gameTeam.players.contains(player)) return gameTeam
         return null

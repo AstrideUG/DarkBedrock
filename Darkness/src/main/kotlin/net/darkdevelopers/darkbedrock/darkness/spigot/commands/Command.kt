@@ -89,12 +89,12 @@ abstract class Command(val javaPlugin: JavaPlugin,
         }, { sender.sendMessage(textComponent.text) })
     }
 
-    @Deprecated("", ReplaceWith("sender.isPlayer() {}", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer"))
-    override fun isPlayer(sender: CommandSender, lambda: (Player) -> Unit) = isPlayer(sender, lambda) {
+    @Deprecated("", ReplaceWith("sender.isPlayer() lambda", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer"))
+    override fun isPlayer(sender: CommandSender, lambda: (Player) -> Unit) = sender.isPlayer(lambda) {
         sender.sendMessage("Der Command ist nur für Spieler")
     }
 
-    @Deprecated("", ReplaceWith("sender.isPlayer({}, {})", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer"))
+    @Deprecated("", ReplaceWith("sender.isPlayer(onSuccess {}, onFail)", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer"))
     override fun isPlayer(sender: CommandSender, onSuccess: (Player) -> Unit, onFail: () -> Unit) =
             if (sender is Player) onSuccess(sender) else onFail()
 

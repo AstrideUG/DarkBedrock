@@ -1,0 +1,29 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
+ */
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.61'
+}
+
+apply plugin: 'kotlin'
+
+sourceCompatibility = 1.8
+libsDirName = "libraries"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile(group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib')
+    compile(group: 'org.jetbrains.kotlin', name: 'kotlin-reflect')
+    compile(group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '0.24.0')
+//    compile fileTree(dir: 'libraries', include: '*.jar')
+}
+
+compileKotlin { kotlinOptions.jvmTarget = "1.8" }
+
+kotlin { experimental { coroutines "enable" } }
+

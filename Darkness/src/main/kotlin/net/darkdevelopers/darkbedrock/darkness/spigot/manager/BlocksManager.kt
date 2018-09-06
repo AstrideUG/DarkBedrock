@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.manager
 
@@ -10,21 +10,18 @@ import java.util.*
 
 /**
  * Created by LartyHD on 06.07.2017 04:35.
- * Last edit 06.07.2018
+ * Last edit 06.09.2018
  */
-class BlocksManager(private val allowedTypes: Set<Material> = HashSet<Material>()) {
+class BlocksManager(private val allowedTypes: Set<Material> = HashSet()) {
+
     private val locations: Set<Location> = HashSet()
 
     fun isBreakable(block: Block): Boolean = isBreakable(block.location)
 
     private fun isBreakable(location: Location): Boolean {
         location.block ?: return false
-        for (types in allowedTypes) if (location.block.type == types) return true
-        for (locations in locations)
-            if (location.world.name == locations.world.name &&
-                    location.blockX == locations.blockX &&
-                    location.blockY == locations.blockY &&
-                    location.blockZ == locations.blockZ) return true
-        return false
+        allowedTypes.forEach { if (location.block.type == it) return true }
+        return locations.any { location.world.name == it.world.name && location.blockX == it.blockX && location.blockY == it.blockY && location.blockZ == it.blockZ }
     }
+
 }

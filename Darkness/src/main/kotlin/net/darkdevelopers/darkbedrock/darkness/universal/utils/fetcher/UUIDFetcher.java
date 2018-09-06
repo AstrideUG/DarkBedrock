@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
  */
 package net.darkdevelopers.darkbedrock.darkness.universal.utils.fetcher;
 
@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 /**
  * Helper-class for getting UUIDs of players
  */
+@SuppressWarnings("unused")
 public class UUIDFetcher extends Fetcher
 {
 //	/**

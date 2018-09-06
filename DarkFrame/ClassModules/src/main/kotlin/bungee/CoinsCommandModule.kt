@@ -1,4 +1,8 @@
 /*
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
+ */
+
+/*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
 
@@ -26,11 +30,11 @@ class CoinsCommandModule : Module, Command(
 ) {
     override val description: ModuleDescription = ModuleDescription("CoinsCommandModule", "1.0", "Lars Artmann | LartyHD", "This module adds the coins command")
 
-    private val asyncMap: IntAsyncMap = MongoIntAsyncMap(MongoDB.simpleInstance!!, "MainDB", "server")
+    private val asyncMap: IntAsyncMap = MongoIntAsyncMap(MongoDB.simpleInstance, "MainDB", "server")
 
     override fun perform(sender: CommandSender, args: Array<String>) = if (args.isEmpty())
-        isPlayer(sender, {
-            asyncMap.get(it.uniqueId, "coins") { sender.sendMessage(TextComponent("${Messages.PREFIX}${TEXT}Du hast $IMPORTANT$it ${TEXT}Coins")) }
+        isPlayer(sender, { player ->
+            asyncMap.get(player.uniqueId, "coins") { sender.sendMessage(TextComponent("${Messages.PREFIX}${TEXT}Du hast $IMPORTANT$it ${TEXT}Coins")) }
         }, { sendUseMessage(sender) })
     else getTarget(sender, args[0]) {
         sender.sendMessage(TextComponent("${Messages.PREFIX}$IMPORTANT${it.name} ${TEXT}hat $IMPORTANT$it ${TEXT}Coins"))

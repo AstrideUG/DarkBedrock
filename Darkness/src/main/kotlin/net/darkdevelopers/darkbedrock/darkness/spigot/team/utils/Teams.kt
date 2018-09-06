@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.team.utils
 
@@ -7,9 +7,9 @@ import org.bukkit.ChatColor
 
 /**
  * Created by LartyHD on 11.02.2018  19:26.
- * Last edit 07.07.2018
+ * Last edit 06.09.2018
  */
-enum class Teams(val teamName: String, val color: ChatColor) {
+enum class Teams(@Suppress("MemberVisibilityCanBePrivate") val teamName: String, val color: ChatColor) {
     BLUE("Blau", ChatColor.DARK_BLUE),
     RED("Rot", ChatColor.RED),
     GREEN("Grün", ChatColor.DARK_GREEN),
