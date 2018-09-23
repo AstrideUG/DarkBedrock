@@ -1,4 +1,6 @@
-//package net.darkdevelopers.darkbedrock.darkframe.modules
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
+ */
 
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription

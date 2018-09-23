@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.events.listener
 
@@ -20,13 +20,17 @@ import kotlin.concurrent.thread
 
 /**
  * Created by LartyHD on 22.01.2018 00:14.
- * Last edit 28.08.2018
+ * Last edit 06.09.2018
  */
 class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     companion object {
         //        private val handlers = HandlerList()
         private var instance: EventsListener? = null
+        /**
+         * @author Lars Artmann | LartyHD
+         * If it is true: Will the player, 50 milliseconds, sent a respawn packet after his death
+         */
         var autoRespawn: Boolean = false
 //        var debug: Boolean = false
 
@@ -53,7 +57,8 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
     @EventHandler
     fun onAsyncPlayerChatEvent(event: AsyncPlayerChatEvent) {
         val format = event.format.toNonNull()
-        if (format != "<%1\$s> %2\$s") event.format = format.replace("%", "%%")
+//        if (format != "<%1\$s> %2\$s") event.format = format.replace("%", "%%")
+        if ('%' !in format.replace(event.message, "")) event.format = format.replace("%", "%%")
     }
 
     @EventHandler

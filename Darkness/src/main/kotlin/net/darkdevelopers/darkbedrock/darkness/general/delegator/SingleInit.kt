@@ -14,11 +14,10 @@ import kotlin.reflect.KProperty
 class SingleInit<T> {
     private var type: T? = null
 
+    @Synchronized
     operator fun getValue(any: Any, property: KProperty<*>): T =
             if (type == null) throw UninitializedPropertyAccessException() else type!!
 
-    operator fun setValue(any: Any, property: KProperty<*>, t: T) {
-        if (type == null) throw UnsupportedOperationException("$type is already init")
-        type = t
-    }
+    operator fun setValue(any: Any, property: KProperty<*>, t: T) =
+            if (type == null) throw UnsupportedOperationException("$type is already init") else type = t
 }
