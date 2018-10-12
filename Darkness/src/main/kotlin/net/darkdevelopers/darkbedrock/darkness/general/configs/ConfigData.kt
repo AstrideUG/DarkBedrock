@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.general.configs
 
 import java.io.File
@@ -22,7 +26,7 @@ data class ConfigData(val directory: File, val fileName: String) {
     }
 
     companion object {
-        fun createFileIfNotExists(folder: File) = createFileIfNotExists(folder, {}, {})
+        fun createFileIfNotExists(file: File) = createFileIfNotExists(file, {}, {})
 
         fun createFileIfNotExists(file: File, onSuccess: () -> Unit, onFail: () -> Unit) = if (!file.exists())
             if (file.createNewFile())

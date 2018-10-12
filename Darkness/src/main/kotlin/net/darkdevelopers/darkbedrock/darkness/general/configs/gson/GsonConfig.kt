@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.general.configs.gson
 
 import com.google.gson.*
@@ -26,6 +30,8 @@ open class GsonConfig(override val configData: ConfigData) : DefaultConfig, Clon
     }
 
     override fun save(): GsonConfig {
+		ConfigData.createFoldersIfNotExists(getDirectory())
+		ConfigData.createFileIfNotExists(getFile())
         FileWriter(getFile()).apply {
             write(formatJson(jsonObject))
             flush()
