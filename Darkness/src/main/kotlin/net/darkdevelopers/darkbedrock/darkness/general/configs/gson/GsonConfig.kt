@@ -13,70 +13,70 @@ import java.nio.file.Files
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.06.2018 17:18.
- * Last edit 15.08.2018
+ * Last edit 12.10.2018
  */
 @Suppress("unused")
 open class GsonConfig(override val configData: ConfigData) : DefaultConfig, Cloneable {
 
-    var jsonObject: JsonObject = JsonObject()
+	var jsonObject: JsonObject = JsonObject()
 
-    override fun load(): GsonConfig {
-        try {
-            jsonObject = JsonParser().parse(String(Files.readAllBytes(getFile().toPath()))).asJsonObject
-        } catch (ex: IllegalStateException) {
-            save()
-        }
-        return this
-    }
+	override fun load(): GsonConfig {
+		try {
+			jsonObject = JsonParser().parse(String(Files.readAllBytes(getFile().toPath()))).asJsonObject
+		} catch (ex: IllegalStateException) {
+			save()
+		}
+		return this
+	}
 
-    override fun save(): GsonConfig {
+	override fun save(): GsonConfig {
 		ConfigData.createFoldersIfNotExists(getDirectory())
 		ConfigData.createFileIfNotExists(getFile())
-        FileWriter(getFile()).apply {
-            write(formatJson(jsonObject))
-            flush()
-            close()
-        }
-        return this
-    }
+		FileWriter(getFile()).apply {
+			write(formatJson(jsonObject))
+			flush()
+			close()
+		}
+		return this
+	}
 
-    fun <O> getAsNotNull(key: String): O = getAsNotNull(key, jsonObject)
+	fun <O> getAsNotNull(key: String): O = getAsNotNull(key, jsonObject)
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun <O> getAsNotNull(key: String, jsonObject: JsonObject): O = getAs(key, jsonObject)
-            ?: throw NullPointerException("$key can not be null")
+	@Suppress("MemberVisibilityCanBePrivate")
+	fun <O> getAsNotNull(key: String, jsonObject: JsonObject): O = getAs(key, jsonObject)
+			?: throw NullPointerException("$key can not be null")
 
-    override fun <O> getAs(key: String): O? = getAs(key, jsonObject)
+	override fun <O> getAs(key: String): O? = getAs(key, jsonObject)
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun <O> getAs(key: String, jsonObject: JsonObject): O? {
-        val any = jsonObject[key] as? O
-        if (any == null) {
-            put(key, JsonNull.INSTANCE)
-            save()
-        }
-        return any
-    }
+	@Suppress("MemberVisibilityCanBePrivate")
+	fun <O> getAs(key: String, jsonObject: JsonObject): O? {
+		val any = jsonObject[key] as? O
+		if (any == null) {
+			put(key, JsonNull.INSTANCE)
+			save()
+		}
+		return any
+	}
 
-    override fun <I> put(key: String, value: I): GsonConfig {
-        when {
-            value is JsonElement -> jsonObject.add(key, value)
-            value?.toString() == null -> jsonObject.remove(key)
-            else -> jsonObject.add(key, JsonPrimitive(value.toString()))
-        }
-        return this
-    }
+	override fun <I> put(key: String, value: I): GsonConfig {
+		when {
+			value is JsonElement -> jsonObject.add(key, value)
+			value?.toString() == null -> jsonObject.remove(key)
+			else -> jsonObject.add(key, JsonPrimitive(value.toString()))
+		}
+		return this
+	}
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun formatJson(jsonElement: JsonElement): String = GsonBuilder().setPrettyPrinting().create().toJson(jsonElement)
+	@Suppress("MemberVisibilityCanBePrivate")
+	fun formatJson(jsonElement: JsonElement): String = GsonBuilder().setPrettyPrinting().create().toJson(jsonElement)
 
 
-    override fun clone() = copy(jsonObject)
+	override fun clone() = copy(jsonObject)
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun copy(jsonObject: JsonObject): GsonConfig {
-        val gsonConfig = GsonConfig(configData)
-        gsonConfig.jsonObject = jsonObject
-        return gsonConfig
-    }
+	@Suppress("MemberVisibilityCanBePrivate")
+	fun copy(jsonObject: JsonObject): GsonConfig {
+		val gsonConfig = GsonConfig(configData)
+		gsonConfig.jsonObject = jsonObject
+		return gsonConfig
+	}
 }

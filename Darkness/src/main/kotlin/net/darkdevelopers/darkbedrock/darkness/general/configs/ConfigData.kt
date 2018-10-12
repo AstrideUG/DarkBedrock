@@ -9,7 +9,7 @@ import java.io.File
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.06.2018 17:42.
- * Last edit 02.06.2018
+ * Last edit 12.10.2018
  */
 @Suppress("MemberVisibilityCanBePrivate", "CanBeParameter")
 data class ConfigData(val directory: File, val fileName: String) {
