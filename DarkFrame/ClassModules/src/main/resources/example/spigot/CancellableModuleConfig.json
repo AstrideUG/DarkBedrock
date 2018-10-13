@@ -1,0 +1,79 @@
+{
+  "ConfigVersion": "1.0",
+  "language": "de_DE",
+  "languages": {
+    "global": {
+      "Prefix": "&b&lServerName &8┃ &r",
+      "WarnPrefix": "%Prefix%%Colors.WARNING%",
+      "Colors": {
+        "PRIMARY": "&b",
+        "SECONDARY": "&9",
+        "IMPORTANT": "&8",
+        "TEXT": "&7",
+        "EXTRA": "&l",
+        "DESIGN": "&m",
+        "RESET": "&r",
+        "WARNING": "&c"
+      }
+    },
+    "en_US": {
+      "CraftItem": {
+        "NoPermissionToCraftThisItem": "%WarnPrefix%You are not allowed to craft %Colors.IMPORTANT%<ItemType>%Colors.WARNING%!"
+      },
+      "AsyncPlayerChat": {
+        "NoPermissionToSendThisWords": "%WarnPrefix%You are not allowed to send messages with this words: %Colors.IMPORTANT%<Words>%Colors.WARNING%!"
+      }
+    },
+    "de_DE": {
+      "CraftItem": {
+        "NoPermissionToCraftThisItem": "%WarnPrefix%Du darfst %Colors.IMPORTANT%<ItemType> %Colors.WARNING%nicht craften!"
+      },
+      "AsyncPlayerChat": {
+        "NoPermissionToSendThisWords": "%WarnPrefix%Du darfst keine Nachrichten mit diesen Wörtern %Colors.IMPORTANT%<Words> %Colors.WARNING%senden!"
+      }
+    }
+  },
+  "Configs": {
+    "AsyncPlayerChat": {
+      "BlockAll": false,
+      "Use": {
+        "Words": "Blocked/Block/Black/Blacklist|Allowed/Allow/White/Whitelist|Non/Disable/Disabled/Off/null",
+        "Characters": "Allowed/Allow/White/Whitelist|Blocked/Block/Black/Blacklist|Non/Disable/Disabled/Off/null",
+        "IgnoreCase": true
+      },
+      "Blocked": {
+        "Words": [
+          "Huso",
+          "Hurensohn"
+        ],
+        "Characters": [],
+        "Regex": ""
+      },
+      "Allowed": {
+        "Words": [],
+        "CharactersString": "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ1234567890^°!\"$%&/\\()=?´`ß}{][  @€+*~#'|<>µ,;.:-_",
+        "Characters": [],
+        "Regex": "^[\\x00-\\xFF]+$"
+      },
+      "Permissions": {
+        "Block": "CancellableModule.AsyncPlayerChat.Block",
+        "ByPass": {
+          "PermissionBlock": "CancellableModule.AsyncPlayerChat.ByPass.Block",
+          "BlockAll": "CancellableModule.AsyncPlayerChat.ByPass.BlockAll",
+          "Blocked": {
+            "Words": "CancellableModule.AsyncPlayerChat.ByPass.Words.<Word>",
+            "Characters": "CancellableModule.AsyncPlayerChat.ByPass.Characters.<Char>"
+          }
+        }
+      }
+    },
+    "CraftItem": [
+      "TNT",
+      "AFD!"
+    ]
+  },
+  "permissions": /*Use null for deny bypass Permissions*/ {
+    "CraftItem": "CancellableModule.CraftItem.Bypass.<ItemType>",
+    "BlockBreak": null
+  }
+}

@@ -2,6 +2,10 @@
  * © Copyright - Lars Artmann aka. LartyHD 2018.
  */
 
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
+ */
+
 import com.google.gson.JsonArray
 import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
@@ -81,7 +85,7 @@ class BlockCraftingModule : Module, Listener(DarkFrame.instance) {
      }
 
      @EventHandler
-     fun onCraftItemEvent(event: CraftItemEvent) {
+     fun on(event: CraftItemEvent) {
          val item = event.currentItem ?: return
          types.forEach {
              if (item.type == it) {
