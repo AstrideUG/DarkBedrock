@@ -2,10 +2,6 @@
  * © Copyright - Lars Artmann aka. LartyHD 2018.
  */
 
-/*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
- */
-
 import com.google.gson.JsonArray
 import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
