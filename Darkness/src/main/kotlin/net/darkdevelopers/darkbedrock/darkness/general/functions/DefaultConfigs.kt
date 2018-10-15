@@ -17,6 +17,8 @@ import java.io.File
 /**
  * @author Lars Artmann | LartyHD
  *
+ * Call all functions of the class that starts with "example" and parameter count is 0
+ *
  * @param folder to add the examples folder with the examples
  * @param restGeneratedExamples If {@code false} and the file exists, the sample files will not be renewed
  *
@@ -24,7 +26,7 @@ import java.io.File
  * @since 15.10.2018
  */
 fun Class<*>.generateExamples(folder: String, restGeneratedExamples: Boolean = true): Unit = this.javaClass.declaredMethods.forEach {
-	if (!it.name.startsWith("example") || it.parameterCount != 1 || it.parameters[1].type == GsonConfig::class.java) return
+	if (!it.name.startsWith("example") || it.parameterCount != 0/*1 || it.parameters[1].type == GsonConfig::class.java*/) return
 	val id = it.name.substring(7)
 	val configData = ConfigData("$folder${File.separator}examples${File.separator}$id", "config.json", false)
 	if (restGeneratedExamples || !configData.exists()) {

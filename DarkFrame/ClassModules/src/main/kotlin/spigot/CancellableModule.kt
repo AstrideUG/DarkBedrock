@@ -22,6 +22,14 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 import java.io.File
 
 
+/**
+ * @author Lars Artmann | LartyHD
+ *
+ * The default name for json configs
+ *
+ * @since 15.10.2018
+ */
+const val defaultConfigName: String = "config.json"
 
 /**
  * @author Lars Artmann | LartyHD
@@ -37,11 +45,17 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	 *
 	 * Keeps the module Infos
 	 *
-	 * @see 13.10.2018
+	 * @since 13.10.2018
 	 */
-	override val description: ModuleDescription = ModuleDescription("CancellableModule", "1.0", "Lars Artmann | LartyHD", "")
+	override val description: ModuleDescription = ModuleDescription(
+			"CancellableModule",
+			"1.0",
+			"Lars Artmann | LartyHD",
+			"This Module can block all cancellable events of Spigot version 1.8.8-R0.1-SNAPSHOT"
+	)
 
-	private val config by lazy { GsonConfig(ConfigData(description.folder, "config.json")).load() }
+	private val directory by lazy { description.folder }
+	private val config by lazy { GsonConfig(ConfigData(directory, defaultConfigName)).load() }
 	private val examples by lazy { config.getAsNotNull<JsonObject>("Examples") }
 	private val generateNoExamples by lazy { config.getAs<JsonPrimitive>("NoGeneration", examples)?.asBoolean ?: false }
 	private val resetGeneratedExamples by lazy {
@@ -66,10 +80,7 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	 * @since 15.10.2018
 	 */
 	override fun load() {
-		if (!generateNoExamples) {
-			DefaultConfigs.examples = examples
-			DefaultConfigs.javaClass.generateExamples(description.folder.toString(), resetGeneratedExamples)
-		}
+		if (!generateNoExamples) DefaultConfigs().javaClass.generateExamples(directory.toString(), resetGeneratedExamples)
 	}
 
 	/**
@@ -77,6 +88,7 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	 *
 	 * The blacklist (the configs list) and the bypass permissions are defined in the config.
 	 * WARNING: This method is an Event. Don't call it manually!
+	 *
 	 * @param event is for the Event System from Spigot to select the right Event
 	 * @see CancellableModuleConfig.json
 	 * @since 1.0
@@ -126,12 +138,10 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 
 	private fun replace(message: String?, key: String, value: Any) = message.toNonNull().replace(key, value.toString(), true)
 
-	private object DefaultConfigs {
+	@Suppress("unused", "FunctionName")
+	private inner class DefaultConfigs {
 
-		lateinit var examples: JsonObject
-
-		private fun example1_0(directory: File) {
-			val defaultConfigName = "config.json"
+		private fun example1_0() {
 			val globalConfigPath = "global.json"
 			val configPath = "AsyncPlayerChat/$defaultConfigName"
 			val worldsDirectoryName = "worlds"

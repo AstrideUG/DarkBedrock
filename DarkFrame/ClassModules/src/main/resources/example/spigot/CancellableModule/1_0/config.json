@@ -1,28 +1,41 @@
 {
+  /* required! */
   "ConfigVersion": "1.0",
+  /* required! */
   "Examples": {
+    /* not mandatory */
     "NoGeneration": false,
+    /* not mandatory */
     "ResetGenerated": true,
+    /* required! */
     "WorldNames": [
       "1SexyMap",
       "2SuperSexyMap",
       "3JoJoMap"
     ]
   },
+  /* required! */
   "Messages": {
+    /* not mandatory */
     "UseExternalFiles": true,
+    /* required! */
     "language": "de_DE"
   },
+  /* required! */
   "Configs": {
+    /* required! */
     "AsyncPlayerChat": {
+      /* required! */
       "ConfigPath": "AsyncPlayerChat/config.json"
     },
+    /* required! */
     "CraftItem": {
       "BlockedMaterials": [
         "TNT"
       ]
     }
   },
+  /* required! */
   "Permissions": /*Use null for deny bypass Permissions*/ {
     "CraftItem": "CancellableModule.CraftItem.Bypass.<ItemType>",
     "BlockBreak": "CancellableModule.BlockBreak.Bypass.<ItemType>"
