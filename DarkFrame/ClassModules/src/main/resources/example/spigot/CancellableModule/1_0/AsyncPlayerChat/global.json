@@ -1,0 +1,43 @@
+{
+  "BlockAll": false,
+  "Use": /*Possibilities: Blocked/Block/Black/Blacklist|Allowed/Allow/White/Whitelist|Non/Disable/Disabled/Off/null*/ {
+    "Words": "Blocked",
+    "Characters": "None",
+    "IgnoreCase": true
+  },
+  "Blocked": {
+    "Words": [
+      "Huso",
+      "Hurensohn"
+    ],
+    //    "Characters": [],
+    "Regex": []
+  },
+  "Allowed": {
+    //    "Words": [],
+    //    "Characters": [],
+    "Regex": [
+      "^[\\x00-\\xFF]+$"
+    ]
+  },
+  "Permissions": {
+    "$Prefix": "CancellableModule.AsyncPlayerChat.",
+    "Block": "%$Prefix%Block",
+    "ByPass": {
+      "$ByPassPrefix": "%$Prefix%ByPass.",
+      "BlockAll": "%$ByPassPrefix%BlockAll",
+      "Blocked": {
+        "$ByPassBlockedPrefix": "%$ByPassPrefix%Blocked.",
+        "Words": "%$ByPassBlockedPrefix%Words.<Word>",
+        "Characters": "%$ByPassBlockedPrefix%Characters.<Char>",
+        "Regex": "%$ByPassBlockedPrefix%Regex.<Regex>"
+      },
+      "Allowed": {
+        "$ByPassAllowedPrefix": "%$ByPassPrefix%Allowed.",
+        "Words": "%$ByPassAllowedPrefix%Words.<Word>",
+        "Characters": "%$ByPassAllowedPrefix%Characters.<Char>",
+        "Regex": "%$ByPassAllowedPrefix%Regex.<Regex>"
+      }
+    }
+  }
+}

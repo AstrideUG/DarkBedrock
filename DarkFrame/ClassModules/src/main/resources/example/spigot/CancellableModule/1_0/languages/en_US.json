@@ -1,0 +1,8 @@
+{
+  "CraftItem": {
+    "NoPermissionToCraftThisItem": "%WarnPrefix%You are not allowed to craft %Colors.IMPORTANT%<ItemType>%Colors.WARNING%!"
+  },
+  "AsyncPlayerChat": {
+    "NoPermissionToSendThisWords": "%WarnPrefix%You are not allowed to send messages with this words: %Colors.IMPORTANT%<Words>%Colors.WARNING%!"
+  }
+}

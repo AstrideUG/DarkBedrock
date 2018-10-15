@@ -1,0 +1,13 @@
+{
+  "Message1": "%TextPrefix%Das ist die erste Nachicht",
+  "Message2": "%TextPrefix%Das ist die zweite Nachicht\n%TextPrefix%Das war die erste Nachicht: \"%Message1%\"",
+  "Test": {
+    "Test": {
+      "test": "%Prefix%%WorldName% :D",
+      "test2": {
+        "Old": "%Test.Test.test%Yoo"
+      }
+    },
+    "Test1": "&b"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "UseExternalFiles": true,
+  "language": "de_DE",
+  //or
+  "languages": [
+    "en_US",
+    "de_DE"
+  ]
+}

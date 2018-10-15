@@ -1,0 +1,34 @@
+{
+  "BlockAll": false,
+  "Use": {
+    "Words": "None",
+    "Characters": "None",
+    "IgnoreCase": true
+  },
+  "Blocked": {
+    "Regex": []
+  },
+  "Allowed": {
+    "Regex": []
+  },
+  "Permissions": {
+    "$Prefix": "CancellableModule.AsyncPlayerChat.",
+    "Block": "%$Prefix%Block",
+    "ByPass": {
+      "$ByPassPrefix": "%$Prefix%ByPass.",
+      "BlockAll": "%$ByPassPrefix%BlockAll",
+      "Blocked": {
+        "$ByPassBlockedPrefix": "%$ByPassPrefix%Blocked.",
+        "Words": "%$ByPassBlockedPrefix%Words.<Word>",
+        "Characters": "%$ByPassBlockedPrefix%Characters.<Char>",
+        "Regex": "%$ByPassBlockedPrefix%Regex.<Regex>"
+      },
+      "Allowed": {
+        "$ByPassAllowedPrefix": "%$ByPassPrefix%Allowed.",
+        "Words": "%$ByPassAllowedPrefix%Words.<Word>",
+        "Characters": "%$ByPassAllowedPrefix%Characters.<Char>",
+        "Regex": "%$ByPassAllowedPrefix%Regex.<Regex>"
+      }
+    }
+  }
+}

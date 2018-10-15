@@ -1,0 +1,14 @@
+{
+  "Prefix": "&b&lServerName &8┃ &r",
+  "WarnPrefix": "%Prefix%%Colors.WARNING%",
+  "Colors": {
+    "PRIMARY": "&b",
+    "SECONDARY": "&9",
+    "IMPORTANT": "&8",
+    "TEXT": "&7",
+    "EXTRA": "&l",
+    "DESIGN": "&m",
+    "RESET": "&r",
+    "WARNING": "&c"
+  }
+}

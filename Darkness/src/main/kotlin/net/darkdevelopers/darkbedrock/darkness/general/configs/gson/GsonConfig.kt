@@ -13,12 +13,38 @@ import java.nio.file.Files
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.06.2018 17:18.
- * Last edit 12.10.2018
+ * Last edit 15.10.2018
  */
 @Suppress("unused")
-open class GsonConfig(override val configData: ConfigData) : DefaultConfig, Cloneable {
+open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonObject = JsonObject()) : DefaultConfig, Cloneable {
 
-	var jsonObject: JsonObject = JsonObject()
+	companion object {
+
+		/**
+		 * @author Lars Artmann | LartyHD
+		 *
+		 * This method adds all values to the {@link JsonObject} when the key of the entry is not in it
+		 *
+		 * @see #default(String, Any?)
+		 * @since 15.10.2018
+		 */
+		fun JsonObject.default(entries: Map<String, Any?>): Unit = entries.forEach { this.default(it.key, it.value) }
+
+
+		/**
+		 * @author Lars Artmann | LartyHD
+		 *
+		 * This method adds the {@code value} to the {@code JsonObject} when the {@code key} is not in it
+		 *
+		 * @param value cast to String (with the toString() method)
+		 * @since 15.10.2018
+		 */
+		@Suppress("MemberVisibilityCanBePrivate")
+		fun JsonObject.default(key: String, value: Any?) {
+			if (this[key] == null) this.addProperty(key, value.toString())
+		}
+
+	}
 
 	override fun load(): GsonConfig {
 		try {
@@ -58,20 +84,37 @@ open class GsonConfig(override val configData: ConfigData) : DefaultConfig, Clon
 		return any
 	}
 
+
+	/**
+	 * @author Lars Artmann | LartyHD
+	 *
+	 * Adds the entry to the {@code JsonObject}
+	 *
+	 * @lastEdit 15.10.2018
+	 * @since First known version 31.07.2018
+	 */
 	override fun <I> put(key: String, value: I): GsonConfig {
-		when {
-			value is JsonElement -> jsonObject.add(key, value)
-			value?.toString() == null -> jsonObject.remove(key)
-			else -> jsonObject.add(key, JsonPrimitive(value.toString()))
-		}
+		put(key, value, jsonObject)
+		return this
+	}
+
+	/**
+	 * @author Lars Artmann | LartyHD
+	 *
+	 * Adds the entry to the {@code JsonObject}
+	 *
+	 * @since 15.10.2018
+	 */
+	@Suppress("MemberVisibilityCanBePrivate")
+	fun <I> put(key: String, value: I, jsonObject: JsonObject): GsonConfig {
+		if (value is JsonElement) jsonObject.add(key, value) else jsonObject.add(key, JsonPrimitive(value.toString()))
 		return this
 	}
 
 	@Suppress("MemberVisibilityCanBePrivate")
 	fun formatJson(jsonElement: JsonElement): String = GsonBuilder().setPrettyPrinting().create().toJson(jsonElement)
 
-
-	override fun clone() = copy(jsonObject)
+	override fun clone(): GsonConfig = copy(jsonObject)
 
 	@Suppress("MemberVisibilityCanBePrivate")
 	fun copy(jsonObject: JsonObject): GsonConfig {
@@ -79,4 +122,7 @@ open class GsonConfig(override val configData: ConfigData) : DefaultConfig, Clon
 		gsonConfig.jsonObject = jsonObject
 		return gsonConfig
 	}
+
+	override fun toString(): String = "GsonConfig(configData=$configData, jsonObject=$jsonObject)"
+
 }

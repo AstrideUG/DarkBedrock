@@ -9,6 +9,7 @@ import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMapWithSubs
+import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 
 @Suppress("MemberVisibilityCanBePrivate")
 /**
@@ -18,13 +19,14 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMa
  */
 open class GsonMessages(private val config: GsonConfig) {
 
-    private val language = config.getAs<JsonPrimitive>("language")?.asString ?: "en_US"
-    private val useExtraConfigs = config.getAs<JsonPrimitive>("UseExtraConfigs")?.asBoolean ?: false
-    private val languages = if (useExtraConfigs) getJsonObjectByFile(language) else config.getAsNotNull("languages")
-    private val globalMessages: JsonObject? = if (useExtraConfigs) getJsonObjectByFile("global") else config.getAs("global", languages)
+	private val jsonObject = config.getAsNotNull<JsonObject>("Messages")
+	private val useExternalFiles = config.getAs<JsonPrimitive>("UseExternalFiles", jsonObject)?.asBoolean ?: false
+	private val language = config.getAs<JsonPrimitive>("language", jsonObject)?.asString ?: "en_US"
+	private val languages = jsonObjectConsideringExternalFiles(language, "languages", jsonObject).toNonNull()
+	private val acrossLanguagesMessages = jsonObjectConsideringExternalFiles("across-languages", languages)
     private val messages = config.getAsNotNull<JsonObject>(language, languages)
     private val gsonStringMap = GsonStringMapWithSubs(messages)
-    private val gsonStringMapWithSubs = if (globalMessages != null) GsonStringMapWithSubs(globalMessages) else null
+	private val gsonStringMapWithSubs = if (acrossLanguagesMessages != null) GsonStringMapWithSubs(acrossLanguagesMessages) else null
     val availableMessages = mutableMapOf<String, String>().apply {
         putAll(gsonStringMap.available)
         if (gsonStringMapWithSubs != null) putAll(gsonStringMapWithSubs.available)
@@ -57,9 +59,14 @@ open class GsonMessages(private val config: GsonConfig) {
         return map
     }
 
-//    private fun replaceKeysForNotMutableMaps(map: Map<String, String>) = replaceKeys(HashMap(map))
+	private fun jsonObjectConsideringExternalFiles(key: String, jsonObject: JsonObject): JsonObject? = jsonObjectConsideringExternalFiles(key, key, jsonObject)
 
-    private fun getJsonObjectByFile(fileName: String) = GsonConfig(ConfigData("${config.getDirectory()}languages", "$fileName.json")).load().jsonObject
+	private fun jsonObjectConsideringExternalFiles(key1: String, key2: String, jsonObject: JsonObject): JsonObject? =
+			if (useExternalFiles) jsonObjectByFile(key1) else config.getAs(key2, jsonObject)
+
+	private
+
+	fun jsonObjectByFile(fileName: String) = GsonConfig(ConfigData("${config.getDirectory()}languages", "$fileName.json")).load().jsonObject
 
     private fun replace(input: String, key: String, value: String) = input.replace("%$key%", value, true)
 
