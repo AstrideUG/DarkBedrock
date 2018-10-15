@@ -3,6 +3,7 @@
  */
 
 import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
@@ -34,7 +35,7 @@ const val defaultConfigName: String = "config.json"
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 12.10.2018 20:24.
- * Last edit 15.10.2018
+ * Last edit 16.10.2018
  *
  * This Version runs on ConfigVersion 1.0 (Released on ??.??.2018)
  */
@@ -61,14 +62,26 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	private val resetGeneratedExamples by lazy {
 		config.getAs<JsonPrimitive>("ResetGenerated", examples)?.asBoolean ?: true
 	}
+	private val logMessages: Map<String, Map<String, String>> by lazy {
+		val logMessages = config.getAs<JsonElement>("LogMessages", examples)
+		val result = mutableMapOf<String, MutableMap<String, String>>()
+		val exception = IllegalStateException("LogMessages must a String, JsonObject or null")
+		when (logMessages) {
+			is JsonPrimitive -> if (logMessages.isString) GsonConfig(ConfigData(directory, logMessages.asString)).load().jsonObject else throw exception
+			is JsonObject -> logMessages
+			null -> null
+			else -> throw exception
+		}?.entrySet()?.forEach { result[it.key] = GsonStringMap(it.value.asJsonObject).available }
+		result.getOrPut("CraftItem") { mutableMapOf() }.apply {
+			this.putIfAbsent("StringIsNotAMaterial", "String is not a Material")
+			this.putIfAbsent("TheJsonElementIsNotAString", "The JsonElement is not a String")
+		}
+		return@lazy result.toMap()
+	}
 	private val messages: Map<String, String> by lazy { SpigotGsonMessages(config).availableMessages }
 	private val permissions: Map<String, String> by lazy { GsonStringMap(config.getAsNotNull("Permissions")).available }
-	private val configs: MutableSet<String> by lazy {
-		HashSet<String>().apply {
-			config.getAsNotNull<JsonObject>("Configs").entrySet().forEach { entry ->
-				entry.value.asJsonArray.forEach { this.add(it.asString) }
-			}
-		}
+	private val configs: Map<String, JsonObject> by lazy {
+		HashMap<String, JsonObject>().apply { config.getAsNotNull<JsonObject>("Configs").entrySet().forEach { this[it.key] = it.value.asJsonObject } }
 	}
 
 	/**
@@ -110,9 +123,11 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 
 	/**
 	 * @author Lars Artmann | LartyHD
+	 *
 	 * It cancel crafting when the material is on the blacklist and you don't have the bypass permissions.
 	 * The blacklist (the configs list) and the bypass permissions are defined in the config.
 	 * WARNING: This method is an Event. Don't call it manually!
+	 *
 	 * @param event is for the Event System from Spigot to select the right Event
 	 * @see CancellableModuleConfig.json
 	 * @since 1.0
@@ -120,17 +135,25 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	 */
 	@EventHandler
 	fun onCraftItemEvent(event: CraftItemEvent) {
+		val name = "CraftItem"
 		val item = event.currentItem ?: return
 		val whoClicked = event.whoClicked.toNonNull()
-		val craftItemPermissions = permissions["CraftItem"]
-		configs.forEach {
+		val craftItemPermissions = permissions[name]
+		val jsonObject = configs[name] ?: return
+		config.getAs<JsonArray>("BlockedMaterials", jsonObject)?.forEach {
+			fun warn(key: String) = System.err.println(logMessages[name]?.get(key))
 			try {
-				if (Material.valueOf(it) != item.type &&
-						(craftItemPermissions != null && hasPermission(whoClicked, replace(craftItemPermissions, "<ItemType>", item.type))))
-					return@forEach
+				if (
+						Material.valueOf(it.asString) != item.type &&
+						(craftItemPermissions != null && hasPermission(whoClicked, replace(craftItemPermissions, "<ItemType>", item.type)))
+				) return@forEach
 				cancel(event)
-				whoClicked.sendMessage(replace(messages["CraftItem.NoPermissionToCraftThisItem"], "<ItemType>", item.type))
+				whoClicked.sendMessage(replace(messages["$name.NoPermissionToCraftThisItem"], "<ItemType>", item.type))
 			} catch (ex: IllegalArgumentException) {
+				warn("StringIsNotAMaterial")
+				ex.printStackTrace()
+			} catch (ex: IllegalStateException) {
+				warn("TheJsonElementIsNotAString")
 				ex.printStackTrace()
 			}
 		}
@@ -142,8 +165,8 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	private inner class DefaultConfigs {
 
 		private fun example1_0() {
+			val configPath = "AsyncPlayerChat${File.separator}$defaultConfigName"
 			val globalConfigPath = "global.json"
-			val configPath = "AsyncPlayerChat/$defaultConfigName"
 			val worldsDirectoryName = "worlds"
 			val worldsDirectory = File(worldsDirectoryName)
 			var config = GsonConfig(ConfigData(directory, defaultConfigName)).load()
@@ -152,36 +175,13 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 					?.map { it.asString.toNonNull() }
 					?.toSet()
 					?: setOf("1SexyMap", "2SuperSexyMap", "3JoJoMap", "4IAmJoJoOfficial.org")
-			config
-					.put("GenerateNoExamples", false)
-					.put("ResetGeneratedExamples", true)
-					.put("Message", config.jsonObject {
-						this.put("UseExternalFiles", true)
-						this.put("language", "de_DE")
-					})
-					.put("Configs", config.jsonObject {
-						this.put("AsyncPlayerChat", config.jsonObject { this.put("ConfigPath", configPath) })
-						this.put("CraftItem", jsonArray { this.add("TNT".toJsonPrimitive()) })
-					})
-					.put("Permissions", config.jsonObject {
-						this.put("CraftItem", "CancellableModule.CraftItem.Bypass.<ItemType>")
-						this.put("BlockBreak", "CancellableModule.BlockBreak.Bypass.<ItemType>")
-					})
-					.save()
-			config = GsonConfig(ConfigData(directory, configPath)).load()
-			config
-					.put("GlobalConfigPath", globalConfigPath)
-					.put("Worlds", config.jsonObject {
-						this.put("Directory", worldsDirectoryName)
-						this.put("ConfigName", defaultConfigName)
-					})
-					.save()
 
 			fun config(config: GsonConfig) = config
 					.put("BlockAll", false)
 					.put("Use", config.jsonObject {
-						this.put("Words", "Blocked/Block/Black/Blacklist|Allowed/Allow/White/Whitelist|Non/Disable/Disabled/Off/null")
-						this.put("Characters", "Allowed/Allow/White/Whitelist|Blocked/Block/Black/Blacklist|Non/Disable/Disabled/Off/null")
+						this.put("#possibilities (IgnoreCase)", "Allowed/Allow/White/Whitelist|Blocked/Block/Black/Blacklist|None/Nothing/Disable/Disabled/Off/null")
+						this.put("Words", "Blocked")
+						this.put("Characters", null)
 						this.put("IgnoreCase", true)
 					})
 					.put("Blocked", config.jsonObject {
@@ -218,13 +218,55 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 						})
 					})
 					.save()
+
+			config
+					.put("GenerateNoExamples", false)
+					.put("ResetGeneratedExamples", true)
+					.put("Message", config.jsonObject {
+						this.put("UseExternalFiles", true)
+						this.put("language", "de_DE")
+					})
+					.put("LogMessages", "error-messages.json")
+					.put("Configs", config.jsonObject {
+						this.put("AsyncPlayerChat", config.jsonObject { this.put("ConfigPath", configPath) })
+						this.put("CraftItem", config.jsonObject {
+							this.put("BlockedMaterials", jsonArray { this.add("TNT".toJsonPrimitive()) })
+						})
+					})
+					.put("Permissions", config.jsonObject {
+						this.put("CraftItem", "CancellableModule.CraftItem.Bypass.<ItemType>")
+						this.put("BlockBreak", "CancellableModule.BlockBreak.Bypass.<ItemType>")
+					})
+					.save()
+
+			config = GsonConfig(ConfigData(directory, configPath)).load()
+			config
+					.put("GlobalConfigPath", globalConfigPath)
+					.put("Worlds", config.jsonObject {
+						this.put("Directory", worldsDirectoryName)
+						this.put("ConfigName", defaultConfigName)
+					})
+					.save()
 			config(GsonConfig(ConfigData(directory, globalConfigPath)).load())
 			exampleWorldNames.forEach {
 				val file = File("$worldsDirectory${File.separator}$it")
 				file.mkdirs()
 				if (file.isDirectory) config(GsonConfig(ConfigData(it, defaultConfigName)).load())
-			}
 //			worldsDirectory.listFiles().forEach { if (it.isDirectory) config(GsonConfig(ConfigData(it, defaultConfigName)).load()) }
+			}
+			fun logMessages() {
+//				val logMessages = config.getAs<JsonPrimitive>("LogMessages")?.asString ?: return
+				val logMessagesConfigName = "error-messages.json"
+				@Suppress("NAME_SHADOWING")
+				val config = GsonConfig(ConfigData(directory, logMessagesConfigName)).load()
+				config
+						.put("CraftItem", config.jsonObject {
+							this.put("StringIsNotAMaterial", "String is not a Material")
+							this.put("TheJsonElementIsNotAString", "The JsonElement is not a String")
+						})
+						.save()
+			}
+			logMessages()
 		}
 
 		private fun String.toJsonPrimitive() = JsonPrimitive(this)

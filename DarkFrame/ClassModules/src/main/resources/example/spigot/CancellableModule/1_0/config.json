@@ -21,6 +21,13 @@
     /* required! */
     "language": "de_DE"
   },
+  /*
+   * not mandatory
+   *
+   * Can be the ConfigPath or a JsonObject
+   *
+   */
+  "LogMessages": "error-messages.json",
   /* required! */
   "Configs": {
     /* required! */
@@ -30,6 +37,7 @@
     },
     /* required! */
     "CraftItem": {
+      /* not mandatory */
       "BlockedMaterials": [
         "TNT"
       ]
@@ -37,7 +45,9 @@
   },
   /* required! */
   "Permissions": /*Use null for deny bypass Permissions*/ {
+    /* not mandatory */
     "CraftItem": "CancellableModule.CraftItem.Bypass.<ItemType>",
+    /* not mandatory */
     "BlockBreak": "CancellableModule.BlockBreak.Bypass.<ItemType>"
   }
 }

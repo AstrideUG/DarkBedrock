@@ -1,0 +1,6 @@
+{
+  "CraftItem": {
+    "StringIsNotAMaterial": "String is not a Material",
+    "TheJsonElementIsNotAString": "The JsonElement is not a String"
+  }
+}

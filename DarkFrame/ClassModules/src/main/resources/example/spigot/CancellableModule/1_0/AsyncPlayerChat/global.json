@@ -1,8 +1,8 @@
 {
   "BlockAll": false,
-  "Use": /*Possibilities: Blocked/Block/Black/Blacklist|Allowed/Allow/White/Whitelist|Non/Disable/Disabled/Off/null*/ {
+  "Use": /*Possibilities (IgnoreCase): Allowed/Allow/White/Whitelist|Blocked/Block/Black/Blacklist|None/Nothing/Disable/Disabled/Off/null*/ {
     "Words": "Blocked",
-    "Characters": "None",
+    "Characters": null,
     "IgnoreCase": true
   },
   "Blocked": {
