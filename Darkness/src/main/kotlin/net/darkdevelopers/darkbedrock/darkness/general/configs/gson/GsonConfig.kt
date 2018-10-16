@@ -7,9 +7,9 @@ package net.darkdevelopers.darkbedrock.darkness.general.configs.gson
 import com.google.gson.*
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.DefaultConfig
+import java.io.File
 import java.io.FileWriter
 import java.nio.file.Files
-
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.06.2018 17:18.
@@ -42,6 +42,78 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		@Suppress("MemberVisibilityCanBePrivate")
 		fun JsonObject.default(key: String, value: Any?) {
 			if (this[key] == null) this.addProperty(key, value.toString())
+		}
+
+
+		/**
+		 * @author Lars Artmann | LartyHD
+		 *
+		 * Get a {@code JsonObject} by name or by the file at the config path by config ({@code GsonConfig}) with null support
+		 * This is the config ({@code GsonConfig}) version of {@see multiPlaceJsonObject(JsonElement, String, File, IllegalStateException)} and {@see multiPlaceJsonObject(JsonElement?, String, File)}
+		 *
+		 * @param config the placeholder for the JsonObject or the String or is null
+		 * @param name key name (for the exception message and get the {@code JsonElement} of the {@param config})
+		 * @param directory prefix folder
+		 * @param canBeNull if is false the result can not be null but it can throw a {@code IllegalStateException} with the reason {@param element} is null
+		 * @exception IllegalStateException will be thrown if the {@param element} is not a {@code String} or {@code JsonObject} or {@code null}. Null is not acceptable, if {@code canBeNull} is {@code false}
+		 * @since 16.10.2018
+		 */
+		fun multiPlaceJsonObject(config: GsonConfig, name: String, directory: File, canBeNull: Boolean = true): JsonObject? =
+				if (canBeNull) multiPlaceJsonObject(config.getAs<JsonElement>(name), name, directory)
+				else multiPlaceJsonObject(config.getAsNotNull<JsonElement>(name), name, directory)
+
+		/**
+		 * @author Lars Artmann | LartyHD
+		 *
+		 * Get a {@code JsonObject} by name or by the file at the config path with null support
+		 * This is the null accept version of {@see multiPlaceJsonObject(JsonElement, String, File, IllegalStateException)}
+		 *
+		 * @param element the placeholder for the JsonObject or the String or is null
+		 * @param name key name (for the exception message)
+		 * @param directory prefix folder
+		 * @exception IllegalStateException will be thrown if the {@param element} is not a {@code String}, {@code JsonObject} or {@code null}
+		 * @since 16.10.2018
+		 */
+		@Suppress("MemberVisibilityCanBePrivate")
+		fun multiPlaceJsonObject(element: JsonElement?, name: String, directory: File): JsonObject? =
+				if (element == null) null else multiPlaceJsonObject(element, name, directory, IllegalStateException("$name must a String, JsonObject or null"))
+
+
+		/**
+		 * @author Lars Artmann | LartyHD
+		 *
+		 * Get a {@code JsonObject} by name or by the file at the config path
+		 *
+		 * @param element the placeholder for the JsonObject or the String
+		 * @param name key name (for the exception message)
+		 * @param directory prefix folder
+		 * @param exception for change the message of the {@code IllegalStateException}
+		 * @exception IllegalStateException will be thrown if the {@param element} is not a {@code String} or {@code JsonObject}
+		 * @since 16.10.2018
+		 */
+		@Suppress("MemberVisibilityCanBePrivate")
+		fun multiPlaceJsonObject(
+				element: JsonElement,
+				name: String,
+				directory: File,
+				exception: IllegalStateException = IllegalStateException("$name must a String or JsonObject")
+		): JsonObject = when (element) {
+			is JsonPrimitive -> if (element.isString) GsonConfig(ConfigData(
+					if (!element.asString.contains(File.separator))
+						directory
+					else {
+						val split = element.asString.split(File.separator).toMutableList()
+						split.removeAt(split.size - 1)
+						val a = split.run {
+							val stringBuilder = StringBuilder()
+							this.forEach { stringBuilder.append(File.separator).append(it) }
+							stringBuilder.toString()
+						}
+						File("$directory$a")
+					}, element.asString
+			)).load().jsonObject else throw exception
+			is JsonObject -> element
+			else -> throw exception
 		}
 
 	}
@@ -126,3 +198,4 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 	override fun toString(): String = "GsonConfig(configData=$configData, jsonObject=$jsonObject)"
 
 }
+
