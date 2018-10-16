@@ -4,6 +4,7 @@ import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.ModulesCommand
 import net.darkdevelopers.darkbedrock.darkness.general.modules.manager.ClassJavaModuleManager
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.listener.EventsListener
 import net.darkdevelopers.darkbedrock.darkness.spigot.plugin.DarkPlugin
+import org.bukkit.Bukkit
 import java.lang.reflect.Field
 
 /**
@@ -21,9 +22,22 @@ class DarkFrame : DarkPlugin() {
     }
 
     override fun onEnable() = onEnable {
-        EventsListener.getSimpleInstance(this)
-        moduleManager = ClassJavaModuleManager(dataFolder, arrayOf(a()))
-        ModulesCommand(this, mapOf(Pair("Class", moduleManager.classModuleManager), Pair("Java", moduleManager.javaModuleManager)))
+        try {
+            EventsListener.getSimpleInstance(this)
+            moduleManager = ClassJavaModuleManager(dataFolder, arrayOf(a()))
+            ModulesCommand(this, mapOf("Class" to moduleManager.classModuleManager, "Java" to moduleManager.javaModuleManager))
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            System.err.println()
+            System.err.println("For security reasons, the server is shutdown!")
+            System.err.println("Aus Sicherheitsgründen wird der Server heruntergefahren!")
+            System.err.println()
+            Bukkit.broadcastMessage(" ")
+            Bukkit.broadcastMessage("§cFor security reasons, the server is shutdown!")
+            Bukkit.broadcastMessage("§cAus Sicherheitsgründen wird der Server heruntergefahren!")
+            Bukkit.broadcastMessage(" ")
+            Bukkit.shutdown()
+        }
     }
 
     private fun a(): (Field) -> Unit = {
