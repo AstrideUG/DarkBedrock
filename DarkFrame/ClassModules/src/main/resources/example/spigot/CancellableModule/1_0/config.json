@@ -1,13 +1,13 @@
 {
   /* required! */
   "ConfigVersion": "1.0",
-  /* required! */
+  /* not mandatory */
   "Examples": {
     /* not mandatory */
     "NoGeneration": false,
     /* not mandatory */
     "ResetGenerated": true,
-    /* required! */
+    /* not mandatory */
     "WorldNames": [
       "1SexyMap",
       "2SuperSexyMap",
@@ -28,6 +28,12 @@
    *
    */
   "LogMessages": "error-messages.json",
+  /*"LogMessages": {
+      "CraftItem": {
+        "StringIsNotAMaterial": "String is not a Material",
+        "TheJsonElementIsNotAString": "The JsonElement is not a String"
+      }
+  }*/
   /* required! */
   "Configs": {
     /* required! */

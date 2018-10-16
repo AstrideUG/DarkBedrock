@@ -57,13 +57,15 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 
 	private val directory by lazy { description.folder }
 	private val config by lazy { GsonConfig(ConfigData(directory, defaultConfigName)).load() }
-	private val examples by lazy { config.getAsNotNull<JsonObject>("Examples") }
-	private val generateNoExamples by lazy { config.getAs<JsonPrimitive>("NoGeneration", examples)?.asBoolean ?: false }
+	private val examples by lazy { config.getAs<JsonObject>("Examples") }
+	private val generateNoExamples by lazy {
+		config.getAs<JsonPrimitive>("NoGeneration", examples ?: return@lazy false)?.asBoolean ?: false
+	}
 	private val resetGeneratedExamples by lazy {
-		config.getAs<JsonPrimitive>("ResetGenerated", examples)?.asBoolean ?: true
+		config.getAs<JsonPrimitive>("ResetGenerated", examples ?: return@lazy true)?.asBoolean ?: true
 	}
 	private val logMessages: Map<String, Map<String, String>> by lazy {
-		val logMessages = config.getAs<JsonElement>("LogMessages", examples)
+		val logMessages = config.getAs<JsonElement>("LogMessages")
 		val result = mutableMapOf<String, MutableMap<String, String>>()
 		val exception = IllegalStateException("LogMessages must a String, JsonObject or null")
 		when (logMessages) {
@@ -143,12 +145,13 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 		config.getAs<JsonArray>("BlockedMaterials", jsonObject)?.forEach {
 			fun warn(key: String) = System.err.println(logMessages[name]?.get(key))
 			try {
+				fun String.rep() = replace(this, "<ItemType>", item.type)
 				if (
 						Material.valueOf(it.asString) != item.type &&
-						(craftItemPermissions != null && hasPermission(whoClicked, replace(craftItemPermissions, "<ItemType>", item.type)))
+						(craftItemPermissions != null && hasPermission(whoClicked, craftItemPermissions.rep()))
 				) return@forEach
 				cancel(event)
-				whoClicked.sendMessage(replace(messages["$name.NoPermissionToCraftThisItem"], "<ItemType>", item.type))
+				whoClicked.sendMessage(messages["$name.NoPermissionToCraftThisItem"]?.rep())
 			} catch (ex: IllegalArgumentException) {
 				warn("StringIsNotAMaterial")
 				ex.printStackTrace()
@@ -170,11 +173,12 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 			val worldsDirectoryName = "worlds"
 			val worldsDirectory = File(worldsDirectoryName)
 			var config = GsonConfig(ConfigData(directory, defaultConfigName)).load()
-			val exampleWorldNames = config.getAs<JsonArray>("WorldNames", examples)
+			val default = setOf("1SexyMap", "2SuperSexyMap", "3JoJoMap", "4IAmJoJoOfficial.org")
+			val exampleWorldNames = if (examples == null) default else config.getAs<JsonArray>("WorldNames", examples!!)
 					?.asSequence()
 					?.map { it.asString.toNonNull() }
 					?.toSet()
-					?: setOf("1SexyMap", "2SuperSexyMap", "3JoJoMap", "4IAmJoJoOfficial.org")
+					?: default
 
 			fun config(config: GsonConfig) = config
 					.put("BlockAll", false)
