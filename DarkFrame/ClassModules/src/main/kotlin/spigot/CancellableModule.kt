@@ -3,7 +3,6 @@
  */
 
 import com.google.gson.JsonArray
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
@@ -46,6 +45,7 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	 *
 	 * Keeps the module Infos
 	 *
+	 * @LastEdit at 15.10.2018 by Lars Artmann | LartyHD
 	 * @since 13.10.2018
 	 */
 	override val description: ModuleDescription = ModuleDescription(
@@ -55,9 +55,9 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 			"This Module can block all cancellable events of Spigot version 1.8.8-R0.1-SNAPSHOT"
 	)
 
-	private val directory by lazy { description.folder }
+	private val directory get() = description.folder
 	private val config by lazy { GsonConfig(ConfigData(directory, defaultConfigName)).load() }
-	private val examples by lazy { config.getAs<JsonObject>("Examples") }
+	private val examples by lazy { GsonConfig.multiPlaceJsonObject(config, "Examples", directory) }
 	private val generateNoExamples by lazy {
 		config.getAs<JsonPrimitive>("NoGeneration", examples ?: return@lazy false)?.asBoolean ?: false
 	}
@@ -65,15 +65,10 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 		config.getAs<JsonPrimitive>("ResetGenerated", examples ?: return@lazy true)?.asBoolean ?: true
 	}
 	private val logMessages: Map<String, Map<String, String>> by lazy {
-		val logMessages = config.getAs<JsonElement>("LogMessages")
 		val result = mutableMapOf<String, MutableMap<String, String>>()
-		val exception = IllegalStateException("LogMessages must a String, JsonObject or null")
-		when (logMessages) {
-			is JsonPrimitive -> if (logMessages.isString) GsonConfig(ConfigData(directory, logMessages.asString)).load().jsonObject else throw exception
-			is JsonObject -> logMessages
-			null -> null
-			else -> throw exception
-		}?.entrySet()?.forEach { result[it.key] = GsonStringMap(it.value.asJsonObject).available }
+		GsonConfig.multiPlaceJsonObject(config, "LogMessages", directory)?.entrySet()?.forEach {
+			result[it.key] = GsonStringMap(it.value.asJsonObject).available
+		}
 		result.getOrPut("CraftItem") { mutableMapOf() }.apply {
 			this.putIfAbsent("StringIsNotAMaterial", "String is not a Material")
 			this.putIfAbsent("TheJsonElementIsNotAString", "The JsonElement is not a String")
@@ -81,9 +76,13 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 		return@lazy result.toMap()
 	}
 	private val messages: Map<String, String> by lazy { SpigotGsonMessages(config).availableMessages }
-	private val permissions: Map<String, String> by lazy { GsonStringMap(config.getAsNotNull("Permissions")).available }
+	private val permissions: Map<String, String>? by lazy {
+		GsonStringMap(GsonConfig.multiPlaceJsonObject(config, "Permissions", directory) ?: return@lazy null).available
+	}
 	private val configs: Map<String, JsonObject> by lazy {
-		HashMap<String, JsonObject>().apply { config.getAsNotNull<JsonObject>("Configs").entrySet().forEach { this[it.key] = it.value.asJsonObject } }
+		HashMap<String, JsonObject>().apply {
+			GsonConfig.multiPlaceJsonObject(config, "Configs", directory, false)!!.entrySet().forEach { this[it.key] = it.value.asJsonObject }
+		}
 	}
 
 	/**
@@ -106,13 +105,14 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	 *
 	 * @param event is for the Event System from Spigot to select the right Event
 	 * @see CancellableModuleConfig.json
-	 * @since 1.0
 	 * @NeededConfigVersion 1.0
+	 * @LastEdit at 15.10.2018 by Lars Artmann | LartyHD
+	 * @since 1.0 (13.10.2018)
 	 */
 	@EventHandler
 	fun onAsyncPlayerChatEvent(event: AsyncPlayerChatEvent) {
 		val player = event.player.toNonNull()
-		val rawPermission = permissions["BlockAsyncPlayerChat"] ?: return
+		val rawPermission = permissions?.get("BlockAsyncPlayerChat") ?: return
 		val blocke = arrayListOf<String>()
 		val words = event.message.split(" ")
 //		words.forEach { if (hasPermission(player, rawPermission.replace("<Word>", it, true))) blocked.add(it) }
@@ -132,15 +132,16 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	 *
 	 * @param event is for the Event System from Spigot to select the right Event
 	 * @see CancellableModuleConfig.json
-	 * @since 1.0
 	 * @NeededConfigVersion 1.0
+	 * @LastEdit at 16.10.2018 by Lars Artmann | LartyHD
+	 * @since 1.0 (13.10.2018)
 	 */
 	@EventHandler
 	fun onCraftItemEvent(event: CraftItemEvent) {
 		val name = "CraftItem"
 		val item = event.currentItem ?: return
 		val whoClicked = event.whoClicked.toNonNull()
-		val craftItemPermissions = permissions[name]
+		val craftItemPermissions = permissions?.get(name)
 		val jsonObject = configs[name] ?: return
 		config.getAs<JsonArray>("BlockedMaterials", jsonObject)?.forEach {
 			fun warn(key: String) = System.err.println(logMessages[name]?.get(key))

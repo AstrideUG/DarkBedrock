@@ -49,7 +49,7 @@
       ]
     }
   },
-  /* required! */
+  /* not mandatory */
   "Permissions": /*Use null for deny bypass Permissions*/ {
     /* not mandatory */
     "CraftItem": "CancellableModule.CraftItem.Bypass.<ItemType>",
