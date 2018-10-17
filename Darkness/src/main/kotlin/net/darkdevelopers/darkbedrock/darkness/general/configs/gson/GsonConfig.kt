@@ -7,16 +7,17 @@ package net.darkdevelopers.darkbedrock.darkness.general.configs.gson
 import com.google.gson.*
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.DefaultConfig
+import net.darkdevelopers.darkbedrock.darkness.general.functions.check
 import java.io.File
 import java.io.FileWriter
 import java.nio.file.Files
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.06.2018 17:18.
- * Last edit 15.10.2018
+ * Last edit 17.10.2018
  */
 @Suppress("unused")
-open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonObject = JsonObject()) : DefaultConfig, Cloneable {
+open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonObject = JsonObject(), val serializeNulls: Boolean = true) : DefaultConfig, Cloneable {
 
 	companion object {
 
@@ -116,6 +117,71 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 			else -> throw exception
 		}
 
+
+		/**
+		 * @author Lars Artmann | LartyHD
+		 *
+		 * Replace Values (@param oldValue) with (@param newValue) in all Strings, in the Map and the Maps in the Map when is no "\" before
+		 *
+		 * @throws IllegalStateException if Map key is not a instance of String or Map value is not an instance of Any
+		 * @since 17.10.2018
+		 */
+		@Suppress("MemberVisibilityCanBePrivate")
+		fun replaceValues(map: Map<String, Any>, oldValue: String, newValue: String): Map<String, Any> {
+			val result = mutableMapOf<String, Any>()
+			map.forEach { (key, value) ->
+				if (value is String) {
+					fun addEntry(raw: String) {
+						result[key] = raw.replace(oldValue, newValue, true)
+					}
+
+					val split = value.split("\\$oldValue", ignoreCase = true)
+					if (split.isEmpty()) addEntry(value) else StringBuilder().apply {
+						split.forEach { part -> this.append(part).append("\\$oldValue") }
+						addEntry(this.toString())
+					}
+				} else if (value is Map<*, *>) @Suppress("UNCHECKED_CAST")
+				result.putAll(replaceValues(
+						/*It is checked at the runtime */ value.check(String::class.java.kotlin, Any::class.java.kotlin) as Map<String, Any>,
+						oldValue,
+						newValue
+				))
+
+			}
+			return result
+		}
+
+		/**
+		 * @author Lars Artmann | LartyHD
+		 *
+		 * Replace Values (@param oldValue) with the key of the Map in all Strings, in the Map and the Maps in the Map when is no "\" before
+		 *
+		 * @throws IllegalStateException if Map key is not a instance of String or Map value is not an instance of Any
+		 * @since 17.10.2018
+		 */
+		@Suppress("MemberVisibilityCanBePrivate")
+		fun replaceValuesWithKey(map: Map<String, Any>, oldValue: String = "<Key>"): Map<String, Any> {
+			val result = mutableMapOf<String, Any>()
+			map.forEach { (key, value) ->
+				if (value is String) {
+					fun addEntry(raw: String) {
+						result[key] = raw.replace(oldValue, key, true)
+					}
+
+					val split = value.split("\\$oldValue", ignoreCase = true)
+					if (split.isEmpty()) addEntry(value) else StringBuilder().apply {
+						split.forEach { part -> this.append(part).append("\\$oldValue") }
+						addEntry(this.toString())
+					}
+				} else if (value is Map<*, *>) @Suppress("UNCHECKED_CAST")
+				result.putAll(replaceValuesWithKey(
+						/*It is checked at the runtime */value.check(String::class.java.kotlin, Any::class.java.kotlin) as Map<String, Any>,
+						oldValue
+				))
+			}
+			return result
+		}
+
 	}
 
 	override fun load(): GsonConfig {
@@ -184,7 +250,11 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 	}
 
 	@Suppress("MemberVisibilityCanBePrivate")
-	fun formatJson(jsonElement: JsonElement): String = GsonBuilder().setPrettyPrinting().create().toJson(jsonElement)
+	fun formatJson(jsonElement: JsonElement): String {
+		val result = GsonBuilder().setPrettyPrinting()
+		if (serializeNulls) result.serializeNulls()
+		return result.create().toJson(jsonElement)
+	}
 
 	override fun clone(): GsonConfig = copy(jsonObject)
 
