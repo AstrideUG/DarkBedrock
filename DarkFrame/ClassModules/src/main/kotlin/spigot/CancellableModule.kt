@@ -34,7 +34,7 @@ const val defaultConfigName: String = "config.json"
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 12.10.2018 20:24.
- * Last edit 16.10.2018
+ * Last edit 17.10.2018
  *
  * This Version runs on ConfigVersion 1.0 (Released on ??.??.2018)
  */
