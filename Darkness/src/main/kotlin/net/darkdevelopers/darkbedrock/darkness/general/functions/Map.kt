@@ -19,10 +19,11 @@ import kotlin.reflect.KClass
  *
  * @throws IllegalStateException if "key" is not an instance of {@param value1} or "value" is not an instance of {@param value2}
  * @return the checked map but in the code is not declared as checked
+ * @see Map<*, *>.check(Array<KClass<*>>, Array<KClass<*>>)
  * @since 17.10.2018
  */
 @Suppress("unused")
-fun Map<*, *>.check(value1: KClass<*>, value2: KClass<*>): Map<*, *> = check(arrayOf(value1), arrayOf(value2))
+fun Map<*, *>.check(value1: KClass<*>, value2: KClass<*>, vararg values2: KClass<*>): Map<*, *> = check(arrayOf(value1), arrayOf(value2, *values2))
 
 /**
  * @author Lars Artmann | LartyHD
