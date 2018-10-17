@@ -1,46 +1,36 @@
+/* All JsonObject can be out source to a File. You must set the value of the key to a String with the ConfigPath */
 {
   /* required! */
   "ConfigVersion": "1.0",
   /* not mandatory */
   "Examples": {
-    /* not mandatory */
+    /* not mandatory (default is false) */
     "NoGeneration": false,
-    /* not mandatory */
+    /* not mandatory (default is false) */
     "ResetGenerated": true,
-    /* not mandatory */
+    /* not mandatory (default is ["1SexyMap", "2SuperSexyMap", "3JoJoMap", "4IAmJoJoOfficial.org"]) */
     "WorldNames": [
       "1SexyMap",
       "2SuperSexyMap",
-      "3JoJoMap"
+      "3JoJoMap",
+      "4IAmJoJoOfficial.org"
     ]
   },
   /* required! */
   "Messages": {
-    /* not mandatory */
-    "UseExternalFiles": true,
-    /* required! */
-    "language": "de_DE"
+    //    /* not mandatory (default is false) */
+    //    "UseExternalFiles": true,
+    /* not mandatory (default is "en_US") */
+    "language": "de_DE",
+    "across-languages": "messages/across-languages.json",
+    "languages": "messages/languages.json"
   },
-  /*
-   * not mandatory
-   *
-   * Can be the ConfigPath or a JsonObject
-   *
-   */
+  /* not mandatory */
   "LogMessages": "error-messages.json",
-  /*"LogMessages": {
-      "CraftItem": {
-        "StringIsNotAMaterial": "String is not a Material",
-        "TheJsonElementIsNotAString": "The JsonElement is not a String"
-      }
-  }*/
   /* required! */
   "Configs": {
     /* required! */
-    "AsyncPlayerChat": {
-      /* required! */
-      "ConfigPath": "AsyncPlayerChat/config.json"
-    },
+    "AsyncPlayerChat": "AsyncPlayerChat/config.json",
     /* required! */
     "CraftItem": {
       /* not mandatory */

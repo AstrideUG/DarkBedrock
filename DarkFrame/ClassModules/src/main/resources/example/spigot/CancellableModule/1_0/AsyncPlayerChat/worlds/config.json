@@ -1,15 +1,21 @@
 {
   "BlockAll": false,
   "Use": {
-    "Words": "None",
-    "Characters": "None",
+    "Words": "Blocked",
+    "Characters": null,
     "IgnoreCase": true
   },
   "Blocked": {
+    "Words": [
+      "Huso",
+      "Hurensohn"
+    ],
     "Regex": []
   },
   "Allowed": {
-    "Regex": []
+    "Regex": [
+      "^[\\x00-\\xFF]+$"
+    ]
   },
   "Permissions": {
     "$Prefix": "CancellableModule.AsyncPlayerChat.",

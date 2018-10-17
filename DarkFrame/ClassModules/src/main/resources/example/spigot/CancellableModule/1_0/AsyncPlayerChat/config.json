@@ -1,7 +1,4 @@
 {
-  "GlobalConfigPath": "global.json",
-  "Worlds": {
-    "Directory": "worlds",
-    "ConfigName": "config.json"
-  }
+  "Global": "worlds/config.json",
+  "Worlds": "worlds/<WorldName>/config.json"
 }

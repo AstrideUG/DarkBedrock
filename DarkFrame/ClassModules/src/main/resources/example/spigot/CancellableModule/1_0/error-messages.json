@@ -1,6 +1,9 @@
 {
+  /* not mandatory */
   "CraftItem": {
+    /* not mandatory (default is "String is not a Material") */
     "StringIsNotAMaterial": "String is not a Material",
+    /* not mandatory (default is "The JsonElement is not a String") */
     "TheJsonElementIsNotAString": "The JsonElement is not a String"
   }
 }

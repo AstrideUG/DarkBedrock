@@ -27,7 +27,7 @@ import java.io.File
  *
  * The default name for json configs
  *
- * @since 15.10.2018
+ * @since 1.0 (15.10.2018)
  */
 const val defaultConfigName: String = "config.json"
 
@@ -46,13 +46,21 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	 * Keeps the module Infos
 	 *
 	 * @LastEdit at 17.10.2018 by Lars Artmann | LartyHD
-	 * @since 13.10.2018
+	 * @since 1.0 (13.10.2018)
 	 */
 	override val description: ModuleDescription = ModuleDescription(
 			javaClass.name,
 			"1.0",
 			"Lars Artmann | LartyHD",
 			"This Module can block all cancellable events of Spigot version 1.8.8-R0.1-SNAPSHOT"
+	)
+
+
+	private val defaultLogMessages: Map<String, Map<String, String>> = mutableMapOf(
+			"CraftItem" to mapOf(
+					"StringIsNotAMaterial" to "String is not a Material",
+					"TheJsonElementIsNotAString" to "The JsonElement is not a String"
+			)
 	)
 
 	private val directory get() = description.folder
@@ -69,9 +77,10 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 		GsonConfig.multiPlaceJsonObject(config, "LogMessages", directory)?.entrySet()?.forEach {
 			result[it.key] = GsonStringMap(it.value.asJsonObject).available
 		}
-		result.getOrPut("CraftItem") { mutableMapOf() }.apply {
-			this.putIfAbsent("StringIsNotAMaterial", "String is not a Material")
-			this.putIfAbsent("TheJsonElementIsNotAString", "The JsonElement is not a String")
+		defaultLogMessages.forEach {
+			result.getOrPut(it.key) { mutableMapOf() }.apply {
+				it.value.forEach { (key, value) -> this.putIfAbsent(key, value) }
+			}
 		}
 		return@lazy result
 	}
@@ -91,7 +100,7 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	 * Generate example configs if is enabled {@see generateExamples}
 	 *
 	 * @see net.darkdevelopers.darkbedrock.darkness.general.functions.generateExamples(String, Boolean)
-	 * @since 15.10.2018
+	 * @since 1.0 (15.10.2018)
 	 */
 	override fun load() {
 		if (!generateNoExamples) DefaultConfigs().javaClass.generateExamples(directory.toString(), resetGeneratedExamples)
@@ -169,6 +178,7 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	private inner class DefaultConfigs {
 
 		private fun example1_0() {
+			TODO("Renew")
 			val configPath = "AsyncPlayerChat${File.separator}$defaultConfigName"
 			val globalConfigPath = "global.json"
 			val worldsDirectoryName = "worlds"
@@ -233,7 +243,7 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 					})
 					.put("LogMessages", "error-messages.json")
 					.put("Configs", config.jsonObject {
-						this.put("AsyncPlayerChat", config.jsonObject { this.put("ConfigPath", configPath) })
+						this.put("AsyncPlayerChat", configPath)
 						this.put("CraftItem", config.jsonObject {
 							this.put("BlockedMaterials", jsonArray { this.add("TNT".toJsonPrimitive()) })
 						})
@@ -246,11 +256,8 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 
 			config = GsonConfig(ConfigData(directory, configPath)).load()
 			config
-					.put("GlobalConfigPath", globalConfigPath)
-					.put("Worlds", config.jsonObject {
-						this.put("Directory", worldsDirectoryName)
-						this.put("ConfigName", defaultConfigName)
-					})
+					.put("Global", globalConfigPath)
+					.put("Worlds", "worldsDirectoryName${File.separator}$defaultConfigName")
 					.save()
 			config(GsonConfig(ConfigData(directory, globalConfigPath)).load())
 			exampleWorldNames.forEach {
@@ -264,12 +271,14 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 				val logMessagesConfigName = "error-messages.json"
 				@Suppress("NAME_SHADOWING")
 				val config = GsonConfig(ConfigData(directory, logMessagesConfigName)).load()
-				config
-						.put("CraftItem", config.jsonObject {
-							this.put("StringIsNotAMaterial", "String is not a Material")
-							this.put("TheJsonElementIsNotAString", "The JsonElement is not a String")
-						})
-						.save()
+				defaultLogMessages.forEach {
+					config.put(it.key) {
+						config.jsonObject {
+							it.value.forEach { (key, value) -> this.put(key, value) }
+						}
+					}
+				}
+				config.save()
 			}
 			logMessages()
 		}

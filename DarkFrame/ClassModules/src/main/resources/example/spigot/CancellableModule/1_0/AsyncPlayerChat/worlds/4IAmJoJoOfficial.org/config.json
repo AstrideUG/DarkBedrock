@@ -2,8 +2,17 @@
   /*
 
 
-  Secret: The file name (IAmJoJoOfficial.org) is owned by the Author: Lars Artmann | LartyHD :D
+  Secret: The domain name (IAmJoJoOfficial.org) is owned by the Author: Lars Artmann | LartyHD :D
 
 
   */
+  "Use": {
+    "Words": "Blocked",
+    "IgnoreCase": true
+  },
+  "Blocked": {
+    "Words": [
+      "JoJoIsNotTheBestSingerInTheWorld"
+    ]
+  }
 }
