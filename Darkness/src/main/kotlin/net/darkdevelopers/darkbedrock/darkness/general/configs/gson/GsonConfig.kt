@@ -11,22 +11,33 @@ import net.darkdevelopers.darkbedrock.darkness.general.functions.check
 import java.io.File
 import java.io.FileWriter
 import java.nio.file.Files
+
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.06.2018 17:18.
  * Last edit 17.10.2018
  */
 @Suppress("unused")
-open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonObject = JsonObject(), val serializeNulls: Boolean = true) : DefaultConfig, Cloneable {
+open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonObject = JsonObject(),
+
+					  /**
+					   * @author Lars Artmann | LartyHD
+					   *
+					   * If it is `false`, [#formatJson(JsonElement)] does not call [GsonBuilder#serializeNulls()]
+					   *
+					   * @since 17.10.2018
+					   */
+					  @Suppress("MemberVisibilityCanBePrivate")
+					  val serializeNulls: Boolean = true) : DefaultConfig, Cloneable {
 
 	companion object {
 
 		/**
 		 * @author Lars Artmann | LartyHD
 		 *
-		 * This method adds all values to the {@link JsonObject} when the key of the entry is not in it
+		 * This method adds all values to the [JsonObject] when the key of the entry is not in it
 		 *
-		 * @see #default(String, Any?)
+		 * @see [#default(String, Any?)]
 		 * @since 15.10.2018
 		 */
 		fun JsonObject.default(entries: Map<String, Any?>): Unit = entries.forEach { this.default(it.key, it.value) }
@@ -35,7 +46,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		/**
 		 * @author Lars Artmann | LartyHD
 		 *
-		 * This method adds the {@code value} to the {@code JsonObject} when the {@code key} is not in it
+		 * This method adds the [value] to the [JsonObject] when the [key] is not in it
 		 *
 		 * @param value cast to String (with the toString() method)
 		 * @since 15.10.2018
@@ -49,14 +60,14 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		/**
 		 * @author Lars Artmann | LartyHD
 		 *
-		 * Get a {@code JsonObject} by name or by the file at the config path by config ({@code GsonConfig}) with null support
-		 * This is the config ({@code GsonConfig}) version of {@see multiPlaceJsonObject(JsonElement, String, File, IllegalStateException)} and {@see multiPlaceJsonObject(JsonElement?, String, File)}
+		 * Get a [JsonObject] by name or by the file at the config path by config ([GsonConfig]) with null support
+		 * This is the config ([GsonConfig]) version of {@see multiPlaceJsonObject(JsonElement, String, File, IllegalStateException)} and {@see multiPlaceJsonObject(JsonElement?, String, File)}
 		 *
-		 * @param config the placeholder for the JsonObject or the String or is null
-		 * @param name key name (for the exception message and get the {@code JsonElement} of the {@param config})
+		 * @param config the placeholder for the [JsonObject] or the String or is null
+		 * @param name key name (for the exception message and get the [JsonElement] of the [config]})
 		 * @param directory prefix folder
-		 * @param canBeNull if is false the result can not be null but it can throw a {@code IllegalStateException} with the reason {@param element} is null
-		 * @throws IllegalStateException will be thrown if the {@param element} is not a {@code String} or {@code JsonObject} or {@code null}. Null is not acceptable, if {@code canBeNull} is {@code false}
+		 * @param canBeNull if is false the result can not be null but it can throw a [IllegalStateException] with the reason [JsonElement] by [config] is `null`
+		 * @throws IllegalStateException will be thrown if the [JsonElement] by [config] is not a [String] or [JsonObject] or `null`. Null is not acceptable, if [canBeNull] is `false`
 		 * @since 16.10.2018
 		 */
 		fun multiPlaceJsonObject(config: GsonConfig, name: String, directory: File, canBeNull: Boolean = true): JsonObject? =
@@ -66,13 +77,13 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		/**
 		 * @author Lars Artmann | LartyHD
 		 *
-		 * Get a {@code JsonObject} by name or by the file at the config path with null support
+		 * Get a [JsonObject] by name or by the file at the config path with null support
 		 * This is the null accept version of {@see multiPlaceJsonObject(JsonElement, String, File, IllegalStateException)}
 		 *
-		 * @param element the placeholder for the JsonObject or the String or is null
+		 * @param element the placeholder for the [JsonObject] or the [String] or is null
 		 * @param name key name (for the exception message)
 		 * @param directory prefix folder
-		 * @throws IllegalStateException will be thrown if the {@param element} is not a {@code String}, {@code JsonObject} or {@code null}
+		 * @throws IllegalStateException will be thrown if the [element] is not a [String], [JsonObject] or `null`
 		 * @since 16.10.2018
 		 */
 		@Suppress("MemberVisibilityCanBePrivate")
@@ -83,13 +94,13 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		/**
 		 * @author Lars Artmann | LartyHD
 		 *
-		 * Get a {@code JsonObject} by name or by the file at the config path
+		 * Get a [JsonObject] by name or by the file at the config path
 		 *
-		 * @param element the placeholder for the JsonObject or the String
+		 * @param element the placeholder for the [JsonObject] or the String
 		 * @param name key name (for the exception message)
 		 * @param directory prefix folder
-		 * @param exception for change the message of the {@code IllegalStateException}
-		 * @throws IllegalStateException will be thrown if the {@param element} is not a {@code String} or {@code JsonObject}
+		 * @param exception for change the message of the [IllegalStateException]
+		 * @throws IllegalStateException will be thrown if the [element]} is not a [String] or [JsonObject]
 		 * @since 16.10.2018
 		 */
 		@Suppress("MemberVisibilityCanBePrivate")
@@ -121,9 +132,9 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		/**
 		 * @author Lars Artmann | LartyHD
 		 *
-		 * Replace Values (@param oldValue) with (@param newValue) in all Strings, in the Map and the Maps in the Map when is no "\" before
+		 * Replace Values [oldValue] with [newValue] in all Strings, in the Map and the Maps in the Map when is no "\" before
 		 *
-		 * @throws IllegalStateException if Map key is not a instance of String or Map value is not an instance of Any
+		 * @throws IllegalStateException if [map] key is not a instance of [String] or [map] value is not an instance of Any
 		 * @since 17.10.2018
 		 */
 		@Suppress("MemberVisibilityCanBePrivate")
@@ -154,9 +165,9 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		/**
 		 * @author Lars Artmann | LartyHD
 		 *
-		 * Replace Values (@param oldValue) with the key of the Map in all Strings, in the Map and the Maps in the Map when is no "\" before
+		 * Replace Values [oldValue] with the key of the Map in all Strings, in the Map and the Maps in the Map when is no "\" before
 		 *
-		 * @throws IllegalStateException if Map key is not a instance of String or Map value is not an instance of Any
+		 * @throws IllegalStateException if Map key is not a instance of [String] or Map value is not an instance of Any
 		 * @since 17.10.2018
 		 */
 		@Suppress("MemberVisibilityCanBePrivate")
@@ -187,6 +198,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 	override fun load(): GsonConfig {
 		try {
 			jsonObject = JsonParser().parse(String(Files.readAllBytes(getFile().toPath()))).asJsonObject
+//			jsonObject = Gson().fromJson(String(Files.readAllBytes(getFile().toPath())), JsonObject::class.java)
 		} catch (ex: IllegalStateException) {
 			save()
 		}
@@ -226,9 +238,9 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 	/**
 	 * @author Lars Artmann | LartyHD
 	 *
-	 * Adds the entry to the {@code JsonObject}
+	 * Adds the entry to the [jsonObject]
 	 *
-	 * @lastEdit 15.10.2018
+	 * @LastEdit 15.10.2018
 	 * @since First known version 31.07.2018
 	 */
 	override fun <I> put(key: String, value: I): GsonConfig {
@@ -239,7 +251,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 	/**
 	 * @author Lars Artmann | LartyHD
 	 *
-	 * Adds the entry to the {@code JsonObject}
+	 * Adds the entry to the [jsonObject]
 	 *
 	 * @since 15.10.2018
 	 */
@@ -265,7 +277,8 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		return gsonConfig
 	}
 
-	override fun toString(): String = "GsonConfig(configData=$configData, jsonObject=$jsonObject)"
+	override fun toString(): String = "GsonConfig(configData=$configData, jsonObject=$jsonObject, serializeNulls=$serializeNulls)"
+
 
 }
 

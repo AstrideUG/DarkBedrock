@@ -1,4 +1,5 @@
 {
+  //TODO: Add <Key> support to GsonConfig
   "en_US": "languages/<Key>.json",
   "de_DE": "languages/<Key>.json"
 }

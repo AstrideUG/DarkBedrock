@@ -179,7 +179,8 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 
 		private fun example1_0() {
 			TODO("Renew")
-			val configPath = "AsyncPlayerChat${File.separator}$defaultConfigName"
+			val separator = File.separator
+			val configPath = "AsyncPlayerChat$separator$defaultConfigName"
 			val globalConfigPath = "global.json"
 			val worldsDirectoryName = "worlds"
 			val worldsDirectory = File(worldsDirectoryName)
@@ -257,11 +258,11 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 			config = GsonConfig(ConfigData(directory, configPath)).load()
 			config
 					.put("Global", globalConfigPath)
-					.put("Worlds", "worldsDirectoryName${File.separator}$defaultConfigName")
+					.put("Worlds", "worldsDirectoryName$separator$defaultConfigName")
 					.save()
 			config(GsonConfig(ConfigData(directory, globalConfigPath)).load())
 			exampleWorldNames.forEach {
-				val file = File("$worldsDirectory${File.separator}$it")
+				val file = File("$worldsDirectory$separator$it")
 				file.mkdirs()
 				if (file.isDirectory) config(GsonConfig(ConfigData(it, defaultConfigName)).load())
 //			worldsDirectory.listFiles().forEach { if (it.isDirectory) config(GsonConfig(ConfigData(it, defaultConfigName)).load()) }

@@ -16,13 +16,13 @@
       "4IAmJoJoOfficial.org"
     ]
   },
-  /* required! */
+  /* not mandatory */
   "Messages": {
-    //    /* not mandatory (default is false) */
-    //    "UseExternalFiles": true,
     /* not mandatory (default is "en_US") */
     "language": "de_DE",
+    /* not mandatory */
     "across-languages": "messages/across-languages.json",
+    /* not mandatory*/
     "languages": "messages/languages.json"
   },
   /* not mandatory */

@@ -18,6 +18,8 @@ class DarkFrame : DarkPlugin() {
     private lateinit var moduleManager: ClassJavaModuleManager
 
     init {
+        KotlinVersion
+//        if (!KotlinVersion.CURRENT.isAtLeast(1, 2, 61)) throw IllegalStateException("Current KotlinVersion is to low. Use 1.2.61 or higher")
         instance = this
     }
 

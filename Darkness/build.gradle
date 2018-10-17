@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.2.61'
+    id 'org.jetbrains.kotlin.jvm' version "1.2.71"
 }
 
 group 'net.darkdevelopers.darkbedrock'
@@ -29,6 +29,7 @@ dependencies {
     compile group: 'net.md-5', name: 'bungeecord-protocol', version: '1.8-SNAPSHOT'
     compile group: 'org.mongodb', name: 'mongodb-driver-async', version: '3.8.0'
     compile fileTree(dir: 'libraries', include: '*.jar')
+    compile "org.jetbrains.kotlin:kotlin-script-runtime:1.2.61"
 }
 
 compileKotlin { kotlinOptions.jvmTarget = "1.8" }
