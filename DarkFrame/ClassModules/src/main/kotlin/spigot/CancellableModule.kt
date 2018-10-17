@@ -73,9 +73,6 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 			this.putIfAbsent("StringIsNotAMaterial", "String is not a Material")
 			this.putIfAbsent("TheJsonElementIsNotAString", "The JsonElement is not a String")
 		}
-		val transform = result.map {
-			"Hallo"
-		}
 		return@lazy result.toMap()
 	}
 	private val messages: Map<String, String> by lazy { SpigotGsonMessages(config).availableMessages }
