@@ -45,11 +45,11 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	 *
 	 * Keeps the module Infos
 	 *
-	 * @LastEdit at 15.10.2018 by Lars Artmann | LartyHD
+	 * @LastEdit at 17.10.2018 by Lars Artmann | LartyHD
 	 * @since 13.10.2018
 	 */
 	override val description: ModuleDescription = ModuleDescription(
-			"CancellableModule",
+			javaClass.name,
 			"1.0",
 			"Lars Artmann | LartyHD",
 			"This Module can block all cancellable events of Spigot version 1.8.8-R0.1-SNAPSHOT"
