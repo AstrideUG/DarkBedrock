@@ -8,6 +8,7 @@ import com.google.gson.*
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.DefaultConfig
 import net.darkdevelopers.darkbedrock.darkness.general.functions.check
+import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import java.io.File
 import java.io.FileWriter
 import java.nio.file.Files
@@ -40,7 +41,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		 * @see [#default(String, Any?)]
 		 * @since 15.10.2018
 		 */
-		fun JsonObject.default(entries: Map<String, Any?>): Unit = entries.forEach { this.default(it.key, it.value) }
+		fun JsonObject.default(map: Map<String, Any?>): Unit = map.forEach { this.default(it.key, it.value) }
 
 
 		/**
@@ -138,7 +139,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		 * @since 17.10.2018
 		 */
 		@Suppress("MemberVisibilityCanBePrivate")
-		fun replaceValues(map: Map<String, Any>, oldValue: String, newValue: String): Map<String, Any> {
+		fun replaceValues(map: Map<String, Any?>, oldValue: String, newValue: String): Map<String, Any> {
 			val result = mutableMapOf<String, Any>()
 			map.forEach { (key, value) ->
 				if (value is String) {
@@ -171,7 +172,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		 * @since 17.10.2018
 		 */
 		@Suppress("MemberVisibilityCanBePrivate")
-		fun replaceValuesWithKey(map: Map<String, Any>, oldValue: String = "<Key>"): Map<String, Any> {
+		fun replaceValuesWithKey(map: Map<String, Any?>, oldValue: String = "<Key>"): Map<String, Any> {
 			val result = mutableMapOf<String, Any>()
 			map.forEach { (key, value) ->
 				if (value is String) {
@@ -192,6 +193,14 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 			}
 			return result
 		}
+
+		/**
+		 * @author Lars Artmann | LartyHD
+		 * @return a [Map] of the [JsonElement]s
+		 * @since 17.10.2018
+		 */
+		@Suppress("MemberVisibilityCanBePrivate")
+		fun mapByJson(jsonElement: JsonElement): Map<String, Any?> = Gson().fromJson<Map<String, Any?>>(jsonElement, Map::class.java).toNonNull()
 
 	}
 

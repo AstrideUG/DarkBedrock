@@ -86,12 +86,13 @@ val messages = mapOf(
 		)
 )
 
+
+fun <V : Any?> of(function: MutableMap<String, V>.() -> Unit) = mutableMapOf<String, V>().apply { function() }.toMap()
+
 @Suppress("NAME_SHADOWING")
-val messages = kotlin.run {
-	val result = mutableMapOf<String, Any>()
-	result["ValueGroupSeparator"] = "."
-	result["language"] = "de_DE"
-	val colors = mutableMapOf<String, String>().apply {
+val messages: Map<String, Any?> = of {
+	val colors = of<String> {
+		@Suppress("unused")
 		fun ChatColor.asString() = "${ChatColor.COLOR_CHAR}${this.char}"
 		this["PRIMARY"] = ChatColor.AQUA.asString()
 		this["SECONDARY"] = ChatColor.BLUE.asString()
@@ -102,34 +103,36 @@ val messages = kotlin.run {
 		this["RESET"] = ChatColor.RESET.asString()
 		this["WARNING"] = ChatColor.RED.asString()
 	}
-	val serverName = "ServerName"
-	val prefix = "&b&l$serverName &8┃ &r"
-	val warnPrefix = prefix + colors["WARNING"]
-	result["across-languages"] = mutableMapOf<String, Any>().apply {
-		this["ServerName"] = serverName
-	}
-	result["languages"] = mutableMapOf<String, Map<String, Any>>().apply {
-		this["en_US"] = mutableMapOf<String, Any>().apply {
-			this["CraftItem"] = mutableMapOf<String, String>().apply {
-				val warnPrefix = "Prefix :D $warnPrefix"
-				this["NoPermissionToCraftThisItem"] = "${warnPrefix}You are not allowed to craft ${colors["IMPORTANT"]}<ItemType>${colors["WARNING"]}!"
+	this["ValueGroupSeparator"] = "."
+	this["language"] = "de_DE"
+	this["languages"] = of<Any> {
+		val prefix = "&b&lServerName &8┃ &r"
+		val warnPrefix = prefix + colors["WARNING"]
+		this["en_US"] = of<Any> {
+			this["CraftItem"] = of<String> {
+				this["NoPermissionToCraftThisItem"] =
+						"${warnPrefix}You are not allowed to craft ${colors["IMPORTANT"]}<ItemType>${colors["WARNING"]}!"
 			}
-			this["AsyncPlayerChat"] = mutableMapOf<String, String>().apply {
-				this["NoPermissionToSendThisWords"] = "${warnPrefix}You are not allowed to send messages with this words: ${colors["IMPORTANT"]}<Words>${colors["WARNING"]}!"
+			this["AsyncPlayerChat"] = of<String> {
+				this["NoPermissionToSendThisWords"] =
+						"${warnPrefix}You are not allowed to send messages with this words: ${colors["IMPORTANT"]}<Words>${colors["WARNING"]}!"
 			}
 		}
-		this["de_DE"] = mutableMapOf<String, Any>().apply {
-			this["CraftItem"] = mutableMapOf<String, Any>().apply {
-				this["NoPermissionToCraftThisItem"] = "${warnPrefix}Du darfst ${colors["IMPORTANT"]}<ItemType> ${colors["WARNING"]}nicht craften!"
+		this["de_DE"] = of<Any> {
+			this["CraftItem"] = of<String> {
+				this["NoPermissionToCraftThisItem"] =
+						"${warnPrefix}Du darfst ${colors["IMPORTANT"]}<ItemType> ${colors["WARNING"]}nicht craften!"
 			}
-			this["AsyncPlayerChat"] = mutableMapOf<String, Any>().apply {
-				this["NoPermissionToSendThisWords"] = "${warnPrefix}Du darfst keine Nachrichten mit diesen Wörtern ${colors["IMPORTANT"]}<Words> ${colors["WARNING"]}senden!"
+			this["AsyncPlayerChat"] = of<String> {
+				this["NoPermissionToSendThisWords"] =
+						"${warnPrefix}Du darfst keine Nachrichten mit diesen Wörtern ${colors["IMPORTANT"]}<Words> ${colors["WARNING"]}senden!"
 			}
 
 		}
 	}
-	result.toMap()
+
 }
+
 
 /*
 {
@@ -174,4 +177,109 @@ val messages = kotlin.run {
 	}
 }
 */
+
+
+inner class Messages {
+
+	private val colors = of<String> {
+		@Suppress("unused")
+		fun ChatColor.asString() = "${ChatColor.COLOR_CHAR}${this.char}"
+		this["PRIMARY"] = ChatColor.AQUA.asString()
+		this["SECONDARY"] = ChatColor.BLUE.asString()
+		this["IMPORTANT"] = ChatColor.DARK_GRAY.asString()
+		this["TEXT"] = ChatColor.GRAY.asString()
+		this["EXTRA"] = ChatColor.BOLD.asString()
+		this["DESIGN"] = ChatColor.STRIKETHROUGH.asString()
+		this["RESET"] = ChatColor.RESET.asString()
+		this["WARNING"] = ChatColor.RED.asString()
+	}
+
+	val darkFrame: Map<String, Any?> = of {
+		this["Modules"] = of<Any?> {
+			this["CancellableModule"] = of<Any?> {
+				this["ValueGroupSeparator"] = "."
+				this["language"] = "de_DE"
+				this["languages"] = of<Any> {
+					val prefix = "&b&lServerName &8┃ &r"
+					val warnPrefix = prefix + colors["WARNING"]
+					this["en_US"] = of<Any> {
+						this["CraftItem"] = of<String> {
+							this["NoPermissionToCraftThisItem"] =
+									"${warnPrefix}You are not allowed to craft ${colors["IMPORTANT"]}<ItemType>${colors["WARNING"]}!"
+						}
+						this["AsyncPlayerChat"] = of<String> {
+							this["NoPermissionToSendThisWords"] =
+									"${warnPrefix}You are not allowed to send messages with this words: ${colors["IMPORTANT"]}<Words>${colors["WARNING"]}!"
+						}
+					}
+					this["de_DE"] = of<Any> {
+						this["CraftItem"] = of<String> {
+							this["NoPermissionToCraftThisItem"] =
+									"${warnPrefix}Du darfst ${colors["IMPORTANT"]}<ItemType> ${colors["WARNING"]}nicht craften!"
+						}
+						this["AsyncPlayerChat"] = of<String> {
+							this["NoPermissionToSendThisWords"] =
+									"${warnPrefix}Du darfst keine Nachrichten mit diesen Wörtern ${colors["IMPORTANT"]}<Words> ${colors["WARNING"]}senden!"
+						}
+
+					}
+				}
+			}
+		}
+	}
+	val cubes: Map<String, Any?> = mapOf()
+
+}
+
+val messages = of<Any?> {
+	val colors = of<String> {
+		@Suppress("unused")
+		fun ChatColor.asString() = "${ChatColor.COLOR_CHAR}${this.char}"
+		this["PRIMARY"] = ChatColor.AQUA.asString()
+		this["SECONDARY"] = ChatColor.BLUE.asString()
+		this["IMPORTANT"] = ChatColor.DARK_GRAY.asString()
+		this["TEXT"] = ChatColor.GRAY.asString()
+		this["EXTRA"] = ChatColor.BOLD.asString()
+		this["DESIGN"] = ChatColor.STRIKETHROUGH.asString()
+		this["RESET"] = ChatColor.RESET.asString()
+		this["WARNING"] = ChatColor.RED.asString()
+	}
+
+	this["DarkFrame"] = of<Any?> {
+		this["Modules"] = of<Any?> {
+			this["CancellableModule"] = of<Any?> {
+				this["Messages"] = of<Any?> {
+					this["separator"] = "."
+					this["language"] = "de_DE"
+					this["languages"] = of<Any> {
+						val prefix = "&b&lServerName &8┃ &r"
+						val warnPrefix = prefix + colors["WARNING"]
+
+						this["en_US"] = of<Any> {
+							this["CraftItem"] = of<String> {
+								this["NoPermissionToCraftThisItem"] =
+										"${warnPrefix}You are not allowed to craft ${colors["IMPORTANT"]}<ItemType>${colors["WARNING"]}!"
+							}
+							this["AsyncPlayerChat"] = of<String> {
+								this["NoPermissionToSendThisWords"] =
+										"${warnPrefix}You are not allowed to send messages with this words: ${colors["IMPORTANT"]}<Words>${colors["WARNING"]}!"
+							}
+						}
+						this["de_DE"] = of<Map<String, String>> {
+							this["CraftItem"] = of<String> {
+								this["NoPermissionToCraftThisItem"] =
+										"${warnPrefix}Du darfst ${colors["IMPORTANT"]}<ItemType> ${colors["WARNING"]}nicht craften!"
+							}
+							this["AsyncPlayerChat"] = of<String> {
+								this["NoPermissionToSendThisWords"] =
+										"${warnPrefix}Du darfst keine Nachrichten mit diesen Wörtern ${colors["IMPORTANT"]}<Words> ${colors["WARNING"]}senden!"
+							}
+
+						}
+					}
+				}
+			}
+		}
+	}
+}
 
