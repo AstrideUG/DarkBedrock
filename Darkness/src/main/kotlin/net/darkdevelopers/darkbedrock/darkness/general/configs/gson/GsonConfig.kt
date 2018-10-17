@@ -55,7 +55,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		 * @param name key name (for the exception message and get the {@code JsonElement} of the {@param config})
 		 * @param directory prefix folder
 		 * @param canBeNull if is false the result can not be null but it can throw a {@code IllegalStateException} with the reason {@param element} is null
-		 * @exception IllegalStateException will be thrown if the {@param element} is not a {@code String} or {@code JsonObject} or {@code null}. Null is not acceptable, if {@code canBeNull} is {@code false}
+		 * @throws IllegalStateException will be thrown if the {@param element} is not a {@code String} or {@code JsonObject} or {@code null}. Null is not acceptable, if {@code canBeNull} is {@code false}
 		 * @since 16.10.2018
 		 */
 		fun multiPlaceJsonObject(config: GsonConfig, name: String, directory: File, canBeNull: Boolean = true): JsonObject? =
@@ -71,7 +71,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		 * @param element the placeholder for the JsonObject or the String or is null
 		 * @param name key name (for the exception message)
 		 * @param directory prefix folder
-		 * @exception IllegalStateException will be thrown if the {@param element} is not a {@code String}, {@code JsonObject} or {@code null}
+		 * @throws IllegalStateException will be thrown if the {@param element} is not a {@code String}, {@code JsonObject} or {@code null}
 		 * @since 16.10.2018
 		 */
 		@Suppress("MemberVisibilityCanBePrivate")
@@ -88,7 +88,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		 * @param name key name (for the exception message)
 		 * @param directory prefix folder
 		 * @param exception for change the message of the {@code IllegalStateException}
-		 * @exception IllegalStateException will be thrown if the {@param element} is not a {@code String} or {@code JsonObject}
+		 * @throws IllegalStateException will be thrown if the {@param element} is not a {@code String} or {@code JsonObject}
 		 * @since 16.10.2018
 		 */
 		@Suppress("MemberVisibilityCanBePrivate")
