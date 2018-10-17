@@ -44,7 +44,7 @@ fun Map<*, *>.check(values1: Array<KClass<*>>, values2: Array<KClass<*>>): Map<*
 			this.singleOrNull()?.notNullSimpleName() ?: this.map { it.notNullSimpleName() }.toString()
 
 	fun Iterator<KClass<*>>.isInstance(value: Any?): Boolean {
-		this.forEach { if (!it.isInstance(value)) return true }
+		this.forEach { if (value != null && !it.isInstance(value)) return true }
 		return false
 	}
 
