@@ -5,7 +5,7 @@
 package net.darkdevelopers.darkbedrock.darkness.general.functions
 
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
+import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
 import java.io.File
 
 /**
@@ -30,8 +30,8 @@ fun Class<*>.generateExamples(folder: String, restGeneratedExamples: Boolean = t
 	val id = it.name.substring(7)
 	val configData = ConfigData("$folder${File.separator}examples${File.separator}$id", "config.json", false)
 	if (restGeneratedExamples || !configData.exists()) {
-		val config = GsonConfig(configData).load()
-		config.put("ConfigVersion", id.replace('_', '.'))
-		it(config)
+		val jsonObject = GsonService.loadAsJsonObject(configData)
+		jsonObject.addProperty("ConfigVersion", id.replace('_', '.'))
+		it(jsonObject)
 	}
 }
