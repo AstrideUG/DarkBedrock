@@ -124,7 +124,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 						}
 						File("$directory$a")
 					}, element.asString
-			)).configData).jsonObject else throw exception
+			)).configData).asJsonObject else throw exception
 			is JsonObject -> element
 			else -> throw exception
 		}
