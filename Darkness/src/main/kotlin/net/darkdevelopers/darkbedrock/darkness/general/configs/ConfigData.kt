@@ -31,6 +31,7 @@ data class ConfigData(
 
 	constructor(directory: String, fileName: String, create: Boolean = true) : this(File(directory), fileName, create)
 	@Deprecated("Ends erroneously with .json", ReplaceWith("ConfigData(directory, config.json")) constructor(directory: File) : this(directory, "config.json")
+	@Suppress("DEPRECATION")
 	@Deprecated("Use a Deprecated constructor", ReplaceWith("ConfigData(directory, config.json)")) constructor(directory: String) : this(File(directory))
 
     init {

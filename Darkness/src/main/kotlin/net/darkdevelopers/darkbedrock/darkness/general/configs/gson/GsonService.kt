@@ -31,11 +31,77 @@ object GsonService {
 	/**
 	 * @author Lars Artmann | LartyHD
 	 *
+	 * Cast the loaded [JsonElement] by [ConfigData] to [J]
+	 *
+	 * @throws ClassCastException when [check] is `false`
+	 * @since 1.0 (20.10.2018 - 20.10.2018)
+	 */
+	private fun <J : JsonElement> loadAs(configData: ConfigData, name: String, check: (JsonElement) -> Boolean, cast: (JsonElement) -> J): J {
+		val load = load(configData.file)
+		return if (check(load)) cast(load) else throw ClassCastException("The loaded JsonElement is not a $name")
+	}
+
+	/**
+	 * @author Lars Artmann | LartyHD
+	 *
+	 * Cast the loaded [JsonElement] by [ConfigData] to [JsonObject]
+	 *
+	 * @throws ClassCastException when [check] is `false`
+	 * @since 1.0 (20.10.2018 - 20.10.2018)
+	 */
+	fun loadAsJsonObject(configData: ConfigData): JsonObject = loadAs(configData, "JsonObject", { it.isJsonObject }, { it.asJsonObject })
+
+	/**
+	 * @author Lars Artmann | LartyHD
+	 *
+	 * Cast the loaded [JsonElement] by [ConfigData] to [JsonArray]
+	 *
+	 * @throws ClassCastException when [check] is `false`
+	 * @since 1.0 (20.10.2018 - 20.10.2018)
+	 */
+	fun loadAsJsonArray(configData: ConfigData): JsonArray = loadAs(configData, "JsonArray", { it.isJsonArray }, { it.asJsonArray })
+
+	/**
+	 * @author Lars Artmann | LartyHD
+	 *
 	 * Converts the content of a [File] content into a [JsonElement]
 	 *
 	 * @since 1.0 (20.10.2018 - 20.10.2018)
 	 */
 	fun load(file: File): JsonElement = JsonParser().parse(String(Files.readAllBytes(file.toPath())))
+
+	/**
+	 * @author Lars Artmann | LartyHD
+	 *
+	 * Cast the loaded [JsonElement] by [File] to [J]
+	 *
+	 * @throws ClassCastException when [check] is `false`
+	 * @since 1.0 (20.10.2018 - 20.10.2018)
+	 */
+	private fun <J : JsonElement> loadAs(file: File, name: String, check: (JsonElement) -> Boolean, cast: (JsonElement) -> J): J {
+		val load = load(file)
+		return if (check(load)) cast(load) else throw ClassCastException("The loaded JsonElement is not a $name")
+	}
+
+	/**
+	 * @author Lars Artmann | LartyHD
+	 *
+	 * Cast the loaded [JsonElement] by [File] to [JsonObject]
+	 *
+	 * @throws ClassCastException when [check] is `false`
+	 * @since 1.0 (20.10.2018 - 20.10.2018)
+	 */
+	fun loadAsJsonObject(file: File): JsonObject = loadAs(file, "JsonObject", { it.isJsonObject }, { it.asJsonObject })
+
+	/**
+	 * @author Lars Artmann | LartyHD
+	 *
+	 * Cast the loaded [JsonElement] by [File] to [JsonArray]
+	 *
+	 * @throws ClassCastException when [check] is `false`
+	 * @since 1.0 (20.10.2018 - 20.10.2018)
+	 */
+	fun loadAsJsonArray(file: File): JsonArray = loadAs(file, "JsonArray", { it.isJsonArray }, { it.asJsonArray })
 
 	/**
 	 * @author Lars Artmann | LartyHD
