@@ -111,7 +111,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 				directory: File,
 				exception: IllegalStateException = IllegalStateException("$name must a String or JsonObject")
 		): JsonObject = when (element) {
-			is JsonPrimitive -> if (element.isString) GsonConfig(ConfigData(
+			is JsonPrimitive -> if (element.isString) GsonService.load(GsonConfig(ConfigData(
 					if (!element.asString.contains(File.separator))
 						directory
 					else {
@@ -124,7 +124,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 						}
 						File("$directory$a")
 					}, element.asString
-			)).load().jsonObject else throw exception
+			)).configData).jsonObject else throw exception
 			is JsonObject -> element
 			else -> throw exception
 		}
@@ -204,21 +204,23 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 
 	}
 
+	@Deprecated("Use GsonService", ReplaceWith("GsonService.load(configData)", "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService"))
 	override fun load(): GsonConfig {
 		try {
 			jsonObject = JsonParser().parse(String(Files.readAllBytes(getFile().toPath()))).asJsonObject
 //			jsonObject = Gson().fromJson(String(Files.readAllBytes(getFile().toPath())), JsonObject::class.java)
 		} catch (ex: IllegalStateException) {
-			save()
+			GsonService.save(configData, jsonObject)
 		}
 		return this
 	}
 
+	@Deprecated("Use GsonService", ReplaceWith("GsonService.save(configData, jsonObject)", "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService"))
 	override fun save(): GsonConfig {
 		ConfigData.createFoldersIfNotExists(getDirectory())
 		ConfigData.createFileIfNotExists(getFile())
 		FileWriter(getFile()).apply {
-			write(formatJson(jsonObject))
+			write(GsonService.formatJson(jsonObject))
 			flush()
 			close()
 		}
@@ -238,7 +240,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 		val any = jsonObject[key] as? O
 		if (any == null) {
 			put(key, JsonNull.INSTANCE)
-			save()
+			GsonService.save(configData, this.jsonObject)
 		}
 		return any
 	}
@@ -271,6 +273,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 	}
 
 	@Suppress("MemberVisibilityCanBePrivate")
+	@Deprecated("Use GsonService", ReplaceWith("GsonService.formatJson(jsonObject)", "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService"))
 	fun formatJson(jsonElement: JsonElement): String {
 		val result = GsonBuilder().setPrettyPrinting()
 		if (serializeNulls) result.serializeNulls()

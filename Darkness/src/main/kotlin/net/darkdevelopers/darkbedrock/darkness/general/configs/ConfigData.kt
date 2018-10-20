@@ -10,7 +10,7 @@ import java.io.File
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.06.2018 17:42.
- * Last edit 15.10.2018
+ * Last edit 20.10.2018
  */
 @Suppress("MemberVisibilityCanBePrivate")
 data class ConfigData(
@@ -30,8 +30,8 @@ data class ConfigData(
     val file: File = File(directory, fileName)
 
 	constructor(directory: String, fileName: String, create: Boolean = true) : this(File(directory), fileName, create)
-	@Deprecated("Ends erroneously with .json", ReplaceWith(", config.json")) constructor(directory: File) : this(directory, "config.json")
-	@Deprecated("Use a Deprecated constructor", ReplaceWith("ConfigData(\$directory\$, config.json)")) constructor(directory: String) : this(File(directory))
+	@Deprecated("Ends erroneously with .json", ReplaceWith("ConfigData(directory, config.json")) constructor(directory: File) : this(directory, "config.json")
+	@Deprecated("Use a Deprecated constructor", ReplaceWith("ConfigData(directory, config.json)")) constructor(directory: String) : this(File(directory))
 
     init {
 		if (create) createIfNotExists(directory, file)
