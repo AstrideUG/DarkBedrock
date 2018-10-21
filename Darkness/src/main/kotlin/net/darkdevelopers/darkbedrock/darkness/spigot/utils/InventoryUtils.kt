@@ -18,8 +18,6 @@ import org.bukkit.inventory.ItemStack
  * Last edit 24.08.2018
  */
 object InventoryUtils {
-    fun Player.removeItemInHand() = if (itemInHand == null || itemInHand.amount == 1) itemInHand = null else itemInHand.amount = itemInHand.amount - 1
-
     fun hasItems(itemStacks: Array<ItemStack>, material: Material): Int {
         var count = 0
         itemStacks.forEach { if (it.type == material) count += it.amount }
@@ -29,6 +27,8 @@ object InventoryUtils {
     fun getInventorySize(size: Int): Int = if (size <= 9) 9 else if (size <= 18) 18 else if (size <= 27) 27 else if (size <= 36) 36 else if (size <= 45) 45 else 54
 
 }
+
+fun Player.removeItemInHand() = if (itemInHand == null || itemInHand.amount == 1) itemInHand = null else itemInHand.amount = itemInHand.amount - 1
 
 //TODO Update The SetItems
 fun Inventory.sortChestInventory(itemStacks: List<ItemStack>, addSlots: Int = 0) {
