@@ -16,7 +16,7 @@ import org.bukkit.entity.Item
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.block.BlockBreakEvent
-import org.bukkit.event.entity.ItemSpawnEvent
+import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.ShapedRecipe
@@ -25,7 +25,7 @@ import java.util.*
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 21.10.2018 13:27.
- * Current Version: 1.0 (21.10.2018 - 21.10.2018)
+ * Current Version: 1.0 (21.10.2018 13:27 - 21.10.2018 20:29)
  */
 class DirtCraftingModule : Module, Listener(DarkFrame.instance) {
 
@@ -44,11 +44,11 @@ class DirtCraftingModule : Module, Listener(DarkFrame.instance) {
 	)
 
 	private val items = arrayOf(
-			result("I", 1, ChatColor.GRAY) to Material.AIR,
-			result("II", 2, ChatColor.DARK_GRAY) to Material.IRON_INGOT,
-			result("III", 3, ChatColor.GOLD) to Material.GOLD_INGOT,
-			result("IV", 5, ChatColor.AQUA) to Material.DIAMOND,
-			result("V", 10, ChatColor.GREEN) to Material.EMERALD
+			result("I", 1, ChatColor.GRAY) to Material.IRON_INGOT,
+			result("II", 2, ChatColor.DARK_GRAY) to Material.GOLD_INGOT,
+			result("III", 3, ChatColor.GOLD) to Material.DIAMOND,
+			result("IV", 5, ChatColor.AQUA) to Material.EMERALD,
+			result("V", 10, ChatColor.GREEN) to Material.AIR
 	)
 
 	/**
@@ -94,16 +94,11 @@ FurnaceSmeltEvent
 	fun onBlockBreakEvent(event: BlockBreakEvent) {
 		val block = event.block
 		if (block.type != Material.LEAVES && block.type != Material.LEAVES_2) return
+		val itemInHand = event.player.itemInHand
 		items.withIndex().forEach { (index, pair) ->
-			println(1)
-			println(event.player.itemInHand)
-			println(event.player.itemInHand != ItemBuilder(pair.first).setDurability(0).build())
-			if (!event.player.itemInHand.equalsWithOutDamage(pair.first)) return@forEach
-			println(2)
-			cancel(event)
-			block.type = null
+			if (!itemInHand.equalsWithOutDamage(pair.first)) return@forEach
+			block.type = Material.AIR //Can not be null!
 			val random = Random().nextInt(100)
-			println(random)
 			val a: IntRange = when (index) {
 				1 -> 1..2
 				2 -> 1..3
@@ -111,9 +106,8 @@ FurnaceSmeltEvent
 				4 -> 1..10
 				else -> 1..1
 			}
-			println(a)
-			println(a.contains(random))
 			if (a.contains(random)) block.world.dropItemNaturally(block.location, ItemStack(Material.DIRT))
+			return
 		}
 	}
 
@@ -124,22 +118,33 @@ FurnaceSmeltEvent
 	 * WARNING: This method is an Event. Don't call it manually!
 	 *
 	 * @param event is for the Event System from Spigot to select the right Event
+	 * @see [upgrade]
 	 * @since 1.0 (21.10.2018 - 21.10.2018)
 	 */
 	@EventHandler
-	fun onItemSpawnEvent(event: ItemSpawnEvent) {
-		val entity = event.entity
-		val itemStack = entity.itemStack
-		items.withIndex().forEach { (index, pair) ->
-			if (!itemStack.equalsWithOutDamage(pair.first)) return@forEach
-			val item = entity.getNearbyEntities(1.0, 1.0, 1.0)
-					.asSequence()
-					.mapNotNull { it as? Item }
-					.singleOrNull { it.itemStack.type == pair.second } ?: return
-			entity.remove()
-			item.remove()
-			item.world.dropItemNaturally(item.location, items[index + 1].first)
+	fun onPlayerDropItemEvent(event: PlayerDropItemEvent): Unit = upgrade(event.itemDrop)
+
+//	TODO:
+//	@EventHandler
+//	fun onBlockDispenseEvent(event: BlockDispenseEvent): Unit = upgrade(event.)
+
+	private fun upgrade(entity: Item) = items.withIndex().forEach { (index, pair) ->
+		val (itemStack, material) = pair
+		if (index + 1 >= items.size) return@forEach
+		val sequence = entity.getNearbyEntities(2.0, 3.0, 2.0)
+				.asSequence()
+				.mapNotNull { it as? Item }
+		val upgradeItem = sequence.firstOrNull { itemStack == it.itemStack && material == entity.itemStack.type }
+				?: sequence.firstOrNull { itemStack == entity.itemStack && material == it.itemStack.type }
+				?: return@forEach
+
+		fun remove(item: Item) {
+			if (item.itemStack.amount == 1) item.remove() else item.itemStack.amount--
 		}
+		remove(entity)
+		remove(upgradeItem)
+		upgradeItem.world.dropItemNaturally(upgradeItem.location, items[index + 1].first.clone())
+		return
 	}
 
 	private fun ItemStack.equalsWithOutDamage(itemStack: ItemStack) = itemStack == ItemBuilder(this).setDamage(0).build()
