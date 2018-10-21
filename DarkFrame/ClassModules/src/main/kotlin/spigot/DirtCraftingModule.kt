@@ -2,23 +2,24 @@
  * © Copyright - Lars Artmann aka. LartyHD 2018.
  */
 
-package spigot
-
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
-import net.darkdevelopers.darkbedrock.darkness.general.utils.ReflectUtils
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.ItemBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
+import org.bukkit.block.Block
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.Item
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.block.BlockBreakEvent
+import org.bukkit.event.entity.ItemSpawnEvent
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.ShapedRecipe
-import org.bukkit.inventory.ShapelessRecipe
 import java.util.*
 
 /**
@@ -42,13 +43,12 @@ class DirtCraftingModule : Module, Listener(DarkFrame.instance) {
 			"This Module can add crafting recipes for dirt shears"
 	)
 
-	private val itemBuilder = ItemBuilder(Material.SHEARS).addUnsafeEnchantment(Enchantment.LUCK, 10)
 	private val items = arrayOf(
-			result("I", 1),
-			result("II", 2),
-			result("III", 3),
-			result("IV", 5),
-			result("V", 10)
+			result("I", 1, ChatColor.GRAY) to Material.AIR,
+			result("II", 2, ChatColor.DARK_GRAY) to Material.IRON_INGOT,
+			result("III", 3, ChatColor.GOLD) to Material.GOLD_INGOT,
+			result("IV", 5, ChatColor.AQUA) to Material.DIAMOND,
+			result("V", 10, ChatColor.GREEN) to Material.EMERALD
 	)
 
 	/**
@@ -61,14 +61,7 @@ class DirtCraftingModule : Module, Listener(DarkFrame.instance) {
 	 */
 	@Suppress("DEPRECATION")
 	override fun start() {
-		fun upgrade(result: ItemStack, last: ItemStack, with: Material): ShapelessRecipe {
-			val upgrade = ShapelessRecipe(result)
-			upgrade.addIngredient(with)
-			ReflectUtils.getValueAs<MutableList<ItemStack>>(upgrade, "ingredients")?.add(last)
-			return upgrade
-		}
-
-		val base = ShapedRecipe(result("I", 1))
+		Bukkit.addRecipe(ShapedRecipe(items[0].first)
 				.shape("ABC", "DEF", "GHI")
 				.setIngredient('A', Material.ROTTEN_FLESH)
 				.setIngredient('B', Material.WATER_BUCKET)
@@ -77,17 +70,8 @@ class DirtCraftingModule : Module, Listener(DarkFrame.instance) {
 				.setIngredient('E', Material.SHEARS)
 				.setIngredient('F', Material.SPECKLED_MELON)
 				.setIngredient('G', Material.YELLOW_FLOWER)
-				.setIngredient('H', Material.CAULDRON)
-				.setIngredient('I', Material.RED_ROSE)
-		val two = upgrade(result("II", 2), base.result, Material.IRON_INGOT)
-		val three = upgrade(result("III", 3), two.result, Material.GOLD_INGOT)
-		val four = upgrade(result("IV", 5), three.result, Material.DIAMOND)
-		val five = upgrade(result("V", 10), four.result, Material.EMERALD)
-		Bukkit.addRecipe(base)
-		Bukkit.addRecipe(two)
-		Bukkit.addRecipe(three)
-		Bukkit.addRecipe(four)
-		Bukkit.addRecipe(five)
+				.setIngredient('H', Material.CAULDRON_ITEM)
+				.setIngredient('I', Material.RED_ROSE))
 /*
 ShapedRecipe
 ShapelessRecipe
@@ -100,7 +84,7 @@ FurnaceSmeltEvent
 	/**
 	 * @author Lars Artmann | LartyHD
 	 *
-	 *
+	 * Delete the [Block] and drops an dirt, if the [Block.getType] is [Material.LEAVES] or [Material.LEAVES_2] and [Player.getItemInHand] is in [items]
 	 * WARNING: This method is an Event. Don't call it manually!
 	 *
 	 * @param event is for the Event System from Spigot to select the right Event
@@ -108,24 +92,62 @@ FurnaceSmeltEvent
 	 */
 	@EventHandler
 	fun onBlockBreakEvent(event: BlockBreakEvent) {
-		if (event.block.type != Material.LEAVES && event.block.type != Material.LEAVES) return
-		items.withIndex().forEach {
-			if (event.player.itemInHand != it) return
-			event.block.type = null
+		val block = event.block
+		if (block.type != Material.LEAVES && block.type != Material.LEAVES_2) return
+		items.withIndex().forEach { (index, pair) ->
+			println(1)
+			println(event.player.itemInHand)
+			println(event.player.itemInHand != ItemBuilder(pair.first).setDurability(0).build())
+			if (!event.player.itemInHand.equalsWithOutDamage(pair.first)) return@forEach
+			println(2)
+			cancel(event)
+			block.type = null
 			val random = Random().nextInt(100)
-			val a: IntRange = when (it.index) {
+			println(random)
+			val a: IntRange = when (index) {
 				1 -> 1..2
 				2 -> 1..3
 				3 -> 1..5
 				4 -> 1..10
 				else -> 1..1
 			}
-			if (a.contains(random)) event.player.inventory.addItem(ItemStack(Material.DIRT))
+			println(a)
+			println(a.contains(random))
+			if (a.contains(random)) block.world.dropItemNaturally(block.location, ItemStack(Material.DIRT))
 		}
 	}
 
-	private fun result(id: String, value: Int) = itemBuilder
-			.setName("${ChatColor.GRAY}Kompostierer $id")
+	/**
+	 * @author Lars Artmann | LartyHD
+	 *
+	 * Improved the items to the next level
+	 * WARNING: This method is an Event. Don't call it manually!
+	 *
+	 * @param event is for the Event System from Spigot to select the right Event
+	 * @since 1.0 (21.10.2018 - 21.10.2018)
+	 */
+	@EventHandler
+	fun onItemSpawnEvent(event: ItemSpawnEvent) {
+		val entity = event.entity
+		val itemStack = entity.itemStack
+		items.withIndex().forEach { (index, pair) ->
+			if (!itemStack.equalsWithOutDamage(pair.first)) return@forEach
+			val item = entity.getNearbyEntities(1.0, 1.0, 1.0)
+					.asSequence()
+					.mapNotNull { it as? Item }
+					.singleOrNull { it.itemStack.type == pair.second } ?: return
+			entity.remove()
+			item.remove()
+			item.world.dropItemNaturally(item.location, items[index + 1].first)
+		}
+	}
+
+	private fun ItemStack.equalsWithOutDamage(itemStack: ItemStack) = itemStack == ItemBuilder(this).setDamage(0).build()
+
+	private fun result(id: String, value: Int, color: ChatColor) = ItemBuilder(Material.SHEARS)
+			.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+			.addEnchant(Enchantment.LUCK, 10)
+			.setName("${color}Kompostierer $id")
 			.setLore(
 					listOf(
 							"",
