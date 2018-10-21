@@ -14,7 +14,7 @@ object ReflectUtils {
         ex.printStackTrace()
     }
 
-    @Deprecated("Use getValue(Class<*>, Any, String)", ReplaceWith("getValue(any.javaClass, Any, String)"))
+	@Deprecated("Use getValue(Class<*>, Any, String)", ReplaceWith("getValue(any.javaClass, any, name)"))
     fun getValue(any: Any, name: String) = try {
         getField(any.javaClass, name)?.get(any)
     } catch (ex: Exception) {
@@ -30,7 +30,7 @@ object ReflectUtils {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <O : Any?> getValueAs(any: Any, name: String) = getValue(any.javaClass, Any, String) as? O
+	fun <O : Any?> getValueAs(any: Any, name: String) = getValue(any.javaClass, any, name) as? O
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun getField(clazz: Class<*>, name: String): Field? = try {
