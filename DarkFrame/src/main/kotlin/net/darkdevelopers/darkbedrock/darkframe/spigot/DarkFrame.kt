@@ -5,7 +5,8 @@ import net.darkdevelopers.darkbedrock.darkness.general.modules.manager.ClassJava
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.listener.EventsListener
 import net.darkdevelopers.darkbedrock.darkness.spigot.plugin.DarkPlugin
 import org.bukkit.Bukkit
-import java.lang.reflect.Field
+import org.bukkit.ChatColor
+import kotlin.properties.Delegates
 
 /**
  * @author Lars Artmann | LartyHD
@@ -14,43 +15,47 @@ import java.lang.reflect.Field
  */
 class DarkFrame : DarkPlugin() {
 
-    //    internal val injector: Injector = Guice.createInjector(InjectorModule())
-    private lateinit var moduleManager: ClassJavaModuleManager
+    private var moduleManager: ClassJavaModuleManager by Delegates.notNull()
 
     init {
-        KotlinVersion
 //        if (!KotlinVersion.CURRENT.isAtLeast(1, 2, 61)) throw IllegalStateException("Current KotlinVersion is to low. Use 1.2.61 or higher")
         instance = this
     }
 
-    override fun onEnable() = onEnable {
-        try {
+    override fun onEnable() = security {
+        onEnable {
             EventsListener.getSimpleInstance(this)
-            moduleManager = ClassJavaModuleManager(dataFolder, arrayOf(a()))
+            moduleManager = ClassJavaModuleManager(dataFolder)
             ModulesCommand(this, mapOf("Class" to moduleManager.classModuleManager, "Java" to moduleManager.javaModuleManager))
-        } catch (ex: Throwable) {
-            ex.printStackTrace()
+        }
+    }
+
+    companion object {
+        var instance: DarkFrame by Delegates.notNull()
+            private set
+
+        /**
+         * @author Lars Artmann | LartyHD
+         *
+         * Stops the Server when a [Throwable] is caught
+         *
+         * @since 25.10.2018
+         */
+        fun security(action: () -> Unit): Unit = try {
+            action()
+        } catch (throwable: Throwable) {
+            throwable.printStackTrace()
             System.err.println()
             System.err.println("For security reasons, the server is shutdown!")
             System.err.println("Aus Sicherheitsgründen wird der Server heruntergefahren!")
             System.err.println()
             Bukkit.broadcastMessage(" ")
-            Bukkit.broadcastMessage("§cFor security reasons, the server is shutdown!")
-            Bukkit.broadcastMessage("§cAus Sicherheitsgründen wird der Server heruntergefahren!")
+            Bukkit.broadcastMessage("${ChatColor.RED}For security reasons, the server is shutdown!")
+            Bukkit.broadcastMessage("${ChatColor.RED}Aus Sicherheitsgründen wird der Server heruntergefahren!")
             Bukkit.broadcastMessage(" ")
             Bukkit.shutdown()
         }
     }
 
-    private fun a(): (Field) -> Unit = {
-        if (it.type == javaClass) it.set(javaClass, this)
-    }
-
-    companion object {
-        lateinit var instance: DarkFrame
-            private set
-    }
-
 }
 
-//fun Any.getInjector() = DarkFrame.instance.injector
