@@ -10,7 +10,7 @@ import java.lang.reflect.Field
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 03.07.2018 07:30.
- * Last edit 24.08.2018
+ * Last edit 25.10.2018
  */
 class DarkFrame : DarkPlugin() {
 
@@ -28,7 +28,7 @@ class DarkFrame : DarkPlugin() {
             EventsListener.getSimpleInstance(this)
             moduleManager = ClassJavaModuleManager(dataFolder, arrayOf(a()))
             ModulesCommand(this, mapOf("Class" to moduleManager.classModuleManager, "Java" to moduleManager.javaModuleManager))
-        } catch (ex: Exception) {
+        } catch (ex: Throwable) {
             ex.printStackTrace()
             System.err.println()
             System.err.println("For security reasons, the server is shutdown!")

@@ -12,9 +12,9 @@ package de.astride.apis.modules.annotations
 @Target(AnnotationTarget.CLASS)
 @MustBeDocumented
 annotation class Module(
-        val name: String,
-        val version: String,
-        val author: String,
-        val description: String,
-        val async: Boolean = false
+		val name: String,
+		val version: String,
+		val author: String,
+		val description: String,
+		val async: Boolean = false
 )
