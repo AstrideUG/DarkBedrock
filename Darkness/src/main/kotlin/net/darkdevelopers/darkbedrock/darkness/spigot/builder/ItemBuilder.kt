@@ -31,7 +31,7 @@ import java.util.*
  */
 data class ItemBuilder(private val itemStack: ItemStack) : IItemBuilder {
 
-    private val itemMeta: ItemMeta = itemStack.itemMeta
+    private val itemMeta: ItemMeta? = itemStack.itemMeta
 
     constructor(itemBuilder: ItemBuilder) : this(itemBuilder.build())
 
@@ -85,37 +85,37 @@ data class ItemBuilder(private val itemStack: ItemStack) : IItemBuilder {
     }
 
     override fun addLore(lore: Collection<String>): IItemBuilder {
-        val itemLore = itemMeta.lore ?: mutableListOf()
+        val itemLore = itemMeta?.lore ?: mutableListOf()
         itemLore.addAll(lore)
-        itemMeta.lore = itemLore
+        itemMeta?.lore = itemLore
         return this
     }
 
     override fun addLore(index: Int, lore: Collection<String>): IItemBuilder {
-        if (itemMeta.lore === null) itemMeta.lore = mutableListOf()
-        itemMeta.lore.addAll(index, lore)
-        itemMeta.lore = itemMeta.lore
+        if (itemMeta?.lore === null) itemMeta?.lore = mutableListOf()
+        itemMeta?.lore?.addAll(index, lore)
+        itemMeta?.lore = itemMeta?.lore
         return this
     }
 
     override fun addLore(vararg lore: String): IItemBuilder {
-        val itemLore = itemMeta.lore ?: mutableListOf()
+        val itemLore = itemMeta?.lore ?: mutableListOf()
         itemLore.addAll(lore)
-        itemMeta.lore = itemLore
+        itemMeta?.lore = itemLore
         return this
     }
 
     override fun addLore(lore: String): IItemBuilder {
-        val itemLore = itemMeta.lore ?: mutableListOf()
+        val itemLore = itemMeta?.lore ?: mutableListOf()
         itemLore.add(lore)
-        itemMeta.lore = itemLore
+        itemMeta?.lore = itemLore
         return this
     }
 
     override fun addLore(index: Int, lore: String): IItemBuilder {
-        val itemLore = itemMeta.lore ?: mutableListOf()
+        val itemLore = itemMeta?.lore ?: mutableListOf()
         itemLore.add(index, lore)
-        itemMeta.lore = itemLore
+        itemMeta?.lore = itemLore
         return this
     }
     /*ItemStack Add*/
@@ -127,16 +127,16 @@ data class ItemBuilder(private val itemStack: ItemStack) : IItemBuilder {
     }
 
     override fun removeLore(lore: List<String>): IItemBuilder {
-        val itemLore = itemMeta.lore ?: mutableListOf()
+        val itemLore = itemMeta?.lore ?: mutableListOf()
         itemLore.removeAll(lore)
-        itemMeta.lore = itemLore
+        itemMeta?.lore = itemLore
         return this
     }
 
     override fun removeLore(index: Int): IItemBuilder {
-        val itemLore = itemMeta.lore ?: mutableListOf()
+        val itemLore = itemMeta?.lore ?: mutableListOf()
         itemLore.removeAt(index)
-        itemMeta.lore = itemLore
+        itemMeta?.lore = itemLore
         return this
     }
     /*ItemStack Remove*/
@@ -145,12 +145,12 @@ data class ItemBuilder(private val itemStack: ItemStack) : IItemBuilder {
 	 *ItemMeta Setter
 	 */
     override fun setLore(lore: List<String>): IItemBuilder {
-        itemMeta.lore = lore
+        itemMeta?.lore = lore
         return this
     }
 
     override fun setLore(lore: String): IItemBuilder {
-        itemMeta.lore = listOf(lore)
+        itemMeta?.lore = listOf(lore)
         return this
     }
 
@@ -158,19 +158,19 @@ data class ItemBuilder(private val itemStack: ItemStack) : IItemBuilder {
 
     @Suppress("MemberVisibilityCanBePrivate")
     override fun setDisplayName(displayName: String): IItemBuilder {
-        itemMeta.displayName = displayName
+        itemMeta?.displayName = displayName
         return this
     }
 
     override fun setBreakable(): IItemBuilder {
-        itemMeta.spigot().isUnbreakable = false
+        itemMeta?.spigot()?.isUnbreakable = false
         return this
     }
 
     override fun setUnbreakable() = setUnbreakable(true)
 
     override fun setUnbreakable(unbreakable: Boolean): IItemBuilder {
-        itemMeta.spigot().isUnbreakable = unbreakable
+        itemMeta?.spigot()?.isUnbreakable = unbreakable
         return this
     }
     /*
@@ -181,17 +181,17 @@ data class ItemBuilder(private val itemStack: ItemStack) : IItemBuilder {
 	 *ItemMeta Add
 	 */
     override fun addEnchant(enchantment: Enchantment, level: Int): IItemBuilder {
-        itemMeta.addEnchant(enchantment, level, true)
+        itemMeta?.addEnchant(enchantment, level, true)
         return this
     }
 
     override fun addEnchant(enchantment: Enchantment, level: Int, ignoreLevelRestriction: Boolean): IItemBuilder {
-        itemMeta.addEnchant(enchantment, level, ignoreLevelRestriction)
+        itemMeta?.addEnchant(enchantment, level, ignoreLevelRestriction)
         return this
     }
 
     override fun addItemFlags(vararg itemFlags: ItemFlag): IItemBuilder {
-        itemMeta.addItemFlags(*itemFlags)
+        itemMeta?.addItemFlags(*itemFlags)
         return this
     }
     /*
@@ -202,12 +202,12 @@ data class ItemBuilder(private val itemStack: ItemStack) : IItemBuilder {
 	 *ItemMeta Remove
 	 */
     override fun removeEnchant(enchantment: Enchantment): IItemBuilder {
-        itemMeta.removeEnchant(enchantment)
+        itemMeta?.removeEnchant(enchantment)
         return this
     }
 
     override fun removeItemFlags(vararg itemFlags: ItemFlag): IItemBuilder {
-        itemMeta.removeItemFlags(*itemFlags)
+        itemMeta?.removeItemFlags(*itemFlags)
         return this
     }
     /*
@@ -218,12 +218,12 @@ data class ItemBuilder(private val itemStack: ItemStack) : IItemBuilder {
 	 *ItemMeta Clear
 	 */
     override fun clearEnchants(): IItemBuilder {
-        itemMeta.enchants.clear()
+        itemMeta?.enchants?.clear()
         return this
     }
 
     override fun clearItemFlags(): IItemBuilder {
-        itemMeta.itemFlags.clear()
+        itemMeta?.itemFlags?.clear()
         return this
     }
     /*
@@ -234,7 +234,7 @@ data class ItemBuilder(private val itemStack: ItemStack) : IItemBuilder {
 	 *ItemMeta Hide
 	 */
     override fun addAllItemFlags(): IItemBuilder {
-        itemMeta.addItemFlags(*ItemFlag.values())
+        itemMeta?.addItemFlags(*ItemFlag.values())
         return this
     }
     /*
@@ -450,7 +450,7 @@ data class ItemBuilder(private val itemStack: ItemStack) : IItemBuilder {
         if (url.isEmpty()) return@ignoreClassCastException
         val gameProfile = GameProfile(UUID.randomUUID(), name)
         gameProfile.properties.put("textures", Property("textures", String(Base64.encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).toByteArray()))))
-        ReflectUtils.setValue(itemMeta, "profile", gameProfile)
+        ReflectUtils.setValue(itemMeta ?: return@ignoreClassCastException, "profile", gameProfile)
     }
     /*
 	 *SkullMeta Setter
