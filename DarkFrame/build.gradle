@@ -4,14 +4,14 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.71'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.0'
         classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
     }
 }
 
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.2.71'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.0'
 }
 
 group group
@@ -46,7 +46,7 @@ dependencies {
     testCompile group: 'org.mockito', name: 'mockito-all', version: '2.0.2-beta'
     compile(group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib')
     compile(group: 'org.jetbrains.kotlin', name: 'kotlin-reflect')
-    compile(group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '0.24.0')
+    compile(group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core')
     compile(group: 'org.spigotmc', name: 'spigot-api', version: spigotVersion)
     compile(group: 'net.md-5', name: 'bungeecord-api', version: '1.8-SNAPSHOT')
     compile(group: 'net.md-5', name: 'bungeecord-protocol', version: '1.8-SNAPSHOT')
