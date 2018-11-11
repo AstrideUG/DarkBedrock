@@ -23,35 +23,35 @@ import java.util.*
  */
 class MiniBossModule : Module, Listener(DarkFrame.instance) {
 
-    override val description: ModuleDescription = ModuleDescription("MiniBossModule", "1.0", "Lars Artmann | LartyHD", "")
-    private val types = arrayListOf(ItemStack(Material.LEATHER_HELMET), ItemStack(Material.CHAINMAIL_HELMET), ItemStack(Material.GOLD_HELMET), ItemStack(Material.IRON_HELMET), ItemStack(Material.DIAMOND_HELMET))
-    private val random = Random()
+	override val description: ModuleDescription = ModuleDescription("MiniBossModule", "1.0", "Lars Artmann | LartyHD", "")
+	private val types = arrayListOf(ItemStack(Material.LEATHER_HELMET), ItemStack(Material.CHAINMAIL_HELMET), ItemStack(Material.GOLD_HELMET), ItemStack(Material.IRON_HELMET), ItemStack(Material.DIAMOND_HELMET))
+	private val random = Random()
 
 
-    @EventHandler
-    fun onEntitySpawnEvent(event: EntitySpawnEvent) {
-        if (event.isCancelled ||
-                event.entityType == EntityType.ZOMBIE ||
-                event.entityType == EntityType.ARMOR_STAND ||
-                event.entityType == EntityType.DROPPED_ITEM) return
-        cancel(event)
-        (event.location.world.spawnEntity(event.location, EntityType.ZOMBIE) as Zombie).apply {
-            isBaby = true
-            customName = "§4§lMiniBoss"
-            equipment.apply {
-                helmet = types[random()].clone()
-                chestplate = types[random()].clone()
-                leggings = types[random()].clone()
-                boots = types[random()].clone()
-                itemInHand = ItemStack(Material.IRON_SWORD)
-            }
-            maxHealth = (random.nextInt(100) + 20).toDouble()
-            health = maxHealth
-            activePotionEffects.add(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Int.MAX_VALUE, random.nextInt(3), false, false))
-            isCustomNameVisible = true
-        }
-    }
+	@EventHandler
+	fun onEntitySpawnEvent(event: EntitySpawnEvent) {
+		if (event.isCancelled ||
+				event.entityType == EntityType.ZOMBIE ||
+				event.entityType == EntityType.ARMOR_STAND ||
+				event.entityType == EntityType.DROPPED_ITEM) return
+		cancel(event)
+		(event.location.world.spawnEntity(event.location, EntityType.ZOMBIE) as Zombie).apply {
+			isBaby = true
+			customName = "§4§lMiniBoss"
+			equipment.apply {
+				helmet = types[random()].clone()
+				chestplate = types[random()].clone()
+				leggings = types[random()].clone()
+				boots = types[random()].clone()
+				itemInHand = ItemStack(Material.IRON_SWORD)
+			}
+			maxHealth = (random.nextInt(100) + 20).toDouble()
+			health = maxHealth
+			activePotionEffects.add(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Int.MAX_VALUE, random.nextInt(3), false, false))
+			isCustomNameVisible = true
+		}
+	}
 
-    private fun random() = random.nextInt(5)
+	private fun random() = random.nextInt(5)
 
 }

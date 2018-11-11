@@ -11,11 +11,11 @@ package net.darkdevelopers.darkbedrock.darkness.universal.functions
  * Last edit 28.08.2018
  */
 fun <O : org.bukkit.event.Event> O.call(): O {
-    org.bukkit.Bukkit.getPluginManager().callEvent(this)
-    return this
+	org.bukkit.Bukkit.getPluginManager().callEvent(this)
+	return this
 }
 
 fun <O : net.md_5.bungee.api.plugin.Event> O.call(): O {
-    net.md_5.bungee.api.ProxyServer.getInstance().pluginManager.callEvent(this)
-    return this
+	net.md_5.bungee.api.ProxyServer.getInstance().pluginManager.callEvent(this)
+	return this
 }

@@ -11,35 +11,35 @@ import java.text.DecimalFormat
  */
 @Suppress("unused")
 interface DarkPlugin {
-    val parameter: Map<String, String>
-    var loadTime: Long
-    var enableTime: Long
+	val parameter: Map<String, String>
+	var loadTime: Long
+	var enableTime: Long
 
-    fun invoke() {
-        if (parameter["Name"] == null) throw NullPointerException("gameName in the parameter Map can not be null")
-    }
+	fun invoke() {
+		if (parameter["Name"] == null) throw NullPointerException("gameName in the parameter Map can not be null")
+	}
 
-    fun onLoad(lambda: () -> Unit) {
-        this.loadTime = System.nanoTime()
-        sendPluginInfos("Load", lambda) { sendLoadTimeMessage() }
-    }
+	fun onLoad(lambda: () -> Unit) {
+		this.loadTime = System.nanoTime()
+		sendPluginInfos("Load", lambda) { sendLoadTimeMessage() }
+	}
 
-    fun onEnable(lambda: () -> Unit) {
-        this.enableTime = System.nanoTime()
-        sendPluginInfos("Enable", lambda) { sendEnableTimeMessage() }
-    }
+	fun onEnable(lambda: () -> Unit) {
+		this.enableTime = System.nanoTime()
+		sendPluginInfos("Enable", lambda) { sendEnableTimeMessage() }
+	}
 
-    fun onDisable(lambda: () -> Unit) = sendPluginInfos("Disable", lambda) { sendMessage("§a${parameter["Name"]} lief seit dem Start ${format(enableTime)}ns") }
+	fun onDisable(lambda: () -> Unit) = sendPluginInfos("Disable", lambda) { sendMessage("§a${parameter["Name"]} lief seit dem Start ${format(enableTime)}ns") }
 
-    private fun sendPluginInfos(key: String, lambda: () -> Unit, end: () -> Unit) {
-        sendMessage("§2==================================================================================================")
-        sendMessage("")
-        sendMessage("§a$key Plugin§8...")
-        sendMessage("§8--------------------------------------------------------------------------------------------------")
+	private fun sendPluginInfos(key: String, lambda: () -> Unit, end: () -> Unit) {
+		sendMessage("§2==================================================================================================")
+		sendMessage("")
+		sendMessage("§a$key Plugin§8...")
+		sendMessage("§8--------------------------------------------------------------------------------------------------")
 //        sendMessage("§aName§8: ${description.gameName}")
 //        sendMessage("§aMain§8: ${description.main}")
 //        sendMessage("§aVersion§8: ${description.version}")
-        sendParameter()
+		sendParameter()
 //        if (description.authors.isNotEmpty()) sendMessage("§aAuthors§8: ${description.authors}")
 //        if (description.description != null) sendMessage("§aDescription§8: ${description.description}")
 //        if (description.website != null) sendMessage("§aWebsite§8: ${description.website}")
@@ -47,24 +47,24 @@ interface DarkPlugin {
 //        if (description.prefix != null) sendMessage("§aPrefix§8: ${description.prefix}")
 //        if (description.depend.size > 0) sendMessage("§aDepend§8: ${description.depend}")
 //        if (description.softDepend.size > 0) sendMessage("§aSoftDepend§8: ${description.softDepend}")
-        sendMessage("§8--------------------------------------------------------------------------------------------------")
-        lambda()
-        sendMessage("§a${if (key.endsWith("e")) key + "d" else key + "ed"} Plugin")
-        sendMessage("")
-        end()
-        sendMessage("")
-        sendMessage("§2==================================================================================================")
-    }
+		sendMessage("§8--------------------------------------------------------------------------------------------------")
+		lambda()
+		sendMessage("§a${if (key.endsWith("e")) key + "d" else key + "ed"} Plugin")
+		sendMessage("")
+		end()
+		sendMessage("")
+		sendMessage("§2==================================================================================================")
+	}
 
-    private fun sendLoadTimeMessage() = sendTimeMessage(loadTime, "geladen")
+	private fun sendLoadTimeMessage() = sendTimeMessage(loadTime, "geladen")
 
-    private fun sendEnableTimeMessage() = sendTimeMessage(enableTime, "gestartet")
+	private fun sendEnableTimeMessage() = sendTimeMessage(enableTime, "gestartet")
 
-    private fun sendTimeMessage(time: Long, reason: String) = sendMessage("§a${parameter["Name"]} wurde in ${format(time)}ns $reason")
+	private fun sendTimeMessage(time: Long, reason: String) = sendMessage("§a${parameter["Name"]} wurde in ${format(time)}ns $reason")
 
-    private fun format(long: Long): String = DecimalFormat("#,##0").format(System.nanoTime() - long)
+	private fun format(long: Long): String = DecimalFormat("#,##0").format(System.nanoTime() - long)
 
-    fun sendParameter() = parameter.keys.forEach { sendMessage("§a$it§8: ${parameter[it]}") }
+	fun sendParameter() = parameter.keys.forEach { sendMessage("§a$it§8: ${parameter[it]}") }
 
-    fun sendMessage(message: String)
+	fun sendMessage(message: String)
 }

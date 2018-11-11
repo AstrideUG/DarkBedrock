@@ -12,11 +12,11 @@ import java.util.*
  */
 interface DefaultGetTarget : GetTarget {
 
-    override fun getTarget(sender: CommandSender, uuid: UUID, lambda: (Player) -> Unit) = getTarget(sender, Bukkit.getPlayer(uuid), lambda)
+	override fun getTarget(sender: CommandSender, uuid: UUID, lambda: (Player) -> Unit) = getTarget(sender, Bukkit.getPlayer(uuid), lambda)
 
-    override fun getTarget(sender: CommandSender, name: String, lambda: (Player) -> Unit) = getTarget(sender, Bukkit.getPlayer(name), lambda)
+	override fun getTarget(sender: CommandSender, name: String, lambda: (Player) -> Unit) = getTarget(sender, Bukkit.getPlayer(name), lambda)
 
-    override fun getTarget(uuid: UUID, lambda: (Player?) -> Unit) = getTarget(Bukkit.getPlayer(uuid), lambda)
+	override fun getTarget(uuid: UUID, lambda: (Player?) -> Unit) = getTarget(Bukkit.getPlayer(uuid), lambda)
 
-    override fun getTarget(name: String, lambda: (Player?) -> Unit) = getTarget(Bukkit.getPlayer(name), lambda)
+	override fun getTarget(name: String, lambda: (Player?) -> Unit) = getTarget(Bukkit.getPlayer(name), lambda)
 }

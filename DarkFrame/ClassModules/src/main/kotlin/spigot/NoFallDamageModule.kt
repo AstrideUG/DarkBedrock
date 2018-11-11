@@ -21,24 +21,24 @@ import java.io.File
  * Last edit 03.08.2018
  */
 class NoFallDamageModule : Module, Listener(DarkFrame.instance) {
-    override val description: ModuleDescription = ModuleDescription("NoFallDamageModule", "1.0", "Lars Artmann | LartyHD", "")
-    private val config = BukkitGsonConfig(ConfigData("modules${File.separator}${description.name}", "config.json")).load()
-    private val activeWorlds = config.getAs<JsonArray>("activeWorlds")
-    private val radius = config.getAs<JsonPrimitive>("radius")?.asInt
-    private var location: Location? = if (radius == null) null else config.getLocationWithOutYawAndPitch("center")
+	override val description: ModuleDescription = ModuleDescription("NoFallDamageModule", "1.0", "Lars Artmann | LartyHD", "")
+	private val config = BukkitGsonConfig(ConfigData("modules${File.separator}${description.name}", "config.json")).load()
+	private val activeWorlds = config.getAs<JsonArray>("activeWorlds")
+	private val radius = config.getAs<JsonPrimitive>("radius")?.asInt
+	private var location: Location? = if (radius == null) null else config.getLocationWithOutYawAndPitch("center")
 
-    @EventHandler
-    fun onEntityDamageEvent(event: EntityDamageEvent) {
-        if (event.isCancelled || event.cause != EntityDamageEvent.DamageCause.FALL) return
-        var boolean = false
-        if (radius != null && location != null && event.entity.location.world == location?.world) {
-            if (event.entity.location.distance(location) <= radius) isInAActiveWorld(event.entity.world.name) { boolean = true }
-        } else
-            isInAActiveWorld(event.entity.world.name) { boolean = true }
-        if (boolean) cancel(event)
-    }
+	@EventHandler
+	fun onEntityDamageEvent(event: EntityDamageEvent) {
+		if (event.isCancelled || event.cause != EntityDamageEvent.DamageCause.FALL) return
+		var boolean = false
+		if (radius != null && location != null && event.entity.location.world == location?.world) {
+			if (event.entity.location.distance(location) <= radius) isInAActiveWorld(event.entity.world.name) { boolean = true }
+		} else
+			isInAActiveWorld(event.entity.world.name) { boolean = true }
+		if (boolean) cancel(event)
+	}
 
-    private fun isInAActiveWorld(name: String, lambda: () -> Unit) =
-            if (activeWorlds != null) HashSet<String>().apply { activeWorlds.forEach { add(it.asString) } }.forEach { if (name == it) lambda() } else lambda()
+	private fun isInAActiveWorld(name: String, lambda: () -> Unit) =
+			if (activeWorlds != null) HashSet<String>().apply { activeWorlds.forEach { add(it.asString) } }.forEach { if (name == it) lambda() } else lambda()
 
 }

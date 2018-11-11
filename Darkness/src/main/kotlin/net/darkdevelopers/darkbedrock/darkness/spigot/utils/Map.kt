@@ -16,18 +16,18 @@ import java.util.*
  * Last edit 15.08.2018
  */
 data class Map(
-        val name: String,
-        val spawn: Location,
-        val hologram: Location,
-        val region: Region,
-        val sendHolograms: (Player, MutableMap<UUID, Holograms>) -> Unit
+		val name: String,
+		val spawn: Location,
+		val hologram: Location,
+		val region: Region,
+		val sendHolograms: (Player, MutableMap<UUID, Holograms>) -> Unit
 ) {
 
-    private val holograms = mutableMapOf<UUID, Holograms>()
+	private val holograms = mutableMapOf<UUID, Holograms>()
 
-    fun sendHologram(player: Player) {
-        removeHologram(player)
-        sendHolograms(player, holograms)
+	fun sendHologram(player: Player) {
+		removeHologram(player)
+		sendHolograms(player, holograms)
 //        KnockIT.instance.stats.get(player.uniqueId, "kills") { kills ->
 //            KnockIT.instance.stats.get(player.uniqueId, "deaths") { deaths ->
 //                holograms[player.uniqueId] = Holograms(arrayOf(
@@ -41,11 +41,11 @@ data class Map(
 //                holograms[player.uniqueId]?.show(player)
 //            }
 //        }
-    }
+	}
 
-    private fun removeHologram(player: Player) {
-        holograms[player.uniqueId]?.hide(player)
-        holograms.remove(player.uniqueId)
-    }
+	private fun removeHologram(player: Player) {
+		holograms[player.uniqueId]?.hide(player)
+		holograms.remove(player.uniqueId)
+	}
 
 }

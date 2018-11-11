@@ -22,10 +22,10 @@ fun Any.printInitInfo(): Unit = net.darkdevelopers.darkbedrock.darkness.general.
  * @since 30.08.2018
  */
 fun printInitInfo(javaClass: Class<*>) {
-    val name = javaClass.name.split('.')
+	val name = javaClass.name.split('.')
 	val subClasses = name[name.size - 2].split('$')
-    val subClass = if (subClasses.size > 1) " of \"${subClasses[subClasses.size - 1]}\" " else " "
-    val extends = if (javaClass.isMemberClass) "sub class of ${javaClass.superclass}" else ""
+	val subClass = if (subClasses.size > 1) " of \"${subClasses[subClasses.size - 1]}\" " else " "
+	val extends = if (javaClass.isMemberClass) "sub class of ${javaClass.superclass}" else ""
 	val type = when {
 		javaClass.isEnum -> "enum"
 		javaClass.isInterface -> "interface"

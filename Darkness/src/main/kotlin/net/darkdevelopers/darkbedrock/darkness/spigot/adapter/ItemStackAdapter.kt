@@ -15,12 +15,12 @@ import java.lang.reflect.Type
  * Last edit 20.08.2018
  */
 class ItemStackAdapter : JsonSerializer<ItemStack>, JsonDeserializer<ItemStack> {
-    private val gson: Gson = GsonBuilder().create()
+	private val gson: Gson = GsonBuilder().create()
 
-    override fun deserialize(jsonElement: JsonElement, type: Type, context: JsonDeserializationContext): ItemStack {
-        val map = gson.fromJson<Map<String, Any>>(jsonElement, object : TypeToken<Map<String, Any>>() {}.type)
-        return ItemStack.deserialize(map)
-    }
+	override fun deserialize(jsonElement: JsonElement, type: Type, context: JsonDeserializationContext): ItemStack {
+		val map = gson.fromJson<Map<String, Any>>(jsonElement, object : TypeToken<Map<String, Any>>() {}.type)
+		return ItemStack.deserialize(map)
+	}
 
-    override fun serialize(itemStack: ItemStack, type: Type, context: JsonSerializationContext) = JsonPrimitive(gson.toJson(itemStack.serialize()))
+	override fun serialize(itemStack: ItemStack, type: Type, context: JsonSerializationContext) = JsonPrimitive(gson.toJson(itemStack.serialize()))
 }

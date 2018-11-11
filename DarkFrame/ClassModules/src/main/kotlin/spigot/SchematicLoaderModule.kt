@@ -21,19 +21,19 @@ import java.io.File
  */
 class SchematicLoaderModule : Module {
 
-    override val description: ModuleDescription = ModuleDescription("SchematicLoaderModule", "1.0", "Lars Artmann | LartyHD", "")
-    private val config = BukkitGsonConfig(ConfigData("modules${File.separator}${description.name}", "config.json")).load()
-    private val schematic = File(config.getAs<JsonPrimitive>("schematic")?.asString
-            ?: throw NullPointerException("schematic can not be null"))
-    private val noAir = config.getAs<JsonPrimitive>("noAir")?.asBoolean
-            ?: throw NullPointerException("noAir can not be null")
+	override val description: ModuleDescription = ModuleDescription("SchematicLoaderModule", "1.0", "Lars Artmann | LartyHD", "")
+	private val config = BukkitGsonConfig(ConfigData("modules${File.separator}${description.name}", "config.json")).load()
+	private val schematic = File(config.getAs<JsonPrimitive>("schematic")?.asString
+			?: throw NullPointerException("schematic can not be null"))
+	private val noAir = config.getAs<JsonPrimitive>("noAir")?.asBoolean
+			?: throw NullPointerException("noAir can not be null")
 
-    override fun start() = loadSchematic(config.getLocationWithOutYawAndPitch("PasteLocation"))
+	override fun start() = loadSchematic(config.getLocationWithOutYawAndPitch("PasteLocation"))
 
-    private fun loadSchematic(location: Location) {
-        Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit")
-                ?: throw NullPointerException("FastAsyncWorldEdit must be installed")
-        ClipboardFormat.SCHEMATIC.load(schematic).paste(BukkitWorld(location.world), Vector(location.x, location.y, location.z), true, !noAir, null)
-    }
+	private fun loadSchematic(location: Location) {
+		Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit")
+				?: throw NullPointerException("FastAsyncWorldEdit must be installed")
+		ClipboardFormat.SCHEMATIC.load(schematic).paste(BukkitWorld(location.world), Vector(location.x, location.y, location.z), true, !noAir, null)
+	}
 
 }

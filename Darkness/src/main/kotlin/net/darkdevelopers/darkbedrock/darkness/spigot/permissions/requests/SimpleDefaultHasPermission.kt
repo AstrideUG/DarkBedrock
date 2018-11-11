@@ -9,9 +9,9 @@ import org.bukkit.command.CommandSender
  */
 interface SimpleDefaultHasPermission : SimpleHasPermission {
 
-    val permission: String
+	val permission: String
 
-    fun hasPermission(target: CommandSender, lambda: () -> Unit) = super.hasPermission(target, permission, lambda)
+	fun hasPermission(target: CommandSender, lambda: () -> Unit) = super.hasPermission(target, permission, lambda)
 
-    fun hasPermission(target: CommandSender) = super.hasPermission(target, permission)
+	fun hasPermission(target: CommandSender) = super.hasPermission(target, permission)
 }

@@ -8,6 +8,7 @@ import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
+import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMap
 import net.darkdevelopers.darkbedrock.darkness.general.functions.generateExamples
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
@@ -21,24 +22,28 @@ import org.bukkit.event.inventory.CraftItemEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import java.io.File
 
-
-/**
- * @author Lars Artmann | LartyHD
- *
- * The default name for json configs
- *
- * @since 1.0 (15.10.2018)
- */
-const val defaultConfigName: String = "config.json"
-
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 12.10.2018 20:24.
- * Last edit 17.10.2018
+ * Current Version: 1.0 (12.10.2018- 21.10.2018)
  *
  * This Version runs on ConfigVersion 1.0 (Released on ??.??.2018)
  */
 class CancellableModule : Module, Listener(DarkFrame.instance) {
+
+	companion object {
+		/**
+		 * @author Lars Artmann | LartyHD
+		 *
+		 * The default name for json configs
+		 *
+		 * @since 1.0 (15.10.2018)
+		 */
+		const val defaultConfigName: String = "config.json"
+
+		private fun <V : Any?> of(function: MutableMap<String, V>.() -> Unit) =
+				net.darkdevelopers.darkbedrock.darkness.general.functions.of(function)
+	}
 
 	/**
 	 * @author Lars Artmann | LartyHD
@@ -56,23 +61,25 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	)
 
 
-	private val defaultLogMessages: Map<String, Map<String, String>> = mutableMapOf(
-			"CraftItem" to mapOf(
-					"StringIsNotAMaterial" to "String is not a Material",
-					"TheJsonElementIsNotAString" to "The JsonElement is not a String"
-			)
-	)
+	private val defaultLogMessages: Map<String, Map<String, String>> = of {
+		this["CraftItem"] = of {
+			this["StringIsNotAMaterial"] = "String is not a Material"
+			this["TheJsonElementIsNotAString"] = "The JsonElement is not a String"
+		}
+	}
 
 	private val directory get() = description.folder
 	private val config by lazy { GsonConfig(ConfigData(directory, defaultConfigName)).load() }
-	private val examples by lazy { GsonConfig.multiPlaceJsonObject(config, "Examples", directory) }
-	private val generateNoExamples by lazy {
-		config.getAs<JsonPrimitive>("NoGeneration", examples ?: return@lazy false)?.asBoolean ?: false
-	}
-	private val resetGeneratedExamples by lazy {
-		config.getAs<JsonPrimitive>("ResetGenerated", examples ?: return@lazy true)?.asBoolean ?: true
-	}
+	private val examples by lazy { GsonConfig.multiPlaceJsonObject(config.jsonObject, "Examples", directory) }
+	private val generateNoExamples by lazy { examples["NoGeneration"]?.asBoolean ?: false }
+	private val resetGeneratedExamples by lazy { examples["ResetGenerated"]?.asBoolean ?: true }
 	private val logMessages: Map<String, Map<String, String>> by lazy {
+		//TODO: CHECK!
+		of<String> {
+
+
+		}
+
 		val result = mutableMapOf<String, MutableMap<String, String>>()
 		GsonConfig.multiPlaceJsonObject(config, "LogMessages", directory)?.entrySet()?.forEach {
 			result[it.key] = GsonStringMap(it.value.asJsonObject).available
@@ -97,7 +104,7 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 	/**
 	 * @author Lars Artmann | LartyHD
 	 *
-	 * Generate example configs if is enabled {@see generateExamples}
+	 * Generate example configs if is enabled [generateExamples]
 	 *
 	 * @see net.darkdevelopers.darkbedrock.darkness.general.functions.generateExamples(String, Boolean)
 	 * @since 1.0 (15.10.2018)
@@ -279,7 +286,7 @@ class CancellableModule : Module, Listener(DarkFrame.instance) {
 						}
 					}
 				}
-				config.save()
+				GsonService.save(config.configData.file, config.jsonObject)
 			}
 			logMessages()
 		}

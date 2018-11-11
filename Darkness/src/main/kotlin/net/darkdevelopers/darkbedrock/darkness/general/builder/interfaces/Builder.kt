@@ -13,6 +13,6 @@ package net.darkdevelopers.darkbedrock.darkness.general.builder.interfaces
  */
 interface Builder<out T> {
 
-    fun build(): T
+	fun build(): T
 
 }

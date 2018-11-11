@@ -17,12 +17,12 @@ import net.md_5.bungee.api.chat.TextComponent
  */
 interface ITextComponentBuilder : Builder<TextComponent> {
 
-    fun setText(text: String): ITextComponentBuilder
+	fun setText(text: String): ITextComponentBuilder
 
-    fun setColor(color: ChatColor): ITextComponentBuilder
+	fun setColor(color: ChatColor): ITextComponentBuilder
 
-    fun setClickEvent(clickEvent: ClickEvent): ITextComponentBuilder
+	fun setClickEvent(clickEvent: ClickEvent): ITextComponentBuilder
 
-    fun setHoverEvent(hoverEvent: HoverEvent): ITextComponentBuilder
+	fun setHoverEvent(hoverEvent: HoverEvent): ITextComponentBuilder
 
 }

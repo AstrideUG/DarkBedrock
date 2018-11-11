@@ -14,14 +14,14 @@ import java.util.*
  */
 class BlocksManager(private val allowedTypes: Set<Material> = HashSet()) {
 
-    private val locations: Set<Location> = HashSet()
+	private val locations: Set<Location> = HashSet()
 
-    fun isBreakable(block: Block): Boolean = isBreakable(block.location)
+	fun isBreakable(block: Block): Boolean = isBreakable(block.location)
 
-    private fun isBreakable(location: Location): Boolean {
-        location.block ?: return false
-        allowedTypes.forEach { if (location.block.type == it) return true }
-        return locations.any { location.world.name == it.world.name && location.blockX == it.blockX && location.blockY == it.blockY && location.blockZ == it.blockZ }
-    }
+	private fun isBreakable(location: Location): Boolean {
+		location.block ?: return false
+		allowedTypes.forEach { if (location.block.type == it) return true }
+		return locations.any { location.world.name == it.world.name && location.blockX == it.blockX && location.blockY == it.blockY && location.blockZ == it.blockZ }
+	}
 
 }

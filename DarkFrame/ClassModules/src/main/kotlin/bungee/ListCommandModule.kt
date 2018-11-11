@@ -12,15 +12,15 @@ import net.md_5.bungee.api.chat.TextComponent
  * Last edit 05.07.2018
  */
 class ListCommandModule : Module, Command(commandName = "List") {
-    override val description: ModuleDescription = ModuleDescription("ListCommandModule", "1.0", "Lars Artmann | LartyHD", "This module adds the list command")
+	override val description: ModuleDescription = ModuleDescription("ListCommandModule", "1.0", "Lars Artmann | LartyHD", "This module adds the list command")
 
-    override fun perform(sender: CommandSender, args: Array<String>) = isPlayer(sender) {
-        val info = it.server.info
-        sender.run {
-            sendMessage(TextComponent("$PRIMARY$EXTRA$DESIGN                                                               "))
-            sendMessage(TextComponent("${TEXT}Spieler auf dem ${IMPORTANT}Netzwerk$IMPORTANT: $TEXT${ProxyServer.getInstance().onlineCount}"))
-            sendMessage(TextComponent("${TEXT}Spieler auf $IMPORTANT${info.name}$IMPORTANT: $TEXT${info.players.size}"))
-            sendMessage(TextComponent("$PRIMARY$EXTRA$DESIGN                                                               "))
-        }
-    }
+	override fun perform(sender: CommandSender, args: Array<String>) = isPlayer(sender) {
+		val info = it.server.info
+		sender.run {
+			sendMessage(TextComponent("$PRIMARY$EXTRA$DESIGN                                                               "))
+			sendMessage(TextComponent("${TEXT}Spieler auf dem ${IMPORTANT}Netzwerk$IMPORTANT: $TEXT${ProxyServer.getInstance().onlineCount}"))
+			sendMessage(TextComponent("${TEXT}Spieler auf $IMPORTANT${info.name}$IMPORTANT: $TEXT${info.players.size}"))
+			sendMessage(TextComponent("$PRIMARY$EXTRA$DESIGN                                                               "))
+		}
+	}
 }

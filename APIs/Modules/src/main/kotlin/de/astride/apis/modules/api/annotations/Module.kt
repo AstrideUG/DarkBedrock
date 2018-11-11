@@ -2,19 +2,20 @@
  * © Copyright - Lars Artmann aka. LartyHD 2018.
  */
 
-package de.astride.apis.modules.annotations
+package de.astride.apis.modules.api.annotations
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 06.09.2018 01:28.
- * Last edit 06.09.2018
+ * Current Version: 1.0 (06.09.2018 - 05.11.2018)
  */
 @Target(AnnotationTarget.CLASS)
-@MustBeDocumented
 annotation class Module(
+		val id: String,
 		val name: String,
 		val version: String,
-		val author: String,
-		val description: String,
-		val async: Boolean = false
+		val authors: Array<String>,
+		val description: String = "",
+		val url: String = "",
+		val dependencies: Array<Dependency>
 )

@@ -14,18 +14,18 @@ import java.util.*
  * Last edit 07.07.2018
  */
 class VIPPlayerKickModule : Module, Listener(DarkFrame.instance) {
-    override val description: ModuleDescription = ModuleDescription("VIPPlayerKickModule", "1.0", "Lars Artmann | LartyHD", "This module makes room for VIP players when the server is full")
+	override val description: ModuleDescription = ModuleDescription("VIPPlayerKickModule", "1.0", "Lars Artmann | LartyHD", "This module makes room for VIP players when the server is full")
 
-    @EventHandler
-    fun onPlayerLoginEvent(event: PlayerLoginEvent) {
-        val permission = "vip.kick"
-        if (Bukkit.getMaxPlayers() == Bukkit.getOnlinePlayers().size && hasPermission(event.player, permission))
-            ArrayList(Bukkit.getOnlinePlayers()).apply { shuffle() }.forEach {
-                if (!hasPermission(it, permission)) {
-                    it.kickPlayer("${TEXT}Du wurdest gekickt um einem Spieler mit einem höheren Rang platz zu machen")
-                    return
-                }
-            }
-    }
+	@EventHandler
+	fun onPlayerLoginEvent(event: PlayerLoginEvent) {
+		val permission = "vip.kick"
+		if (Bukkit.getMaxPlayers() == Bukkit.getOnlinePlayers().size && hasPermission(event.player, permission))
+			ArrayList(Bukkit.getOnlinePlayers()).apply { shuffle() }.forEach {
+				if (!hasPermission(it, permission)) {
+					it.kickPlayer("${TEXT}Du wurdest gekickt um einem Spieler mit einem höheren Rang platz zu machen")
+					return
+				}
+			}
+	}
 
 }

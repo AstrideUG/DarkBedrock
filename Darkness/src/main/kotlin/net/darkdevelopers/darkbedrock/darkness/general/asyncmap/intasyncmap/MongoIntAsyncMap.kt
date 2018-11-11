@@ -19,21 +19,21 @@ import java.util.*
  */
 class MongoIntAsyncMap(mongoDB: MongoDB, databaseName: String, name: String) : DefaultIntAsyncMap {
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    val collection: MongoCollection<Document> = mongoDB.connect().getDatabase(databaseName).getCollection(name)
+	@Suppress("MemberVisibilityCanBePrivate")
+	val collection: MongoCollection<Document> = mongoDB.connect().getDatabase(databaseName).getCollection(name)
 
-    override fun get(uuid: UUID, key: String, lambda: (Int) -> Unit) = getDocumentByUUID(uuid.toString()).first { document, /*throwable*/_ ->
-        if (document == null) collection.insertOne(Document("uuid", uuid.toString()).append(key, 0)) { _, _ -> lambda(0) } else {
-            val integer = document.getInteger(key)
-            if (integer == null) updateOne(uuid.toString(), Updates.set(key, 0)) { lambda(0) } else lambda(integer)
-        }
-    }
+	override fun get(uuid: UUID, key: String, lambda: (Int) -> Unit) = getDocumentByUUID(uuid.toString()).first { document, /*throwable*/_ ->
+		if (document == null) collection.insertOne(Document("uuid", uuid.toString()).append(key, 0)) { _, _ -> lambda(0) } else {
+			val integer = document.getInteger(key)
+			if (integer == null) updateOne(uuid.toString(), Updates.set(key, 0)) { lambda(0) } else lambda(integer)
+		}
+	}
 
-    override fun set(uuid: UUID, key: String, value: Int, lambda: () -> Unit) = getDocumentByUUID(uuid.toString()).first { document, _ ->
-        if (document == null) collection.insertOne(Document("uuid", uuid.toString()).append(key, value)) { _, _ -> lambda() } else updateOne(uuid.toString(), Updates.set(key, value)) { lambda() }
-    }
+	override fun set(uuid: UUID, key: String, value: Int, lambda: () -> Unit) = getDocumentByUUID(uuid.toString()).first { document, _ ->
+		if (document == null) collection.insertOne(Document("uuid", uuid.toString()).append(key, value)) { _, _ -> lambda() } else updateOne(uuid.toString(), Updates.set(key, value)) { lambda() }
+	}
 
-    private fun updateOne(uuid: String, bson: Bson, lambda: () -> Unit) = collection.updateOne(getFilter(uuid), bson) { _, _ -> lambda() }
+	private fun updateOne(uuid: String, bson: Bson, lambda: () -> Unit) = collection.updateOne(getFilter(uuid), bson) { _, _ -> lambda() }
 
 //    override fun get(uuid: UUID, key: String, lambda: (Int) -> Unit) = get(
 //            uuid,
@@ -76,8 +76,8 @@ class MongoIntAsyncMap(mongoDB: MongoDB, databaseName: String, name: String) : D
 //        }
 //    }
 
-    private fun getDocumentByUUID(uuid: String) = collection.find(getFilter(uuid))
+	private fun getDocumentByUUID(uuid: String) = collection.find(getFilter(uuid))
 
-    private fun getFilter(uuid: String) = Filters.eq("uuid", uuid)
+	private fun getFilter(uuid: String) = Filters.eq("uuid", uuid)
 
 }

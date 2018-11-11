@@ -13,18 +13,18 @@ import net.md_5.bungee.event.EventHandler
  * Last edit 05.07.2018
  */
 class MotdModule : Module, Listener(DarkFrame.instance) {
-    override val description: ModuleDescription = ModuleDescription("MotdModule", "1.0", "Lars Artmann | LartyHD", "This module manage the Motd")
+	override val description: ModuleDescription = ModuleDescription("MotdModule", "1.0", "Lars Artmann | LartyHD", "This module manage the Motd")
 
-    private var lineOne: String = "§cDie Config konnte nicht geladen werden"
-    private var lineTwo: String = "§4Bitte informiere einen Admin"
-    private var maxPlayers: Int = 0
+	private var lineOne: String = "§cDie Config konnte nicht geladen werden"
+	private var lineTwo: String = "§4Bitte informiere einen Admin"
+	private var maxPlayers: Int = 0
 
-    @EventHandler
-    fun onProxyPingEvent(event: ProxyPingEvent) {
-        val ping = event.response
-        ping.version.name = "${Messages.SERVER_NAME} System 1.8.X"
-        ping.players.online = ProxyServer.getInstance().onlineCount
-        ping.players.max = maxPlayers
-        ping.description = "$lineOne\n$lineTwo"
-    }
+	@EventHandler
+	fun onProxyPingEvent(event: ProxyPingEvent) {
+		val ping = event.response
+		ping.version.name = "${Messages.SERVER_NAME} System 1.8.X"
+		ping.players.online = ProxyServer.getInstance().onlineCount
+		ping.players.max = maxPlayers
+		ping.description = "$lineOne\n$lineTwo"
+	}
 }

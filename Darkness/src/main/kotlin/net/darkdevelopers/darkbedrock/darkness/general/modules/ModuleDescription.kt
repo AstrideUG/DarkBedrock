@@ -12,5 +12,5 @@ import java.io.File
  * Last edit 16.04.2018
  */
 data class ModuleDescription(val name: String, val version: String, val author: String, val description: String, val async: Boolean = false) {
-    lateinit var folder: File
+	lateinit var folder: File
 }

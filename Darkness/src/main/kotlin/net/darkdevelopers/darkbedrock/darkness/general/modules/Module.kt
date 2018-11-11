@@ -11,12 +11,12 @@ package net.darkdevelopers.darkbedrock.darkness.general.modules
  */
 interface Module {
 
-    val description: ModuleDescription
+	val description: ModuleDescription
 
-    fun load() {}
+	fun load() {}
 
-    fun start() {}
+	fun start() {}
 
-    fun stop() {}
+	fun stop() {}
 
 }

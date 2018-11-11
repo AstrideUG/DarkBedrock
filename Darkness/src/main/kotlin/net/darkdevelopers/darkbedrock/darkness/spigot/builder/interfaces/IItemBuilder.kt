@@ -26,122 +26,122 @@ import org.bukkit.potion.PotionEffectType
  */
 interface IItemBuilder : Builder<ItemStack> {
 
-    fun setMaterial(material: Material): IItemBuilder
+	fun setMaterial(material: Material): IItemBuilder
 
-    fun setType(material: Material): IItemBuilder
+	fun setType(material: Material): IItemBuilder
 
-    fun setAmount(amount: Int): IItemBuilder
+	fun setAmount(amount: Int): IItemBuilder
 
-    fun setDamage(damage: Short): IItemBuilder
+	fun setDamage(damage: Short): IItemBuilder
 
-    fun setDurability(durability: Short): IItemBuilder
+	fun setDurability(durability: Short): IItemBuilder
 
-    fun addEnchantment(enchantment: Enchantment, level: Int): IItemBuilder
+	fun addEnchantment(enchantment: Enchantment, level: Int): IItemBuilder
 
-    fun addEnchantments(enchantments: Map<Enchantment, Int>): IItemBuilder
+	fun addEnchantments(enchantments: Map<Enchantment, Int>): IItemBuilder
 
-    fun addUnsafeEnchantment(enchantment: Enchantment, level: Int): IItemBuilder
+	fun addUnsafeEnchantment(enchantment: Enchantment, level: Int): IItemBuilder
 
-    fun addUnsafeEnchantments(enchantments: Map<Enchantment, Int>): IItemBuilder
+	fun addUnsafeEnchantments(enchantments: Map<Enchantment, Int>): IItemBuilder
 
-    fun addLore(lore: Collection<String>): IItemBuilder
+	fun addLore(lore: Collection<String>): IItemBuilder
 
-    fun addLore(index: Int, lore: Collection<String>): IItemBuilder
+	fun addLore(index: Int, lore: Collection<String>): IItemBuilder
 
-    fun addLore(vararg lore: String): IItemBuilder
+	fun addLore(vararg lore: String): IItemBuilder
 
-    fun addLore(lore: String): IItemBuilder
+	fun addLore(lore: String): IItemBuilder
 
-    fun addLore(index: Int, lore: String): IItemBuilder
+	fun addLore(index: Int, lore: String): IItemBuilder
 
-    fun removeEnchantment(enchantment: Enchantment): IItemBuilder
+	fun removeEnchantment(enchantment: Enchantment): IItemBuilder
 
-    fun removeLore(lore: List<String>): IItemBuilder
+	fun removeLore(lore: List<String>): IItemBuilder
 
-    fun removeLore(index: Int): IItemBuilder
+	fun removeLore(index: Int): IItemBuilder
 
-    fun setLore(lore: List<String>): IItemBuilder
+	fun setLore(lore: List<String>): IItemBuilder
 
-    fun setLore(lore: String): IItemBuilder
+	fun setLore(lore: String): IItemBuilder
 
-    fun setName(name: String): IItemBuilder
+	fun setName(name: String): IItemBuilder
 
-    fun setDisplayName(displayName: String): IItemBuilder
+	fun setDisplayName(displayName: String): IItemBuilder
 
-    fun setBreakable(): IItemBuilder
+	fun setBreakable(): IItemBuilder
 
-    fun setUnbreakable(): IItemBuilder
+	fun setUnbreakable(): IItemBuilder
 
-    fun setUnbreakable(unbreakable: Boolean): IItemBuilder
+	fun setUnbreakable(unbreakable: Boolean): IItemBuilder
 
-    fun addEnchant(enchantment: Enchantment, level: Int): IItemBuilder
+	fun addEnchant(enchantment: Enchantment, level: Int): IItemBuilder
 
-    fun addEnchant(enchantment: Enchantment, level: Int, ignoreLevelRestriction: Boolean): IItemBuilder
+	fun addEnchant(enchantment: Enchantment, level: Int, ignoreLevelRestriction: Boolean): IItemBuilder
 
-    fun addItemFlags(vararg itemFlags: ItemFlag): IItemBuilder
+	fun addItemFlags(vararg itemFlags: ItemFlag): IItemBuilder
 
-    fun removeEnchant(enchantment: Enchantment): IItemBuilder
+	fun removeEnchant(enchantment: Enchantment): IItemBuilder
 
-    fun removeItemFlags(vararg itemFlags: ItemFlag): IItemBuilder
+	fun removeItemFlags(vararg itemFlags: ItemFlag): IItemBuilder
 
-    fun clearEnchants(): IItemBuilder
+	fun clearEnchants(): IItemBuilder
 
-    fun clearItemFlags(): IItemBuilder
+	fun clearItemFlags(): IItemBuilder
 
-    fun addAllItemFlags(): IItemBuilder
+	fun addAllItemFlags(): IItemBuilder
 
-    fun setBaseColor(dyeColor: DyeColor): IItemBuilder
+	fun setBaseColor(dyeColor: DyeColor): IItemBuilder
 
-    fun setPatterns(patterns: List<Pattern>): IItemBuilder
+	fun setPatterns(patterns: List<Pattern>): IItemBuilder
 
-    fun setPattern(index: Int, pattern: Pattern): IItemBuilder
+	fun setPattern(index: Int, pattern: Pattern): IItemBuilder
 
-    fun addPattern(pattern: Pattern): IItemBuilder
+	fun addPattern(pattern: Pattern): IItemBuilder
 
-    fun removePattern(i: Int): IItemBuilder
+	fun removePattern(i: Int): IItemBuilder
 
-    fun setBlockState(blockState: BlockState): IItemBuilder
+	fun setBlockState(blockState: BlockState): IItemBuilder
 
-    fun setTitle(title: String): IItemBuilder
+	fun setTitle(title: String): IItemBuilder
 
-    fun setAuthor(author: String): IItemBuilder
+	fun setAuthor(author: String): IItemBuilder
 
-    fun setPage(index: Int, page: String): IItemBuilder
+	fun setPage(index: Int, page: String): IItemBuilder
 
-    fun setPages(pages: List<String>): IItemBuilder
+	fun setPages(pages: List<String>): IItemBuilder
 
-    fun setPages(vararg pages: String): IItemBuilder
+	fun setPages(vararg pages: String): IItemBuilder
 
-    fun addPage(vararg page: String): IItemBuilder
+	fun addPage(vararg page: String): IItemBuilder
 
-    fun setFireworkEffectMetaEffect(fireworkEffect: FireworkEffect): IItemBuilder
+	fun setFireworkEffectMetaEffect(fireworkEffect: FireworkEffect): IItemBuilder
 
-    fun setFireworkMetaEffect(fireworkEffect: FireworkEffect): IItemBuilder
+	fun setFireworkMetaEffect(fireworkEffect: FireworkEffect): IItemBuilder
 
-    fun setFireworkMetaEffect(vararg fireworkEffect: FireworkEffect): IItemBuilder
+	fun setFireworkMetaEffect(vararg fireworkEffect: FireworkEffect): IItemBuilder
 
-    fun setFireworkMetaEffect(fireworkEffect: Iterable<FireworkEffect>): IItemBuilder
+	fun setFireworkMetaEffect(fireworkEffect: Iterable<FireworkEffect>): IItemBuilder
 
-    fun setPower(power: Int): IItemBuilder
+	fun setPower(power: Int): IItemBuilder
 
-    fun removeEffect(effect: Int): IItemBuilder
+	fun removeEffect(effect: Int): IItemBuilder
 
-    fun clearEffects(): IItemBuilder
+	fun clearEffects(): IItemBuilder
 
-    fun setColor(color: Color): IItemBuilder
+	fun setColor(color: Color): IItemBuilder
 
-    fun setScaling(value: Boolean): IItemBuilder
+	fun setScaling(value: Boolean): IItemBuilder
 
-    fun setMainEffect(potionEffectType: PotionEffectType): IItemBuilder
+	fun setMainEffect(potionEffectType: PotionEffectType): IItemBuilder
 
-    fun addCustomEffect(potionEffect: PotionEffect, overwrite: Boolean): IItemBuilder
+	fun addCustomEffect(potionEffect: PotionEffect, overwrite: Boolean): IItemBuilder
 
-    fun removeCustomEffect(potionEffectType: PotionEffectType): IItemBuilder
+	fun removeCustomEffect(potionEffectType: PotionEffectType): IItemBuilder
 
-    fun clearCustomEffects(): IItemBuilder
+	fun clearCustomEffects(): IItemBuilder
 
-    fun setOwner(owner: String): IItemBuilder
+	fun setOwner(owner: String): IItemBuilder
 
-    fun setOwner(url: String, name: String): IItemBuilder
+	fun setOwner(url: String, name: String): IItemBuilder
 
 }

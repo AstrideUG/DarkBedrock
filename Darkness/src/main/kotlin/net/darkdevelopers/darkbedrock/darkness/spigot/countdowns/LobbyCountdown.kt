@@ -18,69 +18,69 @@ import org.bukkit.Sound
  */
 class LobbyCountdown(private val minPlayers: Int, private val gameName: String) : Countdown(60) {
 
-    private var idling: Boolean = false
-    private lateinit var idle: Thread
+	private var idling: Boolean = false
+	private lateinit var idle: Thread
 
-    override fun start() = if (!isRunning) {
-        isRunning = true
-        stopIdle()
-        loop {
-            when (seconds) {
-                0 -> finish()
-                1 -> Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Das Spiel startet in ${IMPORTANT}einer$TEXT Sekunde")
-                2, 3, 4, 5, 10, 15, 20, 30, 45, 60 -> Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Das Spiel startet in $IMPORTANT$seconds$TEXT Sekunden")
-            }
-            when (seconds) {
-                10 -> {
+	override fun start() = if (!isRunning) {
+		isRunning = true
+		stopIdle()
+		loop {
+			when (seconds) {
+				0 -> finish()
+				1 -> Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Das Spiel startet in ${IMPORTANT}einer$TEXT Sekunde")
+				2, 3, 4, 5, 10, 15, 20, 30, 45, 60 -> Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Das Spiel startet in $IMPORTANT$seconds$TEXT Sekunden")
+			}
+			when (seconds) {
+				10 -> {
 //                    Bukkit.getPluginManager().callEvent(LobbyCountdownLastTenSecondsEvent(this))
-                    Utils.goThroughAllPlayers {
-                        it.sendTitle(gameName).sendSubTitle(Messages.SERVER_NAME.toString()).sendTimings(10, 20, 10)
-                        it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
-                    }
-                }
-                5, 4, 3, 2, 1 -> Utils.goThroughAllPlayers {
-                    it.sendTitle("$SECONDARY$seconds").sendTimings(1, 18, 1)
-                    it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
-                }
-            }
-            seconds--
-            setLevel()
-        }
-    } else System.err.println("The lobby countdown should start, although it is already running")
+					Utils.goThroughAllPlayers {
+						it.sendTitle(gameName).sendSubTitle(Messages.SERVER_NAME.toString()).sendTimings(10, 20, 10)
+						it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
+					}
+				}
+				5, 4, 3, 2, 1 -> Utils.goThroughAllPlayers {
+					it.sendTitle("$SECONDARY$seconds").sendTimings(1, 18, 1)
+					it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
+				}
+			}
+			seconds--
+			setLevel()
+		}
+	} else System.err.println("The lobby countdown should start, although it is already running")
 
-    fun idle() = if (!idling) {
-        idling = true
-        stopCountdown()
-        idle = loop(10000) {
-            when (minPlayers - Bukkit.getOnlinePlayers().size) {
-                0 -> start()
-                1 -> Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Warte auf ${IMPORTANT}einen$TEXT weiteren Spieler...")
-                else -> Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Warte auf $IMPORTANT${minPlayers - Bukkit.getOnlinePlayers().size}$TEXT weitere Spieler...")
-            }
-        }
-    } else System.err.println("The lobby countdown idle should start, although it is already running")
+	fun idle() = if (!idling) {
+		idling = true
+		stopCountdown()
+		idle = loop(10000) {
+			when (minPlayers - Bukkit.getOnlinePlayers().size) {
+				0 -> start()
+				1 -> Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Warte auf ${IMPORTANT}einen$TEXT weiteren Spieler...")
+				else -> Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Warte auf $IMPORTANT${minPlayers - Bukkit.getOnlinePlayers().size}$TEXT weitere Spieler...")
+			}
+		}
+	} else System.err.println("The lobby countdown idle should start, although it is already running")
 
-    override fun stop() {
-        stopCountdown()
-        stopIdle()
-    }
+	override fun stop() {
+		stopCountdown()
+		stopIdle()
+	}
 
-    private fun stopCountdown() = defaultStop("lobby")
+	private fun stopCountdown() = defaultStop("lobby")
 
-    private fun stopIdle() = if (idling) {
-        idle.interrupt()
-        idling = false
-    } else System.err.println("The lobby countdown idle should be stopped even though it is not running")
+	private fun stopIdle() = if (idling) {
+		idle.interrupt()
+		idling = false
+	} else System.err.println("The lobby countdown idle should be stopped even though it is not running")
 
-    override fun finish() {
+	override fun finish() {
 //        val lobbyCountdownPreFinishedEvent = LobbyCountdownPreFinishedEvent(this)
 //        Bukkit.getPluginManager().callEvent(lobbyCountdownPreFinishedEvent)
 //        if (!lobbyCountdownPreFinishedEvent.isNext()) {
 //            Bukkit.getPluginManager().callEvent(LobbyCountdownFinishedEvent(this))
-        Bukkit.broadcastMessage("${Messages.PREFIX}" + TEXT + "Das Spiel startet")
-        Utils.goThroughAllPlayers { it.playSound(it.location, Sound.LEVEL_UP, 1F, 1F) }
-        stopCountdown()
+		Bukkit.broadcastMessage("${Messages.PREFIX}" + TEXT + "Das Spiel startet")
+		Utils.goThroughAllPlayers { it.playSound(it.location, Sound.LEVEL_UP, 1F, 1F) }
+		stopCountdown()
 //        }
-    }
+	}
 }
 	

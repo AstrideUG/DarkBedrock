@@ -11,26 +11,26 @@ import net.md_5.bungee.api.chat.TextComponent
  * Last edit 07.07.2018
  */
 class AutoMessageModule : Module {
-    override val description: ModuleDescription = ModuleDescription("AutoMessageModule", "1.0", "Lars Artmann | LartyHD", "This module sends automated messages")
+	override val description: ModuleDescription = ModuleDescription("AutoMessageModule", "1.0", "Lars Artmann | LartyHD", "This module sends automated messages")
 
-    private val thread = Thread {
-        println("[${description.name}] AutoMessage thread started")
-        val config = GsonConfig(ConfigData(description.folder, "config.json")).load()
-        val list = config.getAs<Array<Array<String>>>("messages")?.toSet()
-                ?: throw NullPointerException("messages can not be null")
-        val delay = config.getAs<Long>("delay") ?: throw NullPointerException("delay can not be null")
-        try {
-            while (true) list.forEach {
-                Thread.sleep(delay)
-                it.toSet().forEach { ProxyServer.getInstance().broadcast(TextComponent(it)) }
-            }
-        } catch (ex: InterruptedException) {
-            println("[${description.name}] AutoMessage thread stoped")
-        }
-    }
+	private val thread = Thread {
+		println("[${description.name}] AutoMessage thread started")
+		val config = GsonConfig(ConfigData(description.folder, "config.json")).load()
+		val list = config.getAs<Array<Array<String>>>("messages")?.toSet()
+				?: throw NullPointerException("messages can not be null")
+		val delay = config.getAs<Long>("delay") ?: throw NullPointerException("delay can not be null")
+		try {
+			while (true) list.forEach {
+				Thread.sleep(delay)
+				it.toSet().forEach { ProxyServer.getInstance().broadcast(TextComponent(it)) }
+			}
+		} catch (ex: InterruptedException) {
+			println("[${description.name}] AutoMessage thread stoped")
+		}
+	}
 
-    override fun start() = thread.start()
+	override fun start() = thread.start()
 
-    override fun stop() = thread.interrupt()
+	override fun stop() = thread.interrupt()
 
 }

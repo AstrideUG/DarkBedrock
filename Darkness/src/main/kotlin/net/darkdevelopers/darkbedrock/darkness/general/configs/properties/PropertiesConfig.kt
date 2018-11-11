@@ -15,25 +15,25 @@ import java.util.*
  */
 class PropertiesConfig(override val configData: ConfigData) : DefaultConfig, Properties() {
 
-    override fun load(): Config {
-        load(java.io.StringReader(String(Files.readAllBytes(getFile().toPath()))))
-        return this
-    }
+	override fun load(): Config {
+		load(java.io.StringReader(String(Files.readAllBytes(getFile().toPath()))))
+		return this
+	}
 
-    override fun save(): Config = try {
-        store(FileOutputStream(getFile()), null)
-        this
-    } catch (e: IOException) {
-        e.printStackTrace()
-        this
-    }
+	override fun save(): Config = try {
+		store(FileOutputStream(getFile()), null)
+		this
+	} catch (e: IOException) {
+		e.printStackTrace()
+		this
+	}
 
-    @Suppress("UNCHECKED_CAST")
-    override fun <O> getAs(key: String): O? = this[key] as? O
+	@Suppress("UNCHECKED_CAST")
+	override fun <O> getAs(key: String): O? = this[key] as? O
 
-    override fun <I> put(key: String, value: I): Config {
-        setProperty(key, value.toString())
-        return this
-    }
+	override fun <I> put(key: String, value: I): Config {
+		setProperty(key, value.toString())
+		return this
+	}
 
 }

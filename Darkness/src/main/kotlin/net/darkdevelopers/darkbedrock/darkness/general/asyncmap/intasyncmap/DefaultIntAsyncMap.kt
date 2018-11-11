@@ -13,21 +13,21 @@ import java.util.*
  */
 interface DefaultIntAsyncMap : IntAsyncMap {
 
-    override fun add(uuid: UUID, key: String, lambda: () -> Unit) = add(uuid, key, 1, lambda)
+	override fun add(uuid: UUID, key: String, lambda: () -> Unit) = add(uuid, key, 1, lambda)
 
-    override fun add(uuid: UUID, key: String, count: Int, lambda: () -> Unit) =
-            get(uuid, key) { set(uuid, key, it + count) { lambda() } }
+	override fun add(uuid: UUID, key: String, count: Int, lambda: () -> Unit) =
+			get(uuid, key) { set(uuid, key, it + count) { lambda() } }
 
-    override fun remove(uuid: UUID, key: String, lambda: () -> Unit) = remove(uuid, key, 1, lambda)
+	override fun remove(uuid: UUID, key: String, lambda: () -> Unit) = remove(uuid, key, 1, lambda)
 
-    override fun remove(uuid: UUID, key: String, count: Int, lambda: () -> Unit) =
-            get(uuid, key) { set(uuid, key, it - count) { lambda() } }
+	override fun remove(uuid: UUID, key: String, count: Int, lambda: () -> Unit) =
+			get(uuid, key) { set(uuid, key, it - count) { lambda() } }
 
-    override fun hasEnough(uuid: UUID, key: String, count: Int, lambda: (Boolean) -> Unit) =
-            get(uuid, key) { if (it >= count) lambda(true) else lambda(false) }
+	override fun hasEnough(uuid: UUID, key: String, count: Int, lambda: (Boolean) -> Unit) =
+			get(uuid, key) { if (it >= count) lambda(true) else lambda(false) }
 
-    override fun removeIfEnough(uuid: UUID, key: String, count: Int, lambda: () -> Unit) = removeIfEnough(uuid, key, count, lambda) {}
+	override fun removeIfEnough(uuid: UUID, key: String, count: Int, lambda: () -> Unit) = removeIfEnough(uuid, key, count, lambda) {}
 
-    override fun removeIfEnough(uuid: UUID, key: String, count: Int, onSuccess: () -> Unit, onFail: () -> Unit) = hasEnough(uuid, key, count) { if (it) remove(uuid, key, count) { onSuccess() } else onFail() }
+	override fun removeIfEnough(uuid: UUID, key: String, count: Int, onSuccess: () -> Unit, onFail: () -> Unit) = hasEnough(uuid, key, count) { if (it) remove(uuid, key, count) { onSuccess() } else onFail() }
 
 }

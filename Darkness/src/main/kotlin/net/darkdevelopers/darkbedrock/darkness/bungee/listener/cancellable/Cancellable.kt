@@ -9,8 +9,8 @@ import net.md_5.bungee.api.plugin.Cancellable
  */
 interface Cancellable {
 
-    fun cancel(cancellable: Cancellable)
+	fun cancel(cancellable: Cancellable)
 
-    fun cancel(cancellable: Cancellable, boolean: Boolean)
+	fun cancel(cancellable: Cancellable, boolean: Boolean)
 
 }

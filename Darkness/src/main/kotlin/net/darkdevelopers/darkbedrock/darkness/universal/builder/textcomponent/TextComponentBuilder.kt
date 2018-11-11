@@ -16,27 +16,27 @@ import net.md_5.bungee.api.chat.TextComponent
  */
 private class TextComponentBuilder(private val textComponent: TextComponent) : ITextComponentBuilder {
 
-    override fun setText(text: String): ITextComponentBuilder {
-        textComponent.text = text
-        return this
-    }
+	override fun setText(text: String): ITextComponentBuilder {
+		textComponent.text = text
+		return this
+	}
 
-    override fun setColor(color: ChatColor): ITextComponentBuilder {
-        textComponent.color = color
-        return this
-    }
+	override fun setColor(color: ChatColor): ITextComponentBuilder {
+		textComponent.color = color
+		return this
+	}
 
-    override fun setClickEvent(clickEvent: ClickEvent): ITextComponentBuilder {
-        textComponent.clickEvent = clickEvent
-        return this
-    }
+	override fun setClickEvent(clickEvent: ClickEvent): ITextComponentBuilder {
+		textComponent.clickEvent = clickEvent
+		return this
+	}
 
-    override fun setHoverEvent(hoverEvent: HoverEvent): ITextComponentBuilder {
-        textComponent.hoverEvent = hoverEvent
-        return this
-    }
+	override fun setHoverEvent(hoverEvent: HoverEvent): ITextComponentBuilder {
+		textComponent.hoverEvent = hoverEvent
+		return this
+	}
 
-    override fun build() = textComponent
+	override fun build() = textComponent
 }
 
 fun TextComponent.builder(): ITextComponentBuilder = TextComponentBuilder(this)

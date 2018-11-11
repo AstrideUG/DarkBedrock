@@ -16,12 +16,12 @@ import net.md_5.bungee.api.connection.ProxiedPlayer
  */
 interface ICommand : SimpleHasPermission, SimpleGetTarget {
 
-    fun perform(sender: CommandSender, args: Array<String>)
+	fun perform(sender: CommandSender, args: Array<String>)
 
-    fun isPlayer(sender: CommandSender, lambda: (ProxiedPlayer) -> Unit)
+	fun isPlayer(sender: CommandSender, lambda: (ProxiedPlayer) -> Unit)
 
-    fun isPlayer(sender: CommandSender, onSuccess: (ProxiedPlayer) -> Unit, onFail: () -> Unit)
+	fun isPlayer(sender: CommandSender, onSuccess: (ProxiedPlayer) -> Unit, onFail: () -> Unit)
 
-    fun sendUseMessage(sender: CommandSender)
+	fun sendUseMessage(sender: CommandSender)
 
 }

@@ -8,10 +8,10 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
  * Last edit 04.07.2018
  */
 enum class Messages(var message: String) {
-    NAME("DarkFrame"),
-    SERVER_NAME("$PRIMARY${EXTRA}Darkblocks§f$EXTRA.$PRIMARY${EXTRA}net$RESET"),
-    PREFIX("$PRIMARY$EXTRA$NAME$IMPORTANT | $RESET"),
-    PLAYER_NOT_ONLINE("$PREFIX${TEXT}Der Spieler ist nicht Online$RESET");
+	NAME("DarkFrame"),
+	SERVER_NAME("$PRIMARY${EXTRA}Darkblocks§f$EXTRA.$PRIMARY${EXTRA}net$RESET"),
+	PREFIX("$PRIMARY$EXTRA$NAME$IMPORTANT | $RESET"),
+	PLAYER_NOT_ONLINE("$PREFIX${TEXT}Der Spieler ist nicht Online$RESET");
 
-    override fun toString() = this.message
+	override fun toString() = this.message
 }

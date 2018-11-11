@@ -10,10 +10,10 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.permissions.requests.Simpl
  */
 interface Listener : DefaultCancellable, SimpleHasPermission, org.bukkit.event.Listener {
 
-    fun register()
+	fun register()
 
-    fun unregister()
+	fun unregister()
 
-    fun reload()
+	fun reload()
 
 }

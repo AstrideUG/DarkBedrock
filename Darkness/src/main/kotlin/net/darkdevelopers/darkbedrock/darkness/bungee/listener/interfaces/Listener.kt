@@ -10,10 +10,10 @@ import net.darkdevelopers.darkbedrock.darkness.bungee.permissions.requests.Simpl
  */
 interface Listener : DefaultCancellable, SimpleHasPermission, net.md_5.bungee.api.plugin.Listener {
 
-    fun register()
+	fun register()
 
-    fun unregister()
+	fun unregister()
 
-    fun reload()
+	fun reload()
 
 }

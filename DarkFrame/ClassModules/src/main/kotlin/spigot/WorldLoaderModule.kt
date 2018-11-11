@@ -18,13 +18,13 @@ import java.io.File
  */
 class WorldLoaderModule : Module {
 
-    override val description: ModuleDescription = ModuleDescription("WorldLoaderModule", "1.0", "Lars Artmann | LartyHD", "")
-    private val config = GsonConfig(ConfigData("modules${File.separator}${description.name}", "config.json")).load()
-    private val worlds = HashSet<String>().apply {
-        (config.getAs<JsonArray>("worlds")
-                ?: throw NullPointerException("worlds can not be null")).forEach { add(it.asString) }
-    }
+	override val description: ModuleDescription = ModuleDescription("WorldLoaderModule", "1.0", "Lars Artmann | LartyHD", "")
+	private val config = GsonConfig(ConfigData("modules${File.separator}${description.name}", "config.json")).load()
+	private val worlds = HashSet<String>().apply {
+		(config.getAs<JsonArray>("worlds")
+				?: throw NullPointerException("worlds can not be null")).forEach { add(it.asString) }
+	}
 
-    override fun start() = worlds.forEach { if (Bukkit.getWorld(it) == null) Bukkit.createWorld(WorldCreator(it)) }
+	override fun start() = worlds.forEach { if (Bukkit.getWorld(it) == null) Bukkit.createWorld(WorldCreator(it)) }
 
 }

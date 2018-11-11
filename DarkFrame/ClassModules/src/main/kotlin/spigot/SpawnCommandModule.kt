@@ -19,14 +19,14 @@ import java.io.File
  * Last edit 03.08.2018
  */
 class SpawnCommandModule : Module, Command(
-        DarkFrame.instance,
-        GsonConfig(ConfigData("modules${File.separator}SpawnCommandModule", "config.json")).load().getAs<JsonPrimitive>("CommandName")?.asString
-                ?: throw NullPointerException("CommandName can not be null")
+		DarkFrame.instance,
+		GsonConfig(ConfigData("modules${File.separator}SpawnCommandModule", "config.json")).load().getAs<JsonPrimitive>("CommandName")?.asString
+				?: throw NullPointerException("CommandName can not be null")
 ) {
-    override val description: ModuleDescription = ModuleDescription("SpawnCommandModule", "1.0", "Lars Artmann | LartyHD", "")
+	override val description: ModuleDescription = ModuleDescription("SpawnCommandModule", "1.0", "Lars Artmann | LartyHD", "")
 
-    private val location = BukkitGsonConfig(ConfigData("modules${File.separator}${description.name}", "config.json")).load().getLocation("SpawnLocation")
+	private val location = BukkitGsonConfig(ConfigData("modules${File.separator}${description.name}", "config.json")).load().getLocation("SpawnLocation")
 
-    override fun perform(sender: CommandSender, args: Array<String>) = isPlayer(sender) { it.teleport(location) }
+	override fun perform(sender: CommandSender, args: Array<String>) = isPlayer(sender) { it.teleport(location) }
 
 }

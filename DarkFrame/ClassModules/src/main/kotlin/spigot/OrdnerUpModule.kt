@@ -16,15 +16,15 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent
  */
 class OrdnerUpModule : Module, Listener(DarkFrame.instance) {
 
-    override val description: ModuleDescription = ModuleDescription("OrdnerUpModule", "1.0", "Lars Artmann | LartyHD", "")
+	override val description: ModuleDescription = ModuleDescription("OrdnerUpModule", "1.0", "Lars Artmann | LartyHD", "")
 
-    @EventHandler
-    fun onPlayerCommandPreprocessEvent(event: PlayerCommandPreprocessEvent) {
-        if (event.message.contains("../")) {
-            cancel(event)
-            event.player.sendMessage("../ ist in Commands nicht erlaubt")
-        }
-    }
+	@EventHandler
+	fun onPlayerCommandPreprocessEvent(event: PlayerCommandPreprocessEvent) {
+		if (event.message.contains("../")) {
+			cancel(event)
+			event.player.sendMessage("../ ist in Commands nicht erlaubt")
+		}
+	}
 
 
 }

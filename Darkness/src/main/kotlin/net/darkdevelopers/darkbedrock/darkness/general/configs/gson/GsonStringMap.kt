@@ -13,9 +13,9 @@ import com.google.gson.JsonObject
  */
 class GsonStringMap(jsonObject: JsonObject) {
 
-    private val entries = jsonObject.entrySet()
-    val available = mutableMapOf<String, String>().apply {
-        this@GsonStringMap.entries.forEach { this[it.key] = it.value.asString }
-    }
+	private val entries = jsonObject.entrySet()
+	val available = mutableMapOf<String, String>().apply {
+		this@GsonStringMap.entries.forEach { this[it.key] = it.value.asString }
+	}
 
 }

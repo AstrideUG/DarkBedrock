@@ -7,12 +7,12 @@ package net.darkdevelopers.darkbedrock.darkness.general.configs
  */
 interface Config {
 
-    fun load(): Config
+	fun load(): Config
 
-    fun save(): Config
+	fun save(): Config
 
-    fun <O : Any?> getAs(key: String): O?
+	fun <O : Any?> getAs(key: String): O?
 
-    fun <I : Any?> put(key: String, value: I): Config
+	fun <I : Any?> put(key: String, value: I): Config
 
 }

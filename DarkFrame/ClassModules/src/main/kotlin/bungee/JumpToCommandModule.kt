@@ -9,17 +9,17 @@ import net.md_5.bungee.api.CommandSender
  * Last edit 05.07.2018
  */
 class JumpToCommandModule : Module, Command(
-        commandName = "JumpTo",
-        permission = "darkbedrock.darkframe.bungee.modules.commands.jumpto",
-        usage = "<Spieler>",
-        minLength = 1,
-        maxLength = 1
+		commandName = "JumpTo",
+		permission = "darkbedrock.darkframe.bungee.modules.commands.jumpto",
+		usage = "<Spieler>",
+		minLength = 1,
+		maxLength = 1
 ) {
-    override val description: ModuleDescription = ModuleDescription("JumpToCommandModule", "1.0", "Lars Artmann | LartyHD", "This module adds the jumpto command")
+	override val description: ModuleDescription = ModuleDescription("JumpToCommandModule", "1.0", "Lars Artmann | LartyHD", "This module adds the jumpto command")
 
-    override fun perform(sender: CommandSender, args: Array<String>) = isPlayer(sender) { player ->
-        getTarget(sender, args[0]) { target ->
-            player.connect(target.server.info)
-        }
-    }
+	override fun perform(sender: CommandSender, args: Array<String>) = isPlayer(sender) { player ->
+		getTarget(sender, args[0]) { target ->
+			player.connect(target.server.info)
+		}
+	}
 }

@@ -10,20 +10,20 @@ import net.md_5.bungee.api.chat.TextComponent
  */
 interface SimpleHasPermission : HasPermission {
 
-    val permissionMessage: String
+	val permissionMessage: String
 
-    override fun hasPermission(target: CommandSender, permission: String, lambda: () -> Unit) {
-        when {
-            hasPermission(target, permission) -> lambda()
-            permissionMessage.isNotEmpty() -> target.sendMessage(TextComponent("\u00a7cYou do not have permission to execute this command!"))
-            else -> for (line in permissionMessage.replace("<permission>", permission).split("\n")) target.sendMessage(TextComponent(line))
-        }
-    }
+	override fun hasPermission(target: CommandSender, permission: String, lambda: () -> Unit) {
+		when {
+			hasPermission(target, permission) -> lambda()
+			permissionMessage.isNotEmpty() -> target.sendMessage(TextComponent("\u00a7cYou do not have permission to execute this command!"))
+			else -> for (line in permissionMessage.replace("<permission>", permission).split("\n")) target.sendMessage(TextComponent(line))
+		}
+	}
 
-    override fun hasPermission(target: CommandSender, permission: String): Boolean {
-        if (permission.isEmpty()) return true
-        for (perm in permission.split(";"))
-            if (target.hasPermission(perm)) return true
-        return false
-    }
+	override fun hasPermission(target: CommandSender, permission: String): Boolean {
+		if (permission.isEmpty()) return true
+		for (perm in permission.split(";"))
+			if (target.hasPermission(perm)) return true
+		return false
+	}
 }

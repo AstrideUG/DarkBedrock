@@ -10,5 +10,5 @@ import java.util.*
  * Last edit 06.07.2018
  */
 data class Vote(val name: String) {
-    val voter: MutableSet<String> = HashSet()
+	val voter: MutableSet<String> = HashSet()
 }

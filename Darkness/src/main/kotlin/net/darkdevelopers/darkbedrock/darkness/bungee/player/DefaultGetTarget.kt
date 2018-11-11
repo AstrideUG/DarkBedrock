@@ -12,8 +12,8 @@ import java.util.*
  */
 interface DefaultGetTarget : GetTarget {
 
-    override fun getTarget(sender: CommandSender, uuid: UUID, lambda: (ProxiedPlayer) -> Unit) = getTarget(sender, ProxyServer.getInstance().getPlayer(uuid), lambda)
+	override fun getTarget(sender: CommandSender, uuid: UUID, lambda: (ProxiedPlayer) -> Unit) = getTarget(sender, ProxyServer.getInstance().getPlayer(uuid), lambda)
 
-    override fun getTarget(sender: CommandSender, name: String, lambda: (ProxiedPlayer) -> Unit) = getTarget(sender, ProxyServer.getInstance().getPlayer(name), lambda)
+	override fun getTarget(sender: CommandSender, name: String, lambda: (ProxiedPlayer) -> Unit) = getTarget(sender, ProxyServer.getInstance().getPlayer(name), lambda)
 
 }

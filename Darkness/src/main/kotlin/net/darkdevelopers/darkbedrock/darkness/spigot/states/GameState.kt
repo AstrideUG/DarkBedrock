@@ -11,7 +11,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.listener.interfaces.Listen
  */
 interface GameState {
 
-    val listener: Listener
-    val countdown: Countdown?
+	val listener: Listener
+	val countdown: Countdown?
 
 }

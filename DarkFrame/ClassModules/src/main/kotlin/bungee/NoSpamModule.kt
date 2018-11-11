@@ -17,34 +17,34 @@ import kotlin.concurrent.thread
  * Last edit 07.07.2018
  */
 class NoSpamModule : Module, Listener(DarkFrame.instance) {
-    override val description: ModuleDescription = ModuleDescription("NoSpamModule", "1.0", "Lars Artmann | LartyHD", "This module blocks spam")
+	override val description: ModuleDescription = ModuleDescription("NoSpamModule", "1.0", "Lars Artmann | LartyHD", "This module blocks spam")
 
-    private val lastMessage: MutableMap<UUID, String> = HashMap()
-    private val delay: MutableSet<UUID> = HashSet()
+	private val lastMessage: MutableMap<UUID, String> = HashMap()
+	private val delay: MutableSet<UUID> = HashSet()
 
-    @EventHandler
-    fun onChatEvent(event: ChatEvent) {
-        if (event.isCancelled || event.isCommand) return
-        val player = event.sender as? ProxiedPlayer ?: return
-        val uuid = player.uniqueId ?: return
-        when {
-            delay.contains(uuid) -> {
-                cancel(event)
-                player.sendMessage(TextComponent("${Messages.PREFIX}${TEXT}Bitte schreibe nicht so schnell"))
-            }
-            lastMessage[uuid] != null && lastMessage[uuid].equals(event.message, ignoreCase = true) -> {
-                cancel(event)
-                player.sendMessage(TextComponent("${Messages.PREFIX}${TEXT}Bitte wieder hole dich nicht"))
-            }
-            else -> {
-                lastMessage[uuid] = event.message
-                delay.add(uuid)
-                thread {
-                    Thread.sleep(1500)
-                    delay.remove(uuid)
-                }
-            }
-        }
-    }
+	@EventHandler
+	fun onChatEvent(event: ChatEvent) {
+		if (event.isCancelled || event.isCommand) return
+		val player = event.sender as? ProxiedPlayer ?: return
+		val uuid = player.uniqueId ?: return
+		when {
+			delay.contains(uuid) -> {
+				cancel(event)
+				player.sendMessage(TextComponent("${Messages.PREFIX}${TEXT}Bitte schreibe nicht so schnell"))
+			}
+			lastMessage[uuid] != null && lastMessage[uuid].equals(event.message, ignoreCase = true) -> {
+				cancel(event)
+				player.sendMessage(TextComponent("${Messages.PREFIX}${TEXT}Bitte wieder hole dich nicht"))
+			}
+			else -> {
+				lastMessage[uuid] = event.message
+				delay.add(uuid)
+				thread {
+					Thread.sleep(1500)
+					delay.remove(uuid)
+				}
+			}
+		}
+	}
 
 }

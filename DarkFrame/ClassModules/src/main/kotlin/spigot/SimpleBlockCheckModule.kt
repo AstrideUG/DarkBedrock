@@ -19,34 +19,34 @@ import kotlin.concurrent.thread
  */
 class SimpleBlockCheckModule : Module, Listener(DarkFrame.instance) {
 
-    override val description: ModuleDescription = ModuleDescription("SimpleBlockCheckModule", "1.0.1", "Lars Artmann | LartyHD", "")
+	override val description: ModuleDescription = ModuleDescription("SimpleBlockCheckModule", "1.0.1", "Lars Artmann | LartyHD", "")
 
-    private val interact = mutableMapOf<Player, Int>()
+	private val interact = mutableMapOf<Player, Int>()
 
-    init {
-        thread {
-            try {
-                while (true) {
-                    Thread.sleep(TimeUnit.SECONDS.toMillis(1))
-                    interact.clear()
-                }
-            } catch (ignored: InterruptedException) {
-            }
-        }
-    }
+	init {
+		thread {
+			try {
+				while (true) {
+					Thread.sleep(TimeUnit.SECONDS.toMillis(1))
+					interact.clear()
+				}
+			} catch (ignored: InterruptedException) {
+			}
+		}
+	}
 
-    @EventHandler
-    fun onPlayerInteractEvent(event: PlayerInteractEvent) {
-        val player = event.player ?: return
-        if (interact[player] == null) interact[player] = 1 else interact[player] = (interact[player]!! + 1)
-        if (interact[player] != null && interact[player]!! >= 25) player.kickPlayer("Too much interacts")
-        val distance = event.clickedBlock?.location?.distance(player.location) ?: return
-        if (event.hasBlock() && distance > 10.0) {
-            println(player)
-            player.isBanned = true
-            player.kickPlayer("§4No Cheats")
-        }
-    }
+	@EventHandler
+	fun onPlayerInteractEvent(event: PlayerInteractEvent) {
+		val player = event.player ?: return
+		if (interact[player] == null) interact[player] = 1 else interact[player] = (interact[player]!! + 1)
+		if (interact[player] != null && interact[player]!! >= 25) player.kickPlayer("Too much interacts")
+		val distance = event.clickedBlock?.location?.distance(player.location) ?: return
+		if (event.hasBlock() && distance > 10.0) {
+			println(player)
+			player.isBanned = true
+			player.kickPlayer("§4No Cheats")
+		}
+	}
 
 
 }

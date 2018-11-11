@@ -9,8 +9,8 @@ import org.bukkit.event.Cancellable
  */
 interface Cancellable {
 
-    fun cancel(cancellable: Cancellable)
+	fun cancel(cancellable: Cancellable)
 
-    fun cancel(cancellable: Cancellable, boolean: Boolean)
+	fun cancel(cancellable: Cancellable, boolean: Boolean)
 
 }

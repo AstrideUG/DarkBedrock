@@ -9,6 +9,6 @@ import java.lang.reflect.Field
  * Last edit 04.06.2018
  */
 class ClassJavaModuleManager(folder: File, lambdas: Array<(Field) -> Unit> = arrayOf()) {
-    val classModuleManager = ClassModuleManager(File("$folder${File.separator}class"), lambdas)
-    val javaModuleManager = JavaModuleManager(File("$folder${File.separator}jar"), lambdas)
+	val classModuleManager = ClassModuleManager(File("$folder${File.separator}class"), lambdas)
+	val javaModuleManager = JavaModuleManager(File("$folder${File.separator}jar"), lambdas)
 }

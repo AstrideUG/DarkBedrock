@@ -13,22 +13,22 @@ import java.util.*
  */
 interface IntAsyncMap {
 
-    fun get(uuid: UUID, key: String, lambda: (Int) -> Unit)
+	fun get(uuid: UUID, key: String, lambda: (Int) -> Unit)
 
-    fun set(uuid: UUID, key: String, value: Int, lambda: () -> Unit)
+	fun set(uuid: UUID, key: String, value: Int, lambda: () -> Unit)
 
-    fun add(uuid: UUID, key: String, lambda: () -> Unit)
+	fun add(uuid: UUID, key: String, lambda: () -> Unit)
 
-    fun add(uuid: UUID, key: String, count: Int, lambda: () -> Unit)
+	fun add(uuid: UUID, key: String, count: Int, lambda: () -> Unit)
 
-    fun remove(uuid: UUID, key: String, lambda: () -> Unit)
+	fun remove(uuid: UUID, key: String, lambda: () -> Unit)
 
-    fun remove(uuid: UUID, key: String, count: Int, lambda: () -> Unit)
+	fun remove(uuid: UUID, key: String, count: Int, lambda: () -> Unit)
 
-    fun hasEnough(uuid: UUID, key: String, count: Int, lambda: (Boolean) -> Unit)
+	fun hasEnough(uuid: UUID, key: String, count: Int, lambda: (Boolean) -> Unit)
 
-    fun removeIfEnough(uuid: UUID, key: String, count: Int, lambda: () -> Unit)
+	fun removeIfEnough(uuid: UUID, key: String, count: Int, lambda: () -> Unit)
 
-    fun removeIfEnough(uuid: UUID, key: String, count: Int, onSuccess: () -> Unit, onFail: () -> Unit)
+	fun removeIfEnough(uuid: UUID, key: String, count: Int, onSuccess: () -> Unit, onFail: () -> Unit)
 
 }

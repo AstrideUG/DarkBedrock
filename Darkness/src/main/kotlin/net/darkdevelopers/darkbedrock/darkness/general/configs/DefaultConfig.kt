@@ -7,11 +7,11 @@ package net.darkdevelopers.darkbedrock.darkness.general.configs
  */
 interface DefaultConfig : Config {
 
-    val configData: ConfigData
+	val configData: ConfigData
 
-    fun getFile() = configData.file
+	fun getFile() = configData.file
 
-    fun getFileName() = configData.fileName
+	fun getFileName() = configData.fileName
 
-    fun getDirectory() = configData.directory
+	fun getDirectory() = configData.directory
 }

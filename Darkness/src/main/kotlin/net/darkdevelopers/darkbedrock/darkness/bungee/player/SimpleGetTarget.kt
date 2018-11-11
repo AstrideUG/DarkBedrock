@@ -12,10 +12,10 @@ import net.md_5.bungee.api.connection.ProxiedPlayer
  */
 interface SimpleGetTarget : DefaultGetTarget {
 
-    override fun getTarget(sender: CommandSender, player: ProxiedPlayer?, lambda: (ProxiedPlayer) -> Unit) =
-            if (player != null)
-                lambda(player)
-            else
-                sender.sendMessage(TextComponent(Messages.PLAYER_NOT_ONLINE.toString()))
+	override fun getTarget(sender: CommandSender, player: ProxiedPlayer?, lambda: (ProxiedPlayer) -> Unit) =
+			if (player != null)
+				lambda(player)
+			else
+				sender.sendMessage(TextComponent(Messages.PLAYER_NOT_ONLINE.toString()))
 
 }

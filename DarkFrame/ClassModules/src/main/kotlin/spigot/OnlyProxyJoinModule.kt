@@ -1,4 +1,3 @@
-
 import com.google.gson.JsonArray
 import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
@@ -19,35 +18,35 @@ import org.bukkit.event.player.PlayerLoginEvent
  */
 class OnlyProxyJoinModule : Module, Listener(DarkFrame.instance) {
 
-    override val description: ModuleDescription = ModuleDescription("OnlyProxyJoinModule", "1.0", "Lars Artmann | LartyHD", "This module asks if the host address is valid")
+	override val description: ModuleDescription = ModuleDescription("OnlyProxyJoinModule", "1.0", "Lars Artmann | LartyHD", "This module asks if the host address is valid")
 
-    private lateinit var config: GsonConfig
-    private lateinit var proxies: JsonArray
-    private lateinit var ips: Set<String>
-    private lateinit var kickMessage: String
+	private lateinit var config: GsonConfig
+	private lateinit var proxies: JsonArray
+	private lateinit var ips: Set<String>
+	private lateinit var kickMessage: String
 
-    override fun load() {
-        config = GsonConfig(ConfigData(description.folder)).load()
-    }
+	override fun load() {
+		config = GsonConfig(ConfigData(description.folder)).load()
+	}
 
-    override fun start() {
-        proxies = config.getAs<JsonArray>("proxies").toNonNull()
-        ips = mutableSetOf<String>().apply { proxies.forEach { add(it.asString) } }.toSet()
-        kickMessage = config.getAs<JsonPrimitive>("KickMessage")?.asString.toNonNull()
-    }
+	override fun start() {
+		proxies = config.getAs<JsonArray>("proxies").toNonNull()
+		ips = mutableSetOf<String>().apply { proxies.forEach { add(it.asString) } }.toSet()
+		kickMessage = config.getAs<JsonPrimitive>("KickMessage")?.asString.toNonNull()
+	}
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    fun onPlayerLoginEvent(event: PlayerLoginEvent) {
-        if (!check(event.realAddress.hostAddress)) event.disallow(
-                PlayerLoginEvent.Result.KICK_OTHER,
-                kickMessage
+	@EventHandler(priority = EventPriority.HIGHEST)
+	fun onPlayerLoginEvent(event: PlayerLoginEvent) {
+		if (!check(event.realAddress.hostAddress)) event.disallow(
+				PlayerLoginEvent.Result.KICK_OTHER,
+				kickMessage
 //                "${TEXT}Bitte joine über ${Messages.SERVER_NAME}"
-        )
-    }
+		)
+	}
 
-    private fun check(ip: String): Boolean {
-        ips.forEach { if (it.equals(ip, ignoreCase = true)) return true }
-        return false
-    }
+	private fun check(ip: String): Boolean {
+		ips.forEach { if (it.equals(ip, ignoreCase = true)) return true }
+		return false
+	}
 
 }

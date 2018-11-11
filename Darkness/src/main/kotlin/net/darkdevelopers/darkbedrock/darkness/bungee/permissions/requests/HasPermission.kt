@@ -9,8 +9,8 @@ import net.md_5.bungee.api.CommandSender
  */
 interface HasPermission {
 
-    fun hasPermission(target: CommandSender, permission: String, lambda: () -> Unit)
+	fun hasPermission(target: CommandSender, permission: String, lambda: () -> Unit)
 
-    fun hasPermission(target: CommandSender, permission: String): Boolean
+	fun hasPermission(target: CommandSender, permission: String): Boolean
 
 }

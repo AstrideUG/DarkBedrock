@@ -9,20 +9,20 @@ import org.bukkit.command.CommandSender
  */
 interface SimpleHasPermission : HasPermission {
 
-    val permissionMessage: String
+	val permissionMessage: String
 
-    override fun hasPermission(target: CommandSender, permission: String, lambda: () -> Unit) {
-        when {
-            hasPermission(target, permission) -> lambda()
-            permissionMessage.isBlank() -> target.sendMessage("§cI'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.")
-            else -> for (line in permissionMessage.replace("<permission>", permission).split("\n")) target.sendMessage(line)
-        }
-    }
+	override fun hasPermission(target: CommandSender, permission: String, lambda: () -> Unit) {
+		when {
+			hasPermission(target, permission) -> lambda()
+			permissionMessage.isBlank() -> target.sendMessage("§cI'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.")
+			else -> for (line in permissionMessage.replace("<permission>", permission).split("\n")) target.sendMessage(line)
+		}
+	}
 
-    override fun hasPermission(target: CommandSender, permission: String): Boolean {
-        if (permission.isEmpty()) return true
-        for (perm in permission.split(";"))
-            if (target.hasPermission(perm)) return true
-        return false
-    }
+	override fun hasPermission(target: CommandSender, permission: String): Boolean {
+		if (permission.isEmpty()) return true
+		for (perm in permission.split(";"))
+			if (target.hasPermission(perm)) return true
+		return false
+	}
 }

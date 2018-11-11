@@ -11,9 +11,9 @@ import java.util.*
  */
 interface GetTarget {
 
-    fun getTarget(sender: CommandSender, player: ProxiedPlayer?, lambda: (ProxiedPlayer) -> Unit)
+	fun getTarget(sender: CommandSender, player: ProxiedPlayer?, lambda: (ProxiedPlayer) -> Unit)
 
-    fun getTarget(sender: CommandSender, uuid: UUID, lambda: (ProxiedPlayer) -> Unit)
+	fun getTarget(sender: CommandSender, uuid: UUID, lambda: (ProxiedPlayer) -> Unit)
 
-    fun getTarget(sender: CommandSender, name: String, lambda: (ProxiedPlayer) -> Unit)
+	fun getTarget(sender: CommandSender, name: String, lambda: (ProxiedPlayer) -> Unit)
 }

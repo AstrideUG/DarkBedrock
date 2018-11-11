@@ -8,6 +8,6 @@ import java.lang.reflect.Method
 
 data class EventHandlerMethod(val listener: Any, val method: Method? = null) {
 
-    operator fun invoke(event: Any) = method!!.invoke(listener, event)
+	operator fun invoke(event: Any) = method!!.invoke(listener, event)
 
 }

@@ -9,12 +9,12 @@ import java.util.*
  */
 interface AsyncMap {
 
-    fun get(uuid: UUID, key: String, lambda: (Any) -> Unit)
+	fun get(uuid: UUID, key: String, lambda: (Any) -> Unit)
 
-    fun set(uuid: UUID, key: String, value: Any, lambda: () -> Unit)
+	fun set(uuid: UUID, key: String, value: Any, lambda: () -> Unit)
 
-    fun add(uuid: UUID, key: String, any: Any, lambda: () -> Unit)
+	fun add(uuid: UUID, key: String, any: Any, lambda: () -> Unit)
 
-    fun remove(uuid: UUID, key: String, lambda: () -> Unit)
+	fun remove(uuid: UUID, key: String, lambda: () -> Unit)
 
 }

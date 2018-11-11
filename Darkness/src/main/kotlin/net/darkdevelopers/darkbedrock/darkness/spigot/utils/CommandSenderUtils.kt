@@ -17,4 +17,4 @@ var isPlayerFailedMessage = "Der Command ist nur für Spieler"
 inline fun CommandSender.isPlayer(lambda: (Player) -> Unit) = isPlayer(lambda) { sendMessage(isPlayerFailedMessage) }
 
 inline fun CommandSender.isPlayer(onSuccess: (Player) -> Unit, onFail: () -> Unit) =
-        if (this is Player) onSuccess(this) else onFail()
+		if (this is Player) onSuccess(this) else onFail()

@@ -25,29 +25,29 @@ import java.util.*
  */
 class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
-    private val killer: MutableMap<UUID, Player> = HashMap()
+	private val killer: MutableMap<UUID, Player> = HashMap()
 
-    @EventHandler
-    fun onPlayerJoinEvent(event: PlayerJoinEvent) {
-        event.joinMessage = null
-    }
+	@EventHandler
+	fun onPlayerJoinEvent(event: PlayerJoinEvent) {
+		event.joinMessage = null
+	}
 
-    @EventHandler
-    fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
-        event.leaveMessage = null
-    }
+	@EventHandler
+	fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
+		event.leaveMessage = null
+	}
 
-    @EventHandler
-    fun onPlayerMoveEvent(event: PlayerMoveEvent) {
-        val player = event.player ?: return
-        if (player.location.blockY < 0) player.damage(player.health)
-    }
+	@EventHandler
+	fun onPlayerMoveEvent(event: PlayerMoveEvent) {
+		val player = event.player ?: return
+		if (player.location.blockY < 0) player.damage(player.health)
+	}
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    fun onPlayerDeathEvent(event: PlayerDeathEvent) {
-        val player = event.entity ?: return
-        val killer = killer[player.uniqueId]
-        /*TeamManager teamManager = Saves.getTeamManager(); TODO: ADD TEAMS
+	@EventHandler(priority = EventPriority.HIGHEST)
+	fun onPlayerDeathEvent(event: PlayerDeathEvent) {
+		val player = event.entity ?: return
+		val killer = killer[player.uniqueId]
+		/*TeamManager teamManager = Saves.getTeamManager(); TODO: ADD TEAMS
 			if (teamManager != null)
 			{
 				GameTeam gameTeam = teamManager.getTeam(player);
@@ -78,92 +78,92 @@ class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 			}
 			else
 			{*/
-        if (killer != null) {
-            event.deathMessage = "${Messages.PREFIX}$IMPORTANT${player.name}$TEXT wurde von $IMPORTANT${player.displayName}$TEXT getötet"
-            event.entity.sendMessage("${Messages.PREFIX}$IMPORTANT${player.displayName}$TEXT hatte $IMPORTANT${player.health.toInt()}§c❥")
-        } else {
-            event.deathMessage = "${Messages.PREFIX}$IMPORTANT${player.name}$TEXT ist gestorben"
-            this.killer.remove(player.uniqueId)
-        }
-        /*}*/
+		if (killer != null) {
+			event.deathMessage = "${Messages.PREFIX}$IMPORTANT${player.name}$TEXT wurde von $IMPORTANT${player.displayName}$TEXT getötet"
+			event.entity.sendMessage("${Messages.PREFIX}$IMPORTANT${player.displayName}$TEXT hatte $IMPORTANT${player.health.toInt()}§c❥")
+		} else {
+			event.deathMessage = "${Messages.PREFIX}$IMPORTANT${player.name}$TEXT ist gestorben"
+			this.killer.remove(player.uniqueId)
+		}
+		/*}*/
 
-    }
+	}
 
-    @EventHandler
-    fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent) {
-        val damager = event.damager ?: return
-        if (!event.isCancelled)
-            if (damager is Player)
-                killer[event.entity.uniqueId] = damager
-            else if (damager is Projectile)
-                if (damager.shooter is Player)
-                    killer[event.entity.uniqueId] = damager.shooter as Player
-    }
+	@EventHandler
+	fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent) {
+		val damager = event.damager ?: return
+		if (!event.isCancelled)
+			if (damager is Player)
+				killer[event.entity.uniqueId] = damager
+			else if (damager is Projectile)
+				if (damager.shooter is Player)
+					killer[event.entity.uniqueId] = damager.shooter as Player
+	}
 
-    @EventHandler
-    fun onAsyncPlayerChatEvent(event: AsyncPlayerChatEvent) {
-        //		if (Saves.getTeamManager() != null) TODO: TEAMS
-        //		{
-        //			event.setCancelled(true);
-        //			if (Saves.getTeamManager().getSpectators().contains(player))
-        //			{
-        //				for (Player spec : Saves.getTeamManager().getSpectators().getPlayers())
-        //				{
-        //					spec.sendMessage(UserManager.getUser(player).getPrefix() + player.getName() + IMPORTANT + ": §f" + event.getMessage());
-        //				}
-        //			}
-        //			else
-        //			{
-        //				for (Player others : Bukkit.getOnlinePlayers())
-        //				{
-        //					if (!Saves.getTeamManager().getSpectators().contains(others))
-        //					{
-        //						if (!event.getMessage().startsWith("@"))
-        //						{
-        //							if (Saves.getTeamManager().getTeam(player).getPlayers().contains(others))
-        //							{
-        //								others.sendMessage(IMPORTANT + "[" + Saves.getTeamManager().getTeam(player).getChatColor() + Saves.getTeamManager().getTeam(player).getName() + IMPORTANT + "] " + Saves.getTeamManager().getTeam(player).getChatColor() + player.getName() + IMPORTANT + ": §f" + event.getMessage());
-        //							}
-        //						}
-        //						else
-        //						{
-        //							if (Saves.isTeamChat())
-        //							{
-        //								String message = null;
-        //								if (event.getMessage().startsWith("@all"))
-        //								{
-        //									message = event.getMessage().substring(4);
-        //								}
-        //								else if (event.getMessage().startsWith("@al"))
-        //								{
-        //									message = event.getMessage().substring(3);
-        //								}
-        //								else if (event.getMessage().startsWith("@a"))
-        //								{
-        //									message = event.getMessage().substring(2);
-        //								}
-        //								else if (event.getMessage().startsWith("@"))
-        //								{
-        //									message = event.getMessage().substring(1);
-        //								}
-        //								if (message == null || message.equalsIgnoreCase("") || message.equalsIgnoreCase(" "))
-        //								{
-        //									return;
-        //								}
-        //								if (message.startsWith(" "))
-        //								{
-        //									message.substring(1);
-        //								}
-        //								others.sendMessage(IMPORTANT + "[" + TEXT + "@all" + IMPORTANT + "] " + "[" + Saves.getTeamManager().getTeam(player).getChatColor() + Saves.getTeamManager().getTeam(player).getName() + IMPORTANT + "] " + Saves.getTeamManager().getTeam(player).getChatColor() + player.getName() + IMPORTANT + ": §f" + message);
-        //							}
-        //						}
-        //					}
-        //				}
-        //			}
-        //		}
-        //		else
-        //		{
-        event.format = "${event.player.displayName}$IMPORTANT: $RESET${event.message}"
-        //		}
-    }
+	@EventHandler
+	fun onAsyncPlayerChatEvent(event: AsyncPlayerChatEvent) {
+		//		if (Saves.getTeamManager() != null) TODO: TEAMS
+		//		{
+		//			event.setCancelled(true);
+		//			if (Saves.getTeamManager().getSpectators().contains(player))
+		//			{
+		//				for (Player spec : Saves.getTeamManager().getSpectators().getPlayers())
+		//				{
+		//					spec.sendMessage(UserManager.getUser(player).getPrefix() + player.getName() + IMPORTANT + ": §f" + event.getMessage());
+		//				}
+		//			}
+		//			else
+		//			{
+		//				for (Player others : Bukkit.getOnlinePlayers())
+		//				{
+		//					if (!Saves.getTeamManager().getSpectators().contains(others))
+		//					{
+		//						if (!event.getMessage().startsWith("@"))
+		//						{
+		//							if (Saves.getTeamManager().getTeam(player).getPlayers().contains(others))
+		//							{
+		//								others.sendMessage(IMPORTANT + "[" + Saves.getTeamManager().getTeam(player).getChatColor() + Saves.getTeamManager().getTeam(player).getName() + IMPORTANT + "] " + Saves.getTeamManager().getTeam(player).getChatColor() + player.getName() + IMPORTANT + ": §f" + event.getMessage());
+		//							}
+		//						}
+		//						else
+		//						{
+		//							if (Saves.isTeamChat())
+		//							{
+		//								String message = null;
+		//								if (event.getMessage().startsWith("@all"))
+		//								{
+		//									message = event.getMessage().substring(4);
+		//								}
+		//								else if (event.getMessage().startsWith("@al"))
+		//								{
+		//									message = event.getMessage().substring(3);
+		//								}
+		//								else if (event.getMessage().startsWith("@a"))
+		//								{
+		//									message = event.getMessage().substring(2);
+		//								}
+		//								else if (event.getMessage().startsWith("@"))
+		//								{
+		//									message = event.getMessage().substring(1);
+		//								}
+		//								if (message == null || message.equalsIgnoreCase("") || message.equalsIgnoreCase(" "))
+		//								{
+		//									return;
+		//								}
+		//								if (message.startsWith(" "))
+		//								{
+		//									message.substring(1);
+		//								}
+		//								others.sendMessage(IMPORTANT + "[" + TEXT + "@all" + IMPORTANT + "] " + "[" + Saves.getTeamManager().getTeam(player).getChatColor() + Saves.getTeamManager().getTeam(player).getName() + IMPORTANT + "] " + Saves.getTeamManager().getTeam(player).getChatColor() + player.getName() + IMPORTANT + ": §f" + message);
+		//							}
+		//						}
+		//					}
+		//				}
+		//			}
+		//		}
+		//		else
+		//		{
+		event.format = "${event.player.displayName}$IMPORTANT: $RESET${event.message}"
+		//		}
+	}
 }

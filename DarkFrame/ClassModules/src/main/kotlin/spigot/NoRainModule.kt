@@ -19,32 +19,32 @@ import org.bukkit.event.world.WorldLoadEvent
  */
 class NoRainModule : Module, Listener(DarkFrame.instance) {
 
-    override val description: ModuleDescription = ModuleDescription("NoRainModule", "1.2", "Lars Artmann | LartyHD", "This modules block rain")
+	override val description: ModuleDescription = ModuleDescription("NoRainModule", "1.2", "Lars Artmann | LartyHD", "This modules block rain")
 
-    private lateinit var config: GsonConfig
+	private lateinit var config: GsonConfig
 
-    override fun load() {
-        config = GsonConfig(ConfigData(description.folder)).load()
-    }
+	override fun load() {
+		config = GsonConfig(ConfigData(description.folder)).load()
+	}
 
-    override fun start() {
-        val worldsWhitelistActive = config.getAsNotNull<JsonPrimitive>("WorldsWhitelistActive").asBoolean
-        if (worldsWhitelistActive) {
-            val rawWorlds = config.getAsNotNull<JsonArray>("Worlds")
-            val worlds = mutableSetOf<World>().apply { rawWorlds.forEach { Bukkit.getWorld(it.asString) } }.toSet()
-            worlds.forEach(this::clearWeather)
-        } else Bukkit.getWorlds().forEach(this::clearWeather)
-    }
+	override fun start() {
+		val worldsWhitelistActive = config.getAsNotNull<JsonPrimitive>("WorldsWhitelistActive").asBoolean
+		if (worldsWhitelistActive) {
+			val rawWorlds = config.getAsNotNull<JsonArray>("Worlds")
+			val worlds = mutableSetOf<World>().apply { rawWorlds.forEach { Bukkit.getWorld(it.asString) } }.toSet()
+			worlds.forEach(this::clearWeather)
+		} else Bukkit.getWorlds().forEach(this::clearWeather)
+	}
 
-    @EventHandler
-    fun onWeatherChangeEvent(event: WeatherChangeEvent) = cancel(event, event.toWeatherState())
+	@EventHandler
+	fun onWeatherChangeEvent(event: WeatherChangeEvent) = cancel(event, event.toWeatherState())
 
-    @EventHandler
-    fun onWorldLoadEvent(event: WorldLoadEvent) = clearWeather(event.world)
+	@EventHandler
+	fun onWorldLoadEvent(event: WorldLoadEvent) = clearWeather(event.world)
 
-    private fun clearWeather(world: World) {
-        world.setStorm(false)
-        world.isThundering = false
-    }
+	private fun clearWeather(world: World) {
+		world.setStorm(false)
+		world.isThundering = false
+	}
 
 }

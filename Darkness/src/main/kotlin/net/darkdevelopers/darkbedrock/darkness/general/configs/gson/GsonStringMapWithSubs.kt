@@ -15,27 +15,27 @@ import com.google.gson.JsonObject
  */
 class GsonStringMapWithSubs(jsonObject: JsonObject) {
 
-    private val subMessages = mutableMapOf<String, JsonObject>()
-    val available = getMessages(jsonObject.entrySet())
-    val availableOnInit = available.toMap()
-    val availableSubs = mutableMapOf<String, MutableMap<String, String>>()
+	private val subMessages = mutableMapOf<String, JsonObject>()
+	val available = getMessages(jsonObject.entrySet())
+	val availableOnInit = available.toMap()
+	val availableSubs = mutableMapOf<String, MutableMap<String, String>>()
 
-    init {
-        try {
-            while (subMessages.isNotEmpty())
-                subMessages.forEach {
-                    availableSubs[it.key] = getMessages(it.value.entrySet(), it.key + ".")
-                    subMessages.remove(it.key)
-                }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-        }
-    }
+	init {
+		try {
+			while (subMessages.isNotEmpty())
+				subMessages.forEach {
+					availableSubs[it.key] = getMessages(it.value.entrySet(), it.key + ".")
+					subMessages.remove(it.key)
+				}
+		} catch (ex: Exception) {
+			ex.printStackTrace()
+		}
+	}
 
-    private fun getMessages(entries: Set<Map.Entry<String, JsonElement>>, prefix: String = "") = getMessages(mutableMapOf(), entries, prefix)
+	private fun getMessages(entries: Set<Map.Entry<String, JsonElement>>, prefix: String = "") = getMessages(mutableMapOf(), entries, prefix)
 
-    private fun getMessages(map: MutableMap<String, String>, entries: Set<Map.Entry<String, JsonElement>>, prefix: String = "") = map.apply {
-        entries.forEach { if (it.value.isJsonObject) subMessages[prefix + it.key] = it.value.asJsonObject else this[it.key] = it.value.asString }
-    }
+	private fun getMessages(map: MutableMap<String, String>, entries: Set<Map.Entry<String, JsonElement>>, prefix: String = "") = map.apply {
+		entries.forEach { if (it.value.isJsonObject) subMessages[prefix + it.key] = it.value.asJsonObject else this[it.key] = it.value.asString }
+	}
 
 }

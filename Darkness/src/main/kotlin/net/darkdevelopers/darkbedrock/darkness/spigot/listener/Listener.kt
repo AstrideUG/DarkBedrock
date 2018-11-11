@@ -14,22 +14,22 @@ import org.bukkit.plugin.java.JavaPlugin
 @Suppress("LeakingThis")
 open class Listener(protected val javaPlugin: JavaPlugin, private val pluginManager: PluginManager = Bukkit.getPluginManager(), override val permissionMessage: String = "") : Listener {
 
-    init {
-        init()
-        register()
-    }
+	init {
+		init()
+		register()
+	}
 
-    open fun init() {
+	open fun init() {
 
-    }
+	}
 
-    final override fun register() = pluginManager.registerEvents(this, javaPlugin)
+	final override fun register() = pluginManager.registerEvents(this, javaPlugin)
 
-    final override fun unregister() = HandlerList.unregisterAll(this)
+	final override fun unregister() = HandlerList.unregisterAll(this)
 
-    final override fun reload() {
-        unregister()
-        register()
-    }
+	final override fun reload() {
+		unregister()
+		register()
+	}
 
 }

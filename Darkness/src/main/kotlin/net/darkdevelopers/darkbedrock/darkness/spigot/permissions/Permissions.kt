@@ -7,9 +7,9 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.permissions
  */
 enum class Permissions(private val permission: String) {
 
-    GAME_LOBBY_SETTINGS("dark.settings");
+	GAME_LOBBY_SETTINGS("dark.settings");
 
-    override fun toString(): String = permission
+	override fun toString(): String = permission
 
 
 }

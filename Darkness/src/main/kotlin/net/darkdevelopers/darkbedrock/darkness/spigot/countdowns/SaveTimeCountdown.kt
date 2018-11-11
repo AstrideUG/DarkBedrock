@@ -3,8 +3,7 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
+import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import org.bukkit.Bukkit
 
@@ -14,25 +13,25 @@ import org.bukkit.Bukkit
  */
 class SaveTimeCountdown : Countdown(60) {
 
-    override fun start() = if (!isRunning) {
-        isRunning = true
+	override fun start() = if (!isRunning) {
+		isRunning = true
 //        Bukkit.getPluginManager().callEvent(SaveTimeCountdownStartedEvent(this))
-        loop {
-            when (seconds) {
-                0 -> finish()
-                1 -> Bukkit.broadcastMessage("${Messages.PREFIX} ${TEXT}Die Schutzzeit ended in ${IMPORTANT}einer ${TEXT}Sekunde")
-                2, 3, 4, 5, 10, 15, 20, 30, 45, 60 -> Bukkit.broadcastMessage("${Messages.PREFIX} ${TEXT}Die Schutzzeit ended in $IMPORTANT$seconds ${TEXT}Sekunden")
-            }
-            seconds--
-        }
-    } else System.err.println("The save time countdown should start, although it is already running")
+		loop {
+			when (seconds) {
+				0 -> finish()
+				1 -> Bukkit.broadcastMessage("${Messages.PREFIX} ${TEXT}Die Schutzzeit ended in ${IMPORTANT}einer ${TEXT}Sekunde")
+				2, 3, 4, 5, 10, 15, 20, 30, 45, 60 -> Bukkit.broadcastMessage("${Messages.PREFIX} ${TEXT}Die Schutzzeit ended in $IMPORTANT$seconds ${TEXT}Sekunden")
+			}
+			seconds--
+		}
+	} else System.err.println("The save time countdown should start, although it is already running")
 
-    override fun stop() = defaultStop("savetime")
+	override fun stop() = defaultStop("savetime")
 
-    override fun finish() {
+	override fun finish() {
 //        Bukkit.getPluginManager().callEvent(SaveTimeCountdownFinishedEvent(this))
-        Bukkit.broadcastMessage("${Messages.PREFIX} ${TEXT}Die Schutzzeit ended")
-        stop()
-    }
+		Bukkit.broadcastMessage("${Messages.PREFIX} ${TEXT}Die Schutzzeit ended")
+		stop()
+	}
 
 }

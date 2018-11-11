@@ -9,5 +9,5 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.listener.game.InGameListen
  * Last edit 06.07.2018
  */
 class InGameGameState(override val listener: InGameListener) : GameState {
-    override val countdown: Countdown? = null
+	override val countdown: Countdown? = null
 }

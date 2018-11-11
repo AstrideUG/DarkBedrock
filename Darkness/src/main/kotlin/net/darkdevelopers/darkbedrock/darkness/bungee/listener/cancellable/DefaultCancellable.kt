@@ -7,10 +7,10 @@ package net.darkdevelopers.darkbedrock.darkness.bungee.listener.cancellable
  */
 interface DefaultCancellable : Cancellable {
 
-    override fun cancel(cancellable: net.md_5.bungee.api.plugin.Cancellable) = cancel(cancellable, true)
+	override fun cancel(cancellable: net.md_5.bungee.api.plugin.Cancellable) = cancel(cancellable, true)
 
-    override fun cancel(cancellable: net.md_5.bungee.api.plugin.Cancellable, boolean: Boolean) {
-        cancellable.isCancelled = boolean
-    }
+	override fun cancel(cancellable: net.md_5.bungee.api.plugin.Cancellable, boolean: Boolean) {
+		cancellable.isCancelled = boolean
+	}
 
 }

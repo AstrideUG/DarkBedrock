@@ -12,10 +12,10 @@ import org.bukkit.command.CommandSender
  */
 interface VotesHandler {
 
-    val votes: MutableSet<Vote>
+	val votes: MutableSet<Vote>
 
-    fun getResult()
+	fun getResult()
 
-    fun addVote(sender: CommandSender, voteName: String): Boolean
+	fun addVote(sender: CommandSender, voteName: String): Boolean
 
 }

@@ -12,17 +12,17 @@ import net.md_5.bungee.api.plugin.PluginManager
  */
 open class Listener(val plugin: Plugin, private val pluginManager: PluginManager = ProxyServer.getInstance().pluginManager, override val permissionMessage: String = "") : Listener {
 
-    init {
-        register()
-    }
+	init {
+		register()
+	}
 
-    final override fun register() = pluginManager.registerListener(plugin, this)
+	final override fun register() = pluginManager.registerListener(plugin, this)
 
-    final override fun unregister() = pluginManager.unregisterListener(this)
+	final override fun unregister() = pluginManager.unregisterListener(this)
 
-    final override fun reload() {
-        unregister()
-        register()
-    }
+	final override fun reload() {
+		unregister()
+		register()
+	}
 
 }

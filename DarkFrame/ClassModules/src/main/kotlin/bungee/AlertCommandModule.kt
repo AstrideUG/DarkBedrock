@@ -14,22 +14,22 @@ import net.md_5.bungee.api.chat.TextComponent
  * Last edit 05.07.2018
  */
 class AlertCommandModule : Module, Command(
-        commandName = "Alert",
-        permission = "darkbedrock.darkframe.bungee.modules.commands.alert",
-        usage = "<Nachricht>",
-        minLength = 1,
-        maxLength = Int.MAX_VALUE,
-        aliases = *arrayOf("bc", "broadcast")
+		commandName = "Alert",
+		permission = "darkbedrock.darkframe.bungee.modules.commands.alert",
+		usage = "<Nachricht>",
+		minLength = 1,
+		maxLength = Int.MAX_VALUE,
+		aliases = *arrayOf("bc", "broadcast")
 ) {
-    override val description: ModuleDescription = ModuleDescription("AlertCommandModule", "1.0", "Lars Artmann | LartyHD", "This module adds the alert command")
+	override val description: ModuleDescription = ModuleDescription("AlertCommandModule", "1.0", "Lars Artmann | LartyHD", "This module adds the alert command")
 
-    override fun perform(sender: CommandSender, args: Array<String>) {
-        var message = ""
-        for (arg in args) message += "$arg "
-        for (player in ProxyServer.getInstance().players) player.run {
-            sendMessage(TextComponent(" "))
-            sendMessage(TextComponent("${Messages.SERVER_NAME}$IMPORTANT$EXTRA: $TEXT${ChatColor.translateAlternateColorCodes('&', message)}"))
-            sendMessage(TextComponent(" "))
-        }
-    }
+	override fun perform(sender: CommandSender, args: Array<String>) {
+		var message = ""
+		for (arg in args) message += "$arg "
+		for (player in ProxyServer.getInstance().players) player.run {
+			sendMessage(TextComponent(" "))
+			sendMessage(TextComponent("${Messages.SERVER_NAME}$IMPORTANT$EXTRA: $TEXT${ChatColor.translateAlternateColorCodes('&', message)}"))
+			sendMessage(TextComponent(" "))
+		}
+	}
 }

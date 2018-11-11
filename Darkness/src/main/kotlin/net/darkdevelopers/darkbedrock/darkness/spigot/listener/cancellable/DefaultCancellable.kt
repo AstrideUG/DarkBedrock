@@ -8,10 +8,10 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.listener.cancellable
  */
 interface DefaultCancellable : Cancellable {
 
-    override fun cancel(cancellable: org.bukkit.event.Cancellable) = cancel(cancellable, true)
+	override fun cancel(cancellable: org.bukkit.event.Cancellable) = cancel(cancellable, true)
 
-    override fun cancel(cancellable: org.bukkit.event.Cancellable, boolean: Boolean) {
-        cancellable.isCancelled = boolean
-    }
+	override fun cancel(cancellable: org.bukkit.event.Cancellable, boolean: Boolean) {
+		cancellable.isCancelled = boolean
+	}
 
 }

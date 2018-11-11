@@ -16,28 +16,28 @@ import kotlin.concurrent.thread
  */
 class RestartModule : Module {
 
-    override val description: ModuleDescription = ModuleDescription("RestartModule", "1.0", "Lars Artmann | LartyHD", "")
+	override val description: ModuleDescription = ModuleDescription("RestartModule", "1.0", "Lars Artmann | LartyHD", "")
 
-    override fun start() {
-        thread {
-            val start = convert()
-            try {
-                while (true) {
-                    if (convert() > start) {
-                        for (i in 1..10) {
-                            Bukkit.broadcastMessage("§4§lDer Server Startet ${if (i == 1) "einer Sekunde" else "$i Sekunden"} kurz neu")
-                            Thread.sleep(1000)
-                        }
-                        Bukkit.shutdown()
-                    }
-                    Thread.sleep(10000)
-                }
-            } catch (ignored: InterruptedException) {
-            }
+	override fun start() {
+		thread {
+			val start = convert()
+			try {
+				while (true) {
+					if (convert() > start) {
+						for (i in 1..10) {
+							Bukkit.broadcastMessage("§4§lDer Server Startet ${if (i == 1) "einer Sekunde" else "$i Sekunden"} kurz neu")
+							Thread.sleep(1000)
+						}
+						Bukkit.shutdown()
+					}
+					Thread.sleep(10000)
+				}
+			} catch (ignored: InterruptedException) {
+			}
 
-        }
-    }
+		}
+	}
 
-    private fun convert() = TimeUnit.DAYS.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+	private fun convert() = TimeUnit.DAYS.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
 
 }

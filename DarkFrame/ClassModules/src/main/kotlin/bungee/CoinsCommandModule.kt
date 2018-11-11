@@ -7,8 +7,7 @@
  */
 
 import net.darkdevelopers.darkbedrock.darkness.bungee.commands.Command
-import net.darkdevelopers.darkbedrock.darkness.bungee.messages.Colors.IMPORTANT
-import net.darkdevelopers.darkbedrock.darkness.bungee.messages.Colors.TEXT
+import net.darkdevelopers.darkbedrock.darkness.bungee.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.bungee.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.general.asyncmap.intasyncmap.IntAsyncMap
 import net.darkdevelopers.darkbedrock.darkness.general.asyncmap.intasyncmap.MongoIntAsyncMap
@@ -24,21 +23,21 @@ import net.md_5.bungee.api.chat.TextComponent
  * Last edit 31.07.2018
  */
 class CoinsCommandModule : Module, Command(
-        commandName = "Coins",
-        usage = "[Spieler]",
-        maxLength = 1
+		commandName = "Coins",
+		usage = "[Spieler]",
+		maxLength = 1
 ) {
-    override val description: ModuleDescription = ModuleDescription("CoinsCommandModule", "1.0", "Lars Artmann | LartyHD", "This module adds the coins command")
+	override val description: ModuleDescription = ModuleDescription("CoinsCommandModule", "1.0", "Lars Artmann | LartyHD", "This module adds the coins command")
 
-    private val asyncMap: IntAsyncMap = MongoIntAsyncMap(MongoDB.simpleInstance, "MainDB", "server")
+	private val asyncMap: IntAsyncMap = MongoIntAsyncMap(MongoDB.simpleInstance, "MainDB", "server")
 
-    override fun perform(sender: CommandSender, args: Array<String>) = if (args.isEmpty())
-        isPlayer(sender, { player ->
-            asyncMap.get(player.uniqueId, "coins") { sender.sendMessage(TextComponent("${Messages.PREFIX}${TEXT}Du hast $IMPORTANT$it ${TEXT}Coins")) }
-        }, { sendUseMessage(sender) })
-    else getTarget(sender, args[0]) {
-        sender.sendMessage(TextComponent("${Messages.PREFIX}$IMPORTANT${it.name} ${TEXT}hat $IMPORTANT$it ${TEXT}Coins"))
-    }
+	override fun perform(sender: CommandSender, args: Array<String>) = if (args.isEmpty())
+		isPlayer(sender, { player ->
+			asyncMap.get(player.uniqueId, "coins") { sender.sendMessage(TextComponent("${Messages.PREFIX}${TEXT}Du hast $IMPORTANT$it ${TEXT}Coins")) }
+		}, { sendUseMessage(sender) })
+	else getTarget(sender, args[0]) {
+		sender.sendMessage(TextComponent("${Messages.PREFIX}$IMPORTANT${it.name} ${TEXT}hat $IMPORTANT$it ${TEXT}Coins"))
+	}
 }
 /*
     init {

@@ -16,7 +16,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
  */
 class InjectorModule : Module {
 
-    override fun configure(binder: Binder) {
-        binder.bind(GsonConfig::class.java).`in`(Scopes.SINGLETON)
-    }
+	override fun configure(binder: Binder) {
+		binder.bind(GsonConfig::class.java).`in`(Scopes.SINGLETON)
+	}
 }

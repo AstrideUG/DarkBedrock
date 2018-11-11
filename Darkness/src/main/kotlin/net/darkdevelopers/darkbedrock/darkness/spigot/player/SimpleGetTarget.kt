@@ -11,11 +11,11 @@ import org.bukkit.entity.Player
  */
 interface SimpleGetTarget : DefaultGetTarget {
 
-    override fun getTarget(sender: CommandSender, player: Player?, lambda: (Player) -> Unit) =
-            if (player != null)
-                lambda(player)
-            else
-                sender.sendMessage(Messages.PLAYER_NOT_ONLINE.toString())
+	override fun getTarget(sender: CommandSender, player: Player?, lambda: (Player) -> Unit) =
+			if (player != null)
+				lambda(player)
+			else
+				sender.sendMessage(Messages.PLAYER_NOT_ONLINE.toString())
 
-    override fun getTarget(player: Player?, lambda: (Player?) -> Unit) = lambda(player)
+	override fun getTarget(player: Player?, lambda: (Player?) -> Unit) = lambda(player)
 }

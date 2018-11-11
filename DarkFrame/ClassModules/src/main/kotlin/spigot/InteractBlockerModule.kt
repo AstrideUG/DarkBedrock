@@ -22,21 +22,21 @@ import org.bukkit.event.player.PlayerInteractEvent
  */
 class InteractBlockerModule : Module, Listener(DarkFrame.instance) {
 
-    override val description: ModuleDescription = ModuleDescription("InteractBlockerModule", "1.0", "Lars Artmann | LartyHD", "")
-    private val blocked = mutableSetOf<Material>()
+	override val description: ModuleDescription = ModuleDescription("InteractBlockerModule", "1.0", "Lars Artmann | LartyHD", "")
+	private val blocked = mutableSetOf<Material>()
 
-    override fun start() {
-        val config = BukkitGsonConfig(ConfigData(description.folder)).load()
-        config.getAsNotNull<JsonArray>("blockedTypes").forEach { blocked.add(Material.getMaterial((it as JsonPrimitive).asString)) }
-    }
+	override fun start() {
+		val config = BukkitGsonConfig(ConfigData(description.folder)).load()
+		config.getAsNotNull<JsonArray>("blockedTypes").forEach { blocked.add(Material.getMaterial((it as JsonPrimitive).asString)) }
+	}
 
-    @EventHandler
-    fun onPlayerInteractEvent(event: PlayerInteractEvent) = blocked.forEach {
-        if (event.hasBlock() && event.clickedBlock?.type == it && !hasPermission(event.player, "InteractBlocker.bypass") && !hasPermission(event.player, "InteractBlocker.bypass.$it")) {
-            cancel(event)
-            event.player.sendMessage("${ChatColor.RED}Du darfst mit ${ChatColor.DARK_RED}$it ${ChatColor.RED}nicht interagieren")
-        }
-    }
+	@EventHandler
+	fun onPlayerInteractEvent(event: PlayerInteractEvent) = blocked.forEach {
+		if (event.hasBlock() && event.clickedBlock?.type == it && !hasPermission(event.player, "InteractBlocker.bypass") && !hasPermission(event.player, "InteractBlocker.bypass.$it")) {
+			cancel(event)
+			event.player.sendMessage("${ChatColor.RED}Du darfst mit ${ChatColor.DARK_RED}$it ${ChatColor.RED}nicht interagieren")
+		}
+	}
 
 
 }

@@ -19,76 +19,76 @@ import java.util.*
  * Last edit 13.03.2018 (16.10.2018 #MiniChange)
  */
 internal class FakePlayer(name: String, private val location: Location) {
-    private val entityID: Int = Math.ceil(Math.random() * 1000).toInt() + 2000
+	private val entityID: Int = Math.ceil(Math.random() * 1000).toInt() + 2000
 	private val gameProfile: GameProfile = GameProfile(UUID.randomUUID(), name)
 
-    fun spawn(player: Player) {
-        val packet = PacketPlayOutNamedEntitySpawn()
-        setValue(packet, "a", this.entityID)
+	fun spawn(player: Player) {
+		val packet = PacketPlayOutNamedEntitySpawn()
+		setValue(packet, "a", this.entityID)
 		setValue(packet, "b", this.gameProfile.id)
-        setValue(packet, "c", MathHelper.floor(this.location.x * 32.0))
-        setValue(packet, "d", MathHelper.floor(this.location.y * 32.0))
-        setValue(packet, "e", MathHelper.floor(this.location.z * 32.0))
-        setValue(packet, "f", (this.location.yaw * 256.0f / 360.0f).toInt().toByte())
-        setValue(packet, "g", (this.location.pitch * 256.0f / 360.0f).toInt().toByte())
-        setValue(packet, "getMap", 0)
-        val dataWatcher = DataWatcher(null)
-        dataWatcher.a(6, 20.toFloat())
-        dataWatcher.a(10, 127.toByte())
-        setValue(packet, "userdata", dataWatcher)
-        sendPacket(player, packet)
-    }
+		setValue(packet, "c", MathHelper.floor(this.location.x * 32.0))
+		setValue(packet, "d", MathHelper.floor(this.location.y * 32.0))
+		setValue(packet, "e", MathHelper.floor(this.location.z * 32.0))
+		setValue(packet, "f", (this.location.yaw * 256.0f / 360.0f).toInt().toByte())
+		setValue(packet, "g", (this.location.pitch * 256.0f / 360.0f).toInt().toByte())
+		setValue(packet, "getMap", 0)
+		val dataWatcher = DataWatcher(null)
+		dataWatcher.a(6, 20.toFloat())
+		dataWatcher.a(10, 127.toByte())
+		setValue(packet, "userdata", dataWatcher)
+		sendPacket(player, packet)
+	}
 
-    fun spawnAndAddToTabList(player: Player) {
-        val packet = PacketPlayOutNamedEntitySpawn()
-        setValue(packet, "a", this.entityID)
+	fun spawnAndAddToTabList(player: Player) {
+		val packet = PacketPlayOutNamedEntitySpawn()
+		setValue(packet, "a", this.entityID)
 		setValue(packet, "b", this.gameProfile.id)
-        setValue(packet, "c", MathHelper.floor(this.location.x * 32.0))
-        setValue(packet, "d", MathHelper.floor(this.location.y * 32.0))
-        setValue(packet, "e", MathHelper.floor(this.location.z * 32.0))
-        setValue(packet, "f", (this.location.yaw * 256.0f / 360.0f).toInt().toByte())
-        setValue(packet, "g", (this.location.pitch * 256.0f / 360.0f).toInt().toByte())
-        setValue(packet, "getMap", 0)
-        val dataWatcher = DataWatcher(null)
-        dataWatcher.a(6, 20.toFloat())
-        dataWatcher.a(10, 127.toByte())
-        setValue(packet, "userdata", dataWatcher)
-        addToTabList(player)
-        sendPacket(player, packet)
-    }
+		setValue(packet, "c", MathHelper.floor(this.location.x * 32.0))
+		setValue(packet, "d", MathHelper.floor(this.location.y * 32.0))
+		setValue(packet, "e", MathHelper.floor(this.location.z * 32.0))
+		setValue(packet, "f", (this.location.yaw * 256.0f / 360.0f).toInt().toByte())
+		setValue(packet, "g", (this.location.pitch * 256.0f / 360.0f).toInt().toByte())
+		setValue(packet, "getMap", 0)
+		val dataWatcher = DataWatcher(null)
+		dataWatcher.a(6, 20.toFloat())
+		dataWatcher.a(10, 127.toByte())
+		setValue(packet, "userdata", dataWatcher)
+		addToTabList(player)
+		sendPacket(player, packet)
+	}
 
-    fun destroyAndRemoveFromTabList(player: Player) {
-        val packet = PacketPlayOutEntityDestroy(this.entityID)
-        removeFromTabList(player)
-        sendPacket(player, packet)
-    }
+	fun destroyAndRemoveFromTabList(player: Player) {
+		val packet = PacketPlayOutEntityDestroy(this.entityID)
+		removeFromTabList(player)
+		sendPacket(player, packet)
+	}
 
-    fun destroy(player: Player) {
-        val packet = PacketPlayOutEntityDestroy(this.entityID)
-        sendPacket(player, packet)
-    }
+	fun destroy(player: Player) {
+		val packet = PacketPlayOutEntityDestroy(this.entityID)
+		sendPacket(player, packet)
+	}
 
-    private fun addToTabList(player: Player) {
-        val packet = PacketPlayOutPlayerInfo()
+	private fun addToTabList(player: Player) {
+		val packet = PacketPlayOutPlayerInfo()
 		val data = packet.PlayerInfoData(this.gameProfile, 1, EnumGamemode.NOT_SET, CraftChatMessage.fromString(this.gameProfile.name)[0])
 		val players = getValueAs<MutableList<PacketPlayOutPlayerInfo.PlayerInfoData>>(packet, "b") ?: return
-        players.add(data)
-        setValue(packet, "a", PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER)
-        setValue(packet, "b", players)
-        sendPacket(player, packet)
-    }
+		players.add(data)
+		setValue(packet, "a", PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER)
+		setValue(packet, "b", players)
+		sendPacket(player, packet)
+	}
 
-    private fun removeFromTabList(player: Player) {
-        val packet = PacketPlayOutPlayerInfo()
+	private fun removeFromTabList(player: Player) {
+		val packet = PacketPlayOutPlayerInfo()
 		val data = packet.PlayerInfoData(this.gameProfile, 1, EnumGamemode.NOT_SET, CraftChatMessage.fromString(this.gameProfile.name)[0])
 		val players = getValueAs<MutableList<PacketPlayOutPlayerInfo.PlayerInfoData>>(packet, "b") ?: return
-        players.add(data)
-        setValue(packet, "a", PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER)
-        setValue(packet, "b", players)
-        sendPacket(player, packet)
-    }
+		players.add(data)
+		setValue(packet, "a", PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER)
+		setValue(packet, "b", players)
+		sendPacket(player, packet)
+	}
 
-    private fun sendPacket(player: Player, packet: Packet<*>) {
-        (player as CraftPlayer).handle.playerConnection.sendPacket(packet)
-    }
+	private fun sendPacket(player: Player, packet: Packet<*>) {
+		(player as CraftPlayer).handle.playerConnection.sendPacket(packet)
+	}
 }

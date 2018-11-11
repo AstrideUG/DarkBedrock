@@ -12,15 +12,15 @@ import net.md_5.bungee.api.chat.TextComponent
  * Last edit 05.07.2018
  */
 class LobbyCommandModule : Module, Command(
-        commandName = "Lobby",
-        aliases = *arrayOf("Hub", "l", "leave", "quit")
+		commandName = "Lobby",
+		aliases = *arrayOf("Hub", "l", "leave", "quit")
 ) {
-    override val description: ModuleDescription = ModuleDescription("LobbyCommandModule", "1.0", "Lars Artmann | LartyHD", "This module adds the lobby command")
+	override val description: ModuleDescription = ModuleDescription("LobbyCommandModule", "1.0", "Lars Artmann | LartyHD", "This module adds the lobby command")
 
-    override fun perform(sender: CommandSender, args: Array<String>) = isPlayer(sender) {
-        if (it.server.info.name.startsWith("lobby", ignoreCase = true))
-            sender.sendMessage(TextComponent("${TEXT}Du bist schon auf einer Lobby"))
-        else
-            it.connect(ProxyServer.getInstance().getServerInfo("fallback"))
-    }
+	override fun perform(sender: CommandSender, args: Array<String>) = isPlayer(sender) {
+		if (it.server.info.name.startsWith("lobby", ignoreCase = true))
+			sender.sendMessage(TextComponent("${TEXT}Du bist schon auf einer Lobby"))
+		else
+			it.connect(ProxyServer.getInstance().getServerInfo("fallback"))
+	}
 }

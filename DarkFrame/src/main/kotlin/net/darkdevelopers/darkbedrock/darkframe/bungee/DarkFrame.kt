@@ -10,19 +10,19 @@ import net.darkdevelopers.darkbedrock.darkness.general.modules.manager.ClassJava
  */
 class DarkFrame : DarkPlugin() {
 
-    private lateinit var moduleManager: ClassJavaModuleManager
+	private lateinit var moduleManager: ClassJavaModuleManager
 
-    init {
-        instance = this
-    }
+	init {
+		instance = this
+	}
 
-    override fun onEnable() = onEnable {
-        moduleManager = ClassJavaModuleManager(dataFolder)
-    }
+	override fun onEnable() = onEnable {
+		moduleManager = ClassJavaModuleManager(dataFolder)
+	}
 
-    companion object {
-        lateinit var instance: DarkFrame
-            private set
-    }
+	companion object {
+		lateinit var instance: DarkFrame
+			private set
+	}
 
 }

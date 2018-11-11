@@ -27,14 +27,17 @@ data class ConfigData(
 		val create: Boolean = true
 ) {
 
-    val file: File = File(directory, fileName)
+	val file: File = File(directory, fileName)
 
 	constructor(directory: String, fileName: String, create: Boolean = true) : this(File(directory), fileName, create)
-	@Deprecated("Ends erroneously with .json", ReplaceWith("ConfigData(directory, config.json")) constructor(directory: File) : this(directory, "config.json")
-	@Suppress("DEPRECATION")
-	@Deprecated("Use a Deprecated constructor", ReplaceWith("ConfigData(directory, config.json)")) constructor(directory: String) : this(File(directory))
+	@Deprecated("Ends erroneously with .json", ReplaceWith("ConfigData(directory, config.json"))
+	constructor(directory: File) : this(directory, "config.json")
 
-    init {
+	@Suppress("DEPRECATION")
+	@Deprecated("Use a Deprecated constructor", ReplaceWith("ConfigData(directory, config.json)"))
+	constructor(directory: String) : this(File(directory))
+
+	init {
 		if (create) createIfNotExists(directory, file)
 	}
 
@@ -74,10 +77,10 @@ data class ConfigData(
 		fun createFileIfNotExists(file: File): Unit = createFileIfNotExists(file, {}, {})
 
 		fun createFileIfNotExists(file: File, available: () -> Unit, onFail: () -> Unit): Unit = if (!file.exists())
-            if (file.createNewFile())
+			if (file.createNewFile())
 				available()
-            else
-                onFail()
+			else
+				onFail()
 		else available()
 
 		fun createFoldersIfNotExists(directory: File): Unit = createFoldersIfNotExists(directory, {}, {})
@@ -85,9 +88,9 @@ data class ConfigData(
 		fun createFoldersIfNotExists(directory: File, available: () -> Unit, onFail: () -> Unit): Unit = if (!directory.exists())
 			if (directory.mkdirs())
 				available()
-            else
-                onFail()
+			else
+				onFail()
 		else available()
 
-    }
+	}
 }

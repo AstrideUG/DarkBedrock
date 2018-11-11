@@ -18,22 +18,22 @@ import org.bukkit.inventory.ItemStack
  */
 interface IInventoryBuilder : Builder<Inventory> {
 
-    fun addItem(itemStack: ItemStack): IInventoryBuilder
+	fun addItem(itemStack: ItemStack): IInventoryBuilder
 
-    fun setItem(slot: Int, itemStack: ItemStack): IInventoryBuilder
+	fun setItem(slot: Int, itemStack: ItemStack): IInventoryBuilder
 
-    fun setAll(itemStack: ItemStack): IInventoryBuilder
+	fun setAll(itemStack: ItemStack): IInventoryBuilder
 
-    fun setRange(itemStack: ItemStack, start: Int, end: Int): IInventoryBuilder
+	fun setRange(itemStack: ItemStack, start: Int, end: Int): IInventoryBuilder
 
-    fun fillWith(itemStack: ItemStack): IInventoryBuilder
+	fun fillWith(itemStack: ItemStack): IInventoryBuilder
 
-    fun fillWith(itemStack: ItemStack, start: Int, end: Int): IInventoryBuilder
+	fun fillWith(itemStack: ItemStack, start: Int, end: Int): IInventoryBuilder
 
-    fun setDesign(): IInventoryBuilder
+	fun setDesign(): IInventoryBuilder
 
-    fun setDesign(items: List<ItemStack>): IInventoryBuilder
+	fun setDesign(items: List<ItemStack>): IInventoryBuilder
 
-    fun sortChestInventory(itemStacks: List<ItemStack>, addSlots: Int = 0): IInventoryBuilder
+	fun sortChestInventory(itemStacks: List<ItemStack>, addSlots: Int = 0): IInventoryBuilder
 
 }
