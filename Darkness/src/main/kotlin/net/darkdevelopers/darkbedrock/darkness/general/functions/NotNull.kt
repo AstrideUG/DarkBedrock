@@ -4,15 +4,24 @@
 
 package net.darkdevelopers.darkbedrock.darkness.general.functions
 
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
+
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 20.08.2018 12:50.
- * Last edit 20.08.2018
+ * Last edit 12.11.2018
  */
-fun <T : Any> T?.toNonNull(name: String) = this ?: throw NullPointerException("$name can not be null")
+fun <T : Any> T?.toNonNull(name: String) = this@toNonNull ?: throw NullPointerException("$name can not be null")
 
-inline fun <reified T : Any> T?.toNonNull() = toNonNull(T::class.java.simpleName)
+inline fun <reified T : Any> T?.toNonNull(): T = toNonNull(T::class.java.simpleName)
 
-inline fun <reified T : Any> T?.toNonNull(name: String, lambda: (T) -> Unit) = lambda(toNonNull(name))
+@ExperimentalContracts
+inline fun <reified T : Any> T?.toNonNull(name: String, lambda: (T) -> Unit): Unit {
+	contract { callsInPlace(lambda, InvocationKind.EXACTLY_ONCE) }
+	lambda(toNonNull(name))
+}
 
-inline fun <reified T : Any> T?.toNonNull(lambda: (T) -> Unit) = toNonNull(T::class.java.simpleName, lambda)
+@ExperimentalContracts
+inline fun <reified T : Any> T?.toNonNull(lambda: (T) -> Unit): Unit = toNonNull(T::class.java.simpleName, lambda)
