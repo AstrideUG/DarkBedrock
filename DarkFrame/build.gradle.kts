@@ -2,24 +2,15 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.resolve.calls.inference.CapturedType
 import java.net.URI
-
+import jdk.nashorn.internal.objects.NativeFunction.function
+import org.jetbrains.kotlin.resolve.scopes.utils.chainImportingScopes
 
 plugins {
     id("java")
     id("com.github.johnrengelman.shadow") version "2.0.4"
 //	id("de.sebastianboegl.shadow.transformer.log4j") version ("2.1.1")
 //	id("checkstyle")
-//	kotlin("jvm") version "1.3.10"
-}
-
-version = "1.0-SNAPSHOT"
-
-extra["libsDirName"] = "libraries"
-extra["libsDir"] = project.file(extra["libsDirName"].toString())
-
-sourceSets {
-    this["main"].java.srcDirs("src/main/kotlin")
-    this["test"].java.srcDirs("src/test/kotlin")
+    kotlin("jvm")
 }
 
 repositories {
@@ -32,13 +23,13 @@ repositories {
 
 dependencies {
     compileKotlin()
-//    compile(project(":Darkness"))
+    compileTest()
+    compile(project(":Darkness"))
     compile("org.spigotmc", "spigot-api", extra["versions.spigot"].toString())
     compile("net.md-5", "bungeecord-api", extra["versions.bungee"].toString())
     compile("net.md-5", "bungeecord-protocol", extra["versions.bungee"].toString())
     compile("org.mongodb", "mongodb-driver-async", extra["versions.mongodb"].toString())
     compile("com.google.inject", "guice", extra["versions.guice"].toString())
-    compile()
 }
 
 
@@ -48,15 +39,21 @@ tasks.withType<Jar> {
             mapOf("Main-Class" to "net.darkdevelopers.darkbedrock.darkframe.general.BootstrapKt")
         )
     }
+//    from(sourceSets["main"].output)
 }
 
 private val shadowJar: ShadowJar by tasks
 shadowJar.apply {
     appendix = "with-dependencies"
-    classifier = ""
+//    classifier = ""
+
     dependencies {
-        include()
+        val dependencies = project.extra["KotlinDependencies"] as List<String>
+        dependencies.forEach { include(dependency(it)) }
     }
+//    dependencies {
+//        //        include()
+//    }
 }
 
 //
@@ -118,3 +115,16 @@ shadowJar.apply {
 ////}
 
 fun DependencyHandlerScope.compileKotlin() = (extra["compileKotlin"] as Function1<DependencyHandlerScope, *>)(this)
+fun DependencyHandlerScope.compileTest() = (extra["compileTest"] as Function1<DependencyHandlerScope, *>)(this)
+
+//private val compileKotlin: KotlinCompile by tasks
+//compileKotlin.kotlinOptions {
+//    jvmTarget = "1.6"
+//    suppressWarnings = true
+//    allWarningsAsErrors = true
+//}
+//
+//private val compileTestKotlin: KotlinCompile by tasks
+//compileTestKotlin.kotlinOptions {
+//    jvmTarget = "1.6"
+//}

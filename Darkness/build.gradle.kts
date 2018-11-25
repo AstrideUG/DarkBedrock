@@ -1,34 +1,32 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.net.URI
+import org.jetbrains.kotlin.resolve.calls.inference.CapturedType
+
 plugins {
-    //    id 'java'
-//    kotlin("jvm")
+    id("java")
+    id("com.github.johnrengelman.shadow") version "2.0.4"
+    kotlin("jvm")
 }
 
 repositories {
-    //    maven { url = 'https://hub.spigotmc.org/nexus/content/groups/public/' }
-//    maven { url = 'https://oss.sonatype.org/content/groups/public/' }
-//    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
-//    maven { url = 'http://repo.dmulloy2.net/content/groups/public/' }
-//    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url = URI("https://hub.spigotmc.org/nexus/content/groups/public/") }
+    maven { url = URI("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
+    maven { url = URI("https://oss.sonatype.org/content/groups/public/") }
+    maven { url = URI("https://oss.sonatype.org/content/repositories/snapshots/") }
+    maven { url = URI("http://repo.dmulloy2.net/content/groups/public/") }
 }
 
 dependencies {
-    //    testCompile group: 'junit', name: 'junit', version: '4.12'
-//    testCompile group: 'org.mockito', name: 'mockito-all', version: '2.0.2-beta'
-//    compile(group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib')
-//    compile(group: 'org.jetbrains.kotlin', name: 'kotlin-reflect')
-//    compile(group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '0.24.0')
-//    compile group: 'org.spigotmc', name: 'spigot-api', version: '1.8.8-R0.1-SNAPSHOT'
-//    compile group: 'net.md-5', name: 'bungeecord-api', version: '1.8-SNAPSHOT'
-//    compile group: 'net.md-5', name: 'bungeecord-protocol', version: '1.8-SNAPSHOT'
-//    compile group: 'org.mongodb', name: 'mongodb-driver-async', version: '3.8.0'
-//    compile fileTree(dir: 'libraries', include: '*.jar')
-//    compile "org.jetbrains.kotlin:kotlin-script-runtime:1.2.61"
+    compileKotlin()
+    compileTest()
+//    compile(project(":Darkness"))
+    compile("org.spigotmc", "spigot-api", extra["versions.spigot"].toString())
+    compile("net.md-5", "bungeecord-api", extra["versions.bungee"].toString())
+    compile("net.md-5", "bungeecord-protocol", extra["versions.bungee"].toString())
+    compile("org.mongodb", "mongodb-driver-async", extra["versions.mongodb"].toString())
+    compile("com.google.inject", "guice", extra["versions.guice"].toString())
 }
 
-
-//kotlin.;
-//compileKotlin { kotlinOptions.jvmTarget = "1.8" }
-//
-//compileTestKotlin { kotlinOptions.jvmTarget = "1.8" }
-//
-//kotlin { experimental { coroutines "enable" } }
+fun DependencyHandlerScope.compileKotlin() = (extra["compileKotlin"] as Function1<DependencyHandlerScope, *>)(this)
+fun DependencyHandlerScope.compileTest() = (extra["compileTest"] as Function1<DependencyHandlerScope, *>)(this)
+//fun buildID() = (extra["buildID"] as Function0<*>)()
