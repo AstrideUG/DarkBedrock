@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
+ */
+
 import jdk.nashorn.internal.objects.NativeFunction.function
 import org.codehaus.groovy.control.io.FileReaderSource
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
@@ -6,13 +10,10 @@ import org.jetbrains.kotlin.resolve.scopes.utils.chainImportingScopes
 import java.io.*
 import java.nio.file.Files
 import java.util.*
-
-/*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
- */
+import java.net.URI
 
 plugins {
-    id("java")
+    java
     kotlin("jvm") version "1.3.10"
 }
 
@@ -58,31 +59,33 @@ subprojects {
 //        id
 //    }
 
-    sourceSets {
-        this["main"].java.srcDirs("src/main/kotlin")
-        this["test"].java.srcDirs("src/test/kotlin")
-    }
+    sourceSets["main"].java.srcDirs("src/main/kotlin")
+    sourceSets["test"].java.srcDirs("src/test/kotlin")
 
     repositories {
         mavenLocal()
         mavenCentral()
         jcenter()
         google()
+        maven { url = URI("https://hub.spigotmc.org/nexus/content/groups/public/") }
+        maven { url = URI("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
+        maven { url = URI("https://oss.sonatype.org/content/groups/public/") }
+        maven { url = URI("https://oss.sonatype.org/content/repositories/snapshots/") }
+        maven { url = URI("http://repo.dmulloy2.net/content/groups/public/") }
     }
 
     dependencies {
         compile(fileTree(extra["libsDirName"].toString()))
     }
 
-    val compileKotlin: KotlinCompile by tasks
-    compileKotlin.kotlinOptions {
-        jvmTarget = "1.6"
-        suppressWarnings = true
-//        allWarningsAsErrors = true
+    configure<JavaPluginConvention> {
+        sourceCompatibility = JavaVersion.VERSION_1_6
+        targetCompatibility = JavaVersion.VERSION_1_6
     }
 
-    val compileTestKotlin: KotlinCompile by tasks
-    compileTestKotlin.kotlinOptions {
-        jvmTarget = "1.6"
+    tasks.withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.6"
+        kotlinOptions.suppressWarnings = true
     }
+
 }
