@@ -14,6 +14,7 @@ plugins {
 dependencies {
     compileKotlin()
     compileTest()
+    compile(project(":Darkness"))
     compile("com.velocitypowered", "velocity-api", extra["versions.velocity"].toString())
 }
 

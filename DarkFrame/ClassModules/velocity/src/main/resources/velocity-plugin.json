@@ -1,0 +1,17 @@
+{
+  "id": "moveplugin",
+  "name": "MovePlugin",
+  "version": "1.0-SNAPSHOT",
+  "description": "",
+  "url": "",
+  "authors": [
+    "Lars Artmann | LartyHD"
+  ],
+  "dependencies": [
+    {
+      "id": "darkframe",
+      "optional": false
+    }
+  ],
+  "main": "MovePlugin"
+}

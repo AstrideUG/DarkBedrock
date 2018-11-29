@@ -14,7 +14,8 @@ plugins {
 dependencies {
     compileKotlin()
     compileTest()
-    compile("com.velocitypowered", "velocity-api", extra["versions.velocity"].toString())
+//    compile(project(":Darkness"))
+    compile(project(":DarkFrame"))
 }
 
 fun DependencyHandlerScope.compileKotlin() = (extra["compileKotlin"] as Function1<DependencyHandlerScope, *>)(this)

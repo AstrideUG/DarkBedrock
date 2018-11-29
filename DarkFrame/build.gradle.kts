@@ -37,11 +37,12 @@ private val shadowJar: ShadowJar by tasks
 shadowJar.apply {
 
     appendix = "with-dependencies"
-//    classifier = ""
+    classifier = ""
 
     dependencies {
-        val dependencies = project.extra["KotlinDependencies"] as List<String>
-        dependencies.forEach { include(dependency(it)) }
+        //        include(dependency("com.google.inject:guice"))
+//        val dependencies = project.extra["KotlinDependencies"] as List<String>
+//        dependencies.forEach { include(dependency(it)) }
     }
 
 }
