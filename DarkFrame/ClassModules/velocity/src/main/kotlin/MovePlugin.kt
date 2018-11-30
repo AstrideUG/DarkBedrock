@@ -6,24 +6,27 @@ import com.google.gson.JsonPrimitive
 import com.google.inject.Inject
 import com.velocitypowered.api.command.Command
 import com.velocitypowered.api.event.Subscribe
-import com.velocitypowered.api.event.player.ServerConnectedEvent
+import com.velocitypowered.api.event.connection.PostLoginEvent
+import com.velocitypowered.api.event.player.KickedFromServerEvent
+import com.velocitypowered.api.event.proxy.ProxyShutdownEvent
 import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.annotation.DataDirectory
-import com.velocitypowered.api.proxy.ConnectionRequestBuilder
 import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
-import com.velocitypowered.api.util.title.Titles
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.velocitypowered.api.util.MessagePosition
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.kyori.text.TextComponent
 import net.kyori.text.event.ClickEvent
 import net.kyori.text.format.TextColor
+import org.slf4j.Logger
 import java.io.File
 import java.nio.file.Path
+import java.util.*
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
+import kotlin.concurrent.thread
 
 /**
  * @author Lars Artmann | LartyHD
@@ -38,94 +41,119 @@ import java.nio.file.Path
 )
 class MovePlugin @Inject private constructor(
     private val proxy: ProxyServer,
+    private val logger: Logger,
     @DataDirectory private val dataFolder: Path
 ) {
 
     private val config = GsonService.loadAsJsonObject(ConfigData(dataFolder.toFile(), "config.json"))
     private val eula = config["EULA"]?.asString.toNonNull("EULA")
     private val array = config["ConnectionServers"]?.asJsonArray.toNonNull("ConnectionServers")
+    private val array1 = config["ByServers"]?.asJsonArray.toNonNull("ByServers").map { it.asString }
+    private val usedEula = arrayOf<UUID>()
+
+    private var isRunning = true
 
     init {
         proxy.commandManager.register(Command { source, _ ->
-            if (source is Player) GlobalScope.launch {
-                GsonService.save(
-                    ConfigData(
-                        "${dataFolder.toFile()}${File.separator}eula",
-                        "${source.uniqueId}.json"
-                    ), JsonPrimitive(true)
+            when {
+                source !is Player -> source.sendMessage(TextComponent.of("Only Player"))
+                usedEula.any { source.uniqueId == it } -> source.sendMessage(
+                    TextComponent.of("You have already accept the EULA", TextColor.AQUA)
                 )
-                sendPlayer(source)
+                !array1.any { source.currentServer.orElse(null)?.serverInfo?.name == it } -> source.sendMessage(
+                    TextComponent.of("You must on a fallback server", TextColor.RED)
+                )
+                else -> thread {
+                    GsonService.save(
+                        ConfigData(
+                            "${dataFolder.toFile()}${File.separator}eula",
+                            "${source.uniqueId}.json"
+                        ), JsonPrimitive(true)
+                    )
+                    sendPlayer(source)
+                }
             }
-            else source.sendMessage(TextComponent.of("Only Player"))
         }, "accepteula")
+        thread {
+            while (isRunning) {
+                Thread.sleep(200)
+                sendPlayers()
+            }
+        }
     }
-
 
     @Subscribe
-    fun on(event: ServerConnectedEvent) = GlobalScope.launch {
-        val player = event.player
-        player.sendTitle(
-            Titles
-                .text()
-                .title(TextComponent.of("Loading data...").color(TextColor.BLUE))
-                .fadeIn(1)
-                .stay(Int.MAX_VALUE)
-                .fadeOut(1)
-                .resetBeforeSend(true)
-                .build()
-        )
-        val load = try {
-            GsonService.load(
-                ConfigData(
-                    "${dataFolder.toFile()}${File.separator}eula",
-                    "${player.uniqueId}.json"
-                )
-            ).asBoolean
-        } catch (ex: Exception) {
-            player.sendTitle(
-                Titles
-                    .text()
-                    .title(TextComponent.of("Running in a error").color(TextColor.DARK_RED))
-                    .subtitle(TextComponent.of("pls accept the eula").color(TextColor.RED))
-                    .fadeIn(1)
-                    .stay(Int.MAX_VALUE)
-                    .fadeOut(1)
-                    .resetBeforeSend(true)
-                    .build()
-            )
-            null
-        }
-        if (load == null) {
-            player
-            player.sendMessage(TextComponent.of(""))
-            player.sendMessage(
-                TextComponent
-                    .of("Accept the eula click or /accepteula ")
-                    .color(TextColor.GREEN)
-                    .clickEvent(ClickEvent(ClickEvent.Action.RUN_COMMAND, "/accepteula"))
-                    .append(
-                        TextComponent
-                            .of("[URL]")
-                            .clickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, eula))
-                            .color(TextColor.WHITE)
-                    )
-            )
-            player.sendMessage(TextComponent.of(""))
-        } else sendPlayer(player)
+    fun on(event: ProxyShutdownEvent) {
+        isRunning = false
     }
 
-    private suspend fun sendPlayer(player: Player) {
-        delay(100)
-        array.forEach { element ->
-            val registeredServer = proxy.getServer(element.asString).orElse(null) ?: return@forEach
-            val currentServer = player.currentServer.orElse(null) ?: return@forEach
-            if (array.firstOrNull { it == currentServer } != null) return@forEach
-            val join = player.createConnectionRequest(registeredServer).connect().join()
-            if (join.status != ConnectionRequestBuilder.Status.SERVER_DISCONNECTED
-                && join.status != ConnectionRequestBuilder.Status.CONNECTION_CANCELLED
-            ) return@sendPlayer
+    @Subscribe
+    fun on(event: KickedFromServerEvent) = try {
+        event.result = KickedFromServerEvent.RedirectPlayer.create(proxy.getServer(array1[0]).get())
+        event.player.sendMessage(
+            event.originalReason.orElse(TextComponent.of("Connection error", TextColor.RED)),
+            MessagePosition.ACTION_BAR
+        )
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+    }
+
+    @Subscribe
+    fun on(event: PostLoginEvent) {
+        val player = event.player
+        val configData = ConfigData("${dataFolder.toFile()}${File.separator}eula", "${player.uniqueId}.json")
+        try {
+            if (GsonService.load(configData).asBoolean) return
+        } catch (ignored: Exception) {
         }
-        this@MovePlugin.sendPlayer(player)
+        player.sendMessage(TextComponent.of(""))
+        player.sendMessage(TextComponent.of(""))
+        player.sendMessage(
+            TextComponent
+                .of("Accept the eula click or /accepteula ")
+                .color(TextColor.GREEN)
+                .clickEvent(ClickEvent(ClickEvent.Action.RUN_COMMAND, "/accepteula"))
+                .append(
+                    TextComponent
+                        .of("[URL]")
+                        .clickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, eula))
+                        .color(TextColor.WHITE)
+                )
+        )
+        player.sendMessage(TextComponent.of(""))
+        player.sendMessage(TextComponent.of(""))
+    }
+
+    private fun sendPlayers() = proxy.allPlayers.filter { player ->
+        array1.firstOrNull { player.currentServer.orElse(null)?.serverInfo?.name == it } != null
+    }.forEach { sendPlayer(it) }
+
+    private fun sendPlayer(player: Player) {
+        try {
+            player.sendMessage(TextComponent.of("Loading data...", TextColor.BLUE), MessagePosition.ACTION_BAR)
+            val configData = ConfigData("${dataFolder.toFile()}${File.separator}eula", "${player.uniqueId}.json")
+            if (GsonService.load(configData).asBoolean) array.forEach { element ->
+                val registeredServer = proxy.getServer(element.asString).orElse(null) ?: return@forEach
+                if (array.firstOrNull { it == player.currentServer.orElse(null) } != null) return@forEach
+                player.sendMessage(
+                    TextComponent.of("Try to connect to ${element.asString}...").color(TextColor.BLUE),
+                    MessagePosition.ACTION_BAR
+                )
+                try {
+                    player.createConnectionRequest(registeredServer).connect().get(3, TimeUnit.SECONDS)
+                    return@sendPlayer
+                } catch (ex: TimeoutException) {
+                    ex.printStackTrace()
+                } catch (ex: Exception) {
+                    logger.error(ex.message)
+                }
+            }
+        } catch (ex: Exception) {
+            player.sendMessage(
+                TextComponent.of("Running in a error").color(TextColor.RED),
+                MessagePosition.ACTION_BAR
+            )
+        }
     }
 
 }
