@@ -42,10 +42,13 @@ class ChatModule : Module, Listener(DarkFrame.instance) {
             else message.replace("&", "")
 
         val group = luckPermsApi.getGroup(luckPermsApi.getUser(player.uniqueId)?.primaryGroup ?: "")
-        val prefix = luckPermsApi.userManager.getUser(player.uniqueId)?.cachedData?.getMetaData(Contexts.allowAll())
-            ?.prefix ?: ""
-
-        StringBuilder().run {
+        val prefix = ChatColor.translateAlternateColorCodes(
+            '&',
+            luckPermsApi.userManager.getUser(player.uniqueId)?.cachedData?.getMetaData(Contexts.allowAll())?.prefix
+                ?: ""
+        )
+        cancel(event)
+        Bukkit.broadcastMessage(StringBuilder().run {
             append(prefix).append("§8- ").append(prefix.substring(0, 2)).append(player.name).append(" §8» ")
             val name = group?.name
             when (name) {
@@ -53,10 +56,8 @@ class ChatModule : Module, Listener(DarkFrame.instance) {
                 "developer" -> append("§f§l")
                 else -> if (player.hasPermission("skyhype.chat.team")) append("§a§l") else append("§7")
             }
-            append(event.message)
+            append(message)
             toString()
-        }
-        Bukkit.broadcastMessage(message)
-        cancel(event)
+        })
     }
 }
