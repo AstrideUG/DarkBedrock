@@ -6,7 +6,6 @@ import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -57,14 +56,16 @@ class NoMoveModule : Module, Listener(DarkFrame.instance) {
     @EventHandler
     fun onPlayerJoinEvent(event: PlayerJoinEvent) {
         val player = event.player
+        @Suppress("DEPRECATION") team.addPlayer(player)
         player.flySpeed = 0F
         player.walkSpeed = 0F
         player.allowFlight = true
         player.isFlying = true
         player.teleport(Location(Bukkit.getWorlds()[0], 0.5, 100.0, 0.5))
         player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, Int.MAX_VALUE, 1, true, false))
-        Utils.goThroughAllPlayers { player.hidePlayer(it) }
-        Utils.goThroughAllPlayers { it.hidePlayer(player) }
+        player.addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, Int.MAX_VALUE, 1, true, false))
+//        Utils.goThroughAllPlayers { player.hidePlayer(it) }
+//        Utils.goThroughAllPlayers { it.hidePlayer(player) }
     }
 
     @EventHandler
