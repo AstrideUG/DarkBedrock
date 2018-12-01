@@ -19,12 +19,18 @@ import org.bukkit.potion.PotionEffectType
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 29.11.2018 20:21.
- * Current Version: 1.0 (29.11.2018 - 29.11.2018)
+ * Current Version: 1.0 (29.11.2018 - 01.12.2018)
  */
 class NoMoveModule : Module, Listener(DarkFrame.instance) {
 
     override val description: ModuleDescription =
         ModuleDescription(NoMoveModule::class.java.name, "1.0", "Lars Artmann | LartyHD", "")
+
+    private val scoreboard = Bukkit.getScoreboardManager().mainScoreboard
+    private val team = (scoreboard.getTeam("ghost") ?: scoreboard.registerNewTeam("ghost")).apply {
+        this.setCanSeeFriendlyInvisibles(true)
+        this.setAllowFriendlyFire(false)
+    }
 
     init {
         val world = Bukkit.getWorlds()[0]
