@@ -133,13 +133,13 @@ class MovePlugin @Inject private constructor(
             player.sendMessage(TextComponent.of("Loading data...", TextColor.BLUE), MessagePosition.ACTION_BAR)
             val configData = ConfigData("${dataFolder.toFile()}${File.separator}eula", "${player.uniqueId}.json")
             if (GsonService.load(configData).asBoolean) array.forEach { element ->
-                val registeredServer = proxy.getServer(element.asString).orElse(null) ?: return@forEach
-                if (array.firstOrNull { it == player.currentServer.orElse(null) } != null) return@forEach
-                player.sendMessage(
-                    TextComponent.of("Try to connect to ${element.asString}...").color(TextColor.BLUE),
-                    MessagePosition.ACTION_BAR
-                )
                 try {
+                    val registeredServer = proxy.getServer(element.asString).orElse(null) ?: return@forEach
+                    if (array.firstOrNull { it == player.currentServer.orElse(null) } != null) return@forEach
+                    player.sendMessage(
+                        TextComponent.of("Try to connect to ${element.asString}...").color(TextColor.BLUE),
+                        MessagePosition.ACTION_BAR
+                    )
                     player.createConnectionRequest(registeredServer).connect().get(3, TimeUnit.SECONDS)
                     return@sendPlayer
                 } catch (ex: TimeoutException) {

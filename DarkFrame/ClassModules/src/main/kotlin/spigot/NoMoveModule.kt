@@ -41,7 +41,7 @@ class NoMoveModule : Module, Listener(DarkFrame.instance) {
             world.getBlockAt(-1, 99, 1),
             world.getBlockAt(-1, 99, -1)
         )
-        for (i in 0..3) arrayOf.clone().forEach {
+        for (i in -1..3) arrayOf.clone().forEach {
             val block = it.location.add(0.0, i.toDouble(), 0.0).block
             block.type = Material.STAINED_GLASS
             block.data = 15
@@ -53,9 +53,12 @@ class NoMoveModule : Module, Listener(DarkFrame.instance) {
         val player = event.player
         player.flySpeed = 0F
         player.walkSpeed = 0F
+        player.allowFlight = true
+        player.isFlying = true
         player.teleport(Location(Bukkit.getWorlds()[0], 0.5, 100.0, 0.5))
         player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, Int.MAX_VALUE, 1, true, false))
         Utils.goThroughAllPlayers { player.hidePlayer(it) }
+        Utils.goThroughAllPlayers { it.hidePlayer(player) }
     }
 
     @EventHandler
