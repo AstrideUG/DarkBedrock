@@ -16,6 +16,7 @@ dependencies {
     compileTest()
 //    compile(project(":Darkness"))
     compile(project(":DarkFrame"))
+    compile("me.lucko.luckperms:luckperms-api:4.3")
 }
 
 fun DependencyHandlerScope.compileKotlin() = (extra["compileKotlin"] as Function1<DependencyHandlerScope, *>)(this)
