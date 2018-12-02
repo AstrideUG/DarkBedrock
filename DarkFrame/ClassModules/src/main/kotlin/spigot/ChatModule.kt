@@ -54,7 +54,7 @@ class ChatModule : Module, Listener(DarkFrame.instance) {
             when (name) {
                 "owner", "admin" -> append("§4§l")
                 "developer" -> append("§f§l")
-                else -> if (player.hasPermission("skyhype.chat.team")) append("§a§l") else append("§7")
+                else -> if (player.hasPermission("skyhype.chat.team")) append("§e§l") else append("§7")
             }
             append(message)
             toString()
