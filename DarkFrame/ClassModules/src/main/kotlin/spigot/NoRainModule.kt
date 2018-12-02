@@ -21,11 +21,17 @@ class NoRainModule : Module, Listener(DarkFrame.instance) {
 	override val description: ModuleDescription =
 		ModuleDescription(javaClass.simpleName, "1.3", "Lars Artmann | LartyHD", "This modules block rain")
 
-	private val worlds = GsonService.loadAsJsonArray(ConfigData(description.folder, "worlds.json")).mapNotNull {
+	private val worlds by lazy {
 		try {
-			Bukkit.getWorld(it.asJsonPrimitive.asString)
-		} catch (ex: Exception) {
-			null
+			GsonService.loadAsJsonArray(ConfigData(description.folder, "worlds.json")).mapNotNull {
+				try {
+					Bukkit.getWorld(it.asJsonPrimitive.asString)
+				} catch (ex: Exception) {
+					null
+				}
+			}
+		} catch (ex: ClassCastException) {
+			emptyList<World>()
 		}
 	}
 

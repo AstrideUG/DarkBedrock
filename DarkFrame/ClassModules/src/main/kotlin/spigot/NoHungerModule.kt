@@ -9,6 +9,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import org.bukkit.Bukkit
+import org.bukkit.World
 import org.bukkit.event.EventHandler
 import org.bukkit.event.entity.FoodLevelChangeEvent
 
@@ -22,11 +23,17 @@ class NoHungerModule : Module, Listener(DarkFrame.instance) {
     override val description: ModuleDescription =
         ModuleDescription(javaClass.simpleName, "1.0", "Lars Artmann | LartyHD", "")
 
-    private val worlds = GsonService.loadAsJsonArray(ConfigData(description.folder, "worlds.json")).mapNotNull {
+    private val worlds by lazy {
         try {
-            Bukkit.getWorld(it.asJsonPrimitive.asString)
-        } catch (ex: Exception) {
-            null
+            GsonService.loadAsJsonArray(ConfigData(description.folder, "worlds.json")).mapNotNull {
+                try {
+                    Bukkit.getWorld(it.asJsonPrimitive.asString)
+                } catch (ex: Exception) {
+                    null
+                }
+            }
+        } catch (ex: ClassCastException) {
+            emptyList<World>()
         }
     }
 

@@ -63,7 +63,7 @@ class DirtCraftingModule : Module, Listener(DarkFrame.instance) {
 	override fun start() {
 		Bukkit.addRecipe(ShapedRecipe(items[0].first)
 				.shape("ABC", "DEF", "GHI")
-			.setIngredient('NoHungerModule', Material.ROTTEN_FLESH)
+            .setIngredient('A', Material.ROTTEN_FLESH)
 				.setIngredient('B', Material.WATER_BUCKET)
 				.setIngredient('C', Material.RAW_BEEF)
 				.setIngredient('D', Material.APPLE)
