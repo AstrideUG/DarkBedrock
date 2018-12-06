@@ -34,7 +34,7 @@ data class ConfigData(
 	constructor(directory: File) : this(directory, "config.json")
 
 	@Suppress("DEPRECATION")
-	@Deprecated("Use a Deprecated constructor", ReplaceWith("ConfigData(directory, config.json)"))
+    @Deprecated("Use a Deprecated constructor", ReplaceWith("ConfigData(directory, \"config.json\")"))
 	constructor(directory: String) : this(File(directory))
 
 	init {

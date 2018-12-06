@@ -9,6 +9,7 @@ val min = listOf("api", "common")
 include(
     "Darkness",
     "DarkFrame",
+    ":Commands",
     "DarkFrame:ClassModules",
     "DarkFrame:ClassModules:velocity"
 //    "APIs",
