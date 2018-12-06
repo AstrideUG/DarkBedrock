@@ -30,7 +30,7 @@ data class ConfigData(
 	val file: File = File(directory, fileName)
 
 	constructor(directory: String, fileName: String, create: Boolean = true) : this(File(directory), fileName, create)
-	@Deprecated("Ends erroneously with .json", ReplaceWith("ConfigData(directory, config.json"))
+    @Deprecated("Ends erroneously with .json", ReplaceWith("ConfigData(directory, \"config.json\")"))
 	constructor(directory: File) : this(directory, "config.json")
 
 	@Suppress("DEPRECATION")

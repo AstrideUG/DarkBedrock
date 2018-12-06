@@ -4,7 +4,7 @@
 
 rootProject.name = "DarkBedrock"
 
-val platforms = listOf("api", "bukkit", "bungee", "common", "velocity")
+val min = listOf("api", "common")
 
 include(
     "Darkness",
@@ -22,11 +22,21 @@ include(
 //    "APIs:Modules"/**/
 )
 
-platforms.forEach {
-    include(":APIs:AnnotatedCommands:$it")
-    findProject(":APIs:AnnotatedCommands:$it")?.name = "annotatedcommands-$it"
-}
+
+includeApi("AnnotatedCommands", minPlus("bukkit", "bungee", "velocity"))
+includeApi("Modules", min)
+includeApi("Events", min)
 
 findProject(":DarkFrame:ClassModules:velocity")?.name = "moduleplugin-velocity"
 
 enableFeaturePreview("STABLE_PUBLISHING") //Copied by Velocity
+
+fun minPlus(vararg args: String) = mutableListOf<String>().apply {
+    addAll(listOf("api", "common"))
+    addAll(args)
+}
+
+fun includeApi(name: String, list: List<String>) = list.forEach {
+    include(":APIs:$name:$it")
+    findProject(":APIs:$name:$it")?.name = "$name-${it.first().toUpperCase() + it.drop(1)}"
+}

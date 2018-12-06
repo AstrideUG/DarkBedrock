@@ -7,6 +7,7 @@ import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
+import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMap
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.general.message.GsonMessages
@@ -21,11 +22,12 @@ import org.bukkit.event.inventory.CraftItemEvent
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 24.08.2018 22:23.
- * Last edit 24.08.2018
+ * Last edit 02.12.2018
  */
 class BlockCraftingModule : Module, Listener(DarkFrame.instance) {
 
-	override val description: ModuleDescription = ModuleDescription("BlockCraftingModule", "1.0", "Lars Artmann | LartyHD", "")
+    override val description: ModuleDescription =
+        ModuleDescription(javaClass.simpleName, "1.0", "Lars Artmann | LartyHD", "")
 
 	private lateinit var config: GsonConfig
 	private lateinit var messages: Map<String, String>
@@ -34,7 +36,7 @@ class BlockCraftingModule : Module, Listener(DarkFrame.instance) {
 	private var allowBypassPermission = false
 
 	override fun load() {
-		config = GsonConfig(ConfigData(description.folder)).load()
+        config = GsonService.load(GsonConfig(ConfigData(description.folder, "config.json")).configData)
 	}
 
 	override fun start() {

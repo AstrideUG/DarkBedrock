@@ -79,12 +79,12 @@ subprojects {
     }
 
     configure<JavaPluginConvention> {
-        sourceCompatibility = JavaVersion.VERSION_1_6
-        targetCompatibility = JavaVersion.VERSION_1_6
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.6"
+        kotlinOptions.jvmTarget = "1.8"
         kotlinOptions.suppressWarnings = true
     }
 
