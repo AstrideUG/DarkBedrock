@@ -7,7 +7,6 @@ import de.astride.darkbedrock.apis.annotatedcommands.api.Command
 import de.astride.darkbedrock.apis.annotatedcommands.api.CommandOnly
 import de.astride.darkbedrock.apis.annotatedcommands.api.Permission
 import de.astride.darkbedrock.apis.annotatedcommands.api.Sender
-import de.astride.darkbedrock.apis.events.api.EventManager
 import de.astride.darkbedrock.apis.events.api.Subscribe
 import de.astride.darkbedrock.apis.modules.api.annotations.DataDirectory
 import de.astride.darkbedrock.apis.modules.api.annotations.Module
@@ -21,7 +20,6 @@ import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import java.nio.file.Path
-import java.util.logging.Logger
 
 
 /**
@@ -37,11 +35,7 @@ import java.util.logging.Logger
     "A Module for Spawn",
     "astride.de"
 )
-class SpawnModule @Inject private constructor(
-    private val logger: Logger,
-    private val eventManager: EventManager,
-    @DataDirectory private val path: Path
-) {
+class SpawnModule @Inject private constructor(@DataDirectory private val path: Path) {
 
     private var config = Config()
     private var location = config.getLocation()
