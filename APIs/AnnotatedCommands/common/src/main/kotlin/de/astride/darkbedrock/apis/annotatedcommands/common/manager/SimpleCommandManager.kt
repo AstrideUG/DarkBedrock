@@ -28,11 +28,13 @@ private typealias LCommand = Any
  */
 private typealias Group = Any
 
+inline class Group1(val any: Any)
+
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 08.12.2018 00:50.
- * Current Version: 1.0 (08.12.2018 - 08.12.2018)
+ * Current Version: 1.0 (08.12.2018 - 11.12.2018)
  */
 class SimpleCommandManager : CommandManager {
 
@@ -41,7 +43,20 @@ class SimpleCommandManager : CommandManager {
         override fun toString(): String = "<anon>"
     }
 
-    override fun plus(command: LCommand) = set(command, anon)
+    override fun register(command: LCommand) = set(command, anon)
+
+    override fun register(group: Group1, command: LCommand) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun unregisterAll() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun unregisterAll(group: Group) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 
     /**
      * @author Lars Artmann | LartyHD
