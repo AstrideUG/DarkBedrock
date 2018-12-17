@@ -9,23 +9,19 @@ import de.astride.darkbedrock.apis.annotatedcommands.api.CallResult
 import de.astride.darkbedrock.apis.annotatedcommands.api.Command
 import de.astride.darkbedrock.apis.annotatedcommands.api.CommandHolder
 import de.astride.darkbedrock.apis.annotatedcommands.api.CommandManager
-import de.astride.darkbedrock.apis.annotatedcommands.common.CommandOnlyAMS
-import de.astride.darkbedrock.apis.annotatedcommands.common.SubCommandAMS
+import de.astride.darkbedrock.apis.annotatedcommands.common.ImplementationAMS.findMethods
+import de.astride.darkbedrock.apis.annotatedcommands.common.holder.AnnotationCommandHolder
 import de.astride.darkbedrock.apis.annotatedcommands.common.inject.CommandModule
 import java.lang.reflect.Method
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 13.12.2018 02:30.
- * Current Version: 1.0 (13.12.2018 - 15.12.2018)
+ * Current Version: 1.0 (13.12.2018 - 17.12.2018)
  */
 class AnnotationCommandManager : CommandManager {
 
     companion object {
-
-        //TODO: ADD MULTI CommandOnly support
-        private fun commandOnly(instance: Any, commandLine: String, searched: String): CallResult =
-            invoke(CommandOnlyAMS.register(instance.javaClass).firstOrNull(), instance, commandLine, searched)
 
         @JvmName("invokeWithNull")
         private fun invoke(method: Method?, instance: Any, commandLine: String, searched: String): CallResult {
@@ -35,11 +31,11 @@ class AnnotationCommandManager : CommandManager {
         private fun invoke(method: Method, instance: Any, commandLine: String, searched: String) = try {
             when (val result = method.invoke(instance)) {
                 is CallResult -> result
-                is Boolean -> if (!result) CallResult.FAILED else CallResult.SUCCESS
-                is Unit -> CallResult.SUCCESS
+                is Boolean -> if (!result) CallResult.FAILED else CallResult.SUCCESS_BOOLEAN
+                is Unit -> CallResult.SUCCESS_UNIT
                 else -> {
                     System.err.println("The \"$searched\" command returns \"$result\", which can not be processed. Only \"CallResult, Boolean and Unit / Void\" can be processed.")
-                    CallResult.SUCCESS
+                    CallResult.SUCCESS_UNKNOWN
                 }
             }
         } catch (ex: Throwable) {
@@ -50,23 +46,20 @@ class AnnotationCommandManager : CommandManager {
 
     }
 
-    override val commands: CommandHolder = mutableSetOf()
+    override val commands: CommandHolder = AnnotationCommandHolder(argSeparator)
 
     override fun call(commandLine: String, sender: Any): CallResult {
         val toArgs = commandLine.toArgs()
-        if (toArgs.isEmpty()) throw IllegalArgumentException("\"commandLine\" can not be empty")
         val searched = toArgs[0]
 
-        val map = /* !! can used here because in the [add] function is a check */
-            commands.mapTo(mutableSetOf()) { it.getAnnotation(Command::class.java)!! to it }
+        /** !! can used here because in the [AnnotationCommandHolder.add] function of [AnnotationCommandHolder] is a check */
+        val map = commands.mapTo(mutableSetOf()) { it.getAnnotation(Command::class.java)!! to it }
         val (commandAnnotation, commandClass) = map.findCommand(searched) ?: return CallResult.NOT_FOUND
 
         val injector = Guice.createInjector(CommandModule(this, searched, commandAnnotation.name, sender))
         val instance = injector.getInstance(commandClass)
 
-        val args = toArgs.drop(1)
-        return if (args.isEmpty()) commandOnly(instance, commandLine, searched)
-        else invoke(SubCommandAMS.findMethod(commandClass, args), instance, commandLine, searched)
+        return invoke(findMethods(commandClass, toArgs.drop(1)).firstOrNull()?.key, instance, commandLine, searched)
     }
 
     override fun usage(commandLine: String): String = "USAGE for $commandLine"

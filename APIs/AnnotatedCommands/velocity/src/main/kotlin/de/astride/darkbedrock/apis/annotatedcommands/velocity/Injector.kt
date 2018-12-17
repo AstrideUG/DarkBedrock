@@ -6,7 +6,7 @@ package de.astride.darkbedrock.apis.annotatedcommands.velocity
 
 import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
-import de.astride.darkbedrock.apis.annotatedcommands.api.SubCommand
+import de.astride.darkbedrock.apis.annotatedcommands.api.Implementation
 import java.util.*
 
 /**
@@ -16,7 +16,7 @@ import java.util.*
  */
 object Injector {
 
-    fun addPlayerToCast(server: ProxyServer) = SubCommand.addMapper(Player::class) {
+    fun addPlayerToCast(server: ProxyServer) = Implementation.addMapper(Player::class) {
         try {
             server.getPlayer(UUID.fromString(it)).orElse(null)
         } catch (ex: IllegalArgumentException) {

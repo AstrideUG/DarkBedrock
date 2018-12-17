@@ -38,7 +38,7 @@ class GameMode @Inject private constructor(
         toArgs: Array<out Any>
         argN: Any, ...
     */
-    @SubCommand(
+    @Implementation(
         [Arg(
             [
                 Value("survival", ["0", "s"]),
@@ -55,7 +55,7 @@ class GameMode @Inject private constructor(
 //        player.sendMessage("Hi")
     }
 
-    @SubCommand(
+    @Implementation(
         [
             Arg(
                 [

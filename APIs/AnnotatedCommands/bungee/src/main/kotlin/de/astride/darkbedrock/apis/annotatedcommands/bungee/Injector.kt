@@ -4,7 +4,7 @@
 
 package de.astride.darkbedrock.apis.annotatedcommands.bungee
 
-import de.astride.darkbedrock.apis.annotatedcommands.api.SubCommand
+import de.astride.darkbedrock.apis.annotatedcommands.api.Implementation
 import net.md_5.bungee.api.ProxyServer
 import net.md_5.bungee.api.connection.ProxiedPlayer
 import java.util.*
@@ -16,7 +16,7 @@ import java.util.*
  */
 object Injector {
 
-    fun addPlayerToCast() = SubCommand.addMapper(ProxiedPlayer::class) {
+    fun addPlayerToCast() = Implementation.addMapper(ProxiedPlayer::class) {
         try {
             ProxyServer.getInstance().getPlayer(UUID.fromString(it))
         } catch (ex: IllegalArgumentException) {

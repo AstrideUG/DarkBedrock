@@ -27,7 +27,7 @@ public final class JavaGameMode {
         this.sender = sender;
     }
 
-    @SubCommand(args = {
+    @Implementation(args = {
             @Arg(values = {
                     @Value(value = "survival", aliases = {"0"}),
                     @Value(value = "creative", aliases = {"1"}),
@@ -41,7 +41,7 @@ public final class JavaGameMode {
         //CODE bla bla bla...
     }
 
-    @SubCommand(args = {
+    @Implementation(args = {
             @Arg(values = {
                     @Value(value = "survival", aliases = {"0"}),
                     @Value(value = "creative", aliases = {"1"}),

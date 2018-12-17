@@ -4,7 +4,7 @@
 
 package de.astride.darkbedrock.apis.annotatedcommands.bukkit
 
-import de.astride.darkbedrock.apis.annotatedcommands.api.SubCommand
+import de.astride.darkbedrock.apis.annotatedcommands.api.Implementation
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.Material
@@ -14,7 +14,7 @@ import java.util.*
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 25.11.2018 22:28.
- * Current Version: 1.0 (25.11.2018 - 15.12.2018)
+ * Current Version: 1.0 (25.11.2018 - 17.12.2018)
  */
 object Injector {
 
@@ -24,7 +24,7 @@ object Injector {
         addAllToCast()
     }
 
-    fun addMaterialToCast(): SubCommand.Companion = SubCommand.addMapper(Material::class) {
+    fun addMaterialToCast(): Unit = Implementation.addMapper(Material::class) {
         try {
             @Suppress("DEPRECATION") Material.getMaterial(it.toInt())
         } catch (ex: NumberFormatException) {
@@ -32,7 +32,7 @@ object Injector {
         }
     }
 
-    fun addPlayerToCast(): SubCommand.Companion = SubCommand.addMapper(Player::class) {
+    fun addPlayerToCast(): Unit = Implementation.addMapper(Player::class) {
         try {
             Bukkit.getPlayer(UUID.fromString(it))
         } catch (ex: IllegalArgumentException) {
@@ -43,16 +43,12 @@ object Injector {
     /**
      * @author Lars Artmann | LartyHD
      * Created by Lars Artmann | LartyHD on 15.12.2018 06:46.
-     * Current Version: 1.0 (15.12.2018 - 15.12.2018)
+     * Current Version: 1.0 (15.12.2018 - 17.12.2018)
      */
     @Suppress("DEPRECATION")
-    fun addGameModeToCast(): SubCommand.Companion = SubCommand.addNullableMapper(GameMode::class) {
-        try {
-            val id = it.toIntOrNull()
-            if (id != null) org.bukkit.GameMode.getByValue(id)!! else org.bukkit.GameMode.valueOf(it.toUpperCase())
-        } catch (ex: Exception) {
-            null
-        }
+    fun addGameModeToCast(): Unit = Implementation.addMapper(GameMode::class) {
+        val id = it.toIntOrNull()
+        if (id != null) org.bukkit.GameMode.getByValue(id)!! else org.bukkit.GameMode.valueOf(it.toUpperCase())
     }
 
 }

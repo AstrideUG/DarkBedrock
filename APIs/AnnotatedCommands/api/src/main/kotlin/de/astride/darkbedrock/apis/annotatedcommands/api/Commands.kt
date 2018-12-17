@@ -57,29 +57,22 @@ interface CommandManager {
      *
      * Current Version: 1.0 (14.12.2018 - 14.12.2018)
      */
-    fun String.toArgs(): List<String> = this.split(argSeparator).filter { it.isNotEmpty() }
+    fun String.toArgs(): List<String> = this.split(argSeparator).filter { it.isNotEmpty() }.takeIf { it.isNotEmpty() }
+        ?: throw IllegalArgumentException("args can not be empty")
 
 }
 
 @Suppress("KDocMissingDocumentation")
-enum class CallResult constructor(var successResult: SuccessResult) {
-    SUCCESS(SuccessResult.UNKNOWN),
-    FAILED(SuccessResult.NULL),
+enum class CallResult {
+    SUCCESS_EXPRESSLY,
+    SUCCESS_BOOLEAN,
+    SUCCESS_UNIT,
+    SUCCESS_UNKNOWN,
+    FAILED,
     //    NOT_ACCEPTED,
-    NOT_CAPTURED(SuccessResult.NULL),
-    NOT_FOUND(SuccessResult.NULL);
+    NOT_CAPTURED,
+    NOT_FOUND;
 
-    /**
-     * @author Lars Artmann | LartyHD
-     * Created by Lars Artmann | LartyHD on 17.12.2018 08:20.
-     * Current Version: 1.0 (17.12.2018 - 17.12.2018)
-     */
-    enum class SuccessResult {
-        NULL,
-        UNKNOWN,
-        EXPRESSLY,
-        BOOLEAN
-
-    }
+    fun isSuccess() = this.name.startsWith("SUCCESS_")
 
 }

@@ -15,7 +15,7 @@ import kotlin.reflect.KClass
  *
  * Moved on the 20.11.2018 at 02:15 from Commands.kt to CommandsAnnotations.kt
  *
- * Current Version: 1.0 (19.11.2018 - 15.12.2018)
+ * Current Version: 1.0 (19.11.2018 - 17.12.2018)
  */
 //TODO ADD intelligentCompletion
 //TODO ADD isLastVarArgs
@@ -77,29 +77,20 @@ annotation class CommandAddAliases
 
 /**
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 20.11.2018 01:55.
- * Current Version: 1.0 (20.11.2018 - 25.11.2018)
- */
-@Target(AnnotationTarget.FUNCTION)
-annotation class CommandOnly
-
-/**
- * @author Lars Artmann | LartyHD
  *
- * This [Annotation] identifies a [Function] as [SubCommand]
+ * This [Annotation] identifies a [Function] as [Implementation]
  *
- * @param args can not be empty!
  * @throws IllegalArgumentException if [args] is empty
  *
- * Current Version: 1.0 (19.11.2018 - 15.12.2018)
+ * Current Version: 1.0 (19.11.2018 - 17.12.2018)
  */
 @Target(AnnotationTarget.FUNCTION)
-annotation class SubCommand(val args: Array<Arg>) {
+annotation class Implementation(val args: Array<Arg>) {
 
     /**
      * @author Lars Artmann | LartyHD
      * Created by Lars Artmann | LartyHD on 25.11.2018 19:53.
-     * Current Version: 1.0 (25.11.2018 - 15.12.2018)
+     * Current Version: 1.0 (25.11.2018 - 17.12.2018)
      */
     companion object {
 
@@ -109,15 +100,7 @@ annotation class SubCommand(val args: Array<Arg>) {
          * Current Version: 1.0 (25.11.2018 - 15.12.2018)
          */
         @JvmField
-        val MAPS: MutableMap<KClass<*>, (String) -> Any> = HashMap()
-
-        /**
-         * @author Lars Artmann | LartyHD
-         * Created by Lars Artmann | LartyHD on 15.12.2018 06:51.
-         * Current Version: 1.0 (15.12.2018 - 15.12.2018)
-         */
-        @JvmField
-        val NULLABLE_MAPS: MutableMap<KClass<*>, (String) -> Any?> = HashMap()
+        val MAPS: MutableMap<Class<*>, (String) -> Any> = HashMap()
 
         /**
          * @author Lars Artmann | LartyHD
@@ -125,7 +108,7 @@ annotation class SubCommand(val args: Array<Arg>) {
          * Current Version: 1.0 (25.11.2018 - 15.12.2018)
          */
         init {
-            SubCommand.apply {
+            Implementation.apply {
                 addMapper(Boolean::class) { it.toBoolean() }
                 addMapper(Byte::class) { it.toByte() }
                 addMapper(Short::class) { it.toShort() }
@@ -149,17 +132,16 @@ annotation class SubCommand(val args: Array<Arg>) {
          * Created by Lars Artmann | LartyHD on 25.11.2018 22:05.
          * Current Version: 1.0 (25.11.2018 - 15.12.2018)
          */
-        fun <O : Any> addMapper(input: KClass<O>, block: (String) -> O) {
-            MAPS[input] = block
-        }
+        fun <O : Any> addMapper(input: KClass<O>, block: (String) -> O): Unit = addMapper(input.java, block)
 
         /**
          * @author Lars Artmann | LartyHD
-         * Created by Lars Artmann | LartyHD on 15.12.2018 06:52.
-         * Current Version: 1.0 (15.12.2018 - 15.12.2018)
+         * Created by Lars Artmann | LartyHD on 17.12.2018 14:35.
+         * Current Version: 1.0 (17.12.2018 - 17.12.2018)
          */
-        fun <O : Any> addNullableMapper(input: KClass<O>, block: (String) -> O?) {
-            NULLABLE_MAPS[input] = block
+        @Suppress("MemberVisibilityCanBePrivate")
+        fun <O : Any> addMapper(input: Class<O>, block: (String) -> O) {
+            MAPS[input] = block
         }
 
     }
@@ -192,7 +174,7 @@ annotation class Value(
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 20.11.2018 01:52.
  *
- * This [Annotation] contains the permission values for commands ([Command], [CommandOnly], [SubCommand])
+ * This [Annotation] contains the permission values for commands ([Command], [CommandOnly], [Implementation])
  *
  * @param value possible variables "<CommandName>, <ArgN>, <Args>"
  * @param value If it is empty, it will be ignored
@@ -215,6 +197,7 @@ annotation class Name
  * Created by Lars Artmann | LartyHD on 20.11.2018 07:35.
  * Current Version: 1.0 (20.11.2018 - 20.11.2018)
  */
+@Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.FIELD)
 annotation class Label(val inputCase: Boolean = false)
 
