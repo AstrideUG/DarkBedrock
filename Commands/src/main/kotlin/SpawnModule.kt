@@ -3,10 +3,7 @@
  */
 
 import com.google.inject.Inject
-import de.astride.darkbedrock.apis.annotatedcommands.api.Command
-import de.astride.darkbedrock.apis.annotatedcommands.api.CommandOnly
-import de.astride.darkbedrock.apis.annotatedcommands.api.Permission
-import de.astride.darkbedrock.apis.annotatedcommands.api.Sender
+import de.astride.darkbedrock.apis.annotatedcommands.api.*
 import de.astride.darkbedrock.apis.events.api.Subscribe
 import de.astride.darkbedrock.apis.modules.api.annotations.DataDirectory
 import de.astride.darkbedrock.apis.modules.api.annotations.Module
@@ -36,6 +33,8 @@ import java.nio.file.Path
     "astride.de"
 )
 class SpawnModule @Inject private constructor(@DataDirectory private val path: Path) {
+
+    private lateinit var commandManager: CommandManager
 
     private var config = Config()
     private var location = config.getLocation()
@@ -69,6 +68,10 @@ class SpawnModule @Inject private constructor(@DataDirectory private val path: P
 
     @Subscribe
     fun on(event: ModulesLoadedEvent) {
+
+        commandManager.commands += SpawnCommand::class.java
+        commandManager.commands += SetSpawnCommand::class.java
+
         // TODO REGISTER COMMANDS
     }
 
@@ -84,7 +87,7 @@ class SpawnModule @Inject private constructor(@DataDirectory private val path: P
      */
     @Command("Spawn")
     @Permission("SpawnModule.commands.<CommandName>")
-    private inner class SpawnCommand @Inject private constructor(@Sender private val player: Player) {
+    private inner class SpawnCommand @Inject private constructor(@Sender private val player: Player) : Any() {
 
         @CommandOnly
         private fun execute() {

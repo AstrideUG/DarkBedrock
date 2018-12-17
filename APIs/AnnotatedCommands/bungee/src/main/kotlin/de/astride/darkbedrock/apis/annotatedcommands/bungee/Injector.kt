@@ -16,7 +16,7 @@ import java.util.*
  */
 object Injector {
 
-    fun addPlayerToCast() = SubCommand.addCast(ProxiedPlayer::class) {
+    fun addPlayerToCast() = SubCommand.addMapper(ProxiedPlayer::class) {
         try {
             ProxyServer.getInstance().getPlayer(UUID.fromString(it))
         } catch (ex: IllegalArgumentException) {

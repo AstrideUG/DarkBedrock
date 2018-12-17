@@ -44,16 +44,16 @@ package de.astride.darkbedrock.apis.annotatedcommands.common
 ////	if (function.visibility == null || function.visibility != KVisibility.PRIVATE) return@forEach
 //
 //	val function = method.kotlinFunction ?: return@forEach
-//	val subCommand = function.findAnnotation<SubCommand>()?.args ?: return@forEach
-////	val subCommand = method.getAnnotation(SubCommand::class.java)?.args ?: return@forEach
+//	val subCommand = function.findAnnotation<SubCommand>()?.toArgs ?: return@forEach
+////	val subCommand = method.getAnnotation(SubCommand::class.java)?.toArgs ?: return@forEach
 //
-////	val args = subCommand.flatMap { arg -> arg.value.toNotBlankArgs().map { it to arg.isInput } }
+////	val toArgs = subCommand.flatMap { arg -> arg.value.toNotBlankArgs().map { it to arg.isInput } }
 //	val commandArgs = event.message.toNotBlankArgs()
 //
 ////	val cancel: Boolean
-////	if (args.size != commandArgs.size) {
-////		if (args.all { !it.second }) {
-////			if (args.map { it.first } == commandArgs)
+////	if (toArgs.size != commandArgs.size) {
+////		if (toArgs.all { !it.second }) {
+////			if (toArgs.map { it.first } == commandArgs)
 ////				cancel = false
 ////			else {
 ////

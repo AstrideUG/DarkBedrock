@@ -24,7 +24,7 @@ class GameMode @Inject private constructor(
         private fun getCastSenderFailedMessage(): String = "You are not a Player"
     }
 
-    //usage: /GameMode <0,1,2,3> [<Player>]
+    //usage: /GameMode <survival,creative,adventure,spectator> [<Player>]
 
 //	@CommandOnly
 //	private fun execute(): Unit {
@@ -34,8 +34,8 @@ class GameMode @Inject private constructor(
         Any is a String
 
         <empty>
-        vararg args: Any
-        args: Array<out Any>
+        vararg toArgs: Any
+        toArgs: Array<out Any>
         argN: Any, ...
     */
     @SubCommand(
@@ -50,13 +50,8 @@ class GameMode @Inject private constructor(
     )
     @Permission("<GlobalPermission>.<Arg1>")
     @SendUsageIfThrownException
-    private fun execute(arg: String) {
-//        val id = arg.toIntOrNull()
-//        val gameMode =
-//            if (id != null) @Suppress("DEPRECATION") org.bukkit.GameMode.getByValue(id) else org.bukkit.GameMode.valueOf(
-//                arg.toUpperCase()
-//            )
-//        player.gameMode = gameMode
+    private fun execute(arg: GameMode) {
+//        player.gameMode = arg
 //        player.sendMessage("Hi")
     }
 
@@ -70,7 +65,7 @@ class GameMode @Inject private constructor(
                     Value("spectator", ["3"])
                 ]
             ),
-            Arg([Value("<Player>")], true)
+            Arg([Value("Player")], true)
         ]
     )
     @Permission("<GlobalPermission>.<Arg1>.<Arg2>")

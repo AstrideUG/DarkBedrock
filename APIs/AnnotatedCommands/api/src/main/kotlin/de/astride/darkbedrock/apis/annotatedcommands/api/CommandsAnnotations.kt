@@ -15,10 +15,27 @@ import kotlin.reflect.KClass
  *
  * Moved on the 20.11.2018 at 02:15 from Commands.kt to CommandsAnnotations.kt
  *
- * Current Version: 1.0 (19.11.2018 - 25.11.2018)
+ * Current Version: 1.0 (19.11.2018 - 15.12.2018)
  */
 //TODO ADD intelligentCompletion
 //TODO ADD isLastVarArgs
+
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 14.12.2018 03:49.
+ * Current Version: 1.0 (14.12.2018 - 14.12.2018)
+ */
+@Target(AnnotationTarget.FUNCTION)
+annotation class Before
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 14.12.2018 03:53.
+ * Current Version: 1.0 (14.12.2018 - 14.12.2018)
+ */
+@Target(AnnotationTarget.FUNCTION)
+annotation class After
 
 /**
  * @author Lars Artmann | LartyHD
@@ -74,7 +91,7 @@ annotation class CommandOnly
  * @param args can not be empty!
  * @throws IllegalArgumentException if [args] is empty
  *
- * Current Version: 1.0 (19.11.2018 - 25.11.2018)
+ * Current Version: 1.0 (19.11.2018 - 15.12.2018)
  */
 @Target(AnnotationTarget.FUNCTION)
 annotation class SubCommand(val args: Array<Arg>) {
@@ -82,49 +99,67 @@ annotation class SubCommand(val args: Array<Arg>) {
     /**
      * @author Lars Artmann | LartyHD
      * Created by Lars Artmann | LartyHD on 25.11.2018 19:53.
-     * Current Version: 1.0 (25.11.2018 - 25.11.2018)
+     * Current Version: 1.0 (25.11.2018 - 15.12.2018)
      */
     companion object {
 
         /**
          * @author Lars Artmann | LartyHD
          * Created by Lars Artmann | LartyHD on 25.11.2018 19:53.
-         * Current Version: 1.0 (25.11.2018 - 25.11.2018)
+         * Current Version: 1.0 (25.11.2018 - 15.12.2018)
          */
         @JvmField
-        val CASTS = HashMap<KClass<*>, (String) -> Any>()
+        val MAPS: MutableMap<KClass<*>, (String) -> Any> = HashMap()
+
+        /**
+         * @author Lars Artmann | LartyHD
+         * Created by Lars Artmann | LartyHD on 15.12.2018 06:51.
+         * Current Version: 1.0 (15.12.2018 - 15.12.2018)
+         */
+        @JvmField
+        val NULLABLE_MAPS: MutableMap<KClass<*>, (String) -> Any?> = HashMap()
 
         /**
          * @author Lars Artmann | LartyHD
          * Created by Lars Artmann | LartyHD on 25.11.2018 22:22.
-         * Current Version: 1.0 (25.11.2018 - 25.11.2018)
+         * Current Version: 1.0 (25.11.2018 - 15.12.2018)
          */
         init {
-            SubCommand
-                .addCast(Boolean::class) { it.toBoolean() }
-                .addCast(Byte::class) { it.toByte() }
-                .addCast(Short::class) { it.toShort() }
-                .addCast(Int::class) { it.toInt() }
-                .addCast(Long::class) { it.toLong() }
-                .addCast(BigInteger::class) { it.toBigInteger() }
-                .addCast(Float::class) { it.toFloat() }
-                .addCast(Double::class) { it.toDouble() }
-                .addCast(BigDecimal::class) { it.toBigDecimal() }
-                .addCast(UByte::class) { it.toUByte() }
-                .addCast(UShort::class) { it.toUShort() }
-                .addCast(UInt::class) { it.toUInt() }
-                .addCast(ULong::class) { it.toULong() }
-                .addCast(UUID::class) { UUID.fromString(it) }
+            SubCommand.apply {
+                addMapper(Boolean::class) { it.toBoolean() }
+                addMapper(Byte::class) { it.toByte() }
+                addMapper(Short::class) { it.toShort() }
+                addMapper(Int::class) { it.toInt() }
+                addMapper(Long::class) { it.toLong() }
+                addMapper(BigInteger::class) { it.toBigInteger() }
+                addMapper(Float::class) { it.toFloat() }
+                addMapper(Double::class) { it.toDouble() }
+                addMapper(BigDecimal::class) { it.toBigDecimal() }
+                addMapper(UByte::class) { it.toUByte() }
+                addMapper(UShort::class) { it.toUShort() }
+                addMapper(UInt::class) { it.toUInt() }
+                addMapper(ULong::class) { it.toULong() }
+                addMapper(UUID::class) { UUID.fromString(it) }
+            }
+                
         }
 
         /**
          * @author Lars Artmann | LartyHD
          * Created by Lars Artmann | LartyHD on 25.11.2018 22:05.
-         * Current Version: 1.0 (25.11.2018 - 25.11.2018)
+         * Current Version: 1.0 (25.11.2018 - 15.12.2018)
          */
-        fun <O : Any> addCast(input: KClass<O>, block: (String) -> O): Companion {
-            CASTS[input] = block
-            return this
+        fun <O : Any> addMapper(input: KClass<O>, block: (String) -> O) {
+            MAPS[input] = block
+        }
+
+        /**
+         * @author Lars Artmann | LartyHD
+         * Created by Lars Artmann | LartyHD on 15.12.2018 06:52.
+         * Current Version: 1.0 (15.12.2018 - 15.12.2018)
+         */
+        fun <O : Any> addNullableMapper(input: KClass<O>, block: (String) -> O?) {
+            NULLABLE_MAPS[input] = block
         }
 
     }
