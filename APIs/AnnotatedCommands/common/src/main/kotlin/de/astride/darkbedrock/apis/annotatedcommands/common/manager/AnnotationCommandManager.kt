@@ -54,7 +54,7 @@ class AnnotationCommandManager : CommandManager {
 
     override fun call(commandLine: String, sender: Any): CallResult {
         val toArgs = commandLine.toArgs()
-        if (toArgs.isEmpty()) throw IllegalArgumentException("\"commandLine\" can not be blank")
+        if (toArgs.isEmpty()) throw IllegalArgumentException("\"commandLine\" can not be empty")
         val searched = toArgs[0]
 
         val map = /* !! can used here because in the [add] function is a check */
@@ -75,9 +75,6 @@ class AnnotationCommandManager : CommandManager {
     private fun Iterable<Pair<Command, Class<*>>>.findCommand(searched: String) =
         find { it.first.names().find { name -> name.equals(searched, true) } != null }
 
-    //    private fun Iterable<Command>.findCommand(searched: String) =
-    //        find { it.names().find { name -> name.equals(searched, true) } != null }
-    //    private fun Iterable<Command>.allNames() = map { it.names() }
     private fun Command.names() = aliases + (name.emptyToNull() ?: javaClass.name)
 
 

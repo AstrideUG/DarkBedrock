@@ -36,7 +36,7 @@ interface CommandManager {
      * @author Lars Artmann | LartyHD
      * Created by Lars Artmann | LartyHD on 13.12.2018.
      *
-     * @throws IllegalArgumentException if [commandLine] is blank
+     * @throws IllegalArgumentException if [commandLine] is empty
      *
      * Current Version: 1.0 (13.12.2018 - 13.12.2018)
      */
@@ -52,17 +52,34 @@ interface CommandManager {
     /**
      * @author Lars Artmann | LartyHD
      * Created by Lars Artmann | LartyHD on 14.12.2018 00:03.
+     *
+     * @throws IllegalArgumentException if [toArgs] is empty
+     *
      * Current Version: 1.0 (14.12.2018 - 14.12.2018)
      */
-    fun String.toArgs(): List<String> = this.split(argSeparator).filter { it.isNotBlank() }
+    fun String.toArgs(): List<String> = this.split(argSeparator).filter { it.isNotEmpty() }
 
 }
 
 @Suppress("KDocMissingDocumentation")
-enum class CallResult {
-    SUCCESS,
-    FAILED,
+enum class CallResult constructor(var successResult: SuccessResult) {
+    SUCCESS(SuccessResult.UNKNOWN),
+    FAILED(SuccessResult.NULL),
     //    NOT_ACCEPTED,
-    NOT_CAPTURED,
-    NOT_FOUND
+    NOT_CAPTURED(SuccessResult.NULL),
+    NOT_FOUND(SuccessResult.NULL);
+
+    /**
+     * @author Lars Artmann | LartyHD
+     * Created by Lars Artmann | LartyHD on 17.12.2018 08:20.
+     * Current Version: 1.0 (17.12.2018 - 17.12.2018)
+     */
+    enum class SuccessResult {
+        NULL,
+        UNKNOWN,
+        EXPRESSLY,
+        BOOLEAN
+
+    }
+
 }
