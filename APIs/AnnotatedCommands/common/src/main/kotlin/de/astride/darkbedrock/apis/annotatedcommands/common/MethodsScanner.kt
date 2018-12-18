@@ -12,13 +12,13 @@ import java.lang.reflect.Method
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 13.12.2018 23:52.
- * Current Version: 1.0 (13.12.2018 - 17.12.2018)
+ * Current Version: 1.0 (13.12.2018 - 18.12.2018)
  */
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 13.12.2018 23:55.
- * Current Version: 1.0 (13.12.2018 - 17.12.2018)
+ * Current Version: 1.0 (13.12.2018 - 18.12.2018
  */
 object ImplementationAMS : AnnotationMethodScanner<Implementation>(Implementation::class.java) {
 
@@ -35,18 +35,18 @@ object ImplementationAMS : AnnotationMethodScanner<Implementation>(Implementatio
      * Created by Lars Artmann | LartyHD on 17.12.2018.
      * Current Version: 1.0 (17.12.2018 - 17.12.2018)
      */
-    @Deprecated(
-        "Use findMethods", ReplaceWith(
-            "findMethods(clazz, args).firstOrNull()?.key",
-            "de.astride.darkbedrock.apis.annotatedcommands.common.ImplementationAMS.findMethods"
-        )
-    )
+//    @Deprecated(
+//        "Use findMethods", ReplaceWith(
+//            "findMethods(clazz, args).firstOrNull()?.key",
+//            "de.astride.darkbedrock.apis.annotatedcommands.common.ImplementationAMS.findMethods"
+//        )
+//    )
     fun findMethod(clazz: Class<*>, args: List<String>): Method? = findMethods(clazz, args).firstOrNull()?.first
 
     /**
      * @author Lars Artmann | LartyHD
      * Created by Lars Artmann | LartyHD on 17.12.2018 09:04.
-     * Current Version: 1.0 (17.12.2018 - 17.12.2018)
+     * Current Version: 1.0 (17.12.2018 - 18.12.2018)
      */
     private fun isAcceptable(args: List<String>, method: Method, implementation: Implementation): Boolean {
         val aArgs = implementation.args
@@ -55,32 +55,49 @@ object ImplementationAMS : AnnotationMethodScanner<Implementation>(Implementatio
         return args.all { sArg ->
 
             //TODO ADD Mapping Support
+            val result = getParameter(method, args)
+            result ?: return@all false
 
-            val parameters = method.parameters
-            val result = when {
-                method.parameterCount == 0 -> true
-                parameters[0].type == Array<String>::class.java -> true
-                method.parameterCount == args.size -> parameters.all {
+            aArgs.any { arg ->
+                val aliases = arg.values.map { it.aliases + it.value }
+                arg.isInput || aliases.any { sArg in it }
+            }
+        }
+    }
+
+    /**
+     * @author Lars Artmann | LartyHD
+     * Created by Lars Artmann | LartyHD on 18.12.2018 04:36.
+     * Current Version: 1.0 (18.12.2018 - 18.12.2018)
+     */
+    fun getParameter(method: Method, args: List<String>): Array<*>? {
+        val parameters = method.parameters
+        return when {
+            method.parameterCount == 0 -> emptyArray<String>()
+            parameters[0].type == Array<String>::class.java -> args.toTypedArray()
+            method.parameterCount == args.size -> {
+                val output = mutableListOf<Any>()
+                var index = -1
+                parameters.all {
+                    val sArg = args[index++]
                     val mapped = try {
                         val type = it.type
                         try {
-                            (Implementation.MAPS.entries.find { (clazz, _) -> clazz == type }?.value
-                                ?: throw NullPointerException())(sArg)
+                            val function = Implementation.MAPS.entries.find { (clazz, _) ->
+                                clazz == type
+                            }?.value ?: throw NullPointerException()
+                            function(sArg)
                         } catch (throwable: Throwable) {
                             type.cast(sArg)
                         }
                     } catch (throwable: Throwable) {
                         null
                     }
-                    mapped != null
+                    if (mapped != null) output.add(mapped) else false
                 }
-                else -> false
+                output.toTypedArray()
             }
-
-            aArgs.any { arg ->
-                val aliases = arg.values.map { it.aliases + it.value }
-                arg.isInput || aliases.any { alias -> sArg in alias }
-            }
+            else -> null
         }
     }
 

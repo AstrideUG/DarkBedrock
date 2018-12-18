@@ -9,7 +9,8 @@ import de.astride.darkbedrock.apis.annotatedcommands.api.CallResult
 import de.astride.darkbedrock.apis.annotatedcommands.api.Command
 import de.astride.darkbedrock.apis.annotatedcommands.api.CommandHolder
 import de.astride.darkbedrock.apis.annotatedcommands.api.CommandManager
-import de.astride.darkbedrock.apis.annotatedcommands.common.ImplementationAMS.findMethods
+import de.astride.darkbedrock.apis.annotatedcommands.common.ImplementationAMS
+import de.astride.darkbedrock.apis.annotatedcommands.common.ImplementationAMS.findMethod
 import de.astride.darkbedrock.apis.annotatedcommands.common.holder.AnnotationCommandHolder
 import de.astride.darkbedrock.apis.annotatedcommands.common.inject.CommandModule
 import java.lang.reflect.Method
@@ -17,19 +18,31 @@ import java.lang.reflect.Method
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 13.12.2018 02:30.
- * Current Version: 1.0 (13.12.2018 - 17.12.2018)
+ * Current Version: 1.0 (13.12.2018 - 18.12.2018)
  */
 class AnnotationCommandManager : CommandManager {
 
     companion object {
 
         @JvmName("invokeWithNull")
-        private fun invoke(method: Method?, instance: Any, commandLine: String, searched: String): CallResult {
-            return invoke(method ?: return CallResult.NOT_CAPTURED, instance, commandLine, searched)
+        private fun invoke(
+            method: Method?,
+            instance: Any,
+            commandLine: String,
+            searched: String,
+            args: List<String>
+        ): CallResult {
+            return invoke(method ?: return CallResult.NOT_CAPTURED, instance, commandLine, searched, args)
         }
 
-        private fun invoke(method: Method, instance: Any, commandLine: String, searched: String) = try {
-            when (val result = method.invoke(instance)) {
+        private fun invoke(
+            method: Method,
+            instance: Any,
+            commandLine: String,
+            searched: String,
+            args: List<String>
+        ) = try {
+            when (val result = invoke(method, instance, args)) {
                 is CallResult -> result
                 is Boolean -> if (!result) CallResult.FAILED else CallResult.SUCCESS_BOOLEAN
                 is Unit -> CallResult.SUCCESS_UNIT
@@ -42,6 +55,16 @@ class AnnotationCommandManager : CommandManager {
             println("Error in \"$commandLine\": ${ex.message}")
             println(ex.printStackTrace())
             CallResult.FAILED
+        }
+
+        /**
+         * @author Lars Artmann | LartyHD
+         * Created by Lars Artmann | LartyHD on 18.12.2018 10:53.
+         * Current Version: 1.0 (18.12.2018 - 18.12.2018)
+         */
+        private fun invoke(method: Method, instance: Any, args: List<String>): Any? {
+            val parameter = ImplementationAMS.getParameter(method, args) ?: return null
+            return method.invoke(instance, *parameter)
         }
 
     }
@@ -59,7 +82,9 @@ class AnnotationCommandManager : CommandManager {
         val injector = Guice.createInjector(CommandModule(this, searched, commandAnnotation.name, sender))
         val instance = injector.getInstance(commandClass)
 
-        return invoke(findMethods(commandClass, toArgs.drop(1)).firstOrNull()?.key, instance, commandLine, searched)
+        val args = toArgs.drop(1)
+        val method = findMethod(commandClass, args)
+        return invoke(method, instance, commandLine, searched, args)
     }
 
     override fun usage(commandLine: String): String = "USAGE for $commandLine"
@@ -73,6 +98,9 @@ class AnnotationCommandManager : CommandManager {
 
     //TODO: Add This to Kotlin Utils
     private fun String.emptyToNull() = if (this.isEmpty()) null else this
+
+    //TODO: Add This to Kotlin Utils
+    private fun String.blankToNull() = if (this.isBlank()) null else this
 
 
 }
