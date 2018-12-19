@@ -1,7 +1,6 @@
 package net.darkdevelopers.darkbedrock.darkframe.spigot
 
 import de.astride.darkbedrock.apis.modules.common.loader.ClassModuleLoader
-import de.astride.darkbedrock.apis.modules.common.loader.JavaModuleLoader
 import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.ModulesCommand
 import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.OldModulesCommand
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
@@ -47,7 +46,7 @@ class DarkFrame : DarkPlugin() {
             //New Module System
 			println("Enable New Module System")
 			val directory = File("$dataFolder${File.separator}modules")
-			val loader = setOf(ClassModuleLoader(directory), JavaModuleLoader(directory))
+			val loader = setOf(ClassModuleLoader(directory)/*, JavaModuleLoader(directory)*/)
 			ModulesCommand(this, loader, messages)
 			loader.forEach {
 				it.detectModules()

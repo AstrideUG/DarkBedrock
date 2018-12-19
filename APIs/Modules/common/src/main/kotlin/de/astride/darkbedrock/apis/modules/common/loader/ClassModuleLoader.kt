@@ -11,7 +11,7 @@ import java.io.File
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.04.2018 01:26.
- * Last edit 06.12.2018
+ * Last edit 19.12.2018
  */
 class ClassModuleLoader(directory: File) : ModuleLoader(directory) {
 
@@ -20,7 +20,7 @@ class ClassModuleLoader(directory: File) : ModuleLoader(directory) {
 
     override fun loadModules() {
         detectedModules.forEach { loadModule(directory, it) }
-        eventManager.fireAndForget(ModulesLoadedEvent(detectedModules))
+        eventManager.fire(ModulesLoadedEvent(detectedModules))
         detectedModules.clear()
     }
 

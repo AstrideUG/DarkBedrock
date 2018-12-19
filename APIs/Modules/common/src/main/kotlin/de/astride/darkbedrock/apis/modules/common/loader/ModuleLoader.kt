@@ -80,18 +80,19 @@ abstract class ModuleLoader(val directory: File) {
             modules.add(moduleContainer)
             """
 
-                Module infos:
-                ID: ${description.id}
-                Name: ${description.name}
-                Version: ${description.version}
-                Description: ${description.description}
-                URL: ${description.url}
-                Authors: ${description.authors}
-                Dependencies: ${description.dependencies}
-                Source: ${description.source}
-                Class: ${description.clazz}
 
-            """.trimIndent().lines().forEach { println(it) }
+    Module infos:
+    ID: ${description.id}
+    Name: ${description.name}
+    Version: ${description.version}
+    Description: ${description.description}
+    URL: ${description.url}
+    Authors: ${description.authors}
+    Dependencies: ${description.dependencies}
+    Source: ${description.source}
+    Class: ${description.clazz}
+
+            """.lines().forEach { println(it) }
             module.moduleLog("Loaded")
             eventManager.fireAndForget(ModuleLoadedEvent(moduleContainer))
         } catch (ex: Throwable) {

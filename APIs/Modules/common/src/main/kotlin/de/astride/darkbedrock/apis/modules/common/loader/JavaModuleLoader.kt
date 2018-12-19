@@ -4,13 +4,14 @@
 
 package de.astride.darkbedrock.apis.modules.common.loader
 
+import de.astride.darkbedrock.apis.modules.api.events.ModulesLoadedEvent
 import java.io.File
 
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.04.2018 01:26.
- * Last edit 06.12.2018
+ * Last edit 19.12.2018
  */
 class JavaModuleLoader(directory: File) : ModuleLoader(directory) {
 
@@ -20,6 +21,7 @@ class JavaModuleLoader(directory: File) : ModuleLoader(directory) {
 
     override fun loadModules() {
         modulesToLoad.forEach { loadModule(directory, it.value) }
+        eventManager.fire(ModulesLoadedEvent(detectedModules))
         modulesToLoad.clear()
     }
 
