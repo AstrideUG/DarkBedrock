@@ -20,7 +20,7 @@ class ClassModuleLoader(directory: File) : ModuleLoader(directory) {
 
     override fun loadModules() {
         detectedModules.forEach { loadModule(directory, it) }
-        eventManager.fire(ModulesLoadedEvent(detectedModules))
+        eventManager.fire(ModulesLoadedEvent(detectedModules.toSet()))
         detectedModules.clear()
     }
 

@@ -21,7 +21,7 @@ class JavaModuleLoader(directory: File) : ModuleLoader(directory) {
 
     override fun loadModules() {
         modulesToLoad.forEach { loadModule(directory, it.value) }
-        eventManager.fire(ModulesLoadedEvent(detectedModules))
+        eventManager.fire(ModulesLoadedEvent(detectedModules.toSet()))
         modulesToLoad.clear()
     }
 
