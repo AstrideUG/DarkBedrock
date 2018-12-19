@@ -8,13 +8,14 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
+import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMapWithSubs
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 
 @Suppress("MemberVisibilityCanBePrivate")
 /**
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 24.08.2018 23:09.
+ * Created by Lars Artmann | LartyHD on 24.08.2018 23:09.gr
  * Last edit 28.08.2018
  */
 open class GsonMessages(private val config: GsonConfig) {
@@ -66,7 +67,14 @@ open class GsonMessages(private val config: GsonConfig) {
 
 	private
 
-	fun jsonObjectByFile(fileName: String) = GsonConfig(ConfigData("${config.getDirectory()}languages", "$fileName.json")).load().jsonObject
+	fun jsonObjectByFile(fileName: String) = GsonService.load(
+		GsonConfig(
+			ConfigData(
+				"${config.getDirectory()}languages",
+				"$fileName.json"
+			)
+		).configData
+	).jsonObject
 
 	private fun replace(input: String, key: String, value: String) = input.replace("%$key%", value, true)
 

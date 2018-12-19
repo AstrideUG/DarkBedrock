@@ -45,10 +45,10 @@ abstract class ModuleLoader(val directory: File) {
         }
     }
 
+    val modules: MutableSet<ModuleContainer> = HashSet()
+    abstract val type: String
     protected abstract val detectedModules: MutableSet<String>
-    protected abstract val type: String
-    protected val eventManager: EventManager = SimpleEventManager()
-    private val modules: MutableSet<ModuleContainer> = HashSet()
+    val eventManager: EventManager = SimpleEventManager()
 
     abstract fun loadModules()
 
@@ -125,7 +125,7 @@ abstract class ModuleLoader(val directory: File) {
         if (directory.mkdirs()) onSuccess() else onFail()
     else onSuccess()
 
-    fun getModule(name: String): Any? = modules.find { it.toModule().name.toLowerCase() == name.toLowerCase() }
+    fun getModule(name: String) = modules.find { it.toModule().name.toLowerCase() == name.toLowerCase() }
 
     private fun Any.toModule(): Module = this.javaClass.getDeclaredAnnotation(Module::class.java)
 
