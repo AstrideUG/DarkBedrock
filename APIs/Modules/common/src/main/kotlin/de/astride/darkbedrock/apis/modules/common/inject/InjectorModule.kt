@@ -29,7 +29,7 @@ class InjectorModule(
         binder.bind(EventManager::class.java).toInstance(eventManager)
         binder.bind(Path::class.java)
             .annotatedWith(DataDirectory::class.java)
-            .toInstance(path.resolve(description.id))
+            .toInstance(path)
     }
 
 }
