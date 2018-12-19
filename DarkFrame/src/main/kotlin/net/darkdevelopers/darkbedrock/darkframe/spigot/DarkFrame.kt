@@ -1,11 +1,13 @@
 package net.darkdevelopers.darkbedrock.darkframe.spigot
 
+import de.astride.darkbedrock.apis.modules.common.loader.JavaModuleLoader
 import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.ModulesCommand
 import net.darkdevelopers.darkbedrock.darkness.general.modules.manager.ClassJavaModuleManager
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.listener.EventsListener
 import net.darkdevelopers.darkbedrock.darkness.spigot.plugin.DarkPlugin
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
+import java.io.File
 import kotlin.properties.Delegates
 
 /**
@@ -25,8 +27,15 @@ class DarkFrame : DarkPlugin() {
 	override fun onEnable() = security {
 		onEnable {
 			EventsListener.getSimpleInstance(this)
-			moduleManager = ClassJavaModuleManager(dataFolder)
+
+            //Old Module System
+            moduleManager = ClassJavaModuleManager(File("$dataFolder${File.separator}old"))
 			ModulesCommand(this, mapOf("Class" to moduleManager.classModuleManager, "Java" to moduleManager.javaModuleManager))
+
+            //New Module System
+            val loader = JavaModuleLoader(File("$dataFolder${File.separator}modules"))
+            loader.detectModules()
+            loader.loadModules()
 		}
 	}
 

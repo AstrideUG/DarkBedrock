@@ -15,6 +15,7 @@ import de.astride.darkbedrock.apis.modules.api.meta.SimpleVersion
 import de.astride.darkbedrock.apis.modules.common.description.ClassModuleDescription
 import de.astride.darkbedrock.apis.modules.common.implementations.SimpleModuleContainer
 import de.astride.darkbedrock.apis.modules.common.inject.InjectorModule
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.net.URLClassLoader
@@ -23,12 +24,12 @@ import java.util.*
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.04.2018 01:26.
- * Last edit 06.12.2018
+ * Last edit 19.12.2018
  */
 abstract class ModuleLoader(val directory: File) {
 
     companion object {
-        private val logger = LoggerFactory.getLogger(ModuleLoader::class.java)
+        val logger: Logger = LoggerFactory.getLogger(ModuleLoader::class.java)
 
         /**
          * @author Lars Artmann | LartyHD
@@ -36,9 +37,9 @@ abstract class ModuleLoader(val directory: File) {
          *
          * @throws IllegalArgumentException is injector.getInstance(description.mainClass) returns null
          *
-         * Current Version: 1.0 (05.12.2018 - 05.12.2018)
+         * Current Version: 1.0 (05.12.2018 - 19.12.2018)
          */
-        fun create(description: ClassModuleDescription, eventManager: EventManager): ModuleContainer {
+        internal fun create(description: ClassModuleDescription, eventManager: EventManager): ModuleContainer {
             val injector = Guice.createInjector(InjectorModule(description, description.source, eventManager))
             val instance = injector.getInstance(description.clazz)
                 ?: throw IllegalStateException("Got nothing from injector for module " + description.id)
@@ -51,7 +52,7 @@ abstract class ModuleLoader(val directory: File) {
     protected val eventManager: EventManager = SimpleEventManager()
     private val modules: MutableSet<ModuleContainer> = HashSet()
 
-    protected abstract fun loadModules()
+    abstract fun loadModules()
 
     fun detectModules() = createFolders({
         val name = addModules(directory)
@@ -81,7 +82,7 @@ abstract class ModuleLoader(val directory: File) {
             val moduleContainer = create(description, eventManager)
             eventManager.register(moduleContainer.instance, moduleContainer.instance)
             modules.add(moduleContainer)
-            logger.debug(
+            logger.info(
                 """
 
                 Module infos:

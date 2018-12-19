@@ -89,7 +89,7 @@ class SpawnModule @Inject private constructor(@DataDirectory private val path: P
     @Permission("SpawnModule.commands.<CommandName>")
     private inner class SpawnCommand @Inject private constructor(@Sender private val player: Player) : Any() {
 
-        @CommandOnly
+        @Implementation([])
         private fun execute() {
             player.teleport(location)
         }
@@ -105,7 +105,7 @@ class SpawnModule @Inject private constructor(@DataDirectory private val path: P
     @Permission("SpawnModule.commands.<CommandName>")
     private inner class SetSpawnCommand @Inject private constructor(@Sender private val player: Player) {
 
-        @CommandOnly
+        @Implementation([])
         private fun execute() {
 
             fun Float.round() = (this * 100).toInt() / 100F

@@ -17,6 +17,7 @@ dependencies {
     compileKotlin()
     compileTest()
     compile(project(":Darkness"))
+    compile(project(":APIs:Modules:Modules-Common"))
     compile("org.spigotmc", "spigot-api", extra["versions.spigot"].toString())
     compile("net.md-5", "bungeecord-api", extra["versions.bungee"].toString())
     compile("com.velocitypowered", "velocity-api", extra["versions.velocity"].toString())
