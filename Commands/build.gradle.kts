@@ -18,7 +18,7 @@ version = "1.0"
 dependencies {
     compileKotlin()
     compileTest()
-    compile(project(":Darkness"))
+    compile(project(":DarkFrame"))
     compile(project(":APIs:Modules:Modules-Api"))
     compile(project(":APIs:AnnotatedCommands:AnnotatedCommands-Api"))
     compile("org.spigotmc", "spigot-api", extra["versions.spigot"].toString())

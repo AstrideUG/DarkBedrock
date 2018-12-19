@@ -15,8 +15,6 @@ import de.astride.darkbedrock.apis.modules.api.meta.SimpleVersion
 import de.astride.darkbedrock.apis.modules.common.description.ClassModuleDescription
 import de.astride.darkbedrock.apis.modules.common.implementations.SimpleModuleContainer
 import de.astride.darkbedrock.apis.modules.common.inject.InjectorModule
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.io.File
 import java.net.URLClassLoader
 import java.util.*
@@ -29,7 +27,7 @@ import java.util.*
 abstract class ModuleLoader(val directory: File) {
 
     companion object {
-        val logger: Logger = LoggerFactory.getLogger(ModuleLoader::class.java)
+        //        val logger: Logger = LoggerFactory.getLogger(ModuleLoader::class.java)
 
         /**
          * @author Lars Artmann | LartyHD
@@ -56,9 +54,9 @@ abstract class ModuleLoader(val directory: File) {
 
     fun detectModules() = createFolders({
         val name = addModules(directory)
-        if (detectedModules.isEmpty()) logger.info("No modules in the directory: $name")
-        else logger.info("Found modules in the directory: $name: $detectedModules")
-    }, { logger.error("The directory \"$directory\" could not be created") })
+        if (detectedModules.isEmpty()) /*logger.info*/ println("No modules in the directory: $name")
+        else /*logger.info*/ println("Found modules in the directory: $name: $detectedModules")
+    }, { /*logger.error*/System.err.println("The directory \"$directory\" could not be created") })
 
     protected fun loadModule(folder: File, clazz: String) {
         try {
@@ -82,7 +80,7 @@ abstract class ModuleLoader(val directory: File) {
             val moduleContainer = create(description, eventManager)
             eventManager.register(moduleContainer.instance, moduleContainer.instance)
             modules.add(moduleContainer)
-            logger.info(
+            /*logger.info*/println(
                 """
 
                 Module infos:
@@ -108,20 +106,20 @@ abstract class ModuleLoader(val directory: File) {
     private fun addModules(file: File) {
         val name = file.name
         if (file.isFile) {
-            if (name.endsWith(".$type") && !name.contains('$')) {
+            if (name.endsWith(".${type.toLowerCase()}") && !name.contains('$')) {
                 val module = name.dropLast(type.length + 1)
                 if (detectedModules.contains(module))
-                    logger.error("Two \"$type\" modules with the name \"$module\" were found in directory \"$directory\"")
+                /*logger.error*/ System.err.println("Two \"$type\" modules with the name \"$module\" were found in directory \"$directory\"")
                 else {
                     detectedModules.add(module)
-                    logger.info("Added \"$module\" to \"detectedModules\" by \"$type\" in directory \"$directory\"")
+                    /*logger.info*/println("Added \"$module\" to \"detectedModules\" by \"$type\" in directory \"$directory\"")
                 }
             }
         } else file.listFiles().forEach { addModules(it) }
     }
 
     private fun Module.moduleLog(executed: String) =
-        logger.info("$executed module $name (ID: $name) version $version by ${Arrays.toString(authors)}")
+            /*logger.info*/println("$executed module $name (ID: $name) version $version by ${Arrays.toString(authors)}")
 
     private fun createFolders(onSuccess: () -> Unit, onFail: () -> Unit) = if (!directory.exists())
         if (directory.mkdirs()) onSuccess() else onFail()

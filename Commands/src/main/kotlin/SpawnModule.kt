@@ -3,19 +3,22 @@
  */
 
 import com.google.inject.Inject
-import de.astride.darkbedrock.apis.annotatedcommands.api.*
 import de.astride.darkbedrock.apis.events.api.Subscribe
 import de.astride.darkbedrock.apis.modules.api.annotations.DataDirectory
 import de.astride.darkbedrock.apis.modules.api.annotations.Module
 import de.astride.darkbedrock.apis.modules.api.events.ModuleReloadEvent
 import de.astride.darkbedrock.apis.modules.api.events.ModulesLoadedEvent
+import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
+import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMapWithSubs
+import net.darkdevelopers.darkbedrock.darkness.spigot.commands.Command
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessages
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
 import org.bukkit.Bukkit
 import org.bukkit.Location
-import org.bukkit.entity.Player
+import org.bukkit.command.CommandSender
 import java.nio.file.Path
 
 
@@ -34,16 +37,18 @@ import java.nio.file.Path
 )
 class SpawnModule @Inject private constructor(@DataDirectory private val path: Path) {
 
-    private lateinit var commandManager: CommandManager
+//    private lateinit var commandManager: CommandManager
 
     private var config = Config()
     private var location = config.getLocation()
 
     private inner class Config {
-        val configData = ConfigData(path.toFile(), "config.json")
+        val configData = ConfigData(path.toFile(), "SpawnModule/config.json")
         val jsonObject = GsonService.loadAsJsonObject(configData)
         val spawn = GsonConfig.multiPlaceJsonObject(jsonObject["Spawn"], "Spawn", configData.directory)
         val messages = SpigotGsonMessages(GsonConfig(configData)).availableMessages
+        val permissions = GsonStringMapWithSubs(jsonObject["Permissions"].asJsonObject).available
+        val commandNames = GsonStringMapWithSubs(jsonObject["CommandNames"].asJsonObject).available
 
         fun saveLocation(location: Location) {
             spawn.addProperty("World", location.world.name)
@@ -54,14 +59,16 @@ class SpawnModule @Inject private constructor(@DataDirectory private val path: P
             spawn.addProperty("Pitch", location.pitch)
         }
 
-        fun getLocation() = Location(
-            Bukkit.getWorld(spawn["World"].asString),
-            spawn["X"].asDouble,
-            spawn["Y"].asDouble,
-            spawn["Z"].asDouble,
-            spawn["Yaw"].asFloat,
-            spawn["Pitch"].asFloat
-        )
+        fun getLocation(): Location? {
+            return Location(
+                Bukkit.getWorld(spawn["World"]?.asString ?: return null) ?: return null,
+                spawn["X"]?.asDouble ?: return null,
+                spawn["Y"]?.asDouble ?: return null,
+                spawn["Z"]?.asDouble ?: return null,
+                spawn["Yaw"]?.asFloat ?: return null,
+                spawn["Pitch"]?.asFloat ?: return null
+            )
+        }
 
     }
 
@@ -69,10 +76,12 @@ class SpawnModule @Inject private constructor(@DataDirectory private val path: P
     @Subscribe
     fun on(event: ModulesLoadedEvent) {
 
-        commandManager.commands += SpawnCommand::class.java
-        commandManager.commands += SetSpawnCommand::class.java
+        SpawnCommand()
+        SetSpawnCommand()
 
-        // TODO REGISTER COMMANDS
+//        commandManager.commands += SpawnCommand::class.java
+//        commandManager.commands += SetSpawnCommand::class.java
+
     }
 
     @Subscribe
@@ -80,37 +89,37 @@ class SpawnModule @Inject private constructor(@DataDirectory private val path: P
         if (event.container.instance === this) config = Config()
     }
 
-    /**
-     * @author Lars Artmann | LartyHD
-     * Created by Lars Artmann | LartyHD on 06.12.2018 19:54.
-     * Current Version: 1.0 (06.12.2018 - 06.12.2018)
-     */
-    @Command("Spawn")
-    @Permission("SpawnModule.commands.<CommandName>")
-    private inner class SpawnCommand @Inject private constructor(@Sender private val player: Player) : Any() {
+    private inner class SpawnCommand : Command(
+        DarkFrame.instance,
+        config.commandNames.getNotNull("Spawn"),
+        config.permissions.getNotNull("SpawnModule.Command.Spawn")
+    ) {
 
-        @Implementation([])
-        private fun execute() {
-            player.teleport(location)
+        override fun perform(sender: CommandSender, args: Array<String>) = sender.isPlayer {
+            if (location == null) {
+                config.messages["Spawn.Teleportation.Failed"]?.apply { sender.sendMessage(this) }
+                return@isPlayer
+            }
+
+            config.messages["Spawn.Teleportation.Success"]?.apply { sender.sendMessage(this) }
+            it.teleport(location)
+            config.messages["Spawn.Teleportation.Successfully"]?.apply { sender.sendMessage(this) }
         }
 
     }
 
-    /**
-     * @author Lars Artmann | LartyHD
-     * Created by Lars Artmann | LartyHD on 06.12.2018 19:54.
-     * Current Version: 1.0 (06.12.2018 - 06.12.2018)
-     */
-    @Command("SetSpawn")
-    @Permission("SpawnModule.commands.<CommandName>")
-    private inner class SetSpawnCommand @Inject private constructor(@Sender private val player: Player) {
+    private inner class SetSpawnCommand : Command(
+        DarkFrame.instance,
+        config.commandNames.getNotNull("SetSpawn"),
+        config.permissions.getNotNull("SpawnModule.Command.SetSpawn")
+    ) {
 
-        @Implementation([])
-        private fun execute() {
-
+        override fun perform(sender: CommandSender, args: Array<String>) = sender.isPlayer {
             fun Float.round() = (this * 100).toInt() / 100F
 
-            val cloned = player.location.clone()
+            config.messages["Spawn.Set.Success"]?.apply { sender.sendMessage(this) }
+
+            val cloned = it.location.clone()
             val location = Location(
                 cloned.world,
                 cloned.blockX + 0.5,
@@ -123,9 +132,60 @@ class SpawnModule @Inject private constructor(@DataDirectory private val path: P
             config.saveLocation(location)
             this@SpawnModule.location = location
 
-            player.sendMessage(config.messages["SetSpawnSuccessfully"])
+            config.messages["Spawn.Set.Successfully"]?.apply { sender.sendMessage(this) }
         }
 
     }
+
+    private fun Map<String, String>.getNotNull(key: String) = this[key] ?: key
+
+
+//    /**
+//     * @author Lars Artmann | LartyHD
+//     * Created by Lars Artmann | LartyHD on 06.12.2018 19:54.
+//     * Current Version: 1.0 (06.12.2018 - 06.12.2018)
+//     */
+//    @Command("Spawn")
+//    @Permission("SpawnModule.commands.<CommandName>")
+//    private inner class SpawnCommand @Inject private constructor(@Sender private val player: Player) : Any() {
+//
+//        @Implementation([])
+//        private fun execute() {
+//            player.teleport(location)
+//        }
+//
+//    }
+//
+//    /**
+//     * @author Lars Artmann | LartyHD
+//     * Created by Lars Artmann | LartyHD on 06.12.2018 19:54.
+//     * Current Version: 1.0 (06.12.2018 - 06.12.2018)
+//     */
+//    @Command("SetSpawn")
+//    @Permission("SpawnModule.commands.<CommandName>")
+//    private inner class SetSpawnCommand @Inject private constructor(@Sender private val player: Player) {
+//
+//        @Implementation([])
+//        private fun execute() {
+//
+//            fun Float.round() = (this * 100).toInt() / 100F
+//
+//            val cloned = player.location.clone()
+//            val location = Location(
+//                cloned.world,
+//                cloned.blockX + 0.5,
+//                cloned.y,
+//                cloned.blockZ + 0.5,
+//                cloned.yaw.round(),
+//                cloned.pitch.round()
+//            )
+//
+//            config.saveLocation(location)
+//            this@SpawnModule.location = location
+//
+//            player.sendMessage(config.messages["SetSpawnSuccessfully"])
+//        }
+//
+//    }
 
 }

@@ -7,7 +7,6 @@ import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMap
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.general.message.GsonMessages
@@ -36,7 +35,7 @@ class BlockCraftingModule : Module, Listener(DarkFrame.instance) {
 	private var allowBypassPermission = false
 
 	override fun load() {
-        config = GsonService.load(GsonConfig(ConfigData(description.folder, "config.json")).configData)
+        config = GsonConfig(ConfigData(description.folder, "config.json"))
 	}
 
 	override fun start() {
