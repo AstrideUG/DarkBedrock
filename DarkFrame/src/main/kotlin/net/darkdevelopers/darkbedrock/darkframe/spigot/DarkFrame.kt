@@ -1,6 +1,8 @@
 package net.darkdevelopers.darkbedrock.darkframe.spigot
 
+import de.astride.darkbedrock.apis.modules.common.loader.ClassModuleLoader
 import de.astride.darkbedrock.apis.modules.common.loader.JavaModuleLoader
+import de.astride.darkbedrock.apis.modules.common.loader.ModuleLoader
 import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.ModulesCommand
 import net.darkdevelopers.darkbedrock.darkness.general.modules.manager.ClassJavaModuleManager
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.listener.EventsListener
@@ -33,7 +35,13 @@ class DarkFrame : DarkPlugin() {
 			ModulesCommand(this, mapOf("Class" to moduleManager.classModuleManager, "Java" to moduleManager.javaModuleManager))
 
             //New Module System
-            val loader = JavaModuleLoader(File("$dataFolder${File.separator}modules"))
+            //  Class
+            val directory = File("$dataFolder${File.separator}modules")
+            var loader: ModuleLoader = ClassModuleLoader(directory)
+            loader.detectModules()
+            loader.loadModules()
+            //  Java
+            loader = JavaModuleLoader(directory)
             loader.detectModules()
             loader.loadModules()
 		}
