@@ -38,7 +38,7 @@ object GsonService {
 	 */
 	private fun <J : JsonElement> loadAs(configData: ConfigData, name: String, check: (JsonElement) -> Boolean, cast: (JsonElement) -> J): J {
 		val load = load(configData.file)
-		return if (check(load)) cast(load) else throw ClassCastException("The loaded JsonElement is not a $name")
+        return if (check(load)) cast(load) else throw ClassCastException("The loaded JsonElement (${configData.file}) is not a $name")
 	}
 
 	/**

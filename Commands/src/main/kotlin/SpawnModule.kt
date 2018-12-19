@@ -43,7 +43,7 @@ class SpawnModule @Inject private constructor(@DataDirectory private val path: P
     private var location = config.getLocation()
 
     private inner class Config {
-        val configData = ConfigData(path.toFile(), "SpawnModule/config.json")
+        val configData = ConfigData(path.toFile(), "config.json")
         val jsonObject = GsonService.loadAsJsonObject(configData)
         val spawn = GsonConfig.multiPlaceJsonObject(jsonObject["Spawn"], "Spawn", configData.directory)
         val messages = SpigotGsonMessages(GsonConfig(configData)).availableMessages

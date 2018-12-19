@@ -53,9 +53,9 @@ abstract class ModuleLoader(val directory: File) {
     abstract fun loadModules()
 
     fun detectModules() = createFolders({
-        val name = addModules(directory)
-        if (detectedModules.isEmpty()) /*logger.info*/ println("No modules in the directory: $name")
-        else /*logger.info*/ println("Found modules in the directory: $name: $detectedModules")
+        addModules(directory)
+        if (detectedModules.isEmpty()) /*logger.info*/ println("No modules in the directory: $directory by type $type")
+        else /*logger.info*/ println("Found modules in the directory: $directory: $detectedModules by type $type")
     }, { /*logger.error*/System.err.println("The directory \"$directory\" could not be created") })
 
     protected fun loadModule(folder: File, clazz: String) {

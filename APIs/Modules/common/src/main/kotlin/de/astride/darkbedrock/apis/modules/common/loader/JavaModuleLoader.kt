@@ -16,7 +16,7 @@ class JavaModuleLoader(directory: File) : ModuleLoader(directory) {
 
     val modulesToLoad = mutableMapOf<String, String>()
     override val detectedModules get() = modulesToLoad.keys
-    override val type: String = javaClass.simpleName.drop("ModuleLoader".length)
+    override val type: String = javaClass.simpleName.dropLast("ModuleLoader".length)
 
     override fun loadModules() {
         modulesToLoad.forEach { loadModule(directory, it.value) }

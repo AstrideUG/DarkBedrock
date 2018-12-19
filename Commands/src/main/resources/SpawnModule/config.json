@@ -1,4 +1,12 @@
 {
+  "Messages": {
+    "language": "de_DE",
+    "languages": {
+      "Spawn.Teleportation.Failed": null,
+      "Spawn.Teleportation.Success": null,
+      "Spawn.Teleportation.Successfully": null
+    }
+  },
   "Spawn": {
   },
   "Permissions": {

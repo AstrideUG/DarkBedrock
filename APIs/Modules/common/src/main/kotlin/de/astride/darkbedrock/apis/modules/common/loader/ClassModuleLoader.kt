@@ -16,7 +16,7 @@ import java.io.File
 class ClassModuleLoader(directory: File) : ModuleLoader(directory) {
 
     override val detectedModules = mutableSetOf<String>()
-    override val type = javaClass.simpleName.drop("ModuleLoader".length)
+    override val type = javaClass.simpleName.dropLast("ModuleLoader".length)
 
     override fun loadModules() {
         detectedModules.forEach { loadModule(directory, it) }
