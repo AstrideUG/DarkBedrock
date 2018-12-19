@@ -71,17 +71,14 @@ abstract class ModuleLoader(val directory: File) {
                 module.description,
                 module.url,
                 module.authors.toList(),
-                module.dependencies.map {
-                    ModuleDependency(it.id, SimpleVersion.byString(it.version), it.optional)
-                },
+                module.dependencies.map { ModuleDependency(it.id, SimpleVersion.byString(it.version), it.optional) },
                 folder.toPath().resolve(module.name),
                 rawClass
             )
             val moduleContainer = create(description, eventManager)
             eventManager.register(moduleContainer.instance, moduleContainer.instance)
             modules.add(moduleContainer)
-            /*logger.info*/println(
-                """
+            """
 
                 Module infos:
                 ID: ${description.id}
@@ -94,8 +91,7 @@ abstract class ModuleLoader(val directory: File) {
                 Source: ${description.source}
                 Class: ${description.clazz}
 
-                """.trimIndent()
-            )
+            """.trimIndent().lines().forEach { println(it) }
             module.moduleLog("Loaded")
             eventManager.fireAndForget(ModuleLoadedEvent(moduleContainer))
         } catch (ex: Throwable) {

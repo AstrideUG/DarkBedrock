@@ -24,7 +24,7 @@ class DarkFrame : DarkPlugin() {
 
 	private var moduleManager: ClassJavaModuleManager by Delegates.notNull()
 	private val messages =
-        SpigotGsonMessages(GsonConfig(ConfigData(dataFolder, "messages.json")).load()).availableMessages
+		SpigotGsonMessages(GsonConfig(ConfigData(dataFolder, "config.json")).load()).availableMessages
 
 	init {
 //        if (!KotlinVersion.CURRENT.isAtLeast(1, 2, 61)) throw IllegalStateException("Current KotlinVersion is to low. Use 1.2.61 or higher")
@@ -36,13 +36,16 @@ class DarkFrame : DarkPlugin() {
 			EventsListener.getSimpleInstance(this)
 
             //Old Module System
+			println("Enable Old Module System")
             moduleManager = ClassJavaModuleManager(File("$dataFolder${File.separator}old"))
 			OldModulesCommand(
 				this,
 				mapOf("Class" to moduleManager.classModuleManager, "Java" to moduleManager.javaModuleManager)
 			)
+			println("Enabled Old Module System")
 
             //New Module System
+			println("Enable New Module System")
 			val directory = File("$dataFolder${File.separator}modules")
 			val loader = setOf(ClassModuleLoader(directory), JavaModuleLoader(directory))
 			ModulesCommand(this, loader, messages)
@@ -50,6 +53,7 @@ class DarkFrame : DarkPlugin() {
 				it.detectModules()
 				it.loadModules()
 			}
+			println("Enabled New Module System")
 		}
 	}
 

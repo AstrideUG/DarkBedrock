@@ -1,0 +1,13 @@
+{
+  "Messages": {
+    "language": "de_DE",
+    "languages": {
+      "de_DE": {
+        "DarkFrame.Command.Modules.Reload.All.Running": null,
+        "DarkFrame.Command.Modules.Reload.All.Finished": null,
+        "DarkFrame.Command.Modules.Reload.One.Running": null,
+        "DarkFrame.Command.Modules.Reload.One.Finished": null
+      }
+    }
+  }
+}
