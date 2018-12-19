@@ -6,7 +6,6 @@ import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.ModulesCommand
 import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.OldModulesCommand
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
 import net.darkdevelopers.darkbedrock.darkness.general.modules.manager.ClassJavaModuleManager
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.listener.EventsListener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessages
@@ -25,16 +24,7 @@ class DarkFrame : DarkPlugin() {
 
 	private var moduleManager: ClassJavaModuleManager by Delegates.notNull()
 	private val messages =
-		SpigotGsonMessages(
-			GsonService.load(
-				GsonConfig(
-					ConfigData(
-						dataFolder,
-						"messages.json"
-					)
-				).configData
-			)
-		).availableMessages
+        SpigotGsonMessages(GsonConfig(ConfigData(dataFolder, "messages.json")).load()).availableMessages
 
 	init {
 //        if (!KotlinVersion.CURRENT.isAtLeast(1, 2, 61)) throw IllegalStateException("Current KotlinVersion is to low. Use 1.2.61 or higher")

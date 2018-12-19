@@ -204,7 +204,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 
 	}
 
-	@Deprecated("Use GsonService", ReplaceWith("GsonService.load(configData)", "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService"))
+	@Deprecated("Use GsonService"/*, ReplaceWith("GsonService.load(configData)", "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService")*/)
 	override fun load(): GsonConfig {
 		try {
 			jsonObject = JsonParser().parse(String(Files.readAllBytes(getFile().toPath()))).asJsonObject

@@ -8,7 +8,6 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMapWithSubs
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 
@@ -65,16 +64,8 @@ open class GsonMessages(private val config: GsonConfig) {
 	private fun jsonObjectConsideringExternalFiles(key1: String, key2: String, jsonObject: JsonObject): JsonObject? =
 			if (useExternalFiles) jsonObjectByFile(key1) else config.getAs(key2, jsonObject)
 
-	private
-
-	fun jsonObjectByFile(fileName: String) = GsonService.load(
-		GsonConfig(
-			ConfigData(
-				"${config.getDirectory()}languages",
-				"$fileName.json"
-			)
-		).configData
-	).jsonObject
+	private fun jsonObjectByFile(fileName: String) =
+		GsonConfig(ConfigData("${config.getDirectory()}languages", "$fileName.json")).jsonObject
 
 	private fun replace(input: String, key: String, value: String) = input.replace("%$key%", value, true)
 
