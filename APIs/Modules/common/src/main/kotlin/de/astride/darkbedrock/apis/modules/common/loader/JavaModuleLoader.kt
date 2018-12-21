@@ -26,12 +26,11 @@ class JavaModuleLoader(directory: File) : ModuleLoader(directory) {
     }
 
     /*companion object {
-        */
     /**
      * @author Lars Artmann | LartyHD
      * Created by Lars Artmann | LartyHD on 06.12.2018 00:12.
      * Current Version: 1.0 (06.12.2018 - 06.12.2018)
-     *//*
+     */
         const val descriptionFile: String = "module-info.json"
     }
 
