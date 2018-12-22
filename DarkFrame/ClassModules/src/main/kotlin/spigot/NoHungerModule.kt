@@ -38,7 +38,7 @@ class NoHungerModule : Module, Listener(DarkFrame.instance) {
     fun on(event: FoodLevelChangeEvent) {
         val worlds = worlds.toWorlds()
         if (event.foodLevel > (event.entity as Player).foodLevel) return
-        if (!worlds.isEmpty() && !worlds.contains(event.entity.world)) return
+        if (!worlds.isEmpty() && event.entity.world !in worlds) return
         cancel(event)
     }
 
