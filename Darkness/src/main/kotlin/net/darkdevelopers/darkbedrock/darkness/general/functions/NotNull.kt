@@ -26,4 +26,4 @@ inline fun <reified T : Any> T?.toNonNull(name: String, lambda: (T) -> Unit): Un
 @ExperimentalContracts
 inline fun <reified T : Any> T?.toNonNull(lambda: (T) -> Unit): Unit = toNonNull(T::class.java.simpleName, lambda)
 
-fun Map<String, String>.getNotNull(key: String) = this[key] ?: key
+fun Map<String, String>.getOrKey(key: String) = this[key] ?: key
