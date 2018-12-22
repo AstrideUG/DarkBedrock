@@ -9,8 +9,12 @@ import org.bukkit.command.CommandSender
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 31.08.2018 19:15.
- * Last edit 31.08.2018
+ * Last edit 22.12.2018
  */
 var messages = mutableMapOf<String, String>()
 
 fun CommandSender.sendConfigurableMessage(name: String) = sendMessage(messages[name])
+
+fun String?.sendIfNotNull(sender: CommandSender) = this?.sendTo(sender)
+
+fun String.sendTo(sender: CommandSender) = this.apply { sender.sendMessage(this) }

@@ -8,6 +8,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.functions.getNotNull
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.Command
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendIfNotNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessages
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
@@ -42,25 +43,30 @@ class FeedModule : Module {
         DarkFrame.instance,
         config.commandName,
         config.permissions.getNotNull(prefix),
-        usage = "[Player (UUID/NAME)]:${config.permissions.getNotNull("$prefix.Other")}",
+        usage = "[Player]:${config.permissions.getNotNull("$prefix.Other")}",
         maxLength = 1,
         tabCompleter = TabCompleter { _, _, _, args -> if (args.isEmpty()) Utils.getPlayers().map { it.name } else listOf<String>() }
     ) {
 
-        override fun perform(sender: CommandSender, args: Array<String>) = if (args.isEmpty()) sender.isPlayer {
-            config.messages["$prefix.Success"].sendIfNotNull(sender)
-            it.feed()
-            config.messages["$prefix.Successfully"].sendIfNotNull(sender)
-        } else {
-            val player: Player? = try {
-                Bukkit.getPlayer(UUID.fromString(args[0]))
-            } catch (ex: IllegalArgumentException) {
-                Bukkit.getPlayer(args[0])
-            }
-            getTarget(sender, player) {
-                config.messages["$prefix.Other.Success"].sendIfNotNull(sender)
+        override fun perform(sender: CommandSender, args: Array<String>) {
+            val messages = config.messages
+            if (args.isEmpty()) sender.isPlayer {
+                messages["$prefix.Success"].sendIfNotNull(sender)
                 it.feed()
-                config.messages["$prefix.Other.Successfully"].sendIfNotNull(sender)
+                messages["$prefix.Successfully"].sendIfNotNull(sender)
+            } else {
+                val player: Player? = try {
+                    Bukkit.getPlayer(UUID.fromString(args[0]))
+                } catch (ex: IllegalArgumentException) {
+                    Bukkit.getPlayer(args[0])
+                }
+                getTarget(sender, player) {
+                    messages["$prefix.Other.Sender.Success"].sendIfNotNull(sender)
+                    messages["$prefix.Other.Target.Success"].sendIfNotNull(it)
+                    it.feed()
+                    messages["$prefix.Other.Sender.Successfully"].sendIfNotNull(sender)
+                    messages["$prefix.Other.Target.Successfully"].sendIfNotNull(it)
+                }
             }
         }
 
@@ -70,11 +76,12 @@ class FeedModule : Module {
         val configData = ConfigData(description.folder, "config.json")
         val jsonObject = GsonService.loadAsJsonObject(configData)
         val messages = SpigotGsonMessages(GsonConfig(configData).load()).availableMessages
-        val permissions = GsonStringMapWithSubs(jsonObject["Permissions"]?.asJsonObject ?: JsonObject()).available
-        val commandName = jsonObject["CommandName"]?.asString ?: defaultCommandName
+        val permissions = GsonStringMapWithSubs(jsonObject["permissions"]?.asJsonObject ?: JsonObject()).available
+        val commandName = jsonObject["command-name"]?.asString ?: defaultCommandName
     }
 
     companion object {
+
         const val defaultCommandName = "Feed"
 
         private fun Player.feed() {
@@ -82,11 +89,6 @@ class FeedModule : Module {
             saturation = 20F
         }
 
-        //TODO add to Darkness
-        private fun String?.sendIfNotNull(sender: CommandSender) = this?.sendTo(sender)
-
-        //TODO add to Darkness
-        private fun String.sendTo(sender: CommandSender) = this.apply { sender.sendMessage(this) }
     }
 
 
