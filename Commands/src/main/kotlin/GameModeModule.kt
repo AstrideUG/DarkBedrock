@@ -24,8 +24,8 @@ class GameModeModule : SimplePermissionsCommandModule("GameMode") {
             maxLength = 2,
             tabCompleter = TabCompleter { _, _, _, args ->
                 when (args.size) {
-                    0 -> GameMode.values().map { it.name }
-                    1 -> Utils.getPlayers().map { it.name }
+                    1 -> GameMode.values().map { it.name }
+                    2 -> Utils.getPlayers().map { it.name }
                     else -> listOf<String>()
                 }
             },

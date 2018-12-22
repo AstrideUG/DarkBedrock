@@ -30,7 +30,7 @@ abstract class SimplePlayerCommandModule(defaultCommandName: String) :
         usage: String = "[Player]:$otherPerms",
         minLength: Int = 0,
         maxLength: Int = 1,
-        tabCompleter: TabCompleter? = TabCompleter { _, _, _, args -> if (args.isEmpty()) Utils.getPlayers().map { it.name } else listOf<String>() },
+        tabCompleter: TabCompleter? = TabCompleter { _, _, _, args -> if (args.size == 1) Utils.getPlayers().map { it.name } else listOf<String>() },
         vararg aliases: String
     ) : PermissionCommand(
         javaPlugin,
