@@ -42,7 +42,6 @@ abstract class Command(val javaPlugin: JavaPlugin,
 		val commandMap = ReflectUtils.getValueAs<CommandMap>(Bukkit.getServer(), "commandMap")
 		if (commandMap != null) {
 			val command = ExternalPluginCommand(commandName, javaPlugin)
-			commandMap.register(javaPlugin.name, command)
 			if (maxLength > 0) usage = when {
 				minLength == 0 -> "|[help]|$usage"
 				hasHelp -> "help|$usage"
@@ -55,6 +54,7 @@ abstract class Command(val javaPlugin: JavaPlugin,
 				this.tabCompleter = tabCompleter
 			}
 			command.executor = this
+			commandMap.register(javaPlugin.name, command)
 		}
 	}
 
