@@ -19,7 +19,7 @@ class GameModeModule : SimplePermissionsCommandModule("GameMode") {
     override val command: () -> PermissionCommand = {
         object : PermissionCommand(
             DarkFrame.instance,
-            usage = "<$defaultCommandName>$singlePerms|<$defaultCommandName> [Player]:$otherPerms",
+            usage = "<$defaultCommandName>:$singlePerms|<$defaultCommandName> [Player]:$otherPerms",
             minLength = 1,
             maxLength = 2,
             tabCompleter = TabCompleter { _, _, _, args ->
