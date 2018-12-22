@@ -14,7 +14,7 @@ import java.nio.file.Files
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 20.10.2018 17:36.
- * Current Version: 1.0 (20.10.2018 - 20.10.2018)
+ * Current Version: 1.0 (20.10.2018 - 22.12.2018)
  */
 object GsonService {
 
@@ -89,9 +89,11 @@ object GsonService {
 	 * Cast the loaded [JsonElement] by [File] to [JsonObject]
 	 *
 	 * @throws ClassCastException when [check] is `false`
-	 * @since 1.0 (20.10.2018 - 20.10.2018)
+	 * @since 1.0 (20.10.2018 - 22.12.2018)
 	 */
-	fun loadAsJsonObject(file: File): JsonObject = loadAs(file, "JsonObject", { it.isJsonObject }, { it.asJsonObject })
+	fun loadAsJsonObject(file: File): JsonObject = loadAs(file, "JsonObject", { file.isFile and (it.isJsonObject or (file.length() == 0L)) }, {
+		if(file.length() == 0L) JsonObject() else it.asJsonObject
+	})
 
 	/**
 	 * @author Lars Artmann | LartyHD
@@ -99,9 +101,11 @@ object GsonService {
 	 * Cast the loaded [JsonElement] by [File] to [JsonArray]
 	 *
 	 * @throws ClassCastException when [check] is `false`
-	 * @since 1.0 (20.10.2018 - 20.10.2018)
+	 * @since 1.0 (20.10.2018 - 22.12.2018)
 	 */
-	fun loadAsJsonArray(file: File): JsonArray = loadAs(file, "JsonArray", { it.isJsonArray }, { it.asJsonArray })
+	fun loadAsJsonArray(file: File): JsonArray = loadAs(file, "JsonArray", { file.isFile and (it.isJsonArray or (file.length() == 0L)) }, {
+		if(file.length() == 0L) JsonArray() else it.asJsonArray
+	})
 
 	/**
 	 * @author Lars Artmann | LartyHD
