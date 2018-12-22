@@ -21,7 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin
 abstract class SimplePlayerCommandModule(defaultCommandName: String) :
     SimplePermissionsCommandModule(defaultCommandName) {
 
-    protected val otherPerms: String = config.permissions.getOrKey("$prefix.Other")
+    protected val otherPerms: String get() = config.permissions.getOrKey("$prefix.Other")
 
     protected inner class PlayerCommand(
         javaPlugin: JavaPlugin,
@@ -44,7 +44,14 @@ abstract class SimplePlayerCommandModule(defaultCommandName: String) :
     ) {
 
         override fun perform(sender: CommandSender, args: Array<String>) =
-            possiblePlayer(config.messages, prefix, sender, args[0], singlePerms, otherPerms) { cs: CommandSender, target: Player -> execute(cs, target) }
+            possiblePlayer(
+                config.messages,
+                prefix,
+                sender,
+                args[0],
+                singlePerms,
+                otherPerms
+            ) { cs: CommandSender, target: Player -> execute(cs, target) }
 
     }
 

@@ -8,12 +8,8 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMa
 import net.darkdevelopers.darkbedrock.darkness.general.functions.getOrKey
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.possiblePlayer
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessages
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
-import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
-import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -33,7 +29,7 @@ abstract class SimplePermissionsCommandModule(protected val defaultCommandName: 
     protected lateinit var config: Config
     protected val prefix get() = "${description.name}.Command.$defaultCommandName"
     protected abstract val command: () -> PermissionCommand
-    protected val singlePerms = config.permissions.getOrKey(prefix)
+    protected val singlePerms get() = config.permissions.getOrKey(prefix)
 
     override fun load() {
         config = Config()

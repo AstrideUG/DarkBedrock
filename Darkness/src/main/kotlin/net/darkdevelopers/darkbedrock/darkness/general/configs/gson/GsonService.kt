@@ -49,7 +49,7 @@ object GsonService {
 	 * @throws ClassCastException when [check] is `false`
 	 * @since 1.0 (20.10.2018 - 20.10.2018)
 	 */
-	fun loadAsJsonObject(configData: ConfigData): JsonObject = loadAs(configData, "JsonObject", { it.isJsonObject }, { it.asJsonObject })
+	fun loadAsJsonObject(configData: ConfigData): JsonObject = loadAsJsonObject(configData.file)
 
 	/**
 	 * @author Lars Artmann | LartyHD
@@ -59,7 +59,7 @@ object GsonService {
 	 * @throws ClassCastException when [check] is `false`
 	 * @since 1.0 (20.10.2018 - 20.10.2018)
 	 */
-	fun loadAsJsonArray(configData: ConfigData): JsonArray = loadAs(configData, "JsonArray", { it.isJsonArray }, { it.asJsonArray })
+	fun loadAsJsonArray(configData: ConfigData): JsonArray = loadAsJsonArray(configData.file)
 
 	/**
 	 * @author Lars Artmann | LartyHD
