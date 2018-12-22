@@ -63,7 +63,7 @@ subprojects {
     sourceSets["test"].java.srcDirs("src/test/kotlin")
 
     repositories {
-        mavenLocal()
+        //mavenLocal()
         mavenCentral()
         jcenter()
         google()
@@ -72,6 +72,7 @@ subprojects {
         maven { url = URI("https://oss.sonatype.org/content/groups/public/") }
         maven { url = URI("https://oss.sonatype.org/content/repositories/snapshots/") }
         maven { url = URI("http://repo.dmulloy2.net/content/groups/public/") }
+        maven { url = URI("https://repo.velocitypowered.com/snapshots/") }
     }
 
     dependencies {

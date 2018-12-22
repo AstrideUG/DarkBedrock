@@ -1,6 +1,4 @@
-/*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
- */
+package spigot
 
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
@@ -9,16 +7,16 @@ import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toWorlds
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
-import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
-import org.bukkit.event.entity.FoodLevelChangeEvent
+import org.bukkit.event.block.Action
+import org.bukkit.event.player.PlayerInteractEvent
 
 /**
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 02.12.2018 21:28.
- * Current Version: 1.0 (02.12.2018 - 22.12.2018)
+ * Created by Lars Artmann | LartyHD on 22.12.2018 13:56.
+ * Current Version: 1.0 (22.12.2018 - 22.12.2018)
  */
-class NoHungerModule : Module, Listener(DarkFrame.instance) {
+class BlockPhysicalInteraction : Module, Listener(DarkFrame.instance) {
 
     override val description: ModuleDescription =
         ModuleDescription(javaClass.canonicalName, "1.0", "Lars Artmann | LartyHD", "")
@@ -35,10 +33,10 @@ class NoHungerModule : Module, Listener(DarkFrame.instance) {
     }
 
     @EventHandler
-    fun on(event: FoodLevelChangeEvent) {
+    fun on(event: PlayerInteractEvent) {
         val worlds = worlds.toWorlds()
-        if (event.foodLevel > (event.entity as Player).foodLevel) return
-        if (!worlds.isEmpty() && !worlds.contains(event.entity.world)) return
+        if (event.action != Action.PHYSICAL) return
+        if (!worlds.isEmpty() && !worlds.contains(event.player.world)) return
         cancel(event)
     }
 
