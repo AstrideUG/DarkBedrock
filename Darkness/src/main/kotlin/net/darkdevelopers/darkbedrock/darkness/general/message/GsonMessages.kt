@@ -19,10 +19,10 @@ import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
  */
 open class GsonMessages(private val config: GsonConfig) {
 
-	private val jsonObject = config.getAsNotNull<JsonObject>("Messages")
+	private val jsonObject = config.getAs<JsonObject>("Messages") ?: JsonObject()
 	private val useExternalFiles = config.getAs<JsonPrimitive>("UseExternalFiles", jsonObject)?.asBoolean ?: false
 	private val language = config.getAs<JsonPrimitive>("language", jsonObject)?.asString ?: "en_US"
-	private val languages = jsonObjectConsideringExternalFiles(language, "languages", jsonObject).toNonNull()
+	private val languages = jsonObjectConsideringExternalFiles(language, "languages", jsonObject) ?: JsonObject()
 	private val acrossLanguagesMessages = jsonObjectConsideringExternalFiles("across-languages", languages)
 	private val messages = config.getAsNotNull<JsonObject>(language, languages)
 	private val gsonStringMap = GsonStringMapWithSubs(messages)
