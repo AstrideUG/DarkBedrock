@@ -43,27 +43,25 @@ class FeedModule : Module {
         DarkFrame.instance,
         config.commandName,
         config.permissions.getNotNull(prefix),
-        usage = "[Player ()]:${config.permissions.getNotNull("$prefix.Other")}",
+        usage = "[Player (UUID/NAME)]:${config.permissions.getNotNull("$prefix.Other")}",
         maxLength = 1,
         tabCompleter = TabCompleter { _, _, _, args -> if (args.isEmpty()) Utils.getPlayers().map { it.name } else listOf<String>() }
     ) {
 
-        override fun perform(sender: CommandSender, args: Array<String>) {
-            if (args.isEmpty()) sender.isPlayer {
-                config.messages["$prefix.Success"]?.apply { sender.sendMessage(this) }
+        override fun perform(sender: CommandSender, args: Array<String>) = if (args.isEmpty()) sender.isPlayer {
+            config.messages["$prefix.Success"]?.apply { sender.sendMessage(this) }
+            it.feed()
+            config.messages["$prefix.Successfully"]?.apply { sender.sendMessage(this) }
+        } else {
+            val player: Player? = try {
+                Bukkit.getPlayer(UUID.fromString(args[0]))
+            } catch (ex: IllegalArgumentException) {
+                Bukkit.getPlayer(args[0])
+            }
+            getTarget(sender, player) {
+                config.messages["$prefix.Other.Success"]?.apply { sender.sendMessage(this) }
                 it.feed()
-                config.messages["$prefix.Successfully"]?.apply { sender.sendMessage(this) }
-            } else {
-                val player: Player? = try {
-                    Bukkit.getPlayer(UUID.fromString(args[0]))
-                } catch (ex: IllegalArgumentException) {
-                    Bukkit.getPlayer(args[0])
-                }
-                getTarget(sender, player) {
-                    config.messages["$prefix.Other.Success"]?.apply { sender.sendMessage(this) }
-                    it.feed()
-                    config.messages["$prefix.Other.Successfully"]?.apply { sender.sendMessage(this) }
-                }
+                config.messages["$prefix.Other.Successfully"]?.apply { sender.sendMessage(this) }
             }
         }
 
