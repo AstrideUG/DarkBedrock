@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
  */
 class FeedModule : DarkFrameSimplePlayerCommandModule("Feed") {
 
-    override fun CommandSender.execute(target: Player) {
+    override fun execute(sender: CommandSender, target: Player) {
         target.foodLevel = 20
         target.saturation = 20F
     }

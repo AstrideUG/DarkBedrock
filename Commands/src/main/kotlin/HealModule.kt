@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
  */
 class HealModule : DarkFrameSimplePlayerCommandModule("Heal") {
 
-    override fun CommandSender.execute(target: Player) {
+    override fun execute(sender: CommandSender, target: Player) {
         target.foodLevel = 20
         target.saturation = 20F
         target.health = 20.0

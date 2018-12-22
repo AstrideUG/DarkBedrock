@@ -22,17 +22,23 @@ fun Command.possiblePlayer(
     prefix: String,
     sender: CommandSender,
     arg: String?,
-    execute: CommandSender.(Player) -> Unit
+    singlePerms: String,
+    otherPerms: String,
+    execute: (CommandSender, Player) -> Unit
 ) {
     if (arg == null) sender.isPlayer {
-        messages["$prefix.Success"].sendIfNotNull(sender)
-        execute(sender, it)
-        messages["$prefix.Successfully"].sendIfNotNull(sender)
+        hasPermission(sender, singlePerms){
+            messages["$prefix.Success"].sendIfNotNull(sender)
+            execute(sender, it)
+            messages["$prefix.Successfully"].sendIfNotNull(sender)
+        }
     } else getTarget(sender, arg.toPlayer()) {
-        messages["$prefix.Other.Sender.Success"].sendIfNotNull(sender)
-        messages["$prefix.Other.Target.Success"].sendIfNotNull(it)
-        execute(sender, it)
-        messages["$prefix.Other.Sender.Successfully"].sendIfNotNull(sender)
-        messages["$prefix.Other.Target.Successfully"].sendIfNotNull(it)
+        hasPermission(sender, otherPerms){
+            messages["$prefix.Other.Sender.Success"].sendIfNotNull(sender)
+            messages["$prefix.Other.Target.Success"].sendIfNotNull(it)
+            execute(sender, it)
+            messages["$prefix.Other.Sender.Successfully"].sendIfNotNull(sender)
+            messages["$prefix.Other.Target.Successfully"].sendIfNotNull(it)
+        }
     }
 }

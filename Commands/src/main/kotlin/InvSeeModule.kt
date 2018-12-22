@@ -10,6 +10,6 @@ import org.bukkit.entity.Player
  */
 class InvSeeModule : DarkFrameSimplePlayerCommandModule("InvSee") {
 
-    override fun CommandSender.execute(target: Player) = this.isPlayer { it.openInventory(target.inventory) }
+    override fun execute(sender: CommandSender, target: Player) = sender.isPlayer { it.openInventory(target.inventory) }
 
 }
