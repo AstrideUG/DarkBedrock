@@ -48,7 +48,7 @@ abstract class SimplePlayerCommandModule(defaultCommandName: String) :
                 config.messages,
                 prefix,
                 sender,
-                args[0],
+                if(args.isEmpty()) null else args[0],
                 singlePerms,
                 otherPerms
             ) { cs: CommandSender, target: Player -> execute(cs, target) }
