@@ -238,12 +238,7 @@ open class GsonConfig(override val configData: ConfigData, var jsonObject: JsonO
 	@Suppress("MemberVisibilityCanBePrivate")
 	fun <O> getAs(key: String, jsonObject: JsonObject): O? {
 		@Suppress("UNCHECKED_CAST")
-		val any = jsonObject[key] as? O
-		if (any == null) {
-			put(key, JsonNull.INSTANCE)
-			GsonService.save(configData, this.jsonObject)
-		}
-		return any
+		return jsonObject[key] as? O
 	}
 
 

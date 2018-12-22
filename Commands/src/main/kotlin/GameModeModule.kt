@@ -2,6 +2,7 @@ import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.functions.getOrKey
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.SimplePermissionsCommandModule
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.possiblePlayer
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toGameMode
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
 import org.bukkit.GameMode
 import org.bukkit.command.CommandSender
@@ -14,7 +15,7 @@ import org.bukkit.entity.Player
  * Current Version: 1.0 (22.12.2018 - 22.12.2018)
  */
 class GameModeModule : SimplePermissionsCommandModule("GameMode") {
-    private val otherPerms = config.permissions.getOrKey("$singlePerms.Other")
+    private val otherPerms get() = config.permissions.getOrKey("$singlePerms.Other")
     override val command: () -> PermissionCommand = {
         object : PermissionCommand(
             DarkFrame.instance,
@@ -31,19 +32,14 @@ class GameModeModule : SimplePermissionsCommandModule("GameMode") {
             aliases = *arrayOf("GM", "Mode")
         ) {
             override fun perform(sender: CommandSender, args: Array<String>) {
-                val gameMode = try {
-                    val id = args[0].toIntOrNull()
-                    if (id != null) org.bukkit.GameMode.getByValue(id) else org.bukkit.GameMode.valueOf(args[0].toUpperCase())
-                } catch (ex: Exception) {
-                    null
-                }
+                val gameMode = args[0].toGameMode()
                 if (gameMode == null) sendUseMessage(sender)
                 else {
                     possiblePlayer(
                         config.messages,
                         prefix,
                         sender,
-                        args[1],
+                        if(args.size == 1) null else args[1],
                         singlePerms,
                         otherPerms
                     ) { _: CommandSender, target: Player -> target.gameMode = gameMode }
