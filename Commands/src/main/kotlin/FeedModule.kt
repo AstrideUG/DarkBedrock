@@ -12,7 +12,6 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessage
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
 import org.bukkit.Bukkit
-import org.bukkit.OfflinePlayer
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
@@ -49,9 +48,9 @@ class FeedModule : Module {
     ) {
 
         override fun perform(sender: CommandSender, args: Array<String>) = if (args.isEmpty()) sender.isPlayer {
-            config.messages["$prefix.Success"]?.apply { sender.sendMessage(this) }
+            config.messages["$prefix.Success"].sendIfNotNull(sender)
             it.feed()
-            config.messages["$prefix.Successfully"]?.apply { sender.sendMessage(this) }
+            config.messages["$prefix.Successfully"].sendIfNotNull(sender)
         } else {
             val player: Player? = try {
                 Bukkit.getPlayer(UUID.fromString(args[0]))
@@ -59,9 +58,9 @@ class FeedModule : Module {
                 Bukkit.getPlayer(args[0])
             }
             getTarget(sender, player) {
-                config.messages["$prefix.Other.Success"]?.apply { sender.sendMessage(this) }
+                config.messages["$prefix.Other.Success"].sendIfNotNull(sender)
                 it.feed()
-                config.messages["$prefix.Other.Successfully"]?.apply { sender.sendMessage(this) }
+                config.messages["$prefix.Other.Successfully"].sendIfNotNull(sender)
             }
         }
 
@@ -82,6 +81,12 @@ class FeedModule : Module {
             foodLevel = 20
             saturation = 20F
         }
+
+        //TODO add to Darkness
+        private fun String?.sendIfNotNull(sender: CommandSender) = this?.sendTo(sender)
+
+        //TODO add to Darkness
+        private fun String.sendTo(sender: CommandSender) = this.apply { sender.sendMessage(this) }
     }
 
 
