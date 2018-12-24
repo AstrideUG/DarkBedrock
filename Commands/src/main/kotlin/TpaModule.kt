@@ -1,11 +1,12 @@
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.SimplePlayerCommandModule
+import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendIfNotNull
+import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
-import net.md_5.bungee.api.chat.TextComponent
-import net.md_5.bungee.chat.TextComponentSerializer
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
 import java.util.*
 
 /**
@@ -24,6 +25,11 @@ class TpaModule : SimplePlayerCommandModule("Tpa") {
         )
     }
     private val map = mutableMapOf<UUID, MutableList<UUID>>() //Sender, MutableList<Target>
+
+    override fun start() {
+        super.start()
+        TpaListener()
+    }
 
     override fun execute(sender: CommandSender, target: Player, args: Array<String>) {
         if (sender === target) config.messages["$prefix.SendToHimSelf.Failed"].sendIfNotNull(sender)
@@ -46,7 +52,6 @@ class TpaModule : SimplePlayerCommandModule("Tpa") {
                     config.messages["$prefix.Add.Failed.IsAlreadyInTheMap"].sendIfNotNull(sender)
                 else -> {
                     //TextComponentSerializer.
-
                     "$prefix.Add.Sender.Success".sendReplaced(sender, player, target)
                     "$prefix.Add.Target.Success".sendReplaced(target, player, target)
                     map.putIfAbsent(target.uniqueId, mutableListOf())?.plusAssign(player.uniqueId)
@@ -57,11 +62,20 @@ class TpaModule : SimplePlayerCommandModule("Tpa") {
         }
     }
 
-    private fun String.sendReplaced(sender: CommandSender, player: Player, target: Player){
+    private fun String.sendReplaced(sender: CommandSender, player: Player, target: Player) {
         config.messages[this]
             ?.replace("<Player>", player.name, true)
             ?.replace("<Target>", target.name, true)
             .sendIfNotNull(sender)
+    }
+
+    private inner class TpaListener : Listener(DarkFrame.instance) {
+
+        @EventHandler
+        fun on(event: PlayerDisconnectEvent) {
+            map.remove(event.player.uniqueId)
+        }
+
     }
 
 }
