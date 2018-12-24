@@ -73,6 +73,7 @@ subprojects {
         maven { url = URI("https://oss.sonatype.org/content/repositories/snapshots/") }
         maven { url = URI("http://repo.dmulloy2.net/content/groups/public/") }
         maven { url = URI("https://repo.velocitypowered.com/snapshots/") }
+        maven { url = URI("http://repo.spongepowered.org/maven") }
     }
 
     dependencies {

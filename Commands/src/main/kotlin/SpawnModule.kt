@@ -39,7 +39,7 @@ class SpawnModule : Module {
     )
 
     private lateinit var config: Config
-    private lateinit var listner: org.bukkit.event.Listener
+    private lateinit var listener: org.bukkit.event.Listener
     private var location: Location? = null
 
     override fun load() {
@@ -50,7 +50,7 @@ class SpawnModule : Module {
     override fun start() {
         SpawnCommand()
         SetSpawnCommand()
-        SpawnListener()
+        listener = SpawnListener()
     }
 
     private inner class Config {

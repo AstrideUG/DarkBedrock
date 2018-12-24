@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.resolve.calls.inference.CapturedType
 
 plugins {
     id("java")
+    id("org.spongepowered.plugin") version "0.9.0"
     id("com.github.johnrengelman.shadow") version "2.0.4"
     kotlin("jvm")
 }
@@ -17,6 +18,7 @@ dependencies {
     compile("com.velocitypowered", "velocity-api", extra["versions.velocity"].toString())
     compile("org.mongodb", "mongodb-driver-async", extra["versions.mongodb"].toString())
     compile("com.google.inject", "guice", extra["versions.guice"].toString())
+    compile("org.spongepowered:spongeapi:7.1.0")
 }
 
 fun DependencyHandlerScope.compileKotlin() = (extra["compileKotlin"] as Function1<DependencyHandlerScope, *>)(this)
