@@ -47,7 +47,6 @@ class SpawnModule : Module {
 
     override fun load() {
         config = Config()
-        location = config.getLocation()
     }
 
     override fun start() {
@@ -55,7 +54,6 @@ class SpawnModule : Module {
         SetSpawnCommand()
         listener = SpawnListener()
     }
-
 
 
     private inner class Config {
@@ -66,7 +64,7 @@ class SpawnModule : Module {
         val spawnElement = jsonObject.getOrJsonObject(spawnKey)
         val spawn = GsonConfig.multiPlaceJsonObject(spawnElement, spawnKey, configData.directory)
         val messages = SpigotGsonMessages(GsonConfig(configData).load()).availableMessages
-        val permissions = GsonStringMapWithSubs(jsonObject.getAsOrJsonObject("permissions") ).available
+        val permissions = GsonStringMapWithSubs(jsonObject.getAsOrJsonObject("permissions")).available
         val commandNames = GsonStringMapWithSubs(jsonObject.getAsOrJsonObject("command-names")).available
 
         fun saveLocation(location: Location) {
@@ -76,11 +74,11 @@ class SpawnModule : Module {
             spawn.addProperty("Z", location.z)
             spawn.addProperty("Yaw", location.yaw)
             spawn.addProperty("Pitch", location.pitch)
-           if(spawnElement.isJsonPrimitive) {
-               GsonService.save(ConfigData(description.folder, spawnElement.asString), spawn)
+            if (spawnElement.isJsonPrimitive) {
+                GsonService.save(ConfigData(description.folder, spawnElement.asString), spawn)
             } else {
-               jsonObject.add(spawnKey, spawn)
-               GsonService.save(configData, jsonObject)
+                jsonObject.add(spawnKey, spawn)
+                GsonService.save(configData, jsonObject)
             }
         }
 
@@ -105,8 +103,11 @@ class SpawnModule : Module {
 
         override fun perform(sender: CommandSender, args: Array<String>) = sender.isPlayer {
             if (location == null) {
-                config.messages["Spawn.Teleportation.Failed"].sendIfNotNull(sender)
-                return@isPlayer
+                location = config.getLocation()
+                if (location == null) {
+                    config.messages["Spawn.Teleportation.Failed"].sendIfNotNull(sender)
+                    return@isPlayer
+                }
             }
 
             config.messages["Spawn.Teleportation.Success"].sendIfNotNull(sender)
@@ -164,7 +165,7 @@ class SpawnModule : Module {
         @EventHandler
         fun on(event: PlayerJoinEvent) {
             val player = event.player
-            if(!player.hasPlayedBefore() && location != null) player.teleport(location)
+            if (!player.hasPlayedBefore() && location != null) player.teleport(location)
             player.changeGameMode(event)
         }
 
@@ -173,7 +174,7 @@ class SpawnModule : Module {
 
         @EventHandler
         fun on(event: EntityDamageEvent) {
-            if(event.entity is Player) block(event, event.entity as Player)
+            if (event.entity is Player) block(event, event.entity as Player)
         }
 
         @EventHandler
