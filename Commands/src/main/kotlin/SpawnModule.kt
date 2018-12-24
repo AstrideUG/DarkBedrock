@@ -1,59 +1,66 @@
-/*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
- */
-
-import com.google.inject.Inject
-import de.astride.darkbedrock.apis.events.api.Subscribe
-import de.astride.darkbedrock.apis.modules.api.annotations.DataDirectory
-import de.astride.darkbedrock.apis.modules.api.annotations.Module
-import de.astride.darkbedrock.apis.modules.api.events.ModuleReloadEvent
-import de.astride.darkbedrock.apis.modules.api.events.ModulesLoadedEvent
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMapWithSubs
+import net.darkdevelopers.darkbedrock.darkness.general.functions.getOrKey
+import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
+import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.Command
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendIfNotNull
+import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessages
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
 import org.bukkit.Bukkit
+import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.command.CommandSender
-import java.nio.file.Path
-
+import org.bukkit.entity.Player
+import org.bukkit.event.Cancellable
+import org.bukkit.event.Event
+import org.bukkit.event.EventHandler
+import org.bukkit.event.block.BlockBreakEvent
+import org.bukkit.event.block.BlockPlaceEvent
+import org.bukkit.event.entity.FoodLevelChangeEvent
+import org.bukkit.event.player.*
 
 /**
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 06.12.2018 18:33.
- * Current Version: 1.0 (06.12.2018 - 06.12.2018)
+ * Created by Lars Artmann | LartyHD on 23.12.2018 16:53.
+ * Current Version: 1.0 (23.12.2018 - 23.12.2018)
  */
-@Module(
-    "d859edbd-4b75-40e7-80b7-593df72b3a5f",
-    "SpawnModule",
-    "0.1.0",
-    ["Lars Artmann | LartyHD"],
-    "A Module for Spawn",
-    "astride.de"
-)
-class SpawnModule @Inject private constructor(@DataDirectory private val path: Path) {
+class SpawnModule : Module {
 
-//    private lateinit var commandManager: CommandManager
+    override val description: ModuleDescription = ModuleDescription(
+        javaClass.canonicalName,
+        "1.0",
+        "Lars Artmann | LartyHD",
+        "Adds SetSpawn and Spawn command"
+    )
 
-    init {
-        println(path)
+    private lateinit var config: Config
+    private lateinit var listner: org.bukkit.event.Listener
+    private var location: Location? = null
+
+    override fun load() {
+        config = Config()
+        location = config.getLocation()
     }
 
-    private var config = Config()
-    private var location = config.getLocation()
+    override fun start() {
+        SpawnCommand()
+        SetSpawnCommand()
+        SpawnListener()
+    }
 
     private inner class Config {
 
-        val configData = ConfigData(path.toFile(), "config.json")
+        val configData = ConfigData(description.folder, "config.json")
         val jsonObject = GsonService.loadAsJsonObject(configData)
-        val spawn = GsonConfig.multiPlaceJsonObject(jsonObject["Spawn"], "Spawn", configData.directory)
+        val spawn = GsonConfig.multiPlaceJsonObject(jsonObject["spawn"], "spawn", configData.directory)
         val messages = SpigotGsonMessages(GsonConfig(configData).load()).availableMessages
-        val permissions = GsonStringMapWithSubs(jsonObject["Permissions"].asJsonObject).available
-        val commandNames = GsonStringMapWithSubs(jsonObject["CommandNames"].asJsonObject).available
+        val permissions = GsonStringMapWithSubs(jsonObject["permissions"].asJsonObject).available
+        val commandNames = GsonStringMapWithSubs(jsonObject["command-names"].asJsonObject).available
 
         fun saveLocation(location: Location) {
             spawn.addProperty("World", location.world.name)
@@ -78,51 +85,40 @@ class SpawnModule @Inject private constructor(@DataDirectory private val path: P
     }
 
 
-    @Subscribe
-    fun on(event: ModulesLoadedEvent) {
-
-        SpawnCommand()
-        SetSpawnCommand()
-
-//        commandManager.commands += SpawnCommand::class.java
-//        commandManager.commands += SetSpawnCommand::class.java
-
-    }
-
-    @Subscribe
-    fun on(event: ModuleReloadEvent) {
-        if (event.container.instance === this) config = Config()
-    }
+    /*@Subscribe
+      fun on(event: ModuleReloadEvent) {
+          if (event.container.instance === this) config = Config()
+      }*/
 
     private inner class SpawnCommand : Command(
         DarkFrame.instance,
-        config.commandNames.getNotNull("Spawn"),
-        config.permissions.getNotNull("SpawnModule.Command.Spawn")
+        config.commandNames.getOrKey("Spawn"),
+        config.permissions.getOrKey("SpawnNewModule.Command.Spawn")
     ) {
 
         override fun perform(sender: CommandSender, args: Array<String>) = sender.isPlayer {
             if (location == null) {
-                config.messages["Spawn.Teleportation.Failed"]?.apply { sender.sendMessage(this) }
+                config.messages["Spawn.Teleportation.Failed"].sendIfNotNull(sender)
                 return@isPlayer
             }
 
-            config.messages["Spawn.Teleportation.Success"]?.apply { sender.sendMessage(this) }
+            config.messages["Spawn.Teleportation.Success"].sendIfNotNull(sender)
             it.teleport(location)
-            config.messages["Spawn.Teleportation.Successfully"]?.apply { sender.sendMessage(this) }
+            config.messages["Spawn.Teleportation.Successfully"].sendIfNotNull(sender)
         }
 
     }
 
     private inner class SetSpawnCommand : Command(
         DarkFrame.instance,
-        config.commandNames.getNotNull("SetSpawn"),
-        config.permissions.getNotNull("SpawnModule.Command.SetSpawn")
+        config.commandNames.getOrKey("SetSpawn"),
+        config.permissions.getOrKey("SpawnNewModule.Command.SetSpawn")
     ) {
 
         override fun perform(sender: CommandSender, args: Array<String>) = sender.isPlayer {
             fun Float.round() = (this * 100).toInt() / 100F
 
-            config.messages["Spawn.Set.Success"]?.apply { sender.sendMessage(this) }
+            config.messages["Spawn.Set.Success"].sendIfNotNull(sender)
 
             val cloned = it.location.clone()
             val location = Location(
@@ -137,60 +133,57 @@ class SpawnModule @Inject private constructor(@DataDirectory private val path: P
             config.saveLocation(location)
             this@SpawnModule.location = location
 
-            config.messages["Spawn.Set.Successfully"]?.apply { sender.sendMessage(this) }
+            config.messages["Spawn.Set.Successfully"].sendIfNotNull(sender)
         }
 
     }
 
-    private fun Map<String, String>.getNotNull(key: String) = this[key] ?: key
+    private inner class SpawnListener : Listener(DarkFrame.instance) {
 
+        private val prefix = "Spawn.Events.Bypass."
 
-//    /**
-//     * @author Lars Artmann | LartyHD
-//     * Created by Lars Artmann | LartyHD on 06.12.2018 19:54.
-//     * Current Version: 1.0 (06.12.2018 - 06.12.2018)
-//     */
-//    @Command("Spawn")
-//    @Permission("SpawnModule.commands.<CommandName>")
-//    private inner class SpawnCommand @Inject private constructor(@Sender private val player: Player) : Any() {
-//
-//        @Implementation([])
-//        private fun execute() {
-//            player.teleport(location)
-//        }
-//
-//    }
-//
-//    /**
-//     * @author Lars Artmann | LartyHD
-//     * Created by Lars Artmann | LartyHD on 06.12.2018 19:54.
-//     * Current Version: 1.0 (06.12.2018 - 06.12.2018)
-//     */
-//    @Command("SetSpawn")
-//    @Permission("SpawnModule.commands.<CommandName>")
-//    private inner class SetSpawnCommand @Inject private constructor(@Sender private val player: Player) {
-//
-//        @Implementation([])
-//        private fun execute() {
-//
-//            fun Float.round() = (this * 100).toInt() / 100F
-//
-//            val cloned = player.location.clone()
-//            val location = Location(
-//                cloned.world,
-//                cloned.blockX + 0.5,
-//                cloned.y,
-//                cloned.blockZ + 0.5,
-//                cloned.yaw.round(),
-//                cloned.pitch.round()
-//            )
-//
-//            config.saveLocation(location)
-//            this@SpawnModule.location = location
-//
-//            player.sendMessage(config.messages["SetSpawnSuccessfully"])
-//        }
-//
-//    }
+        @EventHandler
+        fun on(event: BlockBreakEvent) = block(event, event.player)
+
+        @EventHandler
+        fun on(event: BlockPlaceEvent) = block(event, event.player)
+
+        @EventHandler
+        fun on(event: PlayerPickupItemEvent) = block(event)
+
+        @EventHandler
+        fun on(event: PlayerDropItemEvent) = block(event)
+
+        @EventHandler
+        fun on(event: PlayerJoinEvent) = event.player.changeGameMode(event)
+
+        @EventHandler
+        fun on(event: PlayerChangedWorldEvent) = event.player.changeGameMode(event)
+
+        @EventHandler
+        fun on(event: FoodLevelChangeEvent) {
+            val player = event.entity as Player
+            if (event.foodLevel < player.foodLevel) block(event, player)
+        }
+
+        private fun block(event: PlayerEvent) = block(event, event.player)
+
+        private fun block(event: Event, player: Player) = check(event, player) { cancel(event as Cancellable) }
+
+        private fun Player.changeGameMode(event: Event) = check(event, this) { gameMode = GameMode.ADVENTURE }
+
+        private inline fun check(event: Event, player: Player, block: () -> Unit) {
+            val location = location ?: return
+            if (player.world != location.world) return
+            if (player.checkPerm(event.permissionsKey())) return
+            block()
+        }
+
+        private fun CommandSender.checkPerm(permissionsKey: String) =
+            hasPermission(config.permissions.getOrKey(permissionsKey))
+
+        private fun Event.permissionsKey() = "$prefix${eventName.removeSuffix("Event")}"
+
+    }
 
 }

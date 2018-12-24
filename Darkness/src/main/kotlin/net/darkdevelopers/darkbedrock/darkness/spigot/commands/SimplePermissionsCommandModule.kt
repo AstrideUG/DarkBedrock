@@ -45,7 +45,7 @@ abstract class SimplePermissionsCommandModule(protected val defaultCommandName: 
         permission: String = singlePerms,
         usage: String = "",
         minLength: Int = 0,
-        maxLength: Int = 1,
+        maxLength: Int = 0,
         tabCompleter: TabCompleter? = null,
         vararg aliases: String
     ) : Command(
