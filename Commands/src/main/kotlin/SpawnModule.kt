@@ -137,7 +137,6 @@ class SpawnModule : Module {
         }
 
     }
-
     private inner class SpawnListener : Listener(DarkFrame.instance) {
 
         private val prefix = "Spawn.Events.Bypass."
@@ -179,11 +178,14 @@ class SpawnModule : Module {
             block()
         }
 
-        private fun CommandSender.checkPerm(permissionsKey: String) =
-            hasPermission(config.permissions.getOrKey(permissionsKey))
+        private fun CommandSender.checkPerm(permissionsKey: String): Boolean {
+            return hasPermission(config.permissions[permissionsKey] ?: return false)
+        }
+
 
         private fun Event.permissionsKey() = "$prefix${eventName.removeSuffix("Event")}"
 
     }
+
 
 }
