@@ -17,7 +17,8 @@ import org.bukkit.entity.Player
  * Current Version: 1.0 (22.12.2018 - 22.12.2018)
  */
 //TODO Edit the name
-fun Command.possiblePlayer(
+fun Command.
+        possiblePlayer(
     messages: Map<String, String>,
     prefix: String,
     sender: CommandSender,

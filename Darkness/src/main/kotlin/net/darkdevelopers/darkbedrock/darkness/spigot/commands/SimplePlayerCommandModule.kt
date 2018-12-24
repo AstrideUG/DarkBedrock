@@ -51,10 +51,12 @@ abstract class SimplePlayerCommandModule(defaultCommandName: String) :
                 if(args.isEmpty()) null else args[0],
                 singlePerms,
                 otherPerms
-            ) { cs: CommandSender, target: Player -> execute(cs, target) }
+            ) { cs: CommandSender, target: Player -> execute(cs, target, args) }
 
     }
 
-    protected abstract fun execute(sender: CommandSender, target: Player)
+    protected open fun execute(sender: CommandSender, target: Player) {}
+
+    protected open fun execute(sender: CommandSender, target: Player, args: Array<String>) = execute(sender, target)
 
 }

@@ -1,3 +1,4 @@
+import com.google.gson.JsonObject
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
@@ -19,8 +20,10 @@ import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
+import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
+import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.FoodLevelChangeEvent
 import org.bukkit.event.player.*
 
@@ -53,14 +56,18 @@ class SpawnModule : Module {
         listener = SpawnListener()
     }
 
+
+
     private inner class Config {
 
+        val spawnKey = "spawn"
         val configData = ConfigData(description.folder, "config.json")
         val jsonObject = GsonService.loadAsJsonObject(configData)
-        val spawn = GsonConfig.multiPlaceJsonObject(jsonObject["spawn"], "spawn", configData.directory)
+        val spawnElement = jsonObject.getOrJsonObject(spawnKey)
+        val spawn = GsonConfig.multiPlaceJsonObject(spawnElement, spawnKey, configData.directory)
         val messages = SpigotGsonMessages(GsonConfig(configData).load()).availableMessages
-        val permissions = GsonStringMapWithSubs(jsonObject["permissions"].asJsonObject).available
-        val commandNames = GsonStringMapWithSubs(jsonObject["command-names"].asJsonObject).available
+        val permissions = GsonStringMapWithSubs(jsonObject.getAsOrJsonObject("permissions") ).available
+        val commandNames = GsonStringMapWithSubs(jsonObject.getAsOrJsonObject("command-names")).available
 
         fun saveLocation(location: Location) {
             spawn.addProperty("World", location.world.name)
@@ -69,6 +76,12 @@ class SpawnModule : Module {
             spawn.addProperty("Z", location.z)
             spawn.addProperty("Yaw", location.yaw)
             spawn.addProperty("Pitch", location.pitch)
+           if(spawnElement.isJsonPrimitive) {
+               GsonService.save(ConfigData(description.folder, spawnElement.asString), spawn)
+            } else {
+               jsonObject.add(spawnKey, spawn)
+               GsonService.save(configData, jsonObject)
+            }
         }
 
         fun getLocation(): Location? {
@@ -83,12 +96,6 @@ class SpawnModule : Module {
         }
 
     }
-
-
-    /*@Subscribe
-      fun on(event: ModuleReloadEvent) {
-          if (event.container.instance === this) config = Config()
-      }*/
 
     private inner class SpawnCommand : Command(
         DarkFrame.instance,
@@ -137,6 +144,7 @@ class SpawnModule : Module {
         }
 
     }
+
     private inner class SpawnListener : Listener(DarkFrame.instance) {
 
         private val prefix = "Spawn.Events.Bypass."
@@ -154,15 +162,30 @@ class SpawnModule : Module {
         fun on(event: PlayerDropItemEvent) = block(event)
 
         @EventHandler
-        fun on(event: PlayerJoinEvent) = event.player.changeGameMode(event)
+        fun on(event: PlayerJoinEvent) {
+            val player = event.player
+            if(!player.hasPlayedBefore() && location != null) player.teleport(location)
+            player.changeGameMode(event)
+        }
 
         @EventHandler
         fun on(event: PlayerChangedWorldEvent) = event.player.changeGameMode(event)
 
         @EventHandler
+        fun on(event: EntityDamageEvent) {
+            if(event.entity is Player) block(event, event.entity as Player)
+        }
+
+        @EventHandler
         fun on(event: FoodLevelChangeEvent) {
             val player = event.entity as Player
             if (event.foodLevel < player.foodLevel) block(event, player)
+        }
+
+        @EventHandler
+        fun on(event: PlayerInteractEvent) {
+            if (event.action != Action.PHYSICAL) return
+            block(event)
         }
 
         private fun block(event: PlayerEvent) = block(event, event.player)
@@ -187,5 +210,8 @@ class SpawnModule : Module {
 
     }
 
+    private fun JsonObject.getOrJsonObject(key: String) = this.get(key) ?: JsonObject()
+
+    private fun JsonObject.getAsOrJsonObject(key: String) = this.getAsJsonObject(key) ?: JsonObject()
 
 }
