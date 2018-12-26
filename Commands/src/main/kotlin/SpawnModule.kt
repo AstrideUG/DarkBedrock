@@ -189,6 +189,16 @@ class SpawnModule : Module {
             block(event)
         }
 
+        @EventHandler
+        fun on(event: PlayerMoveEvent) {
+            val player = event.player ?: return
+            val location = location ?: return
+            if (player.world != location.world || event.to.y in 0.0..300.0) return
+            config.messages["Spawn.Events.Move.Success"].sendIfNotNull(player)
+            player.teleport(location)
+            config.messages["Spawn.Events.Move.Successfully"].sendIfNotNull(player)
+        }
+
         private fun block(event: PlayerEvent) = block(event, event.player)
 
         private fun block(event: Event, player: Player) = check(event, player) { cancel(event as Cancellable) }
@@ -205,7 +215,6 @@ class SpawnModule : Module {
         private fun CommandSender.checkPerm(permissionsKey: String): Boolean {
             return hasPermission(config.permissions[permissionsKey] ?: return false)
         }
-
 
         private fun Event.permissionsKey() = "$prefix${eventName.removeSuffix("Event")}"
 
