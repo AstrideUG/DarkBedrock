@@ -28,6 +28,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.metadata.FixedMetadataValue
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
@@ -191,13 +192,15 @@ class AsteroidModule : Module {
             if (event.isCancelled) return
             val list = event.blockList().toList()
             event.blockList().clear()
-            list.forEach {
-                it.world.spawnEntity(it.location, EntityType.FALLING_BLOCK).velocity = randomVector()
-                it.world.dropItem(it.location, ItemBuilder(Material.GOLD_NUGGET).build()).apply {
-                    velocity = randomVector()
-                    setMetadata("Coin", FixedMetadataValue(DarkFrame.instance, true))
+            object : BukkitRunnable() {
+                override fun run() = list.forEach {
+                    it.world.spawnEntity(it.location, EntityType.FALLING_BLOCK).velocity = randomVector()
+                    it.world.dropItem(it.location, ItemBuilder(Material.GOLD_NUGGET).build()).apply {
+                        velocity = randomVector()
+                        setMetadata("Coin", FixedMetadataValue(DarkFrame.instance, true))
+                    }
                 }
-            }
+            }.runTask(DarkFrame.instance)
         }
 
         @EventHandler
