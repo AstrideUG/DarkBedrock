@@ -176,6 +176,9 @@ class SpawnModule : Module {
         fun on(event: PlayerDropItemEvent) = block(event)
 
         @EventHandler
+        fun on(event: PlayerBucketEvent) = block(event)
+
+        @EventHandler
         fun on(event: PlayerJoinEvent) {
             val player = event.player
             if (!player.hasPlayedBefore() && location != null) player.teleport(location)
