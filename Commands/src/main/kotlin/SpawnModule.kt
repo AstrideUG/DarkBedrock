@@ -154,6 +154,15 @@ class SpawnModule : Module {
 
         private val prefix = "Spawn.Events.Bypass."
 
+        init {
+            location?.world?.apply {
+                clearWeather()
+                setGameRuleValue("keepInventory", true.toString())
+                setGameRuleValue("doDaylightCycle", false.toString())
+                time = 6000
+            }
+        }
+
         @EventHandler
         fun on(event: BlockBreakEvent) = block(event, event.player)
 
@@ -194,13 +203,7 @@ class SpawnModule : Module {
         }
 
         @EventHandler
-        fun onWorldLoadEvent(event: WorldLoadEvent) {
-            val world = event.world
-            check(world) {
-                world.setStorm(false)
-                world.isThundering = false
-            }
-        }
+        fun onWorldLoadEvent(event: WorldLoadEvent) = event.world.clearWeather()
 
         @EventHandler
         fun on(event: WeatherChangeEvent) = check(event.world) {
@@ -236,6 +239,11 @@ class SpawnModule : Module {
         }
 
         private fun Event.permissionsKey() = "$prefix${eventName.removeSuffix("Event")}"
+
+        private fun World.clearWeather() = check(this) {
+            setStorm(false)
+            isThundering = false
+        }
 
     }
 
