@@ -1,3 +1,4 @@
+
 import com.google.gson.JsonObject
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
@@ -15,6 +16,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.Location
+import org.bukkit.World
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
@@ -26,6 +28,8 @@ import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.FoodLevelChangeEvent
 import org.bukkit.event.player.*
+import org.bukkit.event.weather.WeatherChangeEvent
+import org.bukkit.event.world.WorldLoadEvent
 
 /**
  * @author Lars Artmann | LartyHD
@@ -190,6 +194,20 @@ class SpawnModule : Module {
         }
 
         @EventHandler
+        fun onWorldLoadEvent(event: WorldLoadEvent) {
+            val world = event.world
+            check(world) {
+                world.setStorm(false)
+                world.isThundering = false
+            }
+        }
+
+        @EventHandler
+        fun on(event: WeatherChangeEvent) = check(event.world) {
+            cancel(event, event.toWeatherState())
+        }
+
+        @EventHandler
         fun on(event: PlayerMoveEvent) {
             val player = event.player ?: return
             val location = location ?: return
@@ -205,11 +223,12 @@ class SpawnModule : Module {
 
         private fun Player.changeGameMode(event: Event) = check(event, this) { gameMode = GameMode.ADVENTURE }
 
-        private inline fun check(event: Event, player: Player, block: () -> Unit) {
-            val location = location ?: return
-            if (player.world != location.world) return
-            if (player.checkPerm(event.permissionsKey())) return
-            block()
+        private inline fun check(event: Event, player: Player, block: () -> Unit) = check(player.world) {
+            if (!player.checkPerm(event.permissionsKey())) block()
+        }
+
+        private inline fun check(world: World, block: () -> Unit) {
+            if (world == location?.world) block()
         }
 
         private fun CommandSender.checkPerm(permissionsKey: String): Boolean {
