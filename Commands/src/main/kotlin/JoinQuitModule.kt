@@ -35,7 +35,10 @@ class JoinQuitModule : Module, Listener(DarkFrame.instance) {
 
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
-        event.joinMessage = config.messages["Join"]?.replace("<Player>", event.player.name, true)
+        val message = if (event.player.hasPlayedBefore())
+            config.messages["Join.First"]?.replace("<Player>", event.player.name, true)
+        else config.messages["Join"]?.replace("<Player>", event.player.name, true)
+        event.joinMessage = message
     }
 
     @EventHandler
