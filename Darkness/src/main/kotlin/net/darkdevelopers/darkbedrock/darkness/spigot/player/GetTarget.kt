@@ -19,7 +19,7 @@ interface GetTarget {
 
 	fun getTarget(player: Player?, lambda: (Player?) -> Unit)
 
-	fun getTarget(uuid: UUID, lambda: (Player?) -> Unit)
+	fun getTarget(uuid: UUID?, lambda: (Player?) -> Unit)
 
-	fun getTarget(name: String, lambda: (Player?) -> Unit)
+	fun getTarget(name: String?, lambda: (Player?) -> Unit)
 }

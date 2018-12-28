@@ -16,7 +16,9 @@ interface DefaultGetTarget : GetTarget {
 
 	override fun getTarget(sender: CommandSender, name: String, lambda: (Player) -> Unit) = getTarget(sender, Bukkit.getPlayer(name), lambda)
 
-	override fun getTarget(uuid: UUID, lambda: (Player?) -> Unit) = getTarget(Bukkit.getPlayer(uuid), lambda)
+	override fun getTarget(uuid: UUID?, lambda: (Player?) -> Unit) =
+		if (uuid == null) lambda(null) else getTarget(Bukkit.getPlayer(uuid), lambda)
 
-	override fun getTarget(name: String, lambda: (Player?) -> Unit) = getTarget(Bukkit.getPlayer(name), lambda)
+	override fun getTarget(name: String?, lambda: (Player?) -> Unit) =
+		if (name == null) lambda(null) else getTarget(Bukkit.getPlayer(name), lambda)
 }
