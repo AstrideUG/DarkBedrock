@@ -1,3 +1,4 @@
+
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -18,9 +19,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.entity.ArmorStand
-import org.bukkit.entity.EntityType
-import org.bukkit.entity.Giant
+import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.entity.EntityExplodeEvent
 import org.bukkit.event.player.PlayerPickupItemEvent
@@ -28,7 +27,6 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.metadata.FixedMetadataValue
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
-import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
@@ -71,9 +69,7 @@ class AsteroidModule : Module {
         job = GlobalScope.launch {
             while (running) {
 //                delay(TimeUnit.MINUTES.toMillis(Random.nextLong(10..30L)))
-                println(1)
-                delay(TimeUnit.MINUTES.toMillis(Random.nextLong(1..3L)))
-                println(2)
+                delay(TimeUnit.MINUTES.toMillis(Random.nextLong(1..1L)))
                 attack()
             }
         }
@@ -85,37 +81,38 @@ class AsteroidModule : Module {
     }
 
     private suspend fun attack() {
-        locations.forEach { (location, vector) ->
-            println(3)
-            GlobalScope.launch {
-                println(4)
+        Bukkit.getScheduler().callSyncMethod(DarkFrame.instance) {
+            locations.forEach { (location, vector) ->
                 val armorStand = create(location, vector)
                 val explode = armorStand.location
                 var index = 0
-                println("5: ${running && index < 100}")
-                while (running && index < 100) {
-                    println(5)
-                    index++
-                    delay(1000)
-                    println(6)
-                    if (armorStand.isDead || explode.block == null || explode.block.type != Material.AIR) {
-                        println(7)
-                        explode.world.createExplosion(explode, 10F, true)
-                        Utils.goThroughAllPlayers { config.messages["Asteroid.Attack.Explode"].sendIfNotNull(it) }
-                        break
+                GlobalScope.launch {
+                    while (running && index < 100) {
+                        index++
+                        delay(1000)
+                        if (armorStand.isDead || explode.block == null || explode.block.type != Material.AIR) {
+                            Bukkit.getScheduler().callSyncMethod(DarkFrame.instance) {
+                                //                                explode.world.createExplosion(explode, 10F, true)
+                                val tnt =
+                                    explode.world.spawnEntity(armorStand.location, EntityType.PRIMED_TNT) as TNTPrimed
+                                tnt.fuseTicks = 0
+                            }
+                            Utils.goThroughAllPlayers { config.messages["Asteroid.Attack.Explode"].sendIfNotNull(it) }
+                            break
+                        }
                     }
+                }.invokeOnCompletion {
+                    armorStand.passenger?.remove()
+                    armorStand.remove()
                 }
-                println(8)
-                armorStand.passenger.remove()
-                armorStand.remove()
             }
         }
     }
 
     private fun create(location: Location, vector: Vector): ArmorStand {
-        val armorStand = location.world.spawnEntity(location, EntityType.ARMOR_STAND) as ArmorStand
+        val armorStand: ArmorStand = location.world.spawnEntity(location, EntityType.ARMOR_STAND) as ArmorStand
         armorStand.apply {
-            setGravity(false)
+            //            setGravity(false)
             isVisible = false
             isCustomNameVisible = false
             velocity = vector
@@ -130,7 +127,6 @@ class AsteroidModule : Module {
         }
         return armorStand
     }
-
 
     private inner class Config {
 
@@ -192,15 +188,22 @@ class AsteroidModule : Module {
             if (event.isCancelled) return
             val list = event.blockList().toList()
             event.blockList().clear()
-            object : BukkitRunnable() {
-                override fun run() = list.forEach {
-                    it.world.spawnEntity(it.location, EntityType.FALLING_BLOCK).velocity = randomVector()
-                    it.world.dropItem(it.location, ItemBuilder(Material.GOLD_NUGGET).build()).apply {
-                        velocity = randomVector()
-                        setMetadata("Coin", FixedMetadataValue(DarkFrame.instance, true))
-                    }
+            list.forEach {
+                val fallingBlock = it.world.spawnEntity(it.location, EntityType.FALLING_BLOCK) as FallingBlock
+                fallingBlock.velocity = randomVector()
+                fallingBlock.dropItem = false
+                fallingBlock.setHurtEntities(false)
+                val item = it.world.dropItem(it.location, ItemBuilder(Material.GOLD_NUGGET).build())
+                item.setMetadata("Coin", FixedMetadataValue(DarkFrame.instance, true))
+                item.velocity = randomVector()
+            }
+            GlobalScope.launch {
+                delay(5000)
+                list.forEach {
+                    delay(200)
+                    Bukkit.getScheduler().callSyncMethod(DarkFrame.instance) { it.location.block.type = it.type }
                 }
-            }.runTask(DarkFrame.instance)
+            }
         }
 
         @EventHandler
@@ -226,6 +229,5 @@ class AsteroidModule : Module {
         }
 
     }
-
 
 }

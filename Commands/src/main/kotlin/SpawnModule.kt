@@ -51,6 +51,7 @@ class SpawnModule : Module {
 
     override fun load() {
         config = Config()
+        location = config.getLocation()
     }
 
     override fun start() {
