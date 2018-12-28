@@ -176,7 +176,10 @@ class SpawnModule : Module {
         fun on(event: PlayerDropItemEvent) = block(event)
 
         @EventHandler
-        fun on(event: PlayerBucketEvent) = block(event)
+        fun on(event: PlayerBucketFillEvent) = block(event)
+
+        @EventHandler
+        fun on(event: PlayerBucketEmptyEvent) = block(event)
 
         @EventHandler
         fun on(event: PlayerJoinEvent) {
@@ -206,7 +209,7 @@ class SpawnModule : Module {
         }
 
         @EventHandler
-        fun onWorldLoadEvent(event: WorldLoadEvent) = event.world.clearWeather()
+        fun on(event: WorldLoadEvent) = event.world.clearWeather()
 
         @EventHandler
         fun on(event: WeatherChangeEvent) = check(event.world) {
