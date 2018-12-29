@@ -67,6 +67,7 @@ subprojects {
         mavenCentral()
         jcenter()
         google()
+        maven { url = URI("http://nexus.hc.to/content/repositories/pub_releases/") }
         maven { url = URI("https://hub.spigotmc.org/nexus/content/groups/public/") }
         maven { url = URI("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
         maven { url = URI("https://oss.sonatype.org/content/groups/public/") }

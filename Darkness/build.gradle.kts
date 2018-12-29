@@ -11,7 +11,7 @@ plugins {
 
 dependencies {
     compileKotlin()
-    compileTest()
+    compileTest()           
 //    compile(project(":Darkness"))
     compile("org.spigotmc", "spigot-api", extra["versions.spigot"].toString())
     compile("net.md-5", "bungeecord-api", extra["versions.bungee"].toString())

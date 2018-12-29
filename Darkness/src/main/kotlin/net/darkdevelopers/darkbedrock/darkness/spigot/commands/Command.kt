@@ -6,7 +6,8 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.commands
 import net.darkdevelopers.darkbedrock.darkness.general.utils.ReflectUtils
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.interfaces.ICommand
 import net.darkdevelopers.darkbedrock.darkness.spigot.copyed.ExternalPluginCommand
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
+import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
+import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
 import net.md_5.bungee.api.chat.ClickEvent
@@ -35,7 +36,7 @@ abstract class Command(val javaPlugin: JavaPlugin,
 					   tabCompleter: TabCompleter? = null,
 					   vararg aliases: String) : ICommand {
 
-	val hasHelp = usage.split("|").isNotEmpty()
+    val hasHelp = usage.split("|").size > 1
 
 	init {
 		@Suppress("DEPRECATION")

@@ -36,6 +36,8 @@ class MsgModule : Module, Listener(DarkFrame.instance) {
     private val arrow = " ${ChatColor.WHITE}->${ChatColor.GREEN} "
 
     override fun start() {
+        MsgCommand()
+        ReplyCommand()
         InnerListener()
     }
 
@@ -66,9 +68,9 @@ class MsgModule : Module, Listener(DarkFrame.instance) {
     private inner class ReplyCommand : Command(
         DarkFrame.instance,
         "Reply",
-        minLength = 2,
+        minLength = 1,
         maxLength = Int.MAX_VALUE,
-        usage = "<Player> <Message>",
+        usage = "<Message>",
         aliases = *arrayOf("r")
     ) {
 
@@ -83,8 +85,8 @@ class MsgModule : Module, Listener(DarkFrame.instance) {
     private fun sendMSG(player: Player, target: Player, args: Array<String>) {
         val messages = args.drop(1).joinToString(" ")
         map[target.uniqueId] = player.uniqueId
-        target.sendMessage("${prefix}Du$arrow${target.name}$split$messages")
-        player.sendMessage("$prefix${player.name}${arrow}Du$split$messages")
+        target.sendMessage("${prefix}Du$arrow${player.name}$split$messages")
+        player.sendMessage("$prefix${target.name}${arrow}Du$split$messages")
     }
 
 
