@@ -12,14 +12,14 @@ import java.util.*
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 06.07.2018 10:24.
- * Last edit 20.08.2018
+ * Last edit 13.01.2019
  */
 //TODO: WorldBoarder Packets
 object Utils {
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun getPlayers(): MutableCollection<out Player> = Bukkit.getOnlinePlayers()
+    val players: MutableCollection<out Player>
+        get() = Bukkit.getOnlinePlayers()
 
-    inline fun goThroughAllPlayers(lambda: (Player) -> Unit) = getPlayers().forEach { lambda(it) }
+    inline fun goThroughAllPlayers(lambda: (Player) -> Unit) = players.forEach { lambda(it) }
 
     @Deprecated(
         "",

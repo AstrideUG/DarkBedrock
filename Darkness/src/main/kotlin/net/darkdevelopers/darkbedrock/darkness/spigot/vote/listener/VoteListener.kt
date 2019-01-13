@@ -29,7 +29,7 @@ import java.util.*
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 07.07.2018 15:22.
- * Last edit 07.07.2018
+ * Last edit 13.01.2019
  */
 class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, private val voteMaps: Array<String>) : Listener(javaPlugin) {
 	private val mapVoteInventory: Inventory = InventoryBuilder(9, Items.MAP_VOTE.displayName).setDesign().build()
@@ -144,7 +144,7 @@ class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, privat
 		if (Bukkit.getOnlinePlayers().size > 1) {
 			val mapName = ChatColor.stripColor(displayName)
 			force = Vote(mapName)
-			Utils.goThroughAllPlayers { ScoreBoardUtils.sendLobbyScoreBoard(it, mapName, Messages.SERVER_NAME.toString()) }
+			Utils.goThroughAllPlayers { sendLobbyScoreBoard(it, mapName, Messages.SERVER_NAME.toString()) }
 			Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Map$IMPORTANT: $mapName")
 		} else humanEntity.sendMessage("${Messages.PREFIX}${TEXT}Es braucht min. 2 ${IMPORTANT}Spieler$TEXT um eine ${IMPORTANT}Map ${TEXT}auszuwählen")
 		humanEntity.closeInventory()

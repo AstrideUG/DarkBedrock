@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 22.12.2018 05:47.
- * Current Version: 1.0 (22.12.2018 - 22.12.2018)
+ * Current Version: 1.0 (22.12.2018 - 13.01.2019)
  */
 class GameModeModule : SimplePermissionsCommandModule("GameMode") {
     private val otherPerms get() = config.permissions.getOrKey("$singlePerms.Other")
@@ -25,7 +25,7 @@ class GameModeModule : SimplePermissionsCommandModule("GameMode") {
             tabCompleter = TabCompleter { _, _, _, args ->
                 when (args.size) {
                     1 -> GameMode.values().map { it.name }
-                    2 -> Utils.getPlayers().map { it.name }
+                    2 -> Utils.players.map { it.name }
                     else -> listOf<String>()
                 }
             },

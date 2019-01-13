@@ -3,7 +3,7 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.commands
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 22.12.2018 05:14.
- * Current Version: 1.0 (22.12.2018 - 22.12.2018)
+ * Current Version: 1.0 (22.12.2018 - 13.01.2019)
  */
 import net.darkdevelopers.darkbedrock.darkness.general.functions.getOrKey
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.possiblePlayer
@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 22.12.2018 05:13.
- * Current Version: 1.0 (22.12.2018 - 22.12.2018)
+ * Current Version: 1.0 (22.12.2018 - 13.01.2019)
  */
 abstract class SimplePlayerCommandModule(defaultCommandName: String) :
     SimplePermissionsCommandModule(defaultCommandName) {
@@ -30,7 +30,7 @@ abstract class SimplePlayerCommandModule(defaultCommandName: String) :
         usage: String = "[Player]:$otherPerms",
         minLength: Int = 0,
         maxLength: Int = 1,
-        tabCompleter: TabCompleter? = TabCompleter { _, _, _, args -> if (args.size == 1) Utils.getPlayers().map { it.name } else listOf<String>() },
+        tabCompleter: TabCompleter? = TabCompleter { _, _, _, args -> if (args.size == 1) Utils.players.map { it.name } else listOf<String>() },
         vararg aliases: String
     ) : PermissionCommand(
         javaPlugin,
