@@ -41,6 +41,7 @@ shadowJar.apply {
     classifier = ""
 
     dependencies {
+        include(project(":Darkness"))
         //        include(dependency("com.google.inject:guice"))
 //        val dependencies = project.extra["KotlinDependencies"] as List<String>
 //        dependencies.forEach { include(dependency(it)) }

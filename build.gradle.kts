@@ -14,7 +14,7 @@ import java.net.URI
 
 plugins {
     java
-    kotlin("jvm") version "1.3.10"
+    kotlin("jvm") version "1.3.11"
 }
 
 subprojects {
@@ -59,8 +59,8 @@ subprojects {
 //        id
 //    }
 
-    sourceSets["main"].java.srcDirs("src/main/kotlin")
-    sourceSets["test"].java.srcDirs("src/test/kotlin")
+//    this.java.sourceSets["main"].java.srcDirs("src/main/kotlin")
+//    sourceSets["test"].java.srcDirs("src/test/kotlin")
 
     repositories {
         //mavenLocal()

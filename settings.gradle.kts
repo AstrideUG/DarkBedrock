@@ -3,6 +3,7 @@
  */
 
 rootProject.name = "DarkBedrock"
+rootProject.buildFileName = "build.gradle.kts"
 
 val min = listOf("api", "common")
 
@@ -39,5 +40,5 @@ fun minPlus(vararg args: String) = mutableListOf<String>().apply {
 
 fun includeApi(name: String, list: List<String>) = list.forEach {
     include(":APIs:$name:$it")
-    findProject(":APIs:$name:$it")?.name = "$name-${it.first().toUpperCase() + it.drop(1)}"
+    findProject(":APIs:$name:$it")?.name = "$name-${it.capitalize()}"
 }
