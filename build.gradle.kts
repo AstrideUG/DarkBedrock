@@ -17,6 +17,12 @@ plugins {
     kotlin("jvm") version "1.3.11"
 }
 
+allprojects { 
+    apply{
+     plugin("idea")
+    } 
+}
+
 subprojects {
 
     apply {
