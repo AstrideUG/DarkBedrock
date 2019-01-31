@@ -35,16 +35,15 @@ dependencies {
     testCompile "org.mockito:mockito-all:2.0.2-beta"
     testCompile "org.junit.jupiter:junit-jupiter-api:5.3.1"
 
+    compile "org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT"
+    compile "net.md-5:bungeecord-api:1.8-SNAPSHOT"
+    compile "com.velocitypowered:velocity-api:1.0-SNAPSHOT"
+
     jarLibs "org.jetbrains.kotlin:kotlin-stdlib"
     jarLibs "org.jetbrains.kotlin:kotlin-reflect"
     jarLibs "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1"
-
-    jarLibs "org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT"
-    jarLibs "net.md-5:bungeecord-api:1.8-SNAPSHOT"
-    jarLibs "com.velocitypowered:velocity-api:1.0-SNAPSHOT"
     jarLibs "org.mongodb:mongodb-driver-async:3.8.0"
     jarLibs "com.google.inject:guice:4.0"
-
 }
 
 
