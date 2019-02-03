@@ -1,0 +1,10 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2019.
+ */
+
+dependencies {
+
+    jarLibs(project(":Darkness:Darkness-Spigot"))
+    jarLibs(project(":APIs:Modules:Modules-Common"))
+
+}

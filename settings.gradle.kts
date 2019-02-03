@@ -8,7 +8,7 @@ rootProject.buildFileName = "build.gradle"
 val base = listOf("api", "common")
 
 include("Darkness", withBase("spigot", "bungee"/*, "velocity", "sponge"*/) - "api" + "universal")
-include("DarkFrame", withBase("spigot", "bungee"/*, "velocity", "sponge"*/) - "api")
+include("DarkFrame", withBase("spigot", "bungee", "velocity"/*, "sponge"*/) - "api")
 
 
 //findProject(":DarkFrame:ClassModules:velocity")?.name = "moduleplugin-velocity"

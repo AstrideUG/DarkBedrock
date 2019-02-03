@@ -4,5 +4,5 @@
 
 dependencies {
     jarLibs(project(":Darkness:Darkness-Universal"))
-    compileOnly("org.spigotmc:spigot-api:${versions_spigot}")
+    compile("org.spigotmc:spigot-api:${versions_spigot}")
 }
