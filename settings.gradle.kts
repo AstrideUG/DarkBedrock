@@ -3,42 +3,26 @@
  */
 
 rootProject.name = "DarkBedrock"
-rootProject.buildFileName = "build.gradle.kts"
+rootProject.buildFileName = "build.gradle"
 
-val min = listOf("api", "common")
+val base = listOf("api", "common")
 
-include(
-    "Darkness",
-    "DarkFrame",
-    ":Commands",
-    "DarkFrame:ClassModules",
-    "DarkFrame:ClassModules:velocity"
-//    "APIs",
-//    "APIs:AnnotatedCommands",
-//    "APIs:AnnotatedCommands:api",
-//    "APIs:AnnotatedCommands:bukkit",
-//    "APIs:AnnotatedCommands:bungee",
-//    "APIs:AnnotatedCommands:common",
-//    "APIs:AnnotatedCommands:velocity"
-//    "APIs:Events",
-//    "APIs:Modules"/**/
-)
+include("Darkness", withBase("spigot", "bungee"/*, "velocity", "sponge"*/) - "api" + "universal")
+include("DarkFrame", withBase("spigot", "bungee"/*, "velocity", "sponge"*/) - "api")
 
 
-includeApi("AnnotatedCommands", minPlus("bukkit", "bungee", "velocity"))
-includeApi("Modules", min)
-includeApi("Events", min)
+//findProject(":DarkFrame:ClassModules:velocity")?.name = "moduleplugin-velocity"
+//
+//
+//includeApi("AnnotatedCommands", withBase("bukkit", "bungee", "velocity"))
+includeApi("Modules", base)
+includeApi("Events", base)
 
-findProject(":DarkFrame:ClassModules:velocity")?.name = "moduleplugin-velocity"
+fun withBase(vararg args: String) = base + args
 
-enableFeaturePreview("STABLE_PUBLISHING") //Copied by Velocity
+fun includeApi(name: String, list: List<String>) = include("APIs:$name", list)
 
-fun minPlus(vararg args: String) = mutableListOf<String>().apply {
-    addAll(listOf("api", "common"))
-    addAll(args)
-}
-
-fun includeApi(name: String, list: List<String>) = list.forEach {
-    include(":APIs:$name:$it")
-    findProject(":APIs:$name:$it")?.name = "$name-${it.capitalize()}"
+fun include(name: String, list: List<String>) = list.forEach {
+    include(":$name:$it")
+    findProject(":$name:$it")?.name = "${name.split(":").last()}-${it.capitalize()}"
 }

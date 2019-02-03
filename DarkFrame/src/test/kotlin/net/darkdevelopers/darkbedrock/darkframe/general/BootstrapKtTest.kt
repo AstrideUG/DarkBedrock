@@ -1,6 +1,6 @@
 package net.darkdevelopers.darkbedrock.darkframe.general
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import java.awt.GraphicsEnvironment
 import kotlin.concurrent.thread
 

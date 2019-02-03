@@ -11,7 +11,7 @@ subprojects {
             compile(project(":APIs:Modules:Modules-Api"))
         compile("com.google.guava", "guava", "27.0-jre")
         compile("com.google.code.gson", "gson", "2.8.5")
-        compile("com.google.inject", "guice", extra["versions.guice"].toString())
+        compile("com.google.inject", "guice", extra["versions_guice"].toString())
     }
 
 
