@@ -1,0 +1,7 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2019.
+ */
+
+dependencies {
+    jarLibs("net.kyori:event-method-asm:3.0.0")
+}

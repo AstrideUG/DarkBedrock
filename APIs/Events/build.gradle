@@ -1,0 +1,9 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
+ */
+
+subprojects {
+
+    group = "${group}.events"
+
+}

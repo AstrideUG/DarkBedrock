@@ -4,6 +4,8 @@
 
 subprojects {
 
+    group = "${group}.darkframe"
+
     dependencies {
 
         jarLibs "org.jetbrains.kotlin:kotlin-stdlib"

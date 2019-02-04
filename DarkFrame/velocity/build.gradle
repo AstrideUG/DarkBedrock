@@ -6,13 +6,13 @@ dependencies {
 
     jarLibs(project(":Darkness:Darkness-Common"))
 
-    compile "com.velocitypowered:velocity-api:1.0-SNAPSHOT"
-    annotationProcessor "com.velocitypowered:velocity-api:1.0-SNAPSHOT"
+    compileOnly "com.velocitypowered:velocity-api:$versions_velocity"
+    annotationProcessor "com.velocitypowered:velocity-api:$versions_velocity"
 
 }
 
-jar {
-    from {
-        configurations.annotationProcessor.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
+//jar {
+//    from {
+//        configurations.annotationProcessor.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//}

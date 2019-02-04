@@ -2,7 +2,6 @@
  * © Copyright - Lars Artmann aka. LartyHD 2019.
  */
 
-
 buildscript {
     ext {
         kotlinVersion = '1.3.20'
@@ -44,7 +43,6 @@ subprojects {
 
     configurations {
         // configuration that holds jars to include in the jar
-//        jarLibs.extendsFrom compile
         compile.extendsFrom jarLibs
     }
 

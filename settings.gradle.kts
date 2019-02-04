@@ -5,24 +5,25 @@
 rootProject.name = "DarkBedrock"
 rootProject.buildFileName = "build.gradle"
 
-val base = listOf("api", "common")
+private val api = "api"
+private val common = "common"
+private val spigot = "spigot"
+//private val sponge = "sponge"
+private val bungee = "bungee"
+private val velocity = "velocity"
 
-include("Darkness", withBase("spigot", "bungee"/*, "velocity", "sponge"*/) - "api" + "universal")
-include("DarkFrame", withBase("spigot", "bungee", "velocity"/*, "sponge"*/) - "api")
-
+includeProject("Darkness", listOf(common, spigot, bungee, "universal"))
+includeProject("DarkFrame", listOf(common, spigot, bungee, velocity))
 
 //findProject(":DarkFrame:ClassModules:velocity")?.name = "moduleplugin-velocity"
 //
-//
-//includeApi("AnnotatedCommands", withBase("bukkit", "bungee", "velocity"))
-includeApi("Modules", base)
-includeApi("Events", base)
+//includeProjectApi("AnnotatedCommands", withBase("bukkit", "bungee", "velocity"))
+includeProjectApi("Modules", listOf(api, common))
+includeProjectApi("Events", listOf(api, common))
 
-fun withBase(vararg args: String) = base + args
+fun includeProjectApi(name: String, list: List<String>) = includeProject("APIs:$name", list)
 
-fun includeApi(name: String, list: List<String>) = include("APIs:$name", list)
-
-fun include(name: String, list: List<String>) = list.forEach {
+fun includeProject(name: String, list: List<String>) = list.forEach {
     include(":$name:$it")
     findProject(":$name:$it")?.name = "${name.split(":").last()}-${it.capitalize()}"
 }

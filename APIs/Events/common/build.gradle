@@ -1,0 +1,11 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
+ */
+
+dependencies {
+    jarLibs(project(":APIs:Events:Events-Api"))
+    jarLibs "org.apache.logging.log4j:log4j-api:$versions_log4j"
+    jarLibs "org.apache.logging.log4j:log4j-core:$versions_log4j"
+    jarLibs "org.apache.logging.log4j:log4j-slf4j-impl:$versions_log4j"
+    jarLibs "org.apache.logging.log4j:log4j-iostreams:$versions_log4j"
+}

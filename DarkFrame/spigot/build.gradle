@@ -6,5 +6,6 @@ dependencies {
 
     jarLibs(project(":Darkness:Darkness-Spigot"))
     jarLibs(project(":APIs:Modules:Modules-Common"))
-
+    compileOnly("org.spigotmc:spigot-api:${versions_spigot}")
+    
 }

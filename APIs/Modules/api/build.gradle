@@ -1,0 +1,9 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
+ */
+
+dependencies {
+    jarLibs(project(":APIs:Events:Events-Api"))
+    jarLibs "com.google.inject:guice:$versions_guice"
+
+}

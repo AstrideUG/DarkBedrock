@@ -1,0 +1,8 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
+ */
+
+dependencies {
+    jarLibs(project(":APIs:Events:Events-Common"))
+    jarLibs(project(":APIs:Modules:Modules-Api"))
+}

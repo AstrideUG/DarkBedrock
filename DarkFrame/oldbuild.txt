@@ -41,10 +41,10 @@ shadowJar.apply {
     classifier = ""
 
     dependencies {
-        include(project(":Darkness"))
-        //        include(dependency("com.google.inject:guice"))
+        includeProject(project(":Darkness"))
+        //        includeProject(dependency("com.google.inject:guice"))
 //        val dependencies = project.extra["KotlinDependencies"] as List<String>
-//        dependencies.forEach { include(dependency(it)) }
+//        dependencies.forEach { includeProject(dependency(it)) }
     }
 
 }
@@ -57,15 +57,15 @@ shadowJar.apply {
 //    appendix = "with-dependencies"
 //    classifier = ""
 //    dependencies {
-//        include(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
-//        include(dependency("org.jetbrains.kotlin:kotlin-reflect"))
-//        include(dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core"))
-//        include(dependency("org.jetbrains:annotations:13.0"))
-//        include(dependency(files("../Darkness/build/libs/Darkness-1.0-SNAPSHOT.jar")))
-//        include(dependency(group: "org.mongodb", name: "mongodb-driver-async", version: "3.8.0"))
-//        include(dependency(group: "org.mongodb", name: "mongodb-driver-core", version: "3.8.0"))
-//        include(dependency(group: "org.mongodb", name: "bson", version: "3.8.0"))
-//        include(dependency("com.google.inject:guice:4.0"))
+//        includeProject(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
+//        includeProject(dependency("org.jetbrains.kotlin:kotlin-reflect"))
+//        includeProject(dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core"))
+//        includeProject(dependency("org.jetbrains:annotations:13.0"))
+//        includeProject(dependency(files("../Darkness/build/libs/Darkness-1.0-SNAPSHOT.jar")))
+//        includeProject(dependency(group: "org.mongodb", name: "mongodb-driver-async", version: "3.8.0"))
+//        includeProject(dependency(group: "org.mongodb", name: "mongodb-driver-core", version: "3.8.0"))
+//        includeProject(dependency(group: "org.mongodb", name: "bson", version: "3.8.0"))
+//        includeProject(dependency("com.google.inject:guice:4.0"))
 //    }
 //}
 ////TODO
@@ -79,7 +79,7 @@ shadowJar.apply {
 ////    appendix = "with-api"
 ////    classifier = ""
 ////    dependencies {
-////        include(dependency(files("../Darkness/build/libs/Darkness-1.0-SNAPSHOT.jar")))
+////        includeProject(dependency(files("../Darkness/build/libs/Darkness-1.0-SNAPSHOT.jar")))
 ////    }
 ////}
 ////task withDependencies(type: Jar) {
@@ -87,19 +87,19 @@ shadowJar.apply {
 ////    classifier = ""
 ////    dependencies {
 ////        from sourceSets.main.allSource
-////        from fileTree(dir: "../Darkness/build/classes/", include: "*.class")
+////        from fileTree(dir: "../Darkness/build/classes/", includeProject: "*.class")
 //////        from "../Darkness/build/classes/"
 //////        into("org.jetbrains.kotlin:kotlin-stdlib")
-//////        include("org.jetbrains.kotlin:kotlin-reflect:1.2.60")
-//////        include("org.jetbrains.kotlin:kotlin-stdlib")
-//////        include(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
-//////        include(dependency("org.jetbrains.kotlin:kotlin-reflect:1.2.60"))
-//////        include(dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0"))
-//////        include(dependency("org.jetbrains:annotations:13.0"))
-//////        include(dependency(files("../Darkness/build/libs/Darkness-1.0-SNAPSHOT.jar")))
-//////        include(dependency(group: "org.mongodb", name: "mongodb-driver-async", version: "3.8.0"))
-//////        include(dependency(group: "org.mongodb", name: "mongodb-driver-core", version: "3.8.0"))
-//////        include(dependency(group: "org.mongodb", name: "bson", version: "3.8.0"))
+//////        includeProject("org.jetbrains.kotlin:kotlin-reflect:1.2.60")
+//////        includeProject("org.jetbrains.kotlin:kotlin-stdlib")
+//////        includeProject(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
+//////        includeProject(dependency("org.jetbrains.kotlin:kotlin-reflect:1.2.60"))
+//////        includeProject(dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0"))
+//////        includeProject(dependency("org.jetbrains:annotations:13.0"))
+//////        includeProject(dependency(files("../Darkness/build/libs/Darkness-1.0-SNAPSHOT.jar")))
+//////        includeProject(dependency(group: "org.mongodb", name: "mongodb-driver-async", version: "3.8.0"))
+//////        includeProject(dependency(group: "org.mongodb", name: "mongodb-driver-core", version: "3.8.0"))
+//////        includeProject(dependency(group: "org.mongodb", name: "bson", version: "3.8.0"))
 ////    }
 ////}
 ////
