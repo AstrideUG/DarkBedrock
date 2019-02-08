@@ -3,6 +3,8 @@
  */
 
 dependencies {
-    jarLibs(project(":Darkness:Darkness-Universal"))
+    jarLibs(project(":Darkness:Darkness-Universal")) {
+        transitive = false
+    }
     compileOnly("org.spigotmc:spigot-api:${versions_spigot}")
 }
