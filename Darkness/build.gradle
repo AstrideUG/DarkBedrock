@@ -1,0 +1,9 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2019.
+ */
+
+subprojects {
+
+    group = "${group}.darkness"
+
+}

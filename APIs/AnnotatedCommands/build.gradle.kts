@@ -4,7 +4,7 @@
 
 subprojects {
 
-    group = "de.astride.darkbedrock.apis.annotatedcommands"
+    group = "${group}.annotatedcommands"
 
     dependencies {
         if (this@subprojects != findProject(":APIs:AnnotatedCommands:AnnotatedCommands-Api"))

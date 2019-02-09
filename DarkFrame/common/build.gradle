@@ -1,0 +1,15 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2019.
+ */
+
+dependencies {
+
+    jarLibs(project(":Darkness:Darkness-Common"))
+
+}
+
+jar {
+    manifest {
+        attributes("Main-Class": "net.darkdevelopers.darkbedrock.darkframe.general.BootstrapKt")
+    }
+}
