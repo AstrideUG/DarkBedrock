@@ -3,6 +3,8 @@
  */
 
 dependencies {
-    jarLibs(project(":Darkness:Darkness-Universal"))
+    jarLibs(project(":Darkness:Darkness-Universal")) {
+        exclude "group": "net.md_5"
+    }
     compileOnly("net.md-5:bungeecord-api:${versions_bungee}")
 }
