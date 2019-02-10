@@ -1,0 +1,11 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2018.
+ */
+
+dependencies {
+    compile(project(":DarkFrame:DarkFrame-Spigot"))
+    compile(project(":APIs:Modules:Modules-Api"))
+//    compile(project(":APIs:AnnotatedCommands:AnnotatedCommands-Api"))
+    compileOnly("org.spigotmc:spigot-api:${versions_spigot}")
+    compileOnly("net.milkbowl.vault:VaultAPI:1.6")
+}

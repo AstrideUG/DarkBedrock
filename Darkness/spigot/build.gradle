@@ -3,6 +3,7 @@
  */
 
 dependencies {
+    jarLibs(project(":Darkness:Darkness-Common"))
     jarLibs(project(":Darkness:Darkness-Universal")) {
         transitive = false
     }
