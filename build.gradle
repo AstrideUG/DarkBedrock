@@ -11,6 +11,7 @@ buildscript {
     }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
     }
 }
 
@@ -39,7 +40,7 @@ subprojects {
         maven { url = ("http://repo.dmulloy2.net/content/groups/public/") }
         maven { url = ("https://repo.velocitypowered.com/snapshots/") }
         maven { url = ("http://repo.spongepowered.org/maven") }
-        maven { url = ("http://nexus.hc.to/content/repositories/pub_releases/") }
+//        maven { url = ("http://nexus.hc.to/content/repositories/pub_releases/") }
     }
 
     configurations {
@@ -74,14 +75,16 @@ subprojects {
 
     compileKotlin {
         kotlinOptions {
-            jvmTarget = "1.8"
+            freeCompilerArgs = ['-Xjsr305=strict']
+            jvmTarget = '1.8'
             suppressWarnings = true
         }
     }
 
     compileTestKotlin {
         kotlinOptions {
-            jvmTarget = "1.8"
+            freeCompilerArgs = ['-Xjsr305=strict']
+            jvmTarget = '1.8'
             suppressWarnings = true
         }
     }
