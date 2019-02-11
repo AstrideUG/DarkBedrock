@@ -59,9 +59,11 @@ fun sendScoreBoard(player: Player, displayName: String, scoreboardScores: Set<Sc
 fun scoreboardScore(name: String, score: Int): ScoreboardScore = (name to score).toScoreboardScore()
 
 
-fun Set<String>.index(): KMap<String, Int> {
-    var index = 0
-    return associateWith { index++ }
+fun Set<String>.index(): KMap<String, Int> = toList().index()
+
+fun List<String>.index(): KMap<String, Int> {
+    var index = size
+    return associateWith { index-- }
 }
 
 fun KMap<String, Int>.toScoreboardScore(): List<ScoreboardScore> = map { it.toPair().toScoreboardScore() }

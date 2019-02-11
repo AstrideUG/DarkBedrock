@@ -49,7 +49,7 @@ class ScoreboardModule : Module, Listener(DarkFrame.instance) {
         this.sendScoreboards(Bukkit.getOnlinePlayers().size - 1)
     }
 
-    fun Player.generateScoreboard(size: Int): List<ScoreboardScore> = mutableSetOf(
+    fun Player.generateScoreboard(size: Int): List<ScoreboardScore> = mutableListOf(
         " ",
         "${ChatColor.GREEN}${ChatColor.BOLD}Online",
         "$size ${ChatColor.GRAY}/${ChatColor.RESET} ${Bukkit.getMaxPlayers()}",
@@ -68,7 +68,6 @@ class ScoreboardModule : Module, Listener(DarkFrame.instance) {
         player.generateScoreboard(size)
     )
 
-    fun sendScoreboards(size: Int = Utils.players.size) =
-        Utils.goThroughAllPlayers { it.sendScoreboard(size) }
+    fun sendScoreboards(size: Int = Utils.players.size) = Utils.goThroughAllPlayers { it.sendScoreboard(size) }
 
 }
