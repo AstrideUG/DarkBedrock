@@ -39,12 +39,12 @@ open class GsonMessages(private val config: GsonConfig) {
     val availableSubMessagesOnInit = availableSubMessages.toMap()
 
     init {
-        println("Replace Messages: $availableMessages")
-        println("Replace SubMessages: $availableSubMessages")
+//        println("Replace Messages: $availableMessages")
+//        println("Replace SubMessages: $availableSubMessages")
         replaceKeys(availableMessages)
         availableSubMessages.forEach { replaceKeys(it.value, "${it.key}.") }
-        println("Loaded Messages: $availableMessages")
-        println("Loaded SubMessages: $availableSubMessages")
+//        println("Loaded Messages: $availableMessages")
+//        println("Loaded SubMessages: $availableSubMessages")
     }
 
     private fun replaceKeys(map: MutableMap<String, String>, prefix: String = ""): MutableMap<String, String> {

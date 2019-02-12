@@ -4,6 +4,7 @@
 
 package de.astride.darkbedrock.apis.events.common
 
+//import org.apache.logging.log4j.LogManager
 import com.google.common.collect.Multimaps
 import com.google.common.util.concurrent.ThreadFactoryBuilder
 import de.astride.darkbedrock.apis.events.api.EventHandler
@@ -15,7 +16,7 @@ import net.kyori.event.method.MethodScanner
 import net.kyori.event.method.MethodSubscriptionAdapter
 import net.kyori.event.method.SimpleMethodSubscriptionAdapter
 import net.kyori.event.method.asm.ASMEventExecutorFactory
-import org.apache.logging.log4j.LogManager
+import org.slf4j.LoggerFactory
 import java.lang.reflect.Method
 import java.util.*
 import java.util.concurrent.CompletableFuture
@@ -136,7 +137,7 @@ class SimpleEventManager : EventManager {
 
     companion object {
 
-        private val logger = LogManager.getLogger(SimpleEventManager::class.java)
+        private val logger = LoggerFactory.getLogger(SimpleEventManager::class.java)
 
     }
 }

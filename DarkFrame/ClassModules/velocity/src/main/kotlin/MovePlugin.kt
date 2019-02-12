@@ -55,6 +55,7 @@ class MovePlugin @Inject private constructor(
     private var isRunning = true
 
     init {
+
         proxy.commandManager.register(Command { source, _ ->
             when {
                 source !is Player -> source.sendMessage(TextComponent.of("Only Player"))
