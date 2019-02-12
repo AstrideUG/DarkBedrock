@@ -1,5 +1,7 @@
-
 import com.google.gson.JsonObject
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
@@ -71,6 +73,7 @@ class SpawnModule : Module {
         val messages = SpigotGsonMessages(GsonConfig(configData).load()).availableMessages
         val permissions = GsonStringMapWithSubs(jsonObject.getAsOrJsonObject("permissions")).available
         val commandNames = GsonStringMapWithSubs(jsonObject.getAsOrJsonObject("command-names")).available
+        val delay = jsonObject["delay"]?.asLong ?: 3000
 
         fun saveLocation(location: Location) {
             spawn.addProperty("World", location.world.name)
@@ -115,9 +118,15 @@ class SpawnModule : Module {
                 }
             }
 
-            config.messages["Spawn.Teleportation.Success"].sendIfNotNull(sender)
-            it.teleport(location)
-            config.messages["Spawn.Teleportation.Successfully"].sendIfNotNull(sender)
+            config.messages["Spawn.Teleportation.Success"]
+                ?.replace("<Delay>", config.delay.toString(), true).sendIfNotNull(sender)
+            GlobalScope.launch {
+                delay(config.delay)
+                Bukkit.getScheduler().runTask(javaPlugin) {
+                    it.teleport(location)
+                    config.messages["Spawn.Teleportation.Successfully"].sendIfNotNull(sender)
+                }
+            }
         }
 
     }
