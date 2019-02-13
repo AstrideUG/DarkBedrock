@@ -4,7 +4,7 @@
     "languages": {
       "de_DE": {
         "Disconnect": "&c<< &aBye bye: <Player>",
-        "Join": "&a>> Moinsen: <Player>"
+        "Join": "&a>> Moinsen: <Player>",
         "Join.First": "&a>> Schön dich kennen zu lernen: <Player>"
       }
     }
