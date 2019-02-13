@@ -1,0 +1,11 @@
+{
+  "Messages": {
+    "language": "de_DE",
+    "languages": {
+      "de_DE": {
+        "player_quit": "",
+        "player_join": ""
+      }
+    }
+  }
+}
