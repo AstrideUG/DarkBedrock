@@ -32,6 +32,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent
 import org.bukkit.event.player.*
 import org.bukkit.event.weather.WeatherChangeEvent
 import org.bukkit.event.world.WorldLoadEvent
+import java.util.concurrent.TimeUnit
 
 /**
  * @author Lars Artmann | LartyHD
@@ -110,6 +111,9 @@ class SpawnModule : Module {
     ) {
 
         override fun perform(sender: CommandSender, args: Array<String>) = sender.isPlayer {
+            fun String?.delay(timeUnit: TimeUnit) =
+                this?.replace("<Delay.${timeUnit.name}>", timeUnit.toMillis(config.delay).toString(), true)
+
             if (location == null) {
                 location = config.getLocation()
                 if (location == null) {
@@ -118,8 +122,10 @@ class SpawnModule : Module {
                 }
             }
 
-            config.messages["Spawn.Teleportation.Success"]
-                ?.replace("<Delay>", config.delay.toString(), true).sendIfNotNull(sender)
+            var s = config.messages["Spawn.Teleportation.Success"]
+            TimeUnit.values().forEach { s = s?.delay(it) }
+            s.sendIfNotNull(sender)
+
             GlobalScope.launch {
                 delay(config.delay)
                 Bukkit.getScheduler().runTask(javaPlugin) {
@@ -127,6 +133,8 @@ class SpawnModule : Module {
                     config.messages["Spawn.Teleportation.Successfully"].sendIfNotNull(sender)
                 }
             }
+
+
         }
 
     }
