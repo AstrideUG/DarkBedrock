@@ -3,9 +3,11 @@
     "language": "de_DE",
     "languages": {
       "de_DE": {
+        "Prefix": "&b&lCosmicSky &f┃ &r",
+        "Prefix.Text": "%Prefix%&a",
         "Disconnect": "&c<< &aBye bye: <Player>",
-        "Join": "&a>> Moinsen: <Player>",
-        "Join.First": "&a>> Schön dich kennen zu lernen: <Player>"
+        "Join": "%Prefix.Text%>> Moinsen: <Player>",
+        "Join.First": "%Prefix.Text%>> Schön dich kennen zu lernen: <Player>"
       }
     }
   }
