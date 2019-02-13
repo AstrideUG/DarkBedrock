@@ -27,7 +27,7 @@ abstract class SimplePermissionsCommandModule(protected val defaultCommandName: 
     )
 
     protected lateinit var config: Config
-    protected val prefix get() = "${description.name}.Command.$defaultCommandName"
+    protected val prefix get() = "Modules.Command.$defaultCommandName"
     protected abstract val command: () -> PermissionCommand
     protected lateinit var commandInstance: PermissionCommand
     protected val singlePerms get() = config.permissions.getOrKey(prefix)

@@ -1,0 +1,15 @@
+{
+  "Messages": {
+    "language": "de_DE",
+    "languages": {
+      "de_DE": {
+        "Prefix": "&b&lCosmicSky &f┃ &r",
+        "Prefix.Text": "%Prefix%&a",
+        "Modules.Command.Heal.Successfully": "%Prefix.Text%Ein Wunder! Ich bin geheilt!",
+        "Modules.Command.Heal.Other.Sender.Successfully": "%Prefix.Text%Du hast &f<Target>&a mit Magi geheilt.",
+        "Modules.Command.Heal.Other.Target.Successfully": "%Prefix.Text%Der Magier &f<Sender>&a konnte dich heilen.",
+        " ": ""
+      }
+    }
+  }
+}
