@@ -3,8 +3,9 @@
     "language": "de_DE",
     "languages": {
       "de_DE": {
-        "player_quit": "",
-        "player_join": ""
+        "Disconnect": "&c<< &aBye bye: <Player>",
+        "Join": "&a>> Moinsen: <Player>"
+        "Join.First": "&a>> Schön dich kennen zu lernen: <Player>"
       }
     }
   }
