@@ -16,7 +16,7 @@
         "Spawn.Teleportation.Failed": "&cEin Fehler ist aufgetreten, bitte kontaktiere ein Teammitglied!",
         "Spawn.Teleportation.Success": "%Prefix.Text%Du wirst in <Delay.SECONDS> zum Spawn teleportiert...",
         "Spawn.Teleportation.Successfully": "%Prefix.Text%Du wurdest zum Spawn teleportiert.",
-        "Spawn.Events.Move.Successfully": "%Prefix.Text%Da hatte sich jemand aber weit entfernt.",
+        "Spawn.Events.Move.Successfully": "%Prefix.Text%Da hatte sich jemand, aber weit entfernt.",
         "Spawn.Set.Successfully": "%Prefix.Text%Du hast den Spawn gesetzt!"
       }
     }
