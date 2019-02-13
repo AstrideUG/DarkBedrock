@@ -28,17 +28,23 @@ fun Command.possiblePlayer(
 ) {
     if (arg == null) sender.isPlayer {
         hasPermission(sender, singlePerms) {
-            messages["$prefix.Success"].sendIfNotNull(sender)
+            messages["$prefix.Success"].sendReplaced(sender)
             execute(sender, it)
-            messages["$prefix.Successfully"].sendIfNotNull(sender)
+            messages["$prefix.Successfully"].sendReplaced(sender)
         }
     } else getTarget(sender, arg.toPlayer()) {
         hasPermission(sender, otherPerms) {
-            messages["$prefix.Other.Sender.Success"].sendIfNotNull(sender)
-            messages["$prefix.Other.Target.Success"].sendIfNotNull(it)
+            messages["$prefix.Other.Sender.Success"].sendReplaced(sender, sender, it)
+            messages["$prefix.Other.Target.Success"].sendReplaced(it, sender, it)
             execute(sender, it)
-            messages["$prefix.Other.Sender.Successfully"].sendIfNotNull(sender)
-            messages["$prefix.Other.Target.Successfully"].sendIfNotNull(it)
+            messages["$prefix.Other.Sender.Successfully"].sendReplaced(sender, sender, it)
+            messages["$prefix.Other.Target.Successfully"].sendReplaced(it, sender, it)
         }
     }
+}
+
+private fun String?.sendReplaced(to: CommandSender, sender: CommandSender? = null, target: CommandSender? = null) {
+    var a = this?.replace("<Sender>", sender?.name ?: to.name, true) ?: return
+    if (target != null) a = a.replace("<Target>", target.name, true)
+    a.sendIfNotNull(to)
 }
