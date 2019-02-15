@@ -19,13 +19,6 @@ import org.bukkit.entity.Player
  */
 interface ICommand : CommandExecutor, SimpleDefaultHasPermission, SimpleGetTarget {
 
-    override fun onCommand(
-        sender: CommandSender,
-        command: org.bukkit.command.Command,
-        s: String,
-        args: Array<String>?
-    ): Boolean
-
     fun perform(sender: CommandSender, args: Array<String>)
 
     fun isPlayer(sender: CommandSender, lambda: (Player) -> Unit)

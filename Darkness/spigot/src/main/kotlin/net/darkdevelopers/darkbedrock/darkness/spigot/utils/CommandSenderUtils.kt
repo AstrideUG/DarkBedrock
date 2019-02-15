@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
  * Created by Lars Artmann | LartyHD on 24.08.2018 15:19.
  * Last edit 24.08.2018
  */
-var isPlayerFailedMessage = "Der Command ist nur für Spieler"
+var isPlayerFailedMessage: String = "Der Command ist nur für Spieler"
 
 inline fun CommandSender.isPlayer(lambda: (Player) -> Unit) = isPlayer(lambda) { sendMessage(isPlayerFailedMessage) }
 

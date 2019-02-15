@@ -107,7 +107,7 @@ abstract class Command(
 
     @Deprecated(
         "",
-        ReplaceWith("sender.isPlayer() lambda", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer")
+        ReplaceWith("sender.isPlayer(lambda)", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer")
     )
     override fun isPlayer(sender: CommandSender, lambda: (Player) -> Unit) = sender.isPlayer(lambda) {
         sender.sendMessage("Der Command ist nur für Spieler")
@@ -116,7 +116,7 @@ abstract class Command(
     @Deprecated(
         "",
         ReplaceWith(
-            "sender.isPlayer(onSuccess {}, onFail)",
+            "sender.isPlayer(onSuccess, onFail)",
             "net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer"
         )
     )
