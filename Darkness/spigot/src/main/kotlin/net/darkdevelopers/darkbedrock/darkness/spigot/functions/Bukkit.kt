@@ -43,6 +43,9 @@ fun String.toGameMode(): GameMode? = try {
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 15.02.2019 05:08.
+ *
+ * @throws IndexOutOfBoundsException
+ *
  * Current Version: 1.0 (15.02.2019 - 15.02.2019)
  */
 fun String.toPlayerUUID() = try {

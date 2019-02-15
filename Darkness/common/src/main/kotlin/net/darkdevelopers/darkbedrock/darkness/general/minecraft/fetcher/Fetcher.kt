@@ -24,6 +24,7 @@ object Fetcher {
     /**
      * @param playerName The name of the player
      * @return The [UUID] of the given player
+     * @throws IndexOutOfBoundsException
      */
     fun getUUID(playerName: String): UUID {
         val output = getTextFromURL("https://api.mojang.com/users/profiles/minecraft/$playerName")
