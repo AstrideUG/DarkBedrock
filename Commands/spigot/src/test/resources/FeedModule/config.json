@@ -9,7 +9,7 @@
         "Modules.Command.Feed.Successfully": "%Prefix.Text%Oh bin ich voll, ich bekomme kein Bissen mehr runter.",
         "Modules.Command.Feed.Other.Sender.Successfully": "%Prefix.Text%Du hast &f<Target>&a zwangs ernährt. Was bist du nur für ein Mensch :).",
         "Modules.Command.Feed.Other.Target.Success": "%Prefix.Text%bäääääääääääh...",
-        "Modules.Command.Feed.Other.Target.Successfully": "%Prefix%&f<Sender>&a hat dich zwangs ernährt. Da geht nicht mehr rein.",
+        "Modules.Command.Feed.Other.Target.Successfully": "%Prefix%&f<Sender>&a hat dich zwangsernährt. Da geht nichts mehr rein.",
         " ": ""
       }
     }
