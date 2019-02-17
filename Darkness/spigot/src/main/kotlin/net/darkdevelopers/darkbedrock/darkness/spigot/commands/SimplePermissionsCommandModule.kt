@@ -48,7 +48,7 @@ abstract class SimplePermissionsCommandModule(protected val defaultCommandName: 
         minLength: Int = 0,
         maxLength: Int = 0,
         tabCompleter: TabCompleter? = null,
-        vararg aliases: String
+        vararg aliases: String = config.aliases
     ) : Command(
         javaPlugin,
         name,
@@ -66,6 +66,8 @@ abstract class SimplePermissionsCommandModule(protected val defaultCommandName: 
         val messages = SpigotGsonMessages(GsonConfig(configData).load()).availableMessages
         val permissions = GsonStringMapWithSubs(jsonObject["permissions"]?.asJsonObject ?: JsonObject()).available
         val commandName = jsonObject["command-name"]?.asString ?: defaultCommandName
+        val aliases: Array<out String> =
+            jsonObject["aliases"]?.asJsonArray?.map { it.asString }?.toTypedArray() ?: emptyArray()
     }
 
 
