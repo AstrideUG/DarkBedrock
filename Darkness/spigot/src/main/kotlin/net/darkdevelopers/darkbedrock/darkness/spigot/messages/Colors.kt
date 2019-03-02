@@ -5,7 +5,7 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.messages
 
 import org.bukkit.ChatColor
 
-enum class Colors(private val chatColor: ChatColor) {
+enum class Colors(val chatColor: ChatColor) {
     /**
      * Wird bei SEHR wichtigen Sachen verwendet
      */

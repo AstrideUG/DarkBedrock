@@ -11,6 +11,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.functions.getOrKey
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.Command
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendIfNotNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessages
@@ -111,8 +112,11 @@ class SpawnModule : Module {
     ) {
 
         override fun perform(sender: CommandSender, args: Array<String>) = sender.isPlayer {
-            fun String?.delay(timeUnit: TimeUnit) =
-                this?.replace("<Delay.${timeUnit.name}>", timeUnit.toMillis(config.delay).toString(), true)
+            fun String?.delay(timeUnit: TimeUnit) = this?.replace(
+                "<Delay.${timeUnit.name}>",
+                timeUnit.convert(config.delay, TimeUnit.MILLISECONDS).toString(),
+                true
+            )
 
             if (location == null) {
                 location = config.getLocation()
@@ -231,7 +235,7 @@ class SpawnModule : Module {
 
         @EventHandler
         fun on(event: WeatherChangeEvent) = check(event.world) {
-            cancel(event, event.toWeatherState())
+            event.cancel(event.toWeatherState())
         }
 
         @EventHandler
@@ -246,7 +250,7 @@ class SpawnModule : Module {
 
         private fun block(event: PlayerEvent) = block(event, event.player)
 
-        private fun block(event: Event, player: Player) = check(event, player) { cancel(event as Cancellable) }
+        private fun block(event: Event, player: Player) = check(event, player) { (event as Cancellable).cancel() }
 
         private fun Player.changeGameMode(event: Event) = check(event, this) { gameMode = GameMode.ADVENTURE }
 

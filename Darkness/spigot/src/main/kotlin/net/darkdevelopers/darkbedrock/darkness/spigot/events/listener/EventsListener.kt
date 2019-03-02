@@ -26,7 +26,7 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
 
     companion object {
         //        private val handlers = HandlerList()
-        private var instance: EventsListener? = null
+        private lateinit var instance: EventsListener
         /**
          * @author Lars Artmann | LartyHD
          * If it is true: Will the player, 50 milliseconds, sent a respawn packet after his death
@@ -34,16 +34,12 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
         var autoRespawn: Boolean = false
 //        var debug: Boolean = false
 
-        fun getSimpleInstance(javaPlugin: JavaPlugin) = if (instance == null) EventsListener(javaPlugin) else instance!!
+        fun getSimpleInstance(javaPlugin: JavaPlugin): EventsListener {
+            if (!::instance.isInitialized) instance = EventsListener(javaPlugin)
+            return instance
+        }
 
-//        @JvmStatic
-//        fun Event.getHandlerList() = handlers
     }
-
-//    @EventHandler(priority = EventPriority.LOW)
-//    fun onPlayerDeathEvent(event: Event) {
-//        if (debug) println("Event{name='${event.eventName}', async=${event.isAsynchronous}, HandlerList(${event.handlers})}")
-//    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onPlayerDeathEvent(event: PlayerDeathEvent) {
