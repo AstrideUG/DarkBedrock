@@ -17,7 +17,7 @@ enum class Colors(val chatColor: ChatColor) {
     /**
      * Wird bei wichtigen Sachen (vor allem in Texten) verwendet
      */
-    IMPORTANT(ChatColor.DARK_GRAY),
+    IMPORTANT(ChatColor.GREEN),
     /**
      * Wird bei Texten verwendet
      */
