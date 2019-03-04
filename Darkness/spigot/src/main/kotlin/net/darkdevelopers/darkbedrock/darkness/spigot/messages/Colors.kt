@@ -17,11 +17,11 @@ enum class Colors(val chatColor: ChatColor) {
     /**
      * Wird bei wichtigen Sachen (vor allem in Texten) verwendet
      */
-    IMPORTANT(ChatColor.GREEN),
+    IMPORTANT(ChatColor.WHITE),
     /**
      * Wird bei Texten verwendet
      */
-    TEXT(ChatColor.GRAY),
+    TEXT(ChatColor.GREEN),
     /**
      * Für Prefixe
      */
