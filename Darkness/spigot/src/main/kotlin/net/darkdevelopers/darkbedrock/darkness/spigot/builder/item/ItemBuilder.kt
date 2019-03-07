@@ -80,10 +80,6 @@ open class ItemBuilder(private val itemStack: ItemStack) : IItemBuilder {
     /*ItemMeta Setter*/
     override fun setLore(lore: List<String>): IItemBuilder = apply { itemMeta.lore = lore }
 
-    override fun setLore(vararg lore: String): IItemBuilder = setLore(lore.toList())
-
-    override fun setName(name: String) = setDisplayName(name)
-
     override fun setDisplayName(displayName: String): IItemBuilder = apply { itemMeta.displayName = displayName }
 
     override fun setUnbreakable(unbreakable: Boolean): IItemBuilder =

@@ -57,7 +57,7 @@ interface IItemBuilder : Builder<ItemStack> {
 
     fun setLore(vararg lore: String): IItemBuilder = setLore(lore.toList())
 
-    fun setName(name: String): IItemBuilder
+    fun setName(name: String): IItemBuilder = apply { setDisplayName(name) }
 
     fun setDisplayName(displayName: String): IItemBuilder
 
