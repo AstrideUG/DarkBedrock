@@ -2,6 +2,8 @@
  * © Copyright - Lars Artmann aka. LartyHD 2018.
  */
 
+version = "1.0-SNAPSHOT"
+
 dependencies {
     compile(project(":DarkFrame:DarkFrame-Spigot"))
     compile(project(":APIs:Modules:Modules-Api"))

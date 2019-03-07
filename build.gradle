@@ -15,14 +15,17 @@ buildscript {
     }
 }
 
+import org.apache.tools.ant.filters.ReplaceTokens
+
 subprojects {
 
     apply plugin: 'java'
     apply plugin: 'kotlin'
     apply plugin: 'idea'
 
-    group = "net.darkdevelopers.darkbedrock"
-    version = "1.0-SNAPSHOT"
+    group = pluginGroup
+    version = pluginVersion
+
     libsDirName = "libraries"
 
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -61,6 +64,12 @@ subprojects {
         testCompileOnly "org.mockito:mockito-all:2.0.2-beta"
         testCompileOnly "org.junit.jupiter:junit-jupiter-api:5.3.1"
 
+    }
+
+    processResources {
+        from(sourceSets.main.resources.srcDirs) {
+            filter ReplaceTokens, tokens: [version: version]
+        }
     }
 
     jar {

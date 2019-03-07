@@ -19,6 +19,7 @@ import java.util.*
  *
  * Current Version: 1.0 (03.02.2019 - 03.02.2019)
  */
+//TODO: Move to Spigot
 object Fetcher {
 
     /**

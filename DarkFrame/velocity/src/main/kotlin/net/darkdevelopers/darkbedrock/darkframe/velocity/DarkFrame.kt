@@ -19,7 +19,7 @@ import kotlin.properties.Delegates
 @Plugin(
     id = "darkframe",
     name = "DarkFrame",
-    version = "1.0-SNAPSHOT",
+    version = "@version@",
     authors = ["Lars Artmann | LartyHD"]
 )
 class DarkFrame @Inject private constructor(@DataDirectory private val path: Path) {

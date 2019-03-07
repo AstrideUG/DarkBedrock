@@ -6,7 +6,6 @@ package net.darkdevelopers.darkbedrock.darkness.general.utils
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 
-@Deprecated("")
 object ReflectUtils {
     fun setValue(any: Any, name: String, value: Any) = try {
         getField(any.javaClass, name)?.set(any, value)
