@@ -3,8 +3,9 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.team
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.builder.InventoryBuilder
-import net.darkdevelopers.darkbedrock.darkness.spigot.builder.ItemBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inverntory.InventoryBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.ItemBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
@@ -158,7 +159,11 @@ class TeamManager(javaPlugin: JavaPlugin, colored: Boolean, teamsCount: Int) : L
     }
 
     private fun openTeamGUI(player: Player) = player.openInventory(
-        InventoryBuilder(InventoryUtils.getInventorySize(this.teams.size), "${SECONDARY}Teams")
+        InventoryBuilder(
+            InventoryUtils.getInventorySize(
+                this.teams.size
+            ), "${SECONDARY}Teams"
+        )
             .setDesign()
             .sortChestInventory(arrayListOf<ItemStack>().apply { teams.forEach { add(getItem(it, player)) } })
             .build()
@@ -197,7 +202,7 @@ class TeamManager(javaPlugin: JavaPlugin, colored: Boolean, teamsCount: Int) : L
             )
         ) {
             val itemName = event.currentItem.itemMeta.displayName ?: return
-            cancel(event)
+            event.cancel()
             val gameTeam: GameTeam? = if (itemName.startsWith("§7T"))
                 if (teams.size > 9)
                     getTeam(itemName.substring(0, 3))

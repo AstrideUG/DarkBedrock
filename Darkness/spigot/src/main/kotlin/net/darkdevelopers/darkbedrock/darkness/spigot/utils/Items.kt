@@ -3,7 +3,8 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.builder.ItemBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.ItemBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.SkullItemBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.SECONDARY
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
@@ -16,7 +17,7 @@ import org.bukkit.inventory.ItemStack
 enum class Items(val itemStack: ItemStack) {
 
     LEAVE(
-        ItemBuilder(
+        SkullItemBuilder(
             Material.SKULL_ITEM,
             1,
             3.toShort()
@@ -26,7 +27,7 @@ enum class Items(val itemStack: ItemStack) {
         ).setName("${SECONDARY}Zurück zur Lobby").build()
     ),
     CHEST(
-        ItemBuilder(
+        SkullItemBuilder(
             Material.SKULL_ITEM,
             1,
             3.toShort()

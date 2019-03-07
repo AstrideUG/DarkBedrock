@@ -1,8 +1,8 @@
 /*
- * © Copyright - SegdoMedia | Segdo aka. Dominik Milenko 2018
+ * © Copyright - Lars Artmann aka. LartyHD 2019.
  */
 
-package net.darkdevelopers.darkbedrock.darkness.spigot.builder.interfaces
+package net.darkdevelopers.darkbedrock.darkness.spigot.builder.inverntory.interfaces
 
 import net.darkdevelopers.darkbedrock.darkness.general.builder.interfaces.Builder
 import org.bukkit.inventory.Inventory

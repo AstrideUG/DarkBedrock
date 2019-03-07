@@ -1,8 +1,9 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.vote.listener
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.builder.InventoryBuilder
-import net.darkdevelopers.darkbedrock.darkness.spigot.builder.ItemBuilder
-import net.darkdevelopers.darkbedrock.darkness.spigot.builder.interfaces.IItemBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inverntory.InventoryBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.ItemBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.interfaces.IItemBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
@@ -33,13 +34,22 @@ import java.util.*
  */
 class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, private val voteMaps: Array<String>) :
     Listener(javaPlugin) {
-    private val mapVoteInventory: Inventory = InventoryBuilder(9, Items.MAP_VOTE.displayName).setDesign().build()
+    private val mapVoteInventory: Inventory = InventoryBuilder(
+        9,
+        Items.MAP_VOTE.displayName
+    ).setDesign().build()
     private val settingsInventory: Inventory =
-        InventoryBuilder(InventoryType.BREWING, Items.SETTINGS.displayName).setDesign()
+        InventoryBuilder(
+            InventoryType.BREWING,
+            Items.SETTINGS.displayName
+        ).setDesign()
             .setItem(0, Items.Settings.MAP_VOTE.itemStack).setItem(1, Items.Settings.START.itemStack)
             .setItem(2, Items.Settings.FORCE_MAP.itemStack).setItem(3, Items.Settings.DECO.itemStack).build()
     private val startInventory: Inventory =
-        InventoryBuilder(InventoryType.HOPPER, Items.SETTINGS.displayName).setDesign()
+        InventoryBuilder(
+            InventoryType.HOPPER,
+            Items.SETTINGS.displayName
+        ).setDesign()
             .setItem(2, Items.Settings.START.itemStack).build()
     private val votes: VotesHandler = createMapVotesHandler()
     private var force: Vote? = null
@@ -62,7 +72,7 @@ class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, privat
         val humanEntity = event.whoClicked ?: return
         val inventory = humanEntity.openInventory?.topInventory ?: return
         if (inventory == Items.MAP_VOTE || inventory == Items.SETTINGS || inventory == Items.Settings.FORCE_MAP) {
-            cancel(event)
+            event.cancel()
             val displayName = event.currentItem?.itemMeta?.displayName ?: return
             when (inventory.title) {
                 Items.MAP_VOTE.displayName -> addVote(humanEntity, displayName)
@@ -89,7 +99,7 @@ class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, privat
         if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
             val item = event.item ?: return
             if (item == Items.MAP_VOTE.itemStack || item == Items.SETTINGS.itemStack) {
-                cancel(event)
+                event.cancel()
                 if (item == Items.MAP_VOTE.itemStack)
                     openMapVoteInventory(event.player)
                 else if (item == Items.SETTINGS.itemStack)

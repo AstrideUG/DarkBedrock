@@ -1,10 +1,10 @@
 /*
- * © Copyright - SegdoMedia | Segdo aka. Dominik Milenko 2018
+ * © Copyright - Lars Artmann aka. LartyHD 2019.
  */
 
-package net.darkdevelopers.darkbedrock.darkness.spigot.builder
+package net.darkdevelopers.darkbedrock.darkness.spigot.builder.inverntory
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.builder.interfaces.IInventoryBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inverntory.interfaces.IInventoryBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.setDesign
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.sortChestInventory
 import org.bukkit.Bukkit
@@ -20,15 +20,22 @@ import org.bukkit.inventory.ItemStack
  * @author Lars Artmann | LartyHD & Segdo aka. Dominik Milenko
  * Last edit 24.08.2018
  */
-class InventoryBuilder(private val inventory: Inventory) : IInventoryBuilder {
+class InventoryBuilder(private val inventory: Inventory) :
+    IInventoryBuilder {
 
     constructor(type: InventoryType) : this(null, type)
 
     constructor(slots: Int) : this(null, slots)
 
-    constructor(type: InventoryType, name: String) : this(null, type, saveTitle(name))
+    constructor(type: InventoryType, name: String) : this(
+        null, type,
+        saveTitle(name)
+    )
 
-    constructor(slots: Int, name: String) : this(null, slots, saveTitle(name))
+    constructor(slots: Int, name: String) : this(
+        null, slots,
+        saveTitle(name)
+    )
 
     constructor(owner: InventoryHolder?, type: InventoryType) : this(Bukkit.createInventory(owner, type))
 
