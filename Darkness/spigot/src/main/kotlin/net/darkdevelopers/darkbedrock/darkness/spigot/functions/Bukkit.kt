@@ -3,6 +3,7 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 import net.darkdevelopers.darkbedrock.darkness.general.minecraft.fetcher.Fetcher
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
+import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
@@ -83,6 +84,21 @@ fun Cancellable.cancel(): Unit = cancel(true)
  */
 fun Cancellable.cancel(value: Boolean) {
     isCancelled = value
+}
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 08.03.2019 17:17.
+ *
+ * @throws
+ *
+ * Current Version: 1.0 (08.03.2019 - 08.03.2019)
+ */
+fun String.toMaterial(): Material? = try {
+    @Suppress("DEPRECATION")
+    Material.getMaterial(toInt())
+} catch (e: Exception) {
+    Material.getMaterial(toUpperCase())
 }
 
 
