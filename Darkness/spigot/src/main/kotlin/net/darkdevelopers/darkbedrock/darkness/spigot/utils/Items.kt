@@ -19,8 +19,7 @@ enum class Items(val itemStack: ItemStack) {
     LEAVE(
         SkullItemBuilder(
             Material.SKULL_ITEM,
-            1,
-            3.toShort()
+            1
         ).setOwner(
             "http://textures.minecraft.net/texture/1b6f1a25b6bc199946472aedb370522584ff6f4e83221e5946bd2e41b5ca13b",
             "MHF_ArrowRight"
@@ -29,8 +28,7 @@ enum class Items(val itemStack: ItemStack) {
     CHEST(
         SkullItemBuilder(
             Material.SKULL_ITEM,
-            1,
-            3.toShort()
+            1
         ).setOwner(
             "http://textures.minecraft.net/texture/6f68d509b5d1669b971dd1d4df2e47e19bcb1b33bf1a7ff1dda29bfc6f9ebf",
             "MHF_Chest"

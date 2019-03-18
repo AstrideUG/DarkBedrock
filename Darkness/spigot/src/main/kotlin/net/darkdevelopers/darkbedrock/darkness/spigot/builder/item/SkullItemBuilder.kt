@@ -26,7 +26,7 @@ class SkullItemBuilder(itemStack: ItemStack) : ItemBuilder(itemStack), ISkullIte
 
     constructor(itemBuilder: ItemBuilder) : this(itemBuilder.build())
 
-    constructor(material: Material, amount: Int = 1, damage: Short = 0) : this(ItemStack(material, amount, damage))
+    constructor(material: Material, amount: Int = 1) : this(ItemStack(material, amount, 3))
 
     override fun setOwner(owner: String): ISkullItemBuilder = apply { itemMeta.owner = owner }
 
