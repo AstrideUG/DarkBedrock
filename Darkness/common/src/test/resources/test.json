@@ -1,0 +1,66 @@
+{
+  "Messages": {
+    "language": "de_DE",
+    "languages": {
+      "de_ASOCIAL": {},
+      "de_DE": {
+        "Prefix": "%Colors.PRIMARY%%Colors.EXTRA%CosmicSky %Colors.IMPORTANT%┃ %Colors.RESET%",
+        "Prefix.Test": "%Prefix%%Colors.TEXT%",
+        "Prefix.Warn": "%Prefix%%Colors.WARNING%",
+        "Colors": {
+          "PRIMARY": "\u0026b",
+          "SECONDARY": "\u00269",
+          "IMPORTANT": "\u0026f",
+          "TEXT": "\u0026a",
+          "EXTRA": "\u0026l",
+          "DESIGN": "\u0026m",
+          "RESET": "\u0026r",
+          "WARNING": "\u0026c"
+        },
+        "ContactATeamMember": "%Prefix.Warn%Melde dich bitte, mit deinem Spielernamen, bei einem Teammitglied!",
+        "RunningInAError": "%Prefix.Warn%Es ist ein Fehler aufgetreten!\n%ContactATeamMember%\n%Prefix.Test%ID: %Colors.IMPORTANT%",
+        "ToUseThisCommand": "%Prefix.Test%Damit du diesen Command benutzen kannst.",
+        "PlayerHasNotEnoughMoney": "%Prefix.Warn%Du hast nicht genug Geld!",
+        "ExpandToBiggerSizeThanMaxSize": "%Prefix.Warn%Die maximale größe wurde erreicht!",
+        "PlayerAreNotTheOwnerOfAIsland": "%Prefix.Test%Du musst der %Colors.IMPORTANT%Besitzer %Colors.TEXT%eine Insel sein.\n%ToUseThisCommand%",
+        "TargetAreNotTheOwnerOfAIsland": "%Prefix.Test%\u003cTarget\u003e muss %Colors.IMPORTANT%Besitzer %Colors.TEXT%eine Insel sein.\n%ToUseThisCommand%",
+        "PlayerHasAnIslandButNotAPlanet": "%RunningInAError%\"PlayerHasAnIslandButNotAPlanet\"",
+        "TargetHasAnIslandButNotAPlanet": "%RunningInAError%\"TargetHasAnIslandButNotAPlanet\"",
+        "OldOwnerPlanetChangeOwnerFailed": "%RunningInAError%\"OldOwnerPlanetChangeOwnerFailed\"",
+        "NewOwnerPlanetChangeOwnerFailed": "%RunningInAError%\"NewOwnerPlanetChangeOwnerFailed\"",
+        "Planet.Command": {
+          "NoArgs.Inventory": {
+            "Name": "%Colors.SECONDARY%Planet",
+            "Entry": {
+              "Info": "%Colors.SECONDARY%Info",
+              "Shape": "%Colors.SECONDARY%Shape",
+              "Style": "%Colors.SECONDARY%Style",
+              "Expand": "%Colors.SECONDARY%Expand"
+            }
+          },
+          "Shape.Inventory": {
+            "Name": "%Colors.SECONDARY%Shape",
+            "Entry.Cube": "%Colors.SECONDARY%Cube",
+            "Cube.IsNotSpherePlanet": "%Prefix.Warn%Du brauchst einen Runden Planeten, um diesen Command zu nutzen!"
+          },
+          "Style.Inventory": {
+            "Name": "%Colors.SECONDARY%Style",
+            "Entry.Style": "%Colors.SECONDARY%Style",
+            "Arg3.Exception": "%RunningInAError%\"\u003cException\u003e\""
+          },
+          "Expand": {
+            "Inventory.Name": "%Colors.SECONDARY%Expand",
+            "Inventory.Entry.Expand": "%Colors.SECONDARY%Expand",
+            "Chat": "%Prefix.Test%Du kannst für %Colors.IMPORTANT%\u003cPrice\u003e %Colors.TEXT%deine Insel erweitern.",
+            "Chat.HoverText": "%Colors.SECONDARY%Erweitern!",
+            "Force": "%Prefix.Test%Diese Erweiterung kostete %Colors.IMPORTANT%\u003cPrice\u003e %Colors.TEXT%Coins.\n%Prefix.Test%Die nächste Erweiterung kostet %Colors.IMPORTANT%\u003cNextPrice\u003e %Colors.TEXT%Coins.",
+            "Force.Delay": "%Prefix.Warn%Du musst eine Sekunde warten bevor du diesen Befehl noch mal ausführen kannst!"
+          },
+          "Info": "%Prefix.Test%Informationen über die Insel von %Colors.IMPORTANT%\u003cOwner\u003e%Colors.TEXT%:\n%Prefix.Test%Größe: %Colors.IMPORTANT%\u003cSize\u003e\n%Prefix.Test%Maximale Größe: %Colors.IMPORTANT%\u003cMaxSize\u003e\n%Prefix.Test%Material: %Colors.IMPORTANT%\u003cMaterial\u003e\n%Prefix.Test%Blockschaden: %Colors.IMPORTANT%\u003cBlockDamage\u003e\n%Prefix.Test%Zentrum:\n%Prefix.Test%  Welt: %Colors.IMPORTANT%\u003cCenter.World\u003e\n%Prefix.Test%  X: %Colors.IMPORTANT%\u003cCenter.X\u003e\n%Prefix.Test%  Y: %Colors.IMPORTANT%\u003cCenter.Y\u003e\n%Prefix.Test%  Z: %Colors.IMPORTANT%\u003cCenter.Z\u003e",
+          "Info.Inventory.Entry.Info": "%Colors.SECONDARY%Info",
+          "Info.WorldIsNotSkyBlockWorld": "%Prefix.Warn%Du bist nicht in der Planetenwelt!"
+        }
+      }
+    }
+  }
+}
