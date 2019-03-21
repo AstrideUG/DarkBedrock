@@ -23,7 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin
 class ModulesCommand(
     javaPlugin: JavaPlugin,
     private val loaders: Set<ModuleLoader>,
-    private val messages: Map<String, String>
+    private val messages: Map<String, String?>
 ) : Command(
     javaPlugin,
     "OldModules",

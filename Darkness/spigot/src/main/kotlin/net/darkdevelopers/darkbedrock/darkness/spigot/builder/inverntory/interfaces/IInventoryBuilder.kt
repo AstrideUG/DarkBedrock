@@ -32,8 +32,6 @@ interface IInventoryBuilder : Builder<Inventory> {
 
     fun setDesign(): IInventoryBuilder
 
-    fun setDesign(items: List<ItemStack>): IInventoryBuilder
-
     fun sortChestInventory(itemStacks: List<ItemStack>, addSlots: Int = 0): IInventoryBuilder
 
 }

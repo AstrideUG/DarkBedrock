@@ -7,11 +7,11 @@ import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.index
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendScoreBoard
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toScoreboardScore
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.index
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.sendScoreBoard
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.toScoreboardScore
 import net.milkbowl.vault.economy.Economy
 import net.minecraft.server.v1_8_R3.ScoreboardScore
 import org.bukkit.Bukkit
@@ -62,10 +62,9 @@ class ScoreboardModule : Module, Listener(DarkFrame.instance) {
         "    "
     ).index().toScoreboardScore()
 
-    fun Player.sendScoreboard(size: Int) = sendScoreBoard(
-        player,
+    fun Player.sendScoreboard(size: Int) = player.sendScoreBoard(
         "${ChatColor.AQUA}${ChatColor.BOLD}CosmicSky${ChatColor.WHITE}${ChatColor.BOLD}.${ChatColor.AQUA}${ChatColor.BOLD}net",
-        player.generateScoreboard(size)
+        player.generateScoreboard(size).toSet()
     )
 
     fun sendScoreboards(size: Int = Utils.players.size) = Utils.goThroughAllPlayers { it.sendScoreboard(size) }

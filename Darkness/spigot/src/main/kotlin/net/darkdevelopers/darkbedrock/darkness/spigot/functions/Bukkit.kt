@@ -1,10 +1,7 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
 import net.darkdevelopers.darkbedrock.darkness.general.minecraft.fetcher.Fetcher
-import org.bukkit.Bukkit
-import org.bukkit.GameMode
-import org.bukkit.Material
-import org.bukkit.OfflinePlayer
+import org.bukkit.*
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
 import java.util.*
@@ -36,7 +33,7 @@ fun Iterable<String>.toWorlds() = mapNotNull {
 fun String.toGameMode(): GameMode? = try {
     val id = toIntOrNull()
     @Suppress("DEPRECATION")
-    if (id != null) org.bukkit.GameMode.getByValue(id) else org.bukkit.GameMode.valueOf(toUpperCase())
+    if (id != null) GameMode.getByValue(id) else GameMode.valueOf(toUpperCase())
 } catch (ex: Exception) {
     null
 }
@@ -99,6 +96,23 @@ fun String.toMaterial(): Material? = try {
     Material.getMaterial(toInt())
 } catch (e: Exception) {
     Material.getMaterial(toUpperCase())
+}
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 21.03.2019 01:43.
+ * Current Version: 1.0 (21.03.2019 - 21.03.2019)
+ */
+fun Location.randomLook(): Location {
+    val random = Random()
+    var yaw = 0
+    when (random.nextInt(3)) {
+        0 -> yaw = 0
+        1 -> yaw = 90
+        2 -> yaw = 180
+        3 -> yaw = -90
+    }
+    return Location(world, x, y, z, yaw.toFloat(), pitch)
 }
 
 

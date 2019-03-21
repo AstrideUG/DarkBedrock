@@ -4,7 +4,8 @@
 
 dependencies {
     jarLibs "com.google.code.gson:gson:$versions_gson"
-    jarLibs "com.google.inject:guice:$versions_guice"
-//    jarLibs "org.mongodb:mongodb-driver-async:$versions_mongodb"
+    jarLibs "com.google.guava:guava:$versions_guava"
+    jarLibs "com.google.inject.integration:integration:1.0"
+//    jarLibs "com.google.inject:guice:$versions_guice"
     jarLibs "org.mongodb:mongodb-driver:$versions_mongodb"
 }

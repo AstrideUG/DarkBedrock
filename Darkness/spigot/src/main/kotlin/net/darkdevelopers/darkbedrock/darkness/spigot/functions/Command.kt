@@ -1,6 +1,6 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.commands.Command
+import net.darkdevelopers.darkbedrock.darkness.spigot.commands.interfaces.ICommand
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -17,8 +17,8 @@ import org.bukkit.entity.Player
  * Current Version: 1.0 (22.12.2018 - 22.12.2018)
  */
 //TODO Edit the name
-fun Command.possiblePlayer(
-    messages: Map<String, String>,
+fun ICommand.possiblePlayer(
+    messages: Map<String, String?>,
     prefix: String,
     sender: CommandSender,
     arg: String?,

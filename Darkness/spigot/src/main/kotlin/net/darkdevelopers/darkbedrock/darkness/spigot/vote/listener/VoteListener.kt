@@ -4,11 +4,12 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inverntory.Invento
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.ItemBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.interfaces.IItemBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendLobbyScoreBoard
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
-import net.darkdevelopers.darkbedrock.darkness.spigot.permissions.Permissions
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.*
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Items
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
 import net.darkdevelopers.darkbedrock.darkness.spigot.vote.MapVotesHandler
 import net.darkdevelopers.darkbedrock.darkness.spigot.vote.Vote
 import net.darkdevelopers.darkbedrock.darkness.spigot.vote.interfaces.VotesHandler
@@ -61,7 +62,7 @@ class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, privat
     @EventHandler
     fun onPlayerJoinEvent(event: PlayerJoinEvent) {
         val player = event.player ?: return
-        if (hasPermission(player, Permissions.GAME_LOBBY_SETTINGS.toString()))
+        if (hasPermission(player, "dark.settings"))
             player.inventory.setItem(1, Items.SETTINGS.itemStack)
         else
             player.inventory.setItem(1, Items.MAP_VOTE.itemStack)
@@ -163,7 +164,7 @@ class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, privat
         if (Bukkit.getOnlinePlayers().size > 1) {
             val mapName = ChatColor.stripColor(displayName)
             force = Vote(mapName)
-            Utils.goThroughAllPlayers { sendLobbyScoreBoard(it, mapName, Messages.SERVER_NAME.toString()) }
+            Utils.goThroughAllPlayers { it.sendLobbyScoreBoard(mapName, Messages.SERVER_NAME.toString()) }
             Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Map$IMPORTANT: $mapName")
         } else humanEntity.sendMessage("${Messages.PREFIX}${TEXT}Es braucht min. 2 ${IMPORTANT}Spieler$TEXT um eine ${IMPORTANT}Map ${TEXT}auszuwählen")
         humanEntity.closeInventory()
