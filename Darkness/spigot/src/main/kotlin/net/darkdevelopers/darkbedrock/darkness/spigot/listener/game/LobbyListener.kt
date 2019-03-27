@@ -4,6 +4,7 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.listener.game
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
@@ -45,7 +46,7 @@ abstract class LobbyListener protected constructor(javaPlugin: JavaPlugin, priva
     }
 
     @EventHandler
-    fun onPlayerJoinEvent(event: PlayerJoinEvent) {
+    open fun onPlayerJoinEvent(event: PlayerJoinEvent) {
         val player = event.player
         event.joinMessage = "${Messages.PREFIX}$IMPORTANT${player.displayName}$TEXT hat die Runde betreten"
         player.teleport(lobbyLocation)
@@ -53,23 +54,23 @@ abstract class LobbyListener protected constructor(javaPlugin: JavaPlugin, priva
     }
 
     @EventHandler
-    fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
+    open fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
         event.leaveMessage = "${Messages.PREFIX}$IMPORTANT${event.player.displayName}$TEXT hat die Runde verlassen"
     }
 
     @EventHandler
-    fun onPlayerMoveEvent(event: PlayerMoveEvent) {
+    open fun onPlayerMoveEvent(event: PlayerMoveEvent) {
         if (event.player.location.blockY < 0) event.player.teleport(lobbyLocation)
     }
 
     @EventHandler
-    fun onPlayerDeathEvent(event: PlayerDeathEvent) {
+    open fun onPlayerDeathEvent(event: PlayerDeathEvent) {
         event.deathMessage = null
         event.keepInventory = true
     }
 
     @EventHandler
-    fun onPlayerInteractEvent(event: PlayerInteractEvent) {
+    open fun onPlayerInteractEvent(event: PlayerInteractEvent) {
         val action = event.action ?: return
         if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
             /*final Player player = event.getPlayer();
@@ -86,56 +87,56 @@ abstract class LobbyListener protected constructor(javaPlugin: JavaPlugin, priva
     }
 
     @EventHandler
-    fun onAsyncPlayerChatEvent(event: AsyncPlayerChatEvent) {
+    open fun onAsyncPlayerChatEvent(event: AsyncPlayerChatEvent) {
         event.format = "${event.player.displayName}$IMPORTANT: $RESET${event.message}"
     }
 
     @EventHandler
-    fun onPlayerRespawnEvent(event: PlayerRespawnEvent) {
+    open fun onPlayerRespawnEvent(event: PlayerRespawnEvent) {
         event.respawnLocation = lobbyLocation
     }
 
     @EventHandler
-    fun onPlayerDropItemEvent(event: PlayerDropItemEvent) = cancel(event)
+    open fun onPlayerDropItemEvent(event: PlayerDropItemEvent) = event.cancel()
 
     @EventHandler
-    fun onPlayerPickupItemEvent(event: PlayerPickupItemEvent) = cancel(event)
+    open fun onPlayerPickupItemEvent(event: PlayerPickupItemEvent) = event.cancel()
 
     @EventHandler
-    fun onFoodLevelChangeEvent(event: FoodLevelChangeEvent) = cancel(event)
+    open fun onFoodLevelChangeEvent(event: FoodLevelChangeEvent) = event.cancel()
 
     @EventHandler
-    fun onInventoryClickEvent(event: InventoryClickEvent) = cancel(event)
+    open fun onInventoryClickEvent(event: InventoryClickEvent) = event.cancel()
 
     @EventHandler
-    fun onEntityDamageEvent(event: EntityDamageEvent) = cancel(event)
+    open fun onEntityDamageEvent(event: EntityDamageEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockBreakEvent(event: BlockBreakEvent) = cancel(event)
+    open fun onBlockBreakEvent(event: BlockBreakEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockPlaceEvent(event: BlockPlaceEvent) = cancel(event)
+    open fun onBlockPlaceEvent(event: BlockPlaceEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockBurnEvent(event: BlockBurnEvent) = cancel(event)
+    open fun onBlockBurnEvent(event: BlockBurnEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockExplodeEvent(event: BlockExplodeEvent) = cancel(event)
+    open fun onBlockExplodeEvent(event: BlockExplodeEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockFormEvent(event: BlockFormEvent) = cancel(event)
+    open fun onBlockFormEvent(event: BlockFormEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockFromToEvent(event: BlockFromToEvent) = cancel(event)
+    open fun onBlockFromToEvent(event: BlockFromToEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockGrowEvent(event: BlockGrowEvent) = cancel(event)
+    open fun onBlockGrowEvent(event: BlockGrowEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockPhysicsEvent(event: BlockPhysicsEvent) = cancel(event)
+    open fun onBlockPhysicsEvent(event: BlockPhysicsEvent) = event.cancel()
 
     @EventHandler
-    fun onWeatherChangeEvent(event: WeatherChangeEvent) = cancel(event)
+    open fun onWeatherChangeEvent(event: WeatherChangeEvent) = event.cancel()
 
     protected abstract fun setJoinItems(player: Player)
 }
