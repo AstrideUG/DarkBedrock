@@ -13,23 +13,38 @@ import kotlin.collections.Map as KMap
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 16.01.2018 22:17.
- * Last edit 21.03.2019
+ * Last edit 27.03.2019
  */
 
 private val scoreboard: Scoreboard = Scoreboard()
 private val objective: ScoreboardObjective = scoreboard.registerObjective("object", IScoreboardCriteria.b)
 
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD.
+ * Current Version: 1.0 (??? - 27.03.2019)
+ */
 fun Player.sendLobbyScoreBoard(mapName: String, displayName: String) = sendScoreBoard(
-    displayName, listOf(
+    displayName, setOf(
         " ",
         "${TEXT}Map$IMPORTANT:",
         "$PRIMARY$mapName",
         "  "
-    ).index().toScoreboardScore().toSet()
+    )
 )
 
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 27.03.2019 05:21.
+ * Current Version: 1.0 (27.03.2019 - 27.03.2019)
+ */
+@JvmName("sendScoreBoardWithStrings")
+fun Player.sendScoreBoard(displayName: String, scoreboardScores: Set<String>): Unit =
+    sendScoreBoard(displayName, scoreboardScores.index().toScoreboardScore().toSet())
+
 @Deprecated("", ReplaceWith("sendScoreBoard(displayName, scoreboardScores.toSet())"))
-fun Player.sendScoreBoard(displayName: String, scoreboardScores: List<ScoreboardScore>) =
+fun Player.sendScoreBoard(displayName: String, scoreboardScores: List<ScoreboardScore>): Unit =
     sendScoreBoard(displayName, scoreboardScores.toSet())
 
 /**
@@ -56,14 +71,10 @@ fun Player.sendScoreBoard(displayName: String, scoreboardScores: Set<ScoreboardS
 fun scoreboardScore(name: String, score: Int): ScoreboardScore = (name to score).toScoreboardScore()
 
 fun Set<String>.index(): KMap<String, Int> = toList().index()
-
 fun List<String>.index(): KMap<String, Int> {
     var index = size
     return associateWith { index-- }
 }
 
 fun KMap<String, Int>.toScoreboardScore(): List<ScoreboardScore> = map { it.toPair().toScoreboardScore() }
-fun Pair<String, Int>.toScoreboardScore() = ScoreboardScore(
-    scoreboard,
-    objective, first
-).apply { score = second }
+fun Pair<String, Int>.toScoreboardScore() = ScoreboardScore(scoreboard, objective, first).apply { score = second }

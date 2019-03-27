@@ -10,7 +10,7 @@ import kotlin.random.Random
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 21.03.2019 04:39.
- * Current Version: 1.0 (21.03.2019 - 21.03.2019)
+ * Current Version: 1.0 (21.03.2019 - 27.03.2019)
  */
 class InventoryUtilsKtTest {
 
@@ -53,8 +53,6 @@ class InventoryUtilsKtTest {
         val inventorySize = getInventorySize(input)
 
         //Then
-        println(input)
-        println(inventorySize)
         assert(inventorySize == check)
 
     }
