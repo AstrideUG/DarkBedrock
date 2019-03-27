@@ -20,10 +20,10 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
 /**
- * Created by LartyHD on 29.11.2017  14:06.
- * Last edit 06.07.2018
+ * Created by LartyHD on 29.11.2017 14:06.
+ * Last edit 27.03.2019
  */
-class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
+open class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     private val killer: MutableMap<UUID, Player> = HashMap()
 

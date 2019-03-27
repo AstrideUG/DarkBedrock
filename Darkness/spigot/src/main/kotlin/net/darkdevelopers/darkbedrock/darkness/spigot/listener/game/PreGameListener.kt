@@ -4,6 +4,7 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.listener.game
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
@@ -20,9 +21,9 @@ import org.bukkit.plugin.java.JavaPlugin
 
 /**
  * Created by LartyHD on 29.11.2017  14:06.
- * Last edit 06.07.2018
+ * Last edit 27.03.2019
  */
-class PreGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
+open class PreGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @EventHandler
     fun onPlayerJoinEvent(event: PlayerJoinEvent) {
@@ -55,47 +56,47 @@ class PreGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     }
 
     @EventHandler
-    fun onPlayerDropItemEvent(event: PlayerDropItemEvent) = cancel(event)
+    fun onPlayerDropItemEvent(event: PlayerDropItemEvent) = event.cancel()
 
     @EventHandler
-    fun onPlayerPickupItemEvent(event: PlayerPickupItemEvent) = cancel(event)
+    fun onPlayerPickupItemEvent(event: PlayerPickupItemEvent) = event.cancel()
 
     @EventHandler
-    fun onFoodLevelChangeEvent(event: FoodLevelChangeEvent) = cancel(event)
+    fun onFoodLevelChangeEvent(event: FoodLevelChangeEvent) = event.cancel()
 
     @EventHandler
-    fun onInventoryClickEvent(event: InventoryClickEvent) = cancel(event)
+    fun onInventoryClickEvent(event: InventoryClickEvent) = event.cancel()
 
     @EventHandler
-    fun onPlayerInteractEvent(event: PlayerInteractEvent) = cancel(event)
+    fun onPlayerInteractEvent(event: PlayerInteractEvent) = event.cancel()
 
     @EventHandler
-    fun onEntityDamageEvent(event: EntityDamageEvent) = cancel(event)
+    fun onEntityDamageEvent(event: EntityDamageEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockBreakEvent(event: BlockBreakEvent) = cancel(event)
+    fun onBlockBreakEvent(event: BlockBreakEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockPlaceEvent(event: BlockPlaceEvent) = cancel(event)
+    fun onBlockPlaceEvent(event: BlockPlaceEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockBurnEvent(event: BlockBurnEvent) = cancel(event)
+    fun onBlockBurnEvent(event: BlockBurnEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockExplodeEvent(event: BlockExplodeEvent) = cancel(event)
+    fun onBlockExplodeEvent(event: BlockExplodeEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockFormEvent(event: BlockFormEvent) = cancel(event)
+    fun onBlockFormEvent(event: BlockFormEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockFromToEvent(event: BlockFromToEvent) = cancel(event)
+    fun onBlockFromToEvent(event: BlockFromToEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockGrowEvent(event: BlockGrowEvent) = cancel(event)
+    fun onBlockGrowEvent(event: BlockGrowEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockPhysicsEvent(event: BlockPhysicsEvent) = cancel(event)
+    fun onBlockPhysicsEvent(event: BlockPhysicsEvent) = event.cancel()
 
     @EventHandler
-    fun onWeatherChangeEvent(event: WeatherChangeEvent) = cancel(event)
+    fun onWeatherChangeEvent(event: WeatherChangeEvent) = event.cancel()
 }

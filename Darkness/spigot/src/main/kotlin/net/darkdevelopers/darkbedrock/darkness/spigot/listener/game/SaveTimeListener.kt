@@ -8,6 +8,6 @@ import org.bukkit.plugin.java.JavaPlugin
 
 /**
  * Created by LartyHD on 29.11.2017  14:06.
- * Last edit 06.07.2018
+ * Last edit 27.03.2019
  */
-class SaveTimeListener(javaPlugin: JavaPlugin) : Listener(javaPlugin)
+open class SaveTimeListener(javaPlugin: JavaPlugin) : Listener(javaPlugin)
