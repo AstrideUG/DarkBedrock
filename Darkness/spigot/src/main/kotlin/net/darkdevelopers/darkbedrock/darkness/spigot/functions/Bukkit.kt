@@ -44,9 +44,9 @@ fun String.toGameMode(): GameMode? = try {
  *
  * @throws IndexOutOfBoundsException
  *
- * Current Version: 1.0 (15.02.2019 - 15.02.2019)
+ * Current Version: 1.0 (15.02.2019 - 27.03.2019)
  */
-fun String.toPlayerUUID() = try {
+fun String.toPlayerUUID(): UUID = try {
     UUID.fromString(this)
 } catch (ex: Exception) {
     Bukkit.getPlayer(this)?.uniqueId ?: Fetcher.getUUID(this)
