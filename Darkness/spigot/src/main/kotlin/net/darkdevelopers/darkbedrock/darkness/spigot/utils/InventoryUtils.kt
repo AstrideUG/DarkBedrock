@@ -46,7 +46,7 @@ fun Player.removeItemInHand(): Unit =
  */
 fun getInventorySize(size: Int): Int = line * ((0..5).find { size <= line * it } ?: 6)
 
-//TODO Update The SetItems
+//TODO Edit name
 fun Inventory.sortChestInventory(itemStacks: List<ItemStack>, addSlots: Int = 0) {
     when (itemStacks.size) {
         1 -> setItem(4 + addSlots, itemStacks[0])

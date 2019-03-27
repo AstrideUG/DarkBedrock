@@ -10,6 +10,8 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Items
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.getInventorySize
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.sortChestInventory
 import net.darkdevelopers.darkbedrock.darkness.spigot.vote.MapVotesHandler
 import net.darkdevelopers.darkbedrock.darkness.spigot.vote.Vote
 import net.darkdevelopers.darkbedrock.darkness.spigot.vote.interfaces.VotesHandler
@@ -150,7 +152,7 @@ class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, privat
 
     private fun openForceMapInventory(humanEntity: HumanEntity) {
         val inventory = InventoryBuilder(
-            InventoryUtils.getInventorySize(maps.size),
+            getInventorySize(maps.size),
             Items.Settings.FORCE_MAP.displayName
         ).setDesign().build()
         val itemStacks = arrayListOf<ItemStack>()

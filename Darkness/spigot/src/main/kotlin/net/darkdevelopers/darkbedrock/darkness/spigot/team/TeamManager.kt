@@ -10,8 +10,8 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.team.utils.Teams
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.InventoryUtils
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.getInventorySize
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -160,9 +160,7 @@ class TeamManager(javaPlugin: JavaPlugin, colored: Boolean, teamsCount: Int) : L
 
     private fun openTeamGUI(player: Player) = player.openInventory(
         InventoryBuilder(
-            InventoryUtils.getInventorySize(
-                this.teams.size
-            ), "${SECONDARY}Teams"
+            getInventorySize(this.teams.size), "${SECONDARY}Teams"
         )
             .setDesign()
             .sortChestInventory(arrayListOf<ItemStack>().apply { teams.forEach { add(getItem(it, player)) } })
