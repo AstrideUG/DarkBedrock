@@ -21,13 +21,14 @@ open class GsonStringMap(jsonObject: JsonObject) {
      */
     open val available: Map<String, String?> = jsonObject.toStringMap()
 
-    /**
-     * @author Lars Artmann | LartyHD
-     * Created by Lars Artmann | LartyHD on 18.03.2019 22:33.
-     * Current Version: 1.0 (18.03.2019 - 18.03.2019)
-     */
-    @Suppress("LeakingThis")
-    open val availableOnInit: Map<String, String?> = available.toMap()
+//    /**
+//     * @author Lars Artmann | LartyHD
+//     * Created by Lars Artmann | LartyHD on 18.03.2019 22:33.
+//     * Current Version: 1.0 (18.03.2019 - 18.03.2019)
+//     */
+//    @Suppress("LeakingThis")
+//    open val availableOnInit: Map<String, String?> = available.toMap()
+
 
 }
 
