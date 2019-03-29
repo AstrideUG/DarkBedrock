@@ -17,7 +17,6 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import java.io.File
 import java.util.*
-import kotlin.concurrent.thread
 
 /**
  * @author Lars Artmann | LartyHD
@@ -93,7 +92,7 @@ object MapsUtils {
         val name = config.getAs<JsonPrimitive>("name", jsonObject)?.asString.toNonNull()
         val worldName = getWorldName(config, jsonObject)
         val world = MapsUtils.loadMap(worldName)
-        setWorldBoarder(config, "worldBoarder", world)
+        setWorldBoarder(config, "worldBoarder", jsonObject, world)
         val spawn = config.getLocation("spawn", jsonObject, world)
         val hologram = config.getLocationWithOutYawAndPitch("hologram", jsonObject, world)
         return Map(name, spawn, hologram, getRegion(config, jsonObject, world), lambda)
