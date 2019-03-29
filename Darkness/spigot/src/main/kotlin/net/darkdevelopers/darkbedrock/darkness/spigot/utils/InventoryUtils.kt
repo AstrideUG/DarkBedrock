@@ -106,7 +106,7 @@ fun Inventory.setGlass(slot: Int, durability: Number) = setItem(
 
 fun Inventory.hasItems(material: Material): Int {
     var count = 0
-    forEach { if (it.type == material) count += it.amount }
+    forEach { if (it?.type == material) count += it.amount }
     return count
 }
 
