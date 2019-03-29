@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 06.07.2018 10:24.
- * Last edit 13.01.2019
+ * Last edit 29.03.2019
  */
 //TODO: WorldBoarder Packets
 object Utils {
@@ -28,11 +28,6 @@ object Utils {
         (player as CraftPlayer).handle.playerConnection.sendPacket(packet)
 
 
-    private fun broadcast(message: String) {
-        Bukkit.getConsoleSender().sendMessage(message)
-        Utils.goThroughAllPlayers { it.sendMessage(message) }
-    }
-
     fun getTime(inputTime: Long): String {
         val time = Math.abs(inputTime)
         val sec = time % 60
@@ -48,7 +43,7 @@ object Utils {
         else if (min != 0L) remainingTime += "$IMPORTANT$min$TEXT Minuten "
         if (sec == 1L) remainingTime += "$IMPORTANT$sec$TEXT Sekunde "
         else if (time != 0L) remainingTime += "$IMPORTANT$sec$TEXT Sekunden "
-        return if (remainingTime.isBlank()) "${IMPORTANT}0 ${TEXT}Sekunden " else remainingTime.dropLast(1)
+        return if (remainingTime.isBlank()) "${IMPORTANT}0 ${TEXT}Sekunden" else remainingTime.dropLast(1)
     }
 
 }
