@@ -39,23 +39,23 @@ interface IItemBuilder : Builder<ItemStack> {
 
     fun addLore(lore: Collection<String>): IItemBuilder
 
-    fun addLore(vararg lore: String): IItemBuilder = addLore(lore.toList())
+    fun addLore(vararg lore: String): IItemBuilder = addLore(lore.toMutableList())
 
     fun addLore(index: Int, lore: Collection<String>): IItemBuilder
 
-    fun addLore(index: Int, vararg lore: String): IItemBuilder = addLore(index, lore.toList())
+    fun addLore(index: Int, vararg lore: String): IItemBuilder = addLore(index, lore.toMutableList())
 
     fun removeEnchantment(enchantment: Enchantment): IItemBuilder
 
     fun removeLore(lore: List<String>): IItemBuilder
 
-    fun removeLore(vararg lore: String): IItemBuilder = removeLore(lore.toList())
+    fun removeLore(vararg lore: String): IItemBuilder = removeLore(lore.toMutableList())
 
     fun removeLore(index: Int): IItemBuilder
 
     fun setLore(lore: List<String>): IItemBuilder
 
-    fun setLore(vararg lore: String): IItemBuilder = setLore(lore.toList())
+    fun setLore(vararg lore: String): IItemBuilder = setLore(lore.toMutableList())
 
     fun setName(name: String): IItemBuilder = apply { setDisplayName(name) }
 
