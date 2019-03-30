@@ -34,9 +34,9 @@ class MySQL(private val mySQLData: MySQLData) {
             MySQLData.createMySQLData(config)
         } catch (ex: NullPointerException) {
             MySQLData.printDefaultMySQLDataInConfigFile(config)
-            println()
+            println(" ")
             println("[MySQL] Please enter the MySQL data")
-            println()
+            println(" ")
             throw IllegalArgumentException("The MySQL data has not configured yet")
         }
     )

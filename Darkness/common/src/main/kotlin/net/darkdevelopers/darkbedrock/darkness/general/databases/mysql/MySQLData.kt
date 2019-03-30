@@ -4,6 +4,7 @@
 
 package net.darkdevelopers.darkbedrock.darkness.general.databases.mysql
 
+import com.google.gson.JsonPrimitive
 import net.darkdevelopers.darkbedrock.darkness.general.configs.Config
 
 data class MySQLData(
@@ -18,11 +19,11 @@ data class MySQLData(
 
         internal fun createMySQLData(config: Config): MySQLData {
             config.load()
-            val host = get<String>(config, "Host")
-            val port = get<Int>(config, "Port")
-            val username = get<String>(config, "Username")
-            val password = get<String>(config, "Password")
-            val database = get<String>(config, "Database")
+            val host = get<JsonPrimitive>(config, "Host").asString
+            val port = get<JsonPrimitive>(config, "Port").asInt
+            val username = get<JsonPrimitive>(config, "Username").asString
+            val password = get<JsonPrimitive>(config, "Password").asString
+            val database = get<JsonPrimitive>(config, "Database").asString
             return MySQLData(host, port, username, password, database)
         }
 
