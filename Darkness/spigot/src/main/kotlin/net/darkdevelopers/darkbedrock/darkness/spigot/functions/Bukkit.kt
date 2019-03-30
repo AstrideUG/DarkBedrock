@@ -6,10 +6,10 @@ import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
 import java.util.*
 
-/**
+/*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 22.12.2018 13:59.
- * Current Version: 1.0 (22.12.2018 - 15.02.2019)
+ * Current Version: 1.0 (22.12.2018 - 27.03.2019)
  */
 
 /**
