@@ -5,6 +5,7 @@ import org.bukkit.*
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
 import java.util.*
+import kotlin.random.Random
 
 /*
  * @author Lars Artmann | LartyHD
@@ -101,17 +102,13 @@ fun String.toMaterial(): Material? = try {
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 21.03.2019 01:43.
- * Current Version: 1.0 (21.03.2019 - 21.03.2019)
+ * Current Version: 1.0 (21.03.2019 - 30.03.2019)
  */
-fun Location.randomLook(): Location {
-    val random = Random()
-    var yaw = 0
-    when (random.nextInt(3)) {
-        0 -> yaw = 0
-        1 -> yaw = 90
-        2 -> yaw = 180
-        3 -> yaw = -90
-    }
+fun Location.randomLook(a: Int = 3, b: Int = 90): Location {
+    val random = Random.nextInt(a + 1)
+    val i = random * b
+    val i1 = 180
+    val yaw = if (i == i1) i else i % i1 * if (i / i1 > 0) -1 else 1
     return Location(world, x, y, z, yaw.toFloat(), pitch)
 }
 
