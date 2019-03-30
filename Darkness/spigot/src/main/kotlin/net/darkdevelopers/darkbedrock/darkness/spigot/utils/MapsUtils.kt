@@ -45,13 +45,14 @@ object MapsUtils {
             time = 6000
             monsterSpawnLimit = 0
             difficulty = Difficulty.EASY
-            keepSpawnInMemory = false
+            keepSpawnInMemory = true
             isAutoSave = false
             setGameRuleValue("spawnRadius", "0")
             setGameRuleValue("doDaylightCycle", "false")
             setGameRuleValue("doMobSpawning", "false")
             setGameRuleValue("doFireTick", "false")
         }
+        for (i in -5..4) for (j in -5..4) world.loadChunk(j, i)
         world.entities.forEach { it.remove() }
         fixBowBug(world)
         return world
