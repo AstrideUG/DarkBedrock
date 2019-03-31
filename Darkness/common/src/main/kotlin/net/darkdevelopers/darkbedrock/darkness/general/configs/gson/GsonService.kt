@@ -10,11 +10,12 @@ import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import java.io.File
 import java.io.FileWriter
 import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 20.10.2018 17:36.
- * Current Version: 1.0 (20.10.2018 - 22.12.2018)
+ * Current Version: 1.0 (20.10.2018 - 18.03.2019)
  */
 object GsonService {
 
@@ -146,12 +147,16 @@ object GsonService {
      * Saves the [JsonElement] into the [File] of the [ConfigData] with [formatJson]
      *
      * @param serializeNulls see [formatJson]
-     * @since 1.0 (20.10.2018 - 20.10.2018)
+     * @since 1.0 (20.10.2018 - 18.03.2019)
      */
-    fun save(file: File, jsonElement: JsonElement, serializeNulls: Boolean = true): Unit = FileWriter(file).run {
-        this.write(formatJson(jsonElement, serializeNulls))
-        this.flush()
-        this.close()
+    fun save(file: File, jsonElement: JsonElement, serializeNulls: Boolean = true) {
+        val temp = File("$file.temp")
+        FileWriter(temp).apply {
+            write(formatJson(jsonElement, serializeNulls))
+            flush()
+            close()
+        }
+        Files.move(temp.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE)
     }
 
     /**

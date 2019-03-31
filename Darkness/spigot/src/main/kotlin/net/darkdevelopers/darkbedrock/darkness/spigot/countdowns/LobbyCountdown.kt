@@ -3,12 +3,12 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendSubTitle
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTimings
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTitle
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.sendSubTitle
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.sendTimings
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.sendTitle
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 
@@ -34,13 +34,20 @@ class LobbyCountdown(private val minPlayers: Int, private val gameName: String) 
                 10 -> {
 //                    Bukkit.getPluginManager().callEvent(LobbyCountdownLastTenSecondsEvent(this))
                     Utils.goThroughAllPlayers {
-                        it.sendTitle(gameName).sendSubTitle(Messages.SERVER_NAME.toString()).sendTimings(10, 20, 10)
-                        it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
+                        it.apply {
+                            sendTitle(gameName)
+                            sendSubTitle(Messages.SERVER_NAME.toString())
+                            sendTimings(10, 20, 10)
+                            playSound(location, Sound.ORB_PICKUP, 1F, 1F)
+                        }
                     }
                 }
                 5, 4, 3, 2, 1 -> Utils.goThroughAllPlayers {
-                    it.sendTitle("$SECONDARY$seconds").sendTimings(1, 18, 1)
-                    it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
+                    it.apply {
+                        sendTitle("$SECONDARY$seconds")
+                        sendTimings(1, 18, 1)
+                        playSound(location, Sound.ORB_PICKUP, 1F, 1F)
+                    }
                 }
             }
             seconds--

@@ -7,6 +7,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
+import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.PlayerDeathEvent
@@ -16,7 +17,6 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.util.Vector
-import kotlin.concurrent.thread
 
 /**
  * Created by LartyHD on 22.01.2018 00:14.
@@ -44,10 +44,7 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onPlayerDeathEvent(event: PlayerDeathEvent) {
         if (!autoRespawn) return
-        thread {
-            Thread.sleep(50)
-            event.entity.spigot().respawn()
-        }
+        Bukkit.getScheduler().runTaskLater(javaPlugin, { event.entity.spigot().respawn() }, 1)
     }
 
     @EventHandler

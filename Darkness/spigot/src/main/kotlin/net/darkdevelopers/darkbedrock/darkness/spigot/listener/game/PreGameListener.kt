@@ -4,6 +4,7 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.listener.game
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
@@ -20,23 +21,23 @@ import org.bukkit.plugin.java.JavaPlugin
 
 /**
  * Created by LartyHD on 29.11.2017  14:06.
- * Last edit 06.07.2018
+ * Last edit 27.03.2019
  */
-class PreGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
+open class PreGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @EventHandler
-    fun onPlayerJoinEvent(event: PlayerJoinEvent) {
+    open fun onPlayerJoinEvent(event: PlayerJoinEvent) {
         event.joinMessage = null
     }
 
     @EventHandler
-    fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
+    open fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
         event.leaveMessage = "${Messages.PREFIX}$IMPORTANT${event.player.displayName}$TEXT hat die Runde verlassen"
         //TODO: ADD TEAM INFOS
     }
 
     @EventHandler
-    fun onPlayerMoveEvent(event: PlayerMoveEvent) {
+    open fun onPlayerMoveEvent(event: PlayerMoveEvent) {
         val from = event.from
         val to = event.to
         if (to.blockX != from.blockX || from.blockZ != to.blockZ)
@@ -44,58 +45,58 @@ class PreGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     }
 
     @EventHandler
-    fun onPlayerDeathEvent(event: PlayerDeathEvent) {
+    open fun onPlayerDeathEvent(event: PlayerDeathEvent) {
         event.deathMessage = null
         event.keepInventory = true
     }
 
     @EventHandler
-    fun onAsyncPlayerChatEvent(event: AsyncPlayerChatEvent) {
+    open fun onAsyncPlayerChatEvent(event: AsyncPlayerChatEvent) {
         event.format = "${event.player.displayName}$IMPORTANT: $RESET${event.message}"
     }
 
     @EventHandler
-    fun onPlayerDropItemEvent(event: PlayerDropItemEvent) = cancel(event)
+    open fun onPlayerDropItemEvent(event: PlayerDropItemEvent) = event.cancel()
 
     @EventHandler
-    fun onPlayerPickupItemEvent(event: PlayerPickupItemEvent) = cancel(event)
+    open fun onPlayerPickupItemEvent(event: PlayerPickupItemEvent) = event.cancel()
 
     @EventHandler
-    fun onFoodLevelChangeEvent(event: FoodLevelChangeEvent) = cancel(event)
+    open fun onFoodLevelChangeEvent(event: FoodLevelChangeEvent) = event.cancel()
 
     @EventHandler
-    fun onInventoryClickEvent(event: InventoryClickEvent) = cancel(event)
+    open fun onInventoryClickEvent(event: InventoryClickEvent) = event.cancel()
 
     @EventHandler
-    fun onPlayerInteractEvent(event: PlayerInteractEvent) = cancel(event)
+    open fun onPlayerInteractEvent(event: PlayerInteractEvent) = event.cancel()
 
     @EventHandler
-    fun onEntityDamageEvent(event: EntityDamageEvent) = cancel(event)
+    open fun onEntityDamageEvent(event: EntityDamageEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockBreakEvent(event: BlockBreakEvent) = cancel(event)
+    open fun onBlockBreakEvent(event: BlockBreakEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockPlaceEvent(event: BlockPlaceEvent) = cancel(event)
+    open fun onBlockPlaceEvent(event: BlockPlaceEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockBurnEvent(event: BlockBurnEvent) = cancel(event)
+    open fun onBlockBurnEvent(event: BlockBurnEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockExplodeEvent(event: BlockExplodeEvent) = cancel(event)
+    open fun onBlockExplodeEvent(event: BlockExplodeEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockFormEvent(event: BlockFormEvent) = cancel(event)
+    open fun onBlockFormEvent(event: BlockFormEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockFromToEvent(event: BlockFromToEvent) = cancel(event)
+    open fun onBlockFromToEvent(event: BlockFromToEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockGrowEvent(event: BlockGrowEvent) = cancel(event)
+    open fun onBlockGrowEvent(event: BlockGrowEvent) = event.cancel()
 
     @EventHandler
-    fun onBlockPhysicsEvent(event: BlockPhysicsEvent) = cancel(event)
+    open fun onBlockPhysicsEvent(event: BlockPhysicsEvent) = event.cancel()
 
     @EventHandler
-    fun onWeatherChangeEvent(event: WeatherChangeEvent) = cancel(event)
+    open fun onWeatherChangeEvent(event: WeatherChangeEvent) = event.cancel()
 }

@@ -45,13 +45,14 @@ object MapsUtils {
             time = 6000
             monsterSpawnLimit = 0
             difficulty = Difficulty.EASY
-            keepSpawnInMemory = false
+            keepSpawnInMemory = true
             isAutoSave = false
             setGameRuleValue("spawnRadius", "0")
             setGameRuleValue("doDaylightCycle", "false")
             setGameRuleValue("doMobSpawning", "false")
             setGameRuleValue("doFireTick", "false")
         }
+        for (i in -5..4) for (j in -5..4) world.loadChunk(j, i)
         world.entities.forEach { it.remove() }
         fixBowBug(world)
         return world
@@ -93,7 +94,7 @@ object MapsUtils {
         val name = config.getAs<JsonPrimitive>("name", jsonObject)?.asString.toNonNull()
         val worldName = getWorldName(config, jsonObject)
         val world = MapsUtils.loadMap(worldName)
-        setWorldBoarder(config, "worldBoarder", world)
+        setWorldBoarder(config, "worldBoarder", jsonObject, world)
         val spawn = config.getLocation("spawn", jsonObject, world)
         val hologram = config.getLocationWithOutYawAndPitch("hologram", jsonObject, world)
         return Map(name, spawn, hologram, getRegion(config, jsonObject, world), lambda)

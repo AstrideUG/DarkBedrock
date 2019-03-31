@@ -27,38 +27,19 @@ open class GsonMessages(private val config: GsonConfig) {
     private val gsonStringMap = GsonStringMapWithSubs(messages)
     private val gsonStringMapWithSubs =
         if (acrossLanguagesMessages != null) GsonStringMapWithSubs(acrossLanguagesMessages) else null
-    val availableMessages = mutableMapOf<String, String>().apply {
-        putAll(gsonStringMap.available)
-        if (gsonStringMapWithSubs != null) putAll(gsonStringMapWithSubs.available)
-    }
-    val availableSubMessages = mutableMapOf<String, MutableMap<String, String>>().apply {
-        putAll(gsonStringMap.availableSubs)
-        if (gsonStringMapWithSubs != null) putAll(gsonStringMapWithSubs.availableSubs)
-    }
+    val availableMessages = gsonStringMap.available
     val availableMessagesOnInit = availableMessages.toMap()
-    val availableSubMessagesOnInit = availableSubMessages.toMap()
 
     init {
-//        println("Replace Messages: $availableMessages")
-//        println("Replace SubMessages: $availableSubMessages")
-        replaceKeys(availableMessages)
-        availableSubMessages.forEach { replaceKeys(it.value, "${it.key}.") }
-//        println("Loaded Messages: $availableMessages")
-//        println("Loaded SubMessages: $availableSubMessages")
+//        replaceKeys(availableMessages)
+//        availableSubMessages.forEach { replaceKeys(it.value, "${it.key}.") }
     }
 
     private fun replaceKeys(map: MutableMap<String, String>, prefix: String = ""): MutableMap<String, String> {
         for (entry1 in map.entries) for (entry2 in map.entries) {
             if (entry1 == entry2) continue
             val key = "$prefix${entry2.key}"
-            if (availableSubMessages.isEmpty())
-                map[entry1.key] = replace(entry1.value, key, entry2.value)
-            else
-                map[entry1.key] = replace(
-                    entry1.value,
-                    key,
-                    availableSubMessages[prefix.substring(0, prefix.length - 1)]!![entry2.key]!!
-                )
+            map[entry1.key] = replace(entry1.value, key, entry2.value)
         }
         return map
     }

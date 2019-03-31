@@ -9,9 +9,10 @@ import org.bukkit.World
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 07.08.2017 03:10.
- * Last edit 09.07.2018
+ * Last edit 27.03.2019
  */
 class Region(pos1: Location, pos2: Location) {
+
     private val min: Location
     private val max: Location
 
@@ -22,25 +23,20 @@ class Region(pos1: Location, pos2: Location) {
         max = getMaxLocation(world, pos1, pos2)
     }
 
-    fun isInside(location: Location): Boolean = location.world == min.world &&
-            location.x >= min.x &&
-            location.x <= max.x &&
-            location.y >= min.y &&
-            location.y <= max.y &&
-            location.z >= min.z &&
-            location.z <= max.z
+    fun isInside(location: Location): Boolean =
+        location.world == min.world && location.toVector().isInAABB(min.toVector(), max.toVector())
 
     private fun getMinLocation(world: World, pos1: Location, pos2: Location): Location {
-        val minX = if (pos1.x < pos2.x) pos1.x else pos2.x
-        val minY = if (pos1.y < pos2.y) pos1.y else pos2.y
-        val minZ = if (pos1.z < pos2.z) pos1.z else pos2.z
+        val minX = Math.min(pos1.x, pos2.x)
+        val minY = Math.min(pos1.y, pos2.y)
+        val minZ = Math.min(pos1.z, pos2.z)
         return Location(world, minX, minY, minZ)
     }
 
     private fun getMaxLocation(world: World, pos1: Location, pos2: Location): Location {
-        val maxX = if (pos1.x > pos2.x) pos1.x else pos2.x
-        val maxY = if (pos1.y > pos2.y) pos1.y else pos2.y
-        val maxZ = if (pos1.z > pos2.z) pos1.z else pos2.z
+        val maxX = Math.max(pos1.x, pos2.x)
+        val maxY = Math.max(pos1.y, pos2.y)
+        val maxZ = Math.max(pos1.z, pos2.z)
         return Location(world, maxX, maxY, maxZ)
     }
 

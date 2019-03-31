@@ -3,7 +3,8 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.builder.ItemBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.ItemBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.SkullItemBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.SECONDARY
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
@@ -16,20 +17,18 @@ import org.bukkit.inventory.ItemStack
 enum class Items(val itemStack: ItemStack) {
 
     LEAVE(
-        ItemBuilder(
+        SkullItemBuilder(
             Material.SKULL_ITEM,
-            1,
-            3.toShort()
+            1
         ).setOwner(
             "http://textures.minecraft.net/texture/1b6f1a25b6bc199946472aedb370522584ff6f4e83221e5946bd2e41b5ca13b",
             "MHF_ArrowRight"
         ).setName("${SECONDARY}Zurück zur Lobby").build()
     ),
     CHEST(
-        ItemBuilder(
+        SkullItemBuilder(
             Material.SKULL_ITEM,
-            1,
-            3.toShort()
+            1
         ).setOwner(
             "http://textures.minecraft.net/texture/6f68d509b5d1669b971dd1d4df2e47e19bcb1b33bf1a7ff1dda29bfc6f9ebf",
             "MHF_Chest"

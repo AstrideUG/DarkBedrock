@@ -20,31 +20,31 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
 /**
- * Created by LartyHD on 29.11.2017  14:06.
- * Last edit 06.07.2018
+ * Created by LartyHD on 29.11.2017 14:06.
+ * Last edit 31.03.2019
  */
-class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
+open class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
-    private val killer: MutableMap<UUID, Player> = HashMap()
+    protected val killer: MutableMap<UUID, Player> = HashMap()
 
     @EventHandler
-    fun onPlayerJoinEvent(event: PlayerJoinEvent) {
+    open fun onPlayerJoinEvent(event: PlayerJoinEvent) {
         event.joinMessage = null
     }
 
     @EventHandler
-    fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
+    open fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
         event.leaveMessage = null
     }
 
     @EventHandler
-    fun onPlayerMoveEvent(event: PlayerMoveEvent) {
+    open fun onPlayerMoveEvent(event: PlayerMoveEvent) {
         val player = event.player ?: return
         if (player.location.blockY < 0) player.damage(player.health)
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    fun onPlayerDeathEvent(event: PlayerDeathEvent) {
+    open fun onPlayerDeathEvent(event: PlayerDeathEvent) {
         val player = event.entity ?: return
         val killer = killer[player.uniqueId]
         /*TeamManager teamManager = Saves.getTeamManager(); TODO: ADD TEAMS
@@ -80,8 +80,8 @@ class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 			{*/
         if (killer != null) {
             event.deathMessage =
-                "${Messages.PREFIX}$IMPORTANT${player.name}$TEXT wurde von $IMPORTANT${player.displayName}$TEXT getötet"
-            event.entity.sendMessage("${Messages.PREFIX}$IMPORTANT${player.displayName}$TEXT hatte $IMPORTANT${player.health.toInt()}§c❥")
+                "${Messages.PREFIX}$IMPORTANT${player.name}$TEXT wurde von $IMPORTANT${killer.displayName}$TEXT getötet"
+            event.entity.sendMessage("${Messages.PREFIX}$IMPORTANT${killer.displayName}$TEXT hatte $IMPORTANT${killer.health.toInt()}§c❥")
         } else {
             event.deathMessage = "${Messages.PREFIX}$IMPORTANT${player.name}$TEXT ist gestorben"
             this.killer.remove(player.uniqueId)
@@ -91,7 +91,7 @@ class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     }
 
     @EventHandler
-    fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent) {
+    open fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent) {
         val damager = event.damager ?: return
         if (!event.isCancelled)
             if (damager is Player)
@@ -102,7 +102,7 @@ class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     }
 
     @EventHandler
-    fun onAsyncPlayerChatEvent(event: AsyncPlayerChatEvent) {
+    open fun onAsyncPlayerChatEvent(event: AsyncPlayerChatEvent) {
         //		if (Saves.getTeamManager() != null) TODO: TEAMS
         //		{
         //			event.setCancelled(true);

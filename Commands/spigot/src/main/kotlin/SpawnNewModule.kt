@@ -142,7 +142,7 @@ class SpawnNewModule @Inject private constructor(@DataDirectory private val path
 
     }
 
-    private fun Map<String, String>.getNotNull(key: String) = this[key] ?: key
+    private fun Map<String, String?>.getNotNull(key: String) = this[key] ?: key
 
 
 //    /**
