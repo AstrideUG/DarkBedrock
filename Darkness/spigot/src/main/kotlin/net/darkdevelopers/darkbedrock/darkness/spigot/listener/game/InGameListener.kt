@@ -82,9 +82,9 @@ open class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
             event.deathMessage =
                 "${Messages.PREFIX}$IMPORTANT${player.name}$TEXT wurde von $IMPORTANT${killer.displayName}$TEXT getötet"
             event.entity.sendMessage("${Messages.PREFIX}$IMPORTANT${killer.displayName}$TEXT hatte $IMPORTANT${killer.health.toInt()}§c❥")
+            this.killer -= player.uniqueId
         } else {
             event.deathMessage = "${Messages.PREFIX}$IMPORTANT${player.name}$TEXT ist gestorben"
-            this.killer.remove(player.uniqueId)
         }
         /*}*/
 
