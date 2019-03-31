@@ -21,11 +21,11 @@ import java.util.*
 
 /**
  * Created by LartyHD on 29.11.2017 14:06.
- * Last edit 27.03.2019
+ * Last edit 31.03.2019
  */
 open class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
-    private val killer: MutableMap<UUID, Player> = HashMap()
+    protected val killer: MutableMap<UUID, Player> = HashMap()
 
     @EventHandler
     open fun onPlayerJoinEvent(event: PlayerJoinEvent) {
@@ -80,8 +80,8 @@ open class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 			{*/
         if (killer != null) {
             event.deathMessage =
-                "${Messages.PREFIX}$IMPORTANT${player.name}$TEXT wurde von $IMPORTANT${player.displayName}$TEXT getötet"
-            event.entity.sendMessage("${Messages.PREFIX}$IMPORTANT${player.displayName}$TEXT hatte $IMPORTANT${player.health.toInt()}§c❥")
+                "${Messages.PREFIX}$IMPORTANT${player.name}$TEXT wurde von $IMPORTANT${killer.displayName}$TEXT getötet"
+            event.entity.sendMessage("${Messages.PREFIX}$IMPORTANT${killer.displayName}$TEXT hatte $IMPORTANT${killer.health.toInt()}§c❥")
         } else {
             event.deathMessage = "${Messages.PREFIX}$IMPORTANT${player.name}$TEXT ist gestorben"
             this.killer.remove(player.uniqueId)
