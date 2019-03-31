@@ -16,6 +16,7 @@ import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
@@ -26,6 +27,11 @@ import java.util.*
 open class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     protected val killer: MutableMap<UUID, Player> = HashMap()
+
+    @EventHandler
+    open fun onPlayerRespawnEvent(event: PlayerRespawnEvent) {
+        this.killer -= event.player.uniqueId
+    }
 
     @EventHandler
     open fun onPlayerJoinEvent(event: PlayerJoinEvent) {
@@ -82,7 +88,6 @@ open class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
             event.deathMessage =
                 "${Messages.PREFIX}$IMPORTANT${player.name}$TEXT wurde von $IMPORTANT${killer.displayName}$TEXT getötet"
             event.entity.sendMessage("${Messages.PREFIX}$IMPORTANT${killer.displayName}$TEXT hatte $IMPORTANT${killer.health.toInt()}§c❥")
-            this.killer -= player.uniqueId
         } else {
             event.deathMessage = "${Messages.PREFIX}$IMPORTANT${player.name}$TEXT ist gestorben"
         }
