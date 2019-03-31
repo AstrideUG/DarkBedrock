@@ -5,7 +5,7 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.messages
 
 import org.bukkit.ChatColor
 
-enum class Colors(val chatColor: ChatColor) {
+enum class Colors(var chatColor: ChatColor) {
     /**
      * Wird bei SEHR wichtigen Sachen verwendet
      */
@@ -17,11 +17,11 @@ enum class Colors(val chatColor: ChatColor) {
     /**
      * Wird bei wichtigen Sachen (vor allem in Texten) verwendet
      */
-    IMPORTANT(ChatColor.WHITE),
+    IMPORTANT(ChatColor.DARK_GRAY),
     /**
      * Wird bei Texten verwendet
      */
-    TEXT(ChatColor.GREEN),
+    TEXT(ChatColor.GRAY),
     /**
      * Für Prefixe
      */
