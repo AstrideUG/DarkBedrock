@@ -17,7 +17,7 @@ enum class Colors(var chatColor: ChatColor) {
     /**
      * Wird bei wichtigen Sachen (vor allem in Texten) verwendet
      */
-    IMPORTANT(ChatColor.DARK_GRAY),
+    IMPORTANT(ChatColor.WHITE),
     /**
      * Wird bei Texten verwendet
      */
