@@ -6,6 +6,7 @@ import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
+import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAs
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMapWithSubs
 import net.darkdevelopers.darkbedrock.darkness.general.functions.getOrKey
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
@@ -69,7 +70,7 @@ class SpawnModule : Module {
 
         val spawnKey = "spawn"
         val configData = ConfigData(description.folder, "config.json")
-        val jsonObject = GsonService.loadAsJsonObject(configData)
+        val jsonObject = loadAs(configData) ?: JsonObject()
         val spawnElement = jsonObject.getOrJsonObject(spawnKey)
         val spawn = GsonConfig.multiPlaceJsonObject(spawnElement, spawnKey, configData.directory)
         val messages = SpigotGsonMessages(GsonConfig(configData).load()).availableMessages

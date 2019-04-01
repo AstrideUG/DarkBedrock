@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
+import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAs
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.ItemBuilder
@@ -131,7 +131,7 @@ class AsteroidModule : Module {
 
         val gson = Gson()
         val configData = ConfigData(description.folder, "config.json")
-        val jsonObject = GsonService.loadAsJsonObject(configData)
+        val jsonObject = loadAs(configData) ?: JsonObject()
         val command = jsonObject["command"]?.asString
         val min = jsonObject["min"]?.asInt ?: 1
         val max = jsonObject["max"]?.asInt ?: 100

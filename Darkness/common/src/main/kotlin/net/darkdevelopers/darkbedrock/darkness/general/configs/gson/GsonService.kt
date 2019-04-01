@@ -74,7 +74,7 @@ object GsonService {
      */
     @Deprecated(
         "", ReplaceWith(
-            "loadAs<JsonObject>(file)",
+            "loadAs(file) ?: JsonObject()",
             "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAs",
             "com.google.gson.*"
         )
@@ -90,7 +90,7 @@ object GsonService {
      */
     @Deprecated(
         "", ReplaceWith(
-            "loadAs<JsonObject>(configData)",
+            "loadAs(configData) ?: JsonObject()",
             "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAsJsonObject",
             "com.google.gson.*"
         )
@@ -106,7 +106,7 @@ object GsonService {
      */
     @Deprecated(
         "", ReplaceWith(
-            "loadAs<JsonArray>(file)",
+            "loadAs(file) ?: JsonArray()",
             "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAs",
             "com.google.gson.*"
         )
@@ -122,7 +122,7 @@ object GsonService {
      */
     @Deprecated(
         "", ReplaceWith(
-            "loadAs<JsonArray>(configData)",
+            "loadAs(configData) ?: JsonArray()",
             "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAsJsonArray",
             "com.google.gson.*"
         )

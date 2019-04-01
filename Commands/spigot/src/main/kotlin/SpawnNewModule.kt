@@ -2,6 +2,7 @@
  * © Copyright - Lars Artmann aka. LartyHD 2018.
  */
 
+import com.google.gson.JsonObject
 import com.google.inject.Inject
 import de.astride.darkbedrock.apis.events.api.Subscribe
 import de.astride.darkbedrock.apis.modules.api.annotations.DataDirectory
@@ -11,7 +12,7 @@ import de.astride.darkbedrock.apis.modules.api.events.ModulesLoadedEvent
 import net.darkdevelopers.darkbedrock.darkframe.spigot.DarkFrame
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
+import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAs
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMapWithSubs
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.Command
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessages
@@ -49,7 +50,7 @@ class SpawnNewModule @Inject private constructor(@DataDirectory private val path
     private inner class Config {
 
         val configData = ConfigData(path.toFile(), "config.json")
-        val jsonObject = GsonService.loadAsJsonObject(configData)
+        val jsonObject = loadAs(configData) ?: JsonObject()
         val spawn = GsonConfig.multiPlaceJsonObject(jsonObject["Spawn"], "Spawn", configData.directory)
         val messages = SpigotGsonMessages(GsonConfig(configData).load()).availableMessages
         val permissions = GsonStringMapWithSubs(jsonObject["Permissions"].asJsonObject).available

@@ -3,7 +3,7 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.commands
 import com.google.gson.JsonObject
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
+import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAs
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMapWithSubs
 import net.darkdevelopers.darkbedrock.darkness.general.functions.getOrKey
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
@@ -62,7 +62,7 @@ abstract class SimplePermissionsCommandModule(protected val defaultCommandName: 
 
     protected inner class Config {
         val configData = ConfigData(description.folder, "config.json")
-        val jsonObject = GsonService.loadAsJsonObject(configData)
+        val jsonObject = loadAs(configData) ?: JsonObject()
         val messages = SpigotGsonMessages(GsonConfig(configData).load()).availableMessages
         val permissions = GsonStringMapWithSubs(jsonObject["permissions"]?.asJsonObject ?: JsonObject()).available
         val commandName = jsonObject["command-name"]?.asString ?: defaultCommandName
