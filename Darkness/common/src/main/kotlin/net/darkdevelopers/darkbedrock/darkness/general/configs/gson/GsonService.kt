@@ -15,9 +15,27 @@ import java.nio.file.StandardCopyOption
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 20.10.2018 17:36.
- * Current Version: 1.0 (20.10.2018 - 18.03.2019)
+ * Current Version: 1.1 (20.10.2018 - 01.04.2019)
  */
 object GsonService {
+
+    /**
+     * @author Lars Artmann | LartyHD
+     *
+     * Converts the content of a [String] content into a [JsonElement]
+     *
+     * @since 1.0 (20.10.2018 - 20.10.2018)
+     */
+    fun load(string: String): JsonElement = JsonParser().parse(string)
+
+    /**
+     * @author Lars Artmann | LartyHD
+     *
+     * Converts the content of a [File] content into a [JsonElement]
+     *
+     * @since 1.0 (20.10.2018 - 20.10.2018)
+     */
+    fun load(file: File): JsonElement = load(String(Files.readAllBytes(file.toPath())))
 
     /**
      * @author Lars Artmann | LartyHD
@@ -32,102 +50,80 @@ object GsonService {
     /**
      * @author Lars Artmann | LartyHD
      *
-     * Cast the loaded [JsonElement] by [ConfigData] to [J]
-     *
-     * @throws ClassCastException when [check] is `false`
-     * @since 1.0 (20.10.2018 - 20.10.2018)
-     */
-    private fun <J : JsonElement> loadAs(
-        configData: ConfigData,
-        name: String,
-        check: (JsonElement) -> Boolean,
-        cast: (JsonElement) -> J
-    ): J {
-        val load = load(configData.file)
-        return if (check(load)) cast(load) else throw ClassCastException("The loaded JsonElement (${configData.file}) is not a $name")
-    }
-
-    /**
-     * @author Lars Artmann | LartyHD
-     *
-     * Cast the loaded [JsonElement] by [ConfigData] to [JsonObject]
-     *
-     * @throws ClassCastException when [check] is `false`
-     * @since 1.0 (20.10.2018 - 20.10.2018)
-     */
-    fun loadAsJsonObject(configData: ConfigData): JsonObject = loadAsJsonObject(configData.file)
-
-    /**
-     * @author Lars Artmann | LartyHD
-     *
-     * Cast the loaded [JsonElement] by [ConfigData] to [JsonArray]
-     *
-     * @throws ClassCastException when [check] is `false`
-     * @since 1.0 (20.10.2018 - 20.10.2018)
-     */
-    fun loadAsJsonArray(configData: ConfigData): JsonArray = loadAsJsonArray(configData.file)
-
-    /**
-     * @author Lars Artmann | LartyHD
-     *
-     * Converts the content of a [File] content into a [JsonElement]
-     *
-     * @since 1.0 (20.10.2018 - 20.10.2018)
-     */
-    fun load(file: File): JsonElement = load(String(Files.readAllBytes(file.toPath())))
-
-    /**
-     * @author Lars Artmann | LartyHD
-     *
-     * Converts the content of a [String] content into a [JsonElement]
-     *
-     * @since 1.0 (20.10.2018 - 20.10.2018)
-     */
-    fun load(string: String): JsonElement = JsonParser().parse(string)
-
-    /**
-     * @author Lars Artmann | LartyHD
-     *
      * Cast the loaded [JsonElement] by [File] to [J]
      *
-     * @throws ClassCastException when [check] is `false`
-     * @since 1.0 (20.10.2018 - 20.10.2018)
+     * @since 1.1 (20.10.2018 - 01.04.2019)
      */
-    private fun <J : JsonElement> loadAs(
-        file: File,
-        name: String,
-        check: (JsonElement) -> Boolean,
-        cast: (JsonElement) -> J
-    ): J {
-        val load = load(file)
-        return if (check(load)) cast(load) else throw ClassCastException("The loaded JsonElement is not a $name")
-    }
+    inline fun <reified J : JsonElement> loadAs(file: File): J? = load(file) as? J
+
+    /**
+     * @author Lars Artmann | LartyHD
+     *
+     * Cast the loaded [JsonElement] by [ConfigData] to [J]
+     *
+     * @since 1.1 (20.10.2018 - 01.04.2019)
+     */
+    inline fun <reified J : JsonElement> loadAs(configData: ConfigData): J? = loadAs(configData.file)
 
     /**
      * @author Lars Artmann | LartyHD
      *
      * Cast the loaded [JsonElement] by [File] to [JsonObject]
      *
-     * @throws ClassCastException when [check] is `false`
-     * @since 1.0 (20.10.2018 - 22.12.2018)
+     * @since 1.1 (20.10.2018 - 01.04.2019)
      */
-    fun loadAsJsonObject(file: File): JsonObject =
-        loadAs(file, "JsonObject", { file.isFile and (it.isJsonObject or (file.length() == 0L)) }, {
-            if (file.length() == 0L) JsonObject() else it.asJsonObject
-        })
+    @Deprecated(
+        "", ReplaceWith(
+            "loadAs<JsonObject>(file)",
+            "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAs"
+        )
+    )
+    fun loadAsJsonObject(file: File): JsonObject? = loadAs(file)
+
+    /**
+     * @author Lars Artmann | LartyHD
+     *
+     * Cast the loaded [JsonElement] by [ConfigData] to [JsonObject]
+     *
+     * @since 1.1 (20.10.2018 - 01.04.2019)
+     */
+    @Deprecated(
+        "", ReplaceWith(
+            "loadAs<JsonObject>(configData)",
+            "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAsJsonObject"
+        )
+    )
+    fun loadAsJsonObject(configData: ConfigData): JsonObject? = loadAs(configData.file)
 
     /**
      * @author Lars Artmann | LartyHD
      *
      * Cast the loaded [JsonElement] by [File] to [JsonArray]
      *
-     * @throws ClassCastException when [check] is `false`
-     * @since 1.0 (20.10.2018 - 22.12.2018)
+     * @since 1.0 (20.10.2018 - 01.04.2019)
      */
-    fun loadAsJsonArray(file: File): JsonArray =
-        loadAs(file, "JsonArray", { file.isFile and (it.isJsonArray or (file.length() == 0L)) }, {
-            if (file.length() == 0L) JsonArray() else it.asJsonArray
-        })
+    @Deprecated(
+        "", ReplaceWith(
+            "loadAs<JsonArray>(file)",
+            "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAs"
+        )
+    )
+    fun loadAsJsonArray(file: File) = loadAs<JsonArray>(file)
+
+    /**
+     * @author Lars Artmann | LartyHD
+     *
+     * Cast the loaded [JsonElement] by [ConfigData] to [JsonArray]
+     *
+     * @since 1.0 (20.10.2018 - 01.04.2019)
+     */
+    @Deprecated(
+        "", ReplaceWith(
+            "loadAs<JsonArray>(configData)",
+            "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAsJsonArray"
+        )
+    )
+    fun loadAsJsonArray(configData: ConfigData): JsonArray? = loadAs(configData.file)
 
     /**
      * @author Lars Artmann | LartyHD
