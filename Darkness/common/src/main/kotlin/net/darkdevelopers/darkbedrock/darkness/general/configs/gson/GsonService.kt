@@ -15,7 +15,7 @@ import java.nio.file.StandardCopyOption
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 20.10.2018 17:36.
- * Current Version: 1.1 (20.10.2018 - 01.04.2019)
+ * Current Version: 1.1.1 (20.10.2018 - 04.04.2019)
  */
 object GsonService {
 
@@ -143,16 +143,31 @@ object GsonService {
 
     /**
      * @author Lars Artmann | LartyHD
+     * Created by Lars Artmann | LartyHD on 04.04.2019 19:27.
+     * Current Version: 1.1.1 (04.04.2019 - 04.04.2019)
+     */
+    fun save(configData: ConfigData, output: String): Unit = save(configData.file, output)
+
+    /**
+     * @author Lars Artmann | LartyHD
      *
      * Saves the [JsonElement] into the [File] of the [ConfigData] with [formatJson]
      *
      * @param serializeNulls see [formatJson]
-     * @since 1.0 (20.10.2018 - 18.03.2019)
+     * @since 1.0 (20.10.2018 - 04.04.2019)
      */
-    fun save(file: File, jsonElement: JsonElement, serializeNulls: Boolean = true) {
+    fun save(file: File, jsonElement: JsonElement, serializeNulls: Boolean = true): Unit =
+        GsonService.save(file, formatJson(jsonElement, serializeNulls))
+
+    /**
+     * @author Lars Artmann | LartyHD
+     * Created by Lars Artmann | LartyHD on 04.04.2019 19:26.
+     * Current Version: 1.1.1 (04.04.2019 - 04.04.2019)
+     */
+    fun save(file: File, output: String) {
         val temp = File("$file.temp")
         FileWriter(temp).apply {
-            write(formatJson(jsonElement, serializeNulls))
+            write(output)
             flush()
             close()
         }
