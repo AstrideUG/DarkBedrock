@@ -14,7 +14,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMa
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 24.08.2018 23:09.
- * Last edit 22.12.2018
+ * Last edit 05.04.2019
  */
 open class GsonMessages(private val config: GsonConfig) {
 
@@ -28,7 +28,6 @@ open class GsonMessages(private val config: GsonConfig) {
     private val gsonStringMapWithSubs =
         if (acrossLanguagesMessages != null) GsonStringMapWithSubs(acrossLanguagesMessages) else null
     val availableMessages = gsonStringMap.available
-    val availableMessagesOnInit = availableMessages.toMap()
 
     init {
 //        replaceKeys(availableMessages)
