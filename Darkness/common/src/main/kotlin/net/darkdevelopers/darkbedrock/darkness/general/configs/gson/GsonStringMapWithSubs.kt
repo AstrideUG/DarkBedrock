@@ -12,16 +12,16 @@ import net.darkdevelopers.darkbedrock.darkness.general.functions.asString
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 28.08.2018 00:25.
- * Last edit 18.03.2019
+ * Last edit 05.04.2019
  */
 class GsonStringMapWithSubs(jsonObject: JsonObject) : GsonStringMap(jsonObject) {
 
     /**
      * @author Lars Artmann | LartyHD
      * Created by Lars Artmann | LartyHD on 18.03.2019 23:33.
-     * Current Version: 1.0 (18.03.2019 - 18.03.2019)
+     * Current Version: 1.0 (18.03.2019 - 05.04.2019)
      */
-    override val available: MutableMap<String, String?> = jsonObject.loop1("").toMutableMap()
+    override val available: Map<String, List<String?>> = super.available//jsonObject.loop1("").toMutableMap()
 
 //    /**
 //     * @author Lars Artmann | LartyHD
