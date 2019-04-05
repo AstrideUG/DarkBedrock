@@ -14,7 +14,7 @@ private val velocity = "velocity"
 
 includeProject("Darkness", listOf(common, spigot, bungee, "universal"))
 includeProject("DarkFrame", listOf(common, spigot, bungee, velocity))
-includeProject("Commands", listOf(spigot))
+//includeProject("Commands", listOf(spigot))
 
 //findProject(":DarkFrame:ClassModules:velocity")?.name = "moduleplugin-velocity"
 //
