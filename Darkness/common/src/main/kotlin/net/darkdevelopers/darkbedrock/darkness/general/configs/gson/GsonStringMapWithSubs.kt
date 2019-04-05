@@ -21,7 +21,7 @@ class GsonStringMapWithSubs(jsonObject: JsonObject) : GsonStringMap(jsonObject) 
      * Created by Lars Artmann | LartyHD on 18.03.2019 23:33.
      * Current Version: 1.0 (18.03.2019 - 05.04.2019)
      */
-    override val available: Map<String, List<String?>> = super.available//jsonObject.loop1("").toMutableMap()
+    override val available: MutableMap<String, List<String?>> = super.available//jsonObject.loop1("").toMutableMap()
 
 //    /**
 //     * @author Lars Artmann | LartyHD

@@ -20,7 +20,7 @@ open class GsonStringMap(jsonObject: JsonObject) {
      * Created by Lars Artmann | LartyHD on 18.03.2019 21:40.
      * Current Version: 1.0 (18.03.2019 - 05.04.2019)
      */
-    open val available: Map<String, List<String?>> = jsonObject.toStringMap()
+    open val available: MutableMap<String, List<String?>> = jsonObject.toStringMap()
 
 //    /**
 //     * @author Lars Artmann | LartyHD
@@ -30,7 +30,6 @@ open class GsonStringMap(jsonObject: JsonObject) {
 //    @Suppress("LeakingThis")
 //    open val availableOnInit: Map<String, String?> = available.toMap()
 
-
 }
 
 /**
@@ -38,7 +37,7 @@ open class GsonStringMap(jsonObject: JsonObject) {
  * Created by Lars Artmann | LartyHD on 18.03.2019 22:43.
  * Current Version: 1.0 (18.03.2019 - 05.04.2019)
  */
-private fun JsonObject.toStringMap(): Map<String, List<String?>> = entrySet().mapNotNull { (key, element) ->
+private fun JsonObject.toStringMap(): MutableMap<String, List<String?>> = entrySet().mapNotNull { (key, element) ->
     try {
         val single = element.asString()
         val jsonArray = element as? JsonArray
@@ -47,4 +46,4 @@ private fun JsonObject.toStringMap(): Map<String, List<String?>> = entrySet().ma
     } catch (e: Exception) {
         null
     }
-}.toMap()
+}.toMap().toMutableMap()
