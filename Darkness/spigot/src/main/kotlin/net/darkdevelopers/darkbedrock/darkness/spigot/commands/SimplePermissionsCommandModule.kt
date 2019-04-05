@@ -30,7 +30,11 @@ abstract class SimplePermissionsCommandModule(protected val defaultCommandName: 
     protected val prefix get() = "Modules.Command.$defaultCommandName"
     protected abstract val command: () -> PermissionCommand
     protected lateinit var commandInstance: PermissionCommand
-    protected val singlePerms get() = config.permissions.getOrKey(prefix)
+    protected val singlePerms
+        get() = config.permissions
+            .map { it.key to it.value.joinToString(";") }
+            .toMap()
+            .getOrKey(prefix)
 
     override fun load() {
         config = Config()

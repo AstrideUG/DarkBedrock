@@ -21,7 +21,11 @@ import org.bukkit.plugin.java.JavaPlugin
 abstract class SimplePlayerCommandModule(defaultCommandName: String) :
     SimplePermissionsCommandModule(defaultCommandName) {
 
-    protected val otherPerms: String get() = config.permissions.getOrKey("$prefix.Other")
+    protected val otherPerms: String
+        get() = config.permissions
+            .map { it.key to it.value.joinToString(";") }
+            .toMap()
+            .getOrKey("$prefix.Other")
 
     protected inner class PlayerCommand(
         javaPlugin: JavaPlugin,

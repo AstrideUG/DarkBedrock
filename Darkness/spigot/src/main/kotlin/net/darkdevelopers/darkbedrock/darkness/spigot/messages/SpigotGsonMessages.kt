@@ -11,12 +11,16 @@ import org.bukkit.ChatColor
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 26.08.2018 13:08.
- * Last edit 26.08.2018
+ * Last edit 05.04.2019
  */
 class SpigotGsonMessages(config: GsonConfig) : GsonMessages(config) {
 
     init {
-        availableMessages.forEach { availableMessages[it.key] = ChatColor.translateAlternateColorCodes('&', it.value) }
+
+        availableMessages.forEach { (key, value) ->
+            availableMessages[key] = value.map { ChatColor.translateAlternateColorCodes('&', it) }
+        }
+
     }
 
 }

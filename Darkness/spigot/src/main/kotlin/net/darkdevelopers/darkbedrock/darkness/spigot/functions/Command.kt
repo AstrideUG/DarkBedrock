@@ -5,20 +5,20 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-/**
+/*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 22.12.2018 05:03.
- * Current Version: 1.0 (22.12.2018 - 22.12.2018)
+ * Current Version: 1.0 (22.12.2018 - 05.04.2019)
  */
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 22.12.2018 05:03.
- * Current Version: 1.0 (22.12.2018 - 22.12.2018)
+ * Current Version: 1.0 (22.12.2018 - 05.04.2019)
  */
 //TODO Edit the name
 fun ICommand.possiblePlayer(
-    messages: Map<String, String?>,
+    messages: Map<String, List<String?>>,
     prefix: String,
     sender: CommandSender,
     arg: String?,
@@ -43,8 +43,12 @@ fun ICommand.possiblePlayer(
     }
 }
 
-private fun String?.sendReplaced(to: CommandSender, sender: CommandSender? = null, target: CommandSender? = null) {
-    var a = this?.replace("<Sender>", sender?.name ?: to.name, true) ?: return
-    if (target != null) a = a.replace("<Target>", target.name, true)
+private fun List<String?>?.sendReplaced(
+    to: CommandSender,
+    sender: CommandSender? = null,
+    target: CommandSender? = null
+) {
+    var a = this?.mapNotNull { it?.replace("<Sender>", sender?.name ?: to.name, true) } ?: return
+    if (target != null) a = a.map { it.replace("<Target>", target.name, true) }
     a.sendIfNotNull(to)
 }
