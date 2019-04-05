@@ -51,7 +51,7 @@ class DarkFrame : DarkPlugin() {
             println("Enable New Module System")
             val directory = File("$dataFolder${File.separator}modules")
             val loader = setOf(ClassModuleLoader(directory)/*, JavaModuleLoader(directory)*/)
-            ModulesCommand(this, loader, messages)
+            ModulesCommand(this, loader, messages.map { it.key to it.value.firstOrNull() }.toMap())
             loader.forEach {
                 it.detectModules()
                 it.loadModules()
