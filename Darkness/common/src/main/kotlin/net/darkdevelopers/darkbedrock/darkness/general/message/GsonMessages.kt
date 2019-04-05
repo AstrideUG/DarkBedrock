@@ -22,25 +22,29 @@ open class GsonMessages(private val config: GsonConfig) {
     private val useExternalFiles = config.getAs<JsonPrimitive>("UseExternalFiles", jsonObject)?.asBoolean ?: false
     private val language = config.getAs<JsonPrimitive>("language", jsonObject)?.asString ?: "en_US"
     private val languages = jsonObjectConsideringExternalFiles(language, "languages", jsonObject) ?: JsonObject()
-    private val acrossLanguagesMessages = jsonObjectConsideringExternalFiles("across-languages", languages)
+    private val acrossLanguages = jsonObjectConsideringExternalFiles("across-languages", languages)
     private val messages = config.getAs<JsonObject>(language, languages) ?: JsonObject()
     private val gsonStringMap = GsonStringMapWithSubs(messages)
-    private val gsonStringMapWithSubs =
-        if (acrossLanguagesMessages != null) GsonStringMapWithSubs(acrossLanguagesMessages) else null
-    val availableMessages = gsonStringMap.available
+    private val acrossLanguagesMessages =
+        if (acrossLanguages != null) GsonStringMapWithSubs(acrossLanguages).available else null
+    /**
+     * @author Lars Artmann | LartyHD
+     * Created by Lars Artmann | LartyHD on 05.04.2019 23:38.
+     * Current Version: 1.0 (05.04.2019 - 05.04.2019)
+     */
+    val availableMessages: MutableMap<String, List<String?>> =
+        gsonStringMap.available.apply { putAll(acrossLanguagesMessages ?: return@apply) }
 
     init {
-//        replaceKeys(availableMessages)
-//        availableSubMessages.forEach { replaceKeys(it.value, "${it.key}.") }
+        availableMessages.replaceKeys()
     }
 
-    private fun replaceKeys(map: MutableMap<String, String>, prefix: String = ""): MutableMap<String, String> {
-        for (entry1 in map.entries) for (entry2 in map.entries) {
+    private fun MutableMap<String, List<String?>>.replaceKeys(prefix: String = "") {
+        for (entry1 in entries) for (entry2 in entries) {
             if (entry1 == entry2) continue
             val key = "$prefix${entry2.key}"
-            map[entry1.key] = replace(entry1.value, key, entry2.value)
+            this[entry1.key] = entry1.value.replace(key, entry2.value.firstOrNull().orEmpty())
         }
-        return map
     }
 
     private fun jsonObjectConsideringExternalFiles(key: String, jsonObject: JsonObject): JsonObject? =
@@ -52,6 +56,7 @@ open class GsonMessages(private val config: GsonConfig) {
     private fun jsonObjectByFile(fileName: String) =
         GsonConfig(ConfigData("${config.getDirectory()}languages", "$fileName.json")).jsonObject
 
-    private fun replace(input: String, key: String, value: String) = input.replace("%$key%", value, true)
+    private fun List<String?>.replace(key: String, value: String): List<String?> =
+        map { it?.replace("%$key%", value, true) }
 
 }
