@@ -11,6 +11,7 @@ subprojects {
         jarLibs "org.jetbrains.kotlin:kotlin-stdlib"
         jarLibs "org.jetbrains.kotlin:kotlin-reflect"
         jarLibs "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1"
+        jarLibs "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$versions_serialization"
 
     }
 
