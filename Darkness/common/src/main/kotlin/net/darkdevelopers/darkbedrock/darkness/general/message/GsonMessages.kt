@@ -30,10 +30,12 @@ open class GsonMessages(private val config: GsonConfig) {
     /**
      * @author Lars Artmann | LartyHD
      * Created by Lars Artmann | LartyHD on 05.04.2019 23:38.
-     * Current Version: 1.0 (05.04.2019 - 05.04.2019)
+     * Current Version: 1.0 (05.04.2019 - 06.04.2019)
      */
-    val availableMessages: MutableMap<String, List<String?>> =
-        gsonStringMap.available.apply { putAll(acrossLanguagesMessages ?: return@apply) }
+    val availableMessages: MutableMap<String, List<String?>> = gsonStringMap.available.apply {
+        putAll(acrossLanguagesMessages ?: return@apply)
+        remove("")
+    }
 
     init {
         availableMessages.replaceKeys()
