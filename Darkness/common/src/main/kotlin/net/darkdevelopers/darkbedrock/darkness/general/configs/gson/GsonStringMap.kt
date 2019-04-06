@@ -35,15 +35,15 @@ open class GsonStringMap(jsonObject: JsonObject) {
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 18.03.2019 22:43.
- * Current Version: 1.0 (18.03.2019 - 05.04.2019)
+ * Current Version: 1.0 (18.03.2019 - 06.04.2019)
  */
 private fun JsonObject.toStringMap(): MutableMap<String, List<String?>> = entrySet().mapNotNull { (key, element) ->
     try {
-        val single = element.asString()
         val jsonArray = element as? JsonArray
-
-        key to if (single == null) jsonArray?.map { it.asString() } ?: listOf(null) else listOf(single)
+        val value = jsonArray?.map { it.asString() } ?: listOf(element.asString())
+        key to value
     } catch (e: Exception) {
+        e.printStackTrace()
         null
     }
 }.toMap().toMutableMap()
