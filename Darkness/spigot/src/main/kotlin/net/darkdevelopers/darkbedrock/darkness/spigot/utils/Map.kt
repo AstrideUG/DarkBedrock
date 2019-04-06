@@ -30,7 +30,7 @@ data class Map(
         sendHolograms(player, holograms, this)
     }
 
-    private fun removeHologram(player: Player) {
+    fun removeHologram(player: Player) {
         holograms[player.uniqueId]?.hide(player)
         holograms.remove(player.uniqueId)
     }
