@@ -77,7 +77,7 @@ object MapsUtils {
 
     fun getMapsAndLoad(
         config: BukkitGsonConfig,
-        lambda: (Player, MutableMap<UUID, Holograms>) -> Unit
+        lambda: (Player, MutableMap<UUID, Holograms>, Map) -> Unit
     ): MutableSet<Map> {
         val maps = mutableSetOf<Map>()
         val mapsArray = config.getAs<JsonArray>("maps").toNonNull()
@@ -89,7 +89,7 @@ object MapsUtils {
     fun getMapAndLoad(
         config: BukkitGsonConfig,
         jsonObject: JsonObject,
-        lambda: (Player, MutableMap<UUID, Holograms>) -> Unit
+        lambda: (Player, MutableMap<UUID, Holograms>, Map) -> Unit
     ): Map {
         val name = config.getAs<JsonPrimitive>("name", jsonObject)?.asString.toNonNull()
         val worldName = getWorldName(config, jsonObject)
