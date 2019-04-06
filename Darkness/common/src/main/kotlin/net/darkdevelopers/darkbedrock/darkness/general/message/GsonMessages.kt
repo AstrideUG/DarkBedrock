@@ -45,7 +45,7 @@ open class GsonMessages(private val config: GsonConfig) {
         for (entry1 in entries) for (entry2 in entries) {
             if (entry1 == entry2) continue
             val key = "$prefix${entry2.key}"
-            this[entry1.key] = entry1.value.replace(key, entry2.value.firstOrNull().orEmpty())
+            this[entry1.key] = entry1.value.replace(key, entry2.value.firstOrNull().toString())
         }
     }
 
