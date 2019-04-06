@@ -1,5 +1,6 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendPacket
 import net.minecraft.server.v1_8_R3.EntityArmorStand
 import net.minecraft.server.v1_8_R3.EntityLiving
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy
@@ -39,9 +40,9 @@ class Holograms(private val lines: Array<String>, private val location: Location
     fun hide() = Utils.goThroughAllPlayers { hide(it) }
 
     fun show(player: Player) =
-        armorStands.forEach { Utils.sendPacket(player, PacketPlayOutSpawnEntityLiving(it as EntityLiving)) }
+        armorStands.forEach { player.sendPacket(PacketPlayOutSpawnEntityLiving(it as EntityLiving)) }
 
-    fun hide(player: Player) = armorStands.forEach { Utils.sendPacket(player, PacketPlayOutEntityDestroy(it.id)) }
+    fun hide(player: Player) = armorStands.forEach { player.sendPacket(PacketPlayOutEntityDestroy(it.id)) }
 
     private fun create() {
         val clone = location.clone()
