@@ -15,9 +15,13 @@ import org.bukkit.inventory.meta.ItemMeta
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 11.05.2018 08:37.
- * Last edit 07.03.2019
+ * Last edit 12.04.2019
  */
 open class ItemBuilder(private val itemStack: ItemStack) : IItemBuilder {
+
+    init {
+        if (itemStack.type == Material.AIR) throw IllegalArgumentException("itemStack type can not be air")
+    }
 
     protected open val itemMeta: ItemMeta = itemStack.itemMeta
 
