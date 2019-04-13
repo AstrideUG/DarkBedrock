@@ -41,7 +41,7 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOW)
     fun onPlayerDeathEvent(event: PlayerDeathEvent) {
         if (!autoRespawn) return
         Bukkit.getScheduler().runTaskLater(javaPlugin, { event.entity.spigot().respawn() }, 1)
