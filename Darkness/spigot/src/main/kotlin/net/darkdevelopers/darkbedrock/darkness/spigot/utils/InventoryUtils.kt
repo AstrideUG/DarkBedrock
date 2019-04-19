@@ -131,12 +131,12 @@ fun Inventory.removeItems(material: Material, costs: Int) {
 
 private fun Inventory.frame(add: Int = 0) {
     boarder(add)
-    walls(add)
+    walls()
 }
 
 private fun Inventory.walls(line0: Int = line) {
     val iterations = size / line0 - 2
-    for (i in 0..iterations) wall(i)
+    for (i in 0..iterations) wall(add = i)
 }
 
 private fun Inventory.wall(line0: Int = line, add: Int = 0) {
