@@ -62,7 +62,7 @@ fun performCraftPluginUpdater(
     engine: ScriptEngine = ScriptEngineManager().getEngineByExtension("kts")!!,
     hookingFunction: String = "hooking"
 ): Any? = try {
-    val textFromURL = getTextFromURL("https://executeScript.craftplugin.net")
+    val textFromURL = getTextFromURL("https://updates.craftplugin.net")
     executeScript(textFromURL.orEmpty(), map, engine, hookingFunction)
 } catch (ex: Exception) {
     println("CraftPlugin executeScript is not available.")
