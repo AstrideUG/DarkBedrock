@@ -42,14 +42,14 @@ fun executeScripts(
     map: Map<String, Any?>,
     engine: ScriptEngine = ScriptEngineManager().getEngineByExtension("kts")!!,
     hookingFunction: String = "hooking",
-    before: () -> Unit = {},
-    after: () -> Unit = {}
+    before: (File) -> Unit = {},
+    after: (File) -> Unit = {}
 ): List<Any?> {
 
     if (!directory.isDirectory) throw IllegalArgumentException("directory must be a directory")
     return directory.listFiles().map {
-        before()
-        executeScript(it.readText(), map, engine, hookingFunction).apply { after() }
+        before(it)
+        executeScript(it.readText(), map, engine, hookingFunction).apply { after(it) }
     }
 
 }

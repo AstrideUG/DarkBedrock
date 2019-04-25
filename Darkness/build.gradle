@@ -6,4 +6,10 @@ subprojects {
 
     group = "${group}.darkness"
 
+    dependencies {
+        compileOnly "org.jetbrains.kotlin:kotlin-script-util:1.3.21"
+        compileOnly "org.jetbrains.kotlin:kotlin-script-runtime:1.3.21"
+        compileOnly "org.jetbrains.kotlin:kotlin-compiler-embeddable:1.3.21"
+    }
+
 }
