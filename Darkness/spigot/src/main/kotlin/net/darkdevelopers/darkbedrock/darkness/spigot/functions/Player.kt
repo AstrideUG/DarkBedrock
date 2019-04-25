@@ -1,5 +1,6 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
+import net.darkdevelopers.darkbedrock.darkness.general.utils.setValue
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
 import net.minecraft.server.v1_8_R3.*
 import org.bukkit.Bukkit
@@ -39,6 +40,17 @@ fun Player.sendPacket(packet: Packet<*>): Unit = (this as CraftPlayer).handle.pl
  */
 fun Player.sendActionBar(message: String): Unit =
     sendPacket(PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\":\"$message\"}"), 2.toByte()))
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 01.04.2019 18:37.
+ * Current Version: 1.0 (01.04.2019 - 05.04.2019)
+ */
+fun Player.sendHeaderAndFooter(header: String, footer: String) {
+    val packet = PacketPlayOutPlayerListHeaderFooter(IChatBaseComponent.ChatSerializer.a("""{"translate":"$header"}"""))
+    packet.setValue("b", IChatBaseComponent.ChatSerializer.a("""{"translate":"$footer"}"""))
+    sendPacket(packet)
+}
 
 /**
  * @author Lars Artmann | LartyHD

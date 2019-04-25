@@ -3,6 +3,11 @@
  */
 
 dependencies {
+
+    compile "org.jetbrains.kotlin:kotlin-script-util:1.3.21"
+    compile "org.jetbrains.kotlin:kotlin-script-runtime:1.3.21"
+    compile "org.jetbrains.kotlin:kotlin-compiler-embeddable:1.3.21"
+
     jarLibs "com.google.code.gson:gson:$versions_gson"
     jarLibs "com.google.guava:guava:$versions_guava"
     jarLibs "com.google.inject.integration:integration:1.0"
