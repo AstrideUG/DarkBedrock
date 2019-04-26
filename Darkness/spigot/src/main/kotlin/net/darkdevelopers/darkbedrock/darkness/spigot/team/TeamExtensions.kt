@@ -55,10 +55,11 @@ fun Iterable<GameTeam>.finishTeams(): Boolean {
     return size < 2
 }
 
-fun generateTeams(colored: Boolean, teamsCount: Int) = generateTeamsTo(mutableSetOf(), colored, teamsCount)
+fun generateTeams(teamsCount: Int, colored: Boolean = true): MutableSet<GameTeam> =
+    generateTeamsTo(mutableSetOf(), teamsCount, colored)
 
 @Suppress("MemberVisibilityCanBePrivate")
-fun <C : MutableCollection<in GameTeam>> generateTeamsTo(destination: C, colored: Boolean, teamsCount: Int): C {
+fun <C : MutableCollection<in GameTeam>> generateTeamsTo(destination: C, teamsCount: Int, colored: Boolean = true): C {
     if (colored && teamsCount <= 14) Teams.values().forEach { team ->
         if (destination.size < teamsCount)
             destination += GameTeam(team.name, team.color, Utils.players.size / teamsCount + 1, true)
