@@ -22,11 +22,12 @@ import kotlin.properties.Delegates
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 03.07.2018 07:30.
- * Last edit 19.12.2018
+ * Last edit 26.04.2019
  */
 class DarkFrame : DarkPlugin() {
 
     private var moduleManager: ClassJavaModuleManager by Delegates.notNull()
+    @Suppress("DEPRECATION")
     private val messages =
         SpigotGsonMessages(GsonConfig(ConfigData(dataFolder, "config.json")).load()).availableMessages
 
@@ -36,7 +37,13 @@ class DarkFrame : DarkPlugin() {
     }
 
     override fun onLoad() = onLoad {
-        performCraftPluginUpdater(mapOf("type" to "DarkFrame-Spigot", "description" to description))
+        performCraftPluginUpdater(
+            mapOf(
+                "type" to "DarkFrame-Spigot",
+                "description" to description,
+                "javaplugin" to this
+            )
+        )
     }
 
     override fun onEnable() = security {
