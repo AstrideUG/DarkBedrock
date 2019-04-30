@@ -3,7 +3,9 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 
+import net.darkdevelopers.darkbedrock.darkness.general.functions.count
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.ItemBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.copy
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.RESET
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -14,7 +16,7 @@ import org.bukkit.inventory.ItemStack
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 04.01.2018 18:46.
- * Last edit 21.03.2019
+ * Last edit 30.04.2019
  */
 
 /**
@@ -35,9 +37,6 @@ private const val dark = 15
  * Current Version: 1.0 (21.03.2019 - 21.03.2019)
  */
 private const val white = 0
-
-fun Player.removeItemInHand(): Unit =
-    if (itemInHand == null || itemInHand.amount == 1) itemInHand = null else itemInHand.amount = itemInHand.amount - 1
 
 /**
  * @author Lars Artmann | LartyHD
@@ -99,15 +98,37 @@ fun Inventory.fillGlass(durability: Number) {
     for (i in 0 until size) if (getItem(i) == null) setGlass(i, durability)
 }
 
-fun Inventory.setGlass(slot: Int, durability: Number) = setItem(
+fun Inventory.setGlass(slot: Int, durability: Number): Unit = setItem(
     slot,
     ItemBuilder(Material.STAINED_GLASS_PANE).setName(RESET.toString()).setDurability(durability.toShort()).build()
 )
 
-fun Inventory.hasItems(material: Material): Int {
-    var count = 0
-    forEach { if (it?.type == material) count += it.amount }
-    return count
+fun Inventory.count(itemStack: ItemStack): Int =
+    filter { it.copy(amount = 1) == itemStack.copy(amount = 1) }.count { it.amount }
+
+fun Inventory.count(material: Material): Int = filter { it?.type == material }.count { it.amount }
+
+fun Player.removeItemInHand(): Unit =
+    if (itemInHand == null || itemInHand.amount <= 1) itemInHand = null else itemInHand.amount = itemInHand.amount - 1
+
+fun Player.removeItems(itemStack: ItemStack) {
+    inventory.removeItems(itemStack)
+    updateInventory()
+}
+
+fun Inventory.removeItems(itemStack: ItemStack) {
+    var cost = itemStack.amount
+    forEach { item ->
+        if (item.copy(amount = 1) != itemStack.copy(amount = 1)) return@forEach
+        val amount = item.amount
+        if (amount >= cost) {
+            item.amount -= cost
+            return
+        }
+        cost -= amount
+        remove(item)
+    }
+
 }
 
 fun Player.removeItems(material: Material, cost: Int) {
@@ -121,7 +142,7 @@ fun Inventory.removeItems(material: Material, costs: Int) {
         if (item?.type != material) return@forEach
         val amount = item.amount
         if (amount >= cost) {
-            if (amount - cost < 1) remove(item) else item.amount -= cost
+            item.amount -= cost
             return
         }
         cost -= amount
