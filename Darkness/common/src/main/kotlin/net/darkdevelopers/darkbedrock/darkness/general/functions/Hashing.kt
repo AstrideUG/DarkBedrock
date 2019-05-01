@@ -19,17 +19,17 @@ import java.security.MessageDigest
 
 private const val HEX_CHARS: String = "0123456789ABCDEF"
 
-fun md5(input: String): String = hashString("MD5", input)
+fun String.md5(): String = hash("MD5")
 
-fun sha1(input: String): String = hashString("SHA-1", input)
+fun String.sha1(): String = hash("SHA-1")
 
-fun sha224(input: String): String = hashString("SHA-224", input)
+fun String.sha224(): String = hash("SHA-224")
 
-fun sha256(input: String): String = hashString("SHA-256", input)
+fun String.sha256(): String = hash("SHA-256")
 
-fun sha384(input: String): String = hashString("SHA-384", input)
+fun String.sha384(): String = hash("SHA-384")
 
-fun sha512(input: String): String = hashString("SHA-512", input)
+fun String.sha512(): String = hash("SHA-512")
 
 /**
  * Supported algorithms on Android:
@@ -42,11 +42,11 @@ fun sha512(input: String): String = hashString("SHA-512", input)
  * SHA-384	    1+
  * SHA-512	    1+
  */
-private fun hashString(type: String, input: String): String {
+private fun String.hash(type: String): String {
 
     val bytes = MessageDigest
         .getInstance(type)
-        .digest(input.toByteArray())
+        .digest(this.toByteArray())
     val result = StringBuilder(bytes.size * 2)
 
     bytes.forEach {
@@ -59,7 +59,7 @@ private fun hashString(type: String, input: String): String {
 }
 
 //Other method (https://www.samclarke.com/kotlin-hash-strings/)
-//private fun hashString1(type: String, input: String): String = MessageDigest
+//private fun String.hash(type: String): String = MessageDigest
 //    .getInstance(type)
 //    .digest(input.toByteArray())
 //    .joinToString(separator = "") { String.format("%02X", it) }
