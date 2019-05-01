@@ -10,7 +10,7 @@ import javax.script.ScriptEngine
 import javax.script.ScriptEngineManager
 
 private const val defaultHookingFunction: String = "hooking"
-private var scriptEngineManager: ScriptEngineManager = ScriptEngineManager()
+var scriptEngineManager: ScriptEngineManager = ScriptEngineManager()
 private val defaultEngine: ScriptEngine get() = scriptEngineManager.getEngineByExtension("kts")
 
 /**
