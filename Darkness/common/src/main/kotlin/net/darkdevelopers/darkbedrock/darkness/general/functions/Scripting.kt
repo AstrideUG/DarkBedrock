@@ -52,15 +52,17 @@ fun executeScripts(
     map: Map<String, Any?>,
     engine: ScriptEngine = defaultEngine,
     hookingFunction: String = defaultHookingFunction,
-    before: (File) -> Unit = {},
-    after: (File) -> Unit = {},
+    before: (File, String, String) -> Unit = { _, _, _ -> },
+    after: (File, String, String) -> Unit = { _, _, _ -> },
     hashs: Map<String, String> = mapOf() //file.name, hash
 ): List<Any?> {
 
     if (!directory.isDirectory) throw IllegalArgumentException("directory must be a directory")
     return directory.listFiles().map {
-        before(it)
-        executeScript(it.readText(), map, engine, hookingFunction, hashs[it.name].orEmpty()).apply { after(it) }
+        val input = it.readText()
+        val hash = hashs[it.name].orEmpty()
+        before(it, input, hash)
+        executeScript(input, map, engine, hookingFunction, hash).apply { after(it, input, hash) }
     }
 
 }
