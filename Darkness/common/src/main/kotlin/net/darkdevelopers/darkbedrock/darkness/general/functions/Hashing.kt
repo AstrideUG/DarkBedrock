@@ -57,3 +57,9 @@ private fun hashString(type: String, input: String): String {
 
     return result.toString()
 }
+
+//Other method (https://www.samclarke.com/kotlin-hash-strings/)
+//private fun hashString1(type: String, input: String): String = MessageDigest
+//    .getInstance(type)
+//    .digest(input.toByteArray())
+//    .joinToString(separator = "") { String.format("%02X", it) }
