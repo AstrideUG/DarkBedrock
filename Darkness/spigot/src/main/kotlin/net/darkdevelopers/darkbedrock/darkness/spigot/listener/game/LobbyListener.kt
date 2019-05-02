@@ -25,7 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin
  * Created by LartyHD on 29.11.2017 14:06.
  * Last edit 02.05.2019
  */
-abstract class LobbyListener protected constructor(
+open class LobbyListener protected constructor(
     javaPlugin: JavaPlugin,
     private val lobbyLocation: Location
 ) : Listener(javaPlugin) {
