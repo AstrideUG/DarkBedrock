@@ -4,13 +4,14 @@
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
+import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 /*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 31.08.2018 19:15.
- * Last edit 05.04.2019
+ * Last edit 02.05.2019
  */
 
 /**
@@ -91,3 +92,10 @@ inline fun CommandSender.isPlayer(lambda: (Player) -> Unit, isNoPlayerMessage: S
  */
 inline fun CommandSender.isPlayer(onSuccess: (Player) -> Unit, onFail: () -> Unit): Unit =
     if (this is Player) onSuccess(this) else onFail()
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 02.05.2019 12:47.
+ * Current Version: 1.0 (02.05.2019 - 02.05.2019)
+ */
+fun CommandSender.execute(command: String): Boolean = Bukkit.dispatchCommand(this, command)
