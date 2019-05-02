@@ -1,6 +1,7 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
 import net.darkdevelopers.darkbedrock.darkness.general.minecraft.fetcher.Fetcher
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
 import org.bukkit.*
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
@@ -69,23 +70,6 @@ fun UUID.toOfflinePlayer(): OfflinePlayer? = Bukkit.getOfflinePlayer(this)
 
 /**
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 15.02.2019 04:06.
- * Current Version: 1.0 (15.02.2019 - 15.02.2019)
- */
-fun Cancellable.cancel(): Unit = cancel(true)
-
-
-/**
- * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 15.02.2019 04:07.
- * Current Version: 1.0 (15.02.2019 - 15.02.2019)
- */
-fun Cancellable.cancel(value: Boolean) {
-    isCancelled = value
-}
-
-/**
- * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 08.03.2019 17:17.
  *
  * @throws
@@ -110,6 +94,27 @@ fun Location.randomLook(a: Int = 3, b: Int = 90): Location {
     val i1 = 180
     val yaw = if (i == i1) i else i % i1 * if (i / i1 > 0) -1 else 1
     return Location(world, x, y, z, yaw.toFloat(), pitch)
+}
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 15.02.2019 04:06.
+ * Current Version: 1.0 (15.02.2019 - 15.02.2019)
+ */
+@Deprecated("", ReplaceWith("this.cancel()", "net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel"))
+fun Cancellable.cancel(): Unit = cancel(true)
+
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 15.02.2019 04:07.
+ * Current Version: 1.0 (15.02.2019 - 15.02.2019)
+ */
+@Deprecated(
+    "", ReplaceWith("this.cancel(value)", "net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel")
+)
+fun Cancellable.cancel(value: Boolean) {
+    isCancelled = value
 }
 
 

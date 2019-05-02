@@ -26,11 +26,12 @@ import java.util.*
  */
 open class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
-    protected val killer: MutableMap<UUID, Player> = HashMap()
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected val killer: MutableMap<UUID, Player> = mutableMapOf()
 
     @EventHandler
     open fun onPlayerRespawnEvent(event: PlayerRespawnEvent) {
-        this.killer -= event.player.uniqueId
+        killer -= event.player.uniqueId
     }
 
     @EventHandler
@@ -95,15 +96,16 @@ open class InGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     open fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent) {
         val damager = event.damager ?: return
-        if (!event.isCancelled)
-            if (damager is Player)
-                killer[event.entity.uniqueId] = damager
-            else if (damager is Projectile)
-                if (damager.shooter is Player)
-                    killer[event.entity.uniqueId] = damager.shooter as Player
+        val uniqueId = event.entity.uniqueId ?: return
+        if (damager is Player)
+            killer[uniqueId] = damager
+        else if (damager is Projectile) {
+            val shooter = damager.shooter as? Player ?: return
+            killer[uniqueId] = shooter
+        }
     }
 
     @EventHandler
