@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.06.2018 19:01.
- * Last edit 02.06.2018
+ * Last edit 02.05.2019
  */
 @Suppress("LeakingThis")
 open class Listener(
@@ -27,9 +27,9 @@ open class Listener(
 
     }
 
-    final override fun register() = pluginManager.registerEvents(this, javaPlugin)
+    final override fun register(): Unit = pluginManager.registerEvents(this, javaPlugin)
 
-    final override fun unregister() = HandlerList.unregisterAll(this)
+    final override fun unregister(): Unit = HandlerList.unregisterAll(this)
 
     final override fun reload() {
         unregister()

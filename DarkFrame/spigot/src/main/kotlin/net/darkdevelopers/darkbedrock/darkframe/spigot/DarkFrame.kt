@@ -12,6 +12,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.general.functions.performCraftPluginUpdater
 import net.darkdevelopers.darkbedrock.darkness.general.modules.manager.ClassJavaModuleManager
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.listener.EventsListener
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.plugin
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessages
 import net.darkdevelopers.darkbedrock.darkness.spigot.plugin.DarkPlugin
 import org.bukkit.Bukkit
@@ -49,6 +50,7 @@ class DarkFrame : DarkPlugin() {
     override fun onEnable() = security {
         onEnable {
             EventsListener.getSimpleInstance(this)
+            plugin = this
 
             //Old Module System
             println("Enable Old Module System")
