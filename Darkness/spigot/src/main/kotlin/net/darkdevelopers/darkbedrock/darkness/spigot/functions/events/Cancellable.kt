@@ -7,8 +7,6 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions.events
 
 import org.bukkit.event.Cancellable
-import org.bukkit.event.Event
-import org.bukkit.event.Listener
 import org.bukkit.event.block.*
 import org.bukkit.event.enchantment.EnchantItemEvent
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent
@@ -38,7 +36,7 @@ import org.spigotmc.event.entity.EntityMountEvent
  * Created by Lars Artmann | LartyHD on 02.05.2019 06:25.
  * Current Version: 1.0 (02.05.2019 - 02.05.2019)
  */
-var cancelFunction: (Listener, Event) -> Unit = { _, event -> (event as? Cancellable)?.cancel() }
+var cancelFunction: (Cancellable) -> Unit = { event -> (event as? Cancellable)?.cancel() }
 
 var cancelAsyncPlayerChat: Boolean = false
     set(value) {

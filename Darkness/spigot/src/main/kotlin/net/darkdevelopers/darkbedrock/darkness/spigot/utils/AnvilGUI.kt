@@ -4,12 +4,12 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.utils
  * © Copyright - Lars Artmann aka. LartyHD 2019.
  */
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
-import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.listen
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.unregister
 import net.minecraft.server.v1_8_R3.*
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -20,51 +20,45 @@ import org.bukkit.plugin.java.JavaPlugin
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 19.04.2019 15:32.
- * Current Version: 1.0 (19.04.2019 - 19.04.2019)
+ * Current Version: 1.0 (19.04.2019 - 02.05.2019)
  */
-class AnvilGUI(val player: Player, javaPlugin: JavaPlugin, private val block: (AnvilClickEvent) -> Unit) {
+class AnvilGUI(
+    javaPlugin: JavaPlugin,
+    val player: Player,
+    private val block: (AnvilClickEvent) -> Unit
+) {
 
     private val items: MutableMap<AnvilSlot, ItemStack> = mutableMapOf()
     private var inventory: Inventory? = null
-    private val listener: Listener = object : Listener(javaPlugin) {
-        @EventHandler
-        fun onInventoryClick(event: InventoryClickEvent) {
-            if (event.whoClicked !== player) return
-            if (event.inventory != inventory) return
+    private val listeners = arrayOf(
+        listen<InventoryClickEvent>(javaPlugin) { event ->
+            if (event.whoClicked !== player) return@listen
+            if (event.inventory != inventory) return@listen
             event.cancel()
 
-            val item = event.currentItem
-            var name: String? = null
-
-            if (item != null && item.hasItemMeta() && item.itemMeta.hasDisplayName()) name = item.itemMeta.displayName
-
-            val clickEvent = AnvilClickEvent(AnvilSlot.bySlot(event.rawSlot) ?: return, name)
+            val slot = AnvilSlot.bySlot(event.rawSlot) ?: return@listen
+            val clickEvent = AnvilClickEvent(slot, event.currentItem)
             block(clickEvent)
 
             if (clickEvent.willClose) event.whoClicked.closeInventory()
             if (clickEvent.willDestroy) destroy()
-        }
-
-        @EventHandler
-        fun onInventoryClose(event: InventoryCloseEvent) {
-
-            if (event.player !== player) return
-            if (event.inventory != this@AnvilGUI.inventory) return
+        },
+        listen<InventoryCloseEvent>(javaPlugin) { event ->
+            if (event.player !== player) return@listen
+            if (event.inventory != this@AnvilGUI.inventory) return@listen
             event.inventory.clear()
             destroy()
-        }
-
-        @EventHandler
-        fun onPlayerQuit(event: PlayerQuitEvent) {
+        },
+        listen<PlayerQuitEvent>(javaPlugin) { event ->
             if (event.player === player) destroy()
         }
-    }
+    )
 
     fun setSlot(slot: AnvilSlot, item: ItemStack) {
         items[slot] = item
     }
 
-    fun open() {
+    fun open(title: String = "Repairing") {
         val entity = (player as CraftPlayer).handle
 
         val container = AnvilContainer(entity)
@@ -72,13 +66,13 @@ class AnvilGUI(val player: Player, javaPlugin: JavaPlugin, private val block: (A
         //Set the items to the items from the inventory given
         inventory = container.bukkitView.topInventory
 
-        for (slot in items.keys) inventory?.setItem(slot.slot, items[slot])
+        items.forEach { (slot, item) -> inventory?.setItem(slot.slot, item) }
 
         //Counter stuff that the game uses to keep track of inventories
         val c = entity.nextContainerCounter()
 
         //Send the packet
-        val packetPlayOutOpenWindow = PacketPlayOutOpenWindow(c, "minecraft:anvil", ChatMessage("Repairing"), 0)
+        val packetPlayOutOpenWindow = PacketPlayOutOpenWindow(c, "minecraft:anvil", ChatMessage(title), 0)
         entity.playerConnection.sendPacket(packetPlayOutOpenWindow)
 
         //Set their active container to the container
@@ -91,32 +85,38 @@ class AnvilGUI(val player: Player, javaPlugin: JavaPlugin, private val block: (A
         entity.activeContainer.addSlotListener(entity)
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun destroy() {
         inventory = null
-        listener.unregister()
-    }
-
-    private inner class AnvilContainer(entity: EntityHuman) :
-        ContainerAnvil(entity.inventory, entity.world, BlockPosition(0, 0, 0), entity) {
-
-        override fun a(entityhuman: EntityHuman): Boolean = true
+        listeners.forEach { it.unregister() }
     }
 
     enum class AnvilSlot(val slot: Int) {
+
         INPUT_LEFT(0),
         INPUT_RIGHT(1),
         OUTPUT(2);
 
         companion object {
+
             fun bySlot(slot: Int): AnvilSlot? = values().find { it.slot == slot }
         }
     }
 
-    inner class AnvilClickEvent(val slot: AnvilSlot, val name: String?) {
+    inner class AnvilClickEvent(val slot: AnvilSlot, val itemStack: ItemStack?) {
 
-        var willClose = true
-        var willDestroy = true
+        var willClose: Boolean = true
 
+        var willDestroy: Boolean = true
+    }
+
+    private inner class AnvilContainer(entity: EntityHuman) : ContainerAnvil(
+        entity.inventory,
+        entity.world,
+        BlockPosition(0, 0, 0),
+        entity
+    ) {
+        override fun a(entityHuman: EntityHuman): Boolean = true
     }
 
 }

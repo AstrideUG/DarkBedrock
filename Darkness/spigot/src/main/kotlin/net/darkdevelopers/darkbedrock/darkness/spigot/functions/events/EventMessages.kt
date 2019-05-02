@@ -20,10 +20,7 @@ import org.bukkit.event.player.PlayerRespawnEvent
  */
 fun Location.setToRespawn() {
     unregisterRespawn()
-    "respawn".addEvent<PlayerRespawnEvent> { _, event ->
-        if (event !is PlayerRespawnEvent) return@addEvent
-        event.respawnLocation = this
-    }
+    "respawn".addEvent<PlayerRespawnEvent> { event -> event.respawnLocation = this }
 }
 
 fun unregisterRespawn() {

@@ -18,14 +18,14 @@ var plugin: Plugin = pluginManager.plugins.first()
 var priority: EventPriority = EventPriority.NORMAL
 val activeListener: MutableMap<String, Listener> = mutableMapOf()
 
-inline fun <reified E : Event> String.updateEvent(value: Boolean, noinline function: (Listener, Event) -> Unit) {
+inline fun <reified E : Event> String.updateEvent(value: Boolean, noinline function: (E) -> Unit) {
     val listener = activeListener[this]
     if (listener != null && !value) listener.unregister()
-    else if (listener == null && value) addEvent<E>(function)
+    else if (listener == null && value) addEvent(function)
 }
 
-inline fun <reified E : Event> String.addEvent(noinline function: (Listener, Event) -> Unit) {
-    activeListener[this] = register<E>(plugin, pluginManager, priority, function)
+inline fun <reified E : Event> String.addEvent(crossinline function: (E) -> Unit) {
+    activeListener[this] = listen(plugin, pluginManager, priority, function = function)
 }
 
 /**
@@ -33,13 +33,21 @@ inline fun <reified E : Event> String.addEvent(noinline function: (Listener, Eve
  * Created by Lars Artmann | LartyHD on 02.05.2019 11:36.
  * Current Version: 1.0 (02.05.2019 - 02.05.2019)
  */
-inline fun <reified E : Event> register(
+inline fun <reified E : Event> listen(
     plugin: Plugin,
     pluginManager: PluginManager = plugin.server.pluginManager,
     priority: EventPriority = EventPriority.NORMAL,
-    noinline function: (Listener, Event) -> Unit
+    ignoreCancelled: Boolean = false,
+    crossinline function: (E) -> Unit
 ): Listener = object : Listener {}.apply {
-    pluginManager.registerEvent(E::class.java, this, priority, function, plugin)
+    pluginManager.registerEvent(
+        E::class.java,
+        this,
+        priority,
+        { _, event -> if (event is E) function(event) },
+        plugin,
+        ignoreCancelled
+    )
 }
 
 /**
