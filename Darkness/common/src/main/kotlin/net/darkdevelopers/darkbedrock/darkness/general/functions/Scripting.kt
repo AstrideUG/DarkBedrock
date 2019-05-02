@@ -30,7 +30,7 @@ fun executeScript(
 ): Any? {
 
     if (input.isEmpty()) return engine
-    if (hash.isNotEmpty() && input.sha256() == hash) return engine
+    if (hash.isNotEmpty() && input.sha256() == hash) return engine //TODO: invoke cashed compiled src
 
     map.forEach { (t, u) -> engine.put(t, u) }
 
