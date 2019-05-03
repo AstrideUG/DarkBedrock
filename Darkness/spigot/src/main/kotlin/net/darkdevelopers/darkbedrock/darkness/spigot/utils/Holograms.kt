@@ -2,22 +2,26 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendPacket
 import net.minecraft.server.v1_8_R3.EntityArmorStand
-import net.minecraft.server.v1_8_R3.EntityLiving
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving
 import org.bukkit.Location
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld
 import org.bukkit.entity.Player
 import kotlin.concurrent.thread
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players as allPlayers
 
 
-@Suppress("MemberVisibilityCanBePrivate")
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 09.07.2018 10:45.
- * Last edit 24.08.2018
+ * Last edit 03.05.2019
  */
-class Holograms(private val lines: Array<String>, private val location: Location) {
+class Holograms(
+    private val lines: Array<String>,
+    private val location: Location,
+    private val players: Collection<Player> = allPlayers
+) {
     private val armorStands = mutableSetOf<EntityArmorStand>()
 
     init {
@@ -25,7 +29,7 @@ class Holograms(private val lines: Array<String>, private val location: Location
         create()
     }
 
-    fun show(time: Long) = Utils.goThroughAllPlayers { show(it, time) }
+    fun show(time: Long): Unit = players.forEach { show(it, time) }
 
     fun show(player: Player, time: Long) {
         show(player)
@@ -35,30 +39,26 @@ class Holograms(private val lines: Array<String>, private val location: Location
         }
     }
 
-    fun show() = Utils.goThroughAllPlayers { show(it) }
+    fun show(): Unit = players.forEach(::show)
 
-    fun hide() = Utils.goThroughAllPlayers { hide(it) }
+    fun hide(): Unit = players.forEach(::hide)
 
-    fun show(player: Player) =
-        armorStands.forEach { player.sendPacket(PacketPlayOutSpawnEntityLiving(it as EntityLiving)) }
+    fun show(player: Player): Unit = armorStands.forEach { player.sendPacket(PacketPlayOutSpawnEntityLiving(it)) }
 
-    fun hide(player: Player) = armorStands.forEach { player.sendPacket(PacketPlayOutEntityDestroy(it.id)) }
+    fun hide(player: Player): Unit = armorStands.forEach { player.sendPacket(PacketPlayOutEntityDestroy(it.id)) }
 
     private fun create() {
         val clone = location.clone()
         lines.forEach {
-            if (it != "") armorStands.add(
-                EntityArmorStand(
-                    (clone.world as CraftWorld).handle,
-                    clone.x,
-                    clone.y,
-                    clone.z
-                ).apply {
+            if (it.isNotEmpty()) {
+                val entity = EntityArmorStand((clone.world as CraftWorld).handle, clone.x, clone.y, clone.z).apply {
                     customName = it
                     customNameVisible = true
                     isInvisible = true
                     setGravity(false)
-                })
+                }
+                armorStands.add(entity)
+            }
             clone.add(0.0, DISTANCE, 0.0)
         }
     }

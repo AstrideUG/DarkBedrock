@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 17.02.2018  16:20.
- * Last edit 06.07.2018
+ * Last edit 03.05.2019
  */
 enum class Items(val itemStack: ItemStack) {
 
@@ -41,8 +41,7 @@ enum class Items(val itemStack: ItemStack) {
     KITS(ItemBuilder(CHEST.itemStack).setName("${SECONDARY}Kits").build()),
     ACHIEVEMENTS(ItemBuilder(CHEST.itemStack).setName("${SECONDARY}Achievements").build());
 
-    @Suppress("HasPlatformType")
-    val displayName = itemStack.itemMeta.displayName
+    val displayName: String get() = itemStack.itemMeta.displayName
 
     enum class Settings(val itemStack: ItemStack) {
 
@@ -51,7 +50,7 @@ enum class Items(val itemStack: ItemStack) {
         START(ItemBuilder(Material.ENDER_PEARL).setName("${SECONDARY}Start").build()),
         FORCE_MAP(ItemBuilder(Material.PAPER).setName("${SECONDARY}ForceMap").build());
 
-        @Suppress("HasPlatformType")
-        val displayName = itemStack.itemMeta.displayName
+        val displayName: String get() = itemStack.itemMeta.displayName
+
     }
 }

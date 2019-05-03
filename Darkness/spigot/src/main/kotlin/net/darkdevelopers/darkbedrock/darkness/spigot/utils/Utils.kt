@@ -17,6 +17,12 @@ object Utils {
 
     val players: Collection<Player> get() = Bukkit.getOnlinePlayers()
 
+    @Deprecated(
+        "", ReplaceWith(
+            "players.forEach { lambda(it) }",
+            "net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players"
+        )
+    )
     inline fun goThroughAllPlayers(lambda: (Player) -> Unit) = players.forEach { lambda(it) }
 
     @Suppress("MemberVisibilityCanBePrivate")

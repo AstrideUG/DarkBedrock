@@ -7,7 +7,7 @@ package net.darkdevelopers.darkbedrock.darkness.general.functions
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 30.08.2018 21:03.
- * Last edit 17.10.2018
+ * Last edit 03.05.2019
  */
 
 @Deprecated(
@@ -24,6 +24,7 @@ fun Any.printInitInfo(): Unit = net.darkdevelopers.darkbedrock.darkness.general.
  * @LastEdit 17.10.2018
  * @since 30.08.2018
  */
+@Deprecated("useless information function")
 fun printInitInfo(javaClass: Class<*>) {
     val name = javaClass.name.split('.')
     val subClasses = name[name.size - 2].split('$')
