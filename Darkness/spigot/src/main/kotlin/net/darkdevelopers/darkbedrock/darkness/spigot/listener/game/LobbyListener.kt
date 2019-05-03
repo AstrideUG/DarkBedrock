@@ -54,7 +54,7 @@ open class LobbyListener protected constructor(
     }
 
     fun restet() {
-        restetCancel()
+        resetCancel()
         unregisterRespawn()
     }
 

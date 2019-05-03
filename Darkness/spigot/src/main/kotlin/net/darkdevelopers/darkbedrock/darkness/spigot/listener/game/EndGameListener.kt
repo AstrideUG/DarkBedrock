@@ -35,7 +35,7 @@ open class EndGameListener(
     }
 
     fun restet() {
-        restetCancel()
+        resetCancel()
         unregisterRespawn()
     }
 

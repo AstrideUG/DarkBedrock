@@ -12,12 +12,6 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.*
  * Current Version: 1.0 (02.05.2019 - 02.05.2019)
  */
 fun setupCancel() {
-    cancelPlayerDropItem = true
-    cancelPlayerPickupItem = true
-    cancelFoodLevelChange = true
-    cancelInventoryClick = true
-    cancelPlayerInteract = true
-    cancelEntityDamage = true
     cancelBlockBreak = true
     cancelBlockPlace = true
     cancelBlockBurn = true
@@ -26,6 +20,13 @@ fun setupCancel() {
     cancelBlockFromTo = true
     cancelBlockGrow = true
     cancelBlockPhysics = true
+    cancelCraftItem = true
+    cancelEntityDamage = true
+    cancelFoodLevelChange = true
+    cancelInventoryClick = true
+    cancelPlayerDropItem = true
+    cancelPlayerInteract = true
+    cancelPlayerPickupItem = true
     cancelWeatherChange = true
 }
 
@@ -34,13 +35,7 @@ fun setupCancel() {
  * Created by Lars Artmann | LartyHD on 02.05.2019 12:05.
  * Current Version: 1.0 (02.05.2019 - 02.05.2019)
  */
-fun restetCancel() {
-    cancelPlayerDropItem = false
-    cancelPlayerPickupItem = false
-    cancelFoodLevelChange = false
-    cancelInventoryClick = false
-    cancelPlayerInteract = false
-    cancelEntityDamage = false
+fun resetCancel() {
     cancelBlockBreak = false
     cancelBlockPlace = false
     cancelBlockBurn = false
@@ -49,5 +44,12 @@ fun restetCancel() {
     cancelBlockFromTo = false
     cancelBlockGrow = false
     cancelBlockPhysics = false
+    cancelCraftItem = false
+    cancelEntityDamage = false
+    cancelFoodLevelChange = false
+    cancelInventoryClick = false
+    cancelPlayerDropItem = false
+    cancelPlayerInteract = false
+    cancelPlayerPickupItem = false
     cancelWeatherChange = false
 }
