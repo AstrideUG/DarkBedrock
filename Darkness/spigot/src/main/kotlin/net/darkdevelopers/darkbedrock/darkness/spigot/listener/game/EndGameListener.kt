@@ -29,12 +29,12 @@ open class EndGameListener(
     private val endGameLocation: Location
 ) : Listener(javaPlugin) {
 
-    fun setup() {
+    open fun setup() {
         setupCancel()
         endGameLocation.setToRespawn()
     }
 
-    fun restet() {
+    open fun reset() {
         resetCancel()
         unregisterRespawn()
     }

@@ -21,8 +21,8 @@ import org.bukkit.plugin.java.JavaPlugin
  */
 open class PreGameListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
-    fun setup(): Unit = setupCancel()
-    fun restet(): Unit = resetCancel()
+    open fun setup(): Unit = setupCancel()
+    open fun reset(): Unit = resetCancel()
 
     @EventHandler
     open fun onPlayerJoinEvent(event: PlayerJoinEvent) {

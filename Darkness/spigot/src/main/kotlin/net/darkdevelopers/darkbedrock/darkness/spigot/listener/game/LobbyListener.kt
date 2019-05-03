@@ -48,12 +48,12 @@ open class LobbyListener protected constructor(
 
     }
 
-    fun setup() {
+    open fun setup() {
         setupCancel()
         lobbyLocation.setToRespawn()
     }
 
-    fun restet() {
+    open fun reset() {
         resetCancel()
         unregisterRespawn()
     }
