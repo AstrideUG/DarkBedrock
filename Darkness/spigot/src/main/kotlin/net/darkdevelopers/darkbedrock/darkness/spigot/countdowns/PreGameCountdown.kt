@@ -7,38 +7,37 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTimings
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTitle
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 
 /**
- * Created by LartyHD on 24.06.2017  18:01.
- * Last edit 20.08.2018
+ * Created by LartyHD on 24.06.2017 18:01.
+ * Last edit 03.05.2019
  */
-class PreGameCountdown : Countdown(5) {
+class PreGameCountdown(seconds: Int = 5) : Countdown(seconds) {
 
-    override fun start() = if (!isRunning) {
+    override fun start(): Unit = if (!isRunning) {
         isRunning = true
 //        Bukkit.getPluginManager().callEvent(PreGameCountdownStartedEvent(this))
         loop {
-            when (seconds) {
-                0 -> finish()
-                1 -> Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Die Runde startet in ${IMPORTANT}einer$TEXT Sekunde")
-                2, 3, 4, 5, 10, 15, 20, 30, 45, 60 -> Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Die Runde startet in $IMPORTANT$seconds$TEXT Sekunden")
+
+            if (seconds == 0) finish()
+            else if (seconds in arrayOf(1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60))
+                Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Die Runde startet in ${if (seconds == 1) "${IMPORTANT}einer$TEXT Sekunde" else "$IMPORTANT$seconds$TEXT Sekunden"}")
+            if (seconds == 10 || seconds in 1..5) players.forEach {
+                it.sendTitle("$SECONDARY$seconds")
+                it.sendTimings(1, 18, 1)
+                it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
             }
-            when (seconds) {
-                10, 5, 4, 3, 2, 1 -> Utils.goThroughAllPlayers {
-                    it.sendTitle("$SECONDARY$seconds")
-                    it.sendTimings(1, 18, 1)
-                    it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
-                }
-            }
+
             setLevel()
             seconds--
+
         }
     } else System.err.println("The pregame countdown should start, although it is already running")
 
-    override fun stop() = defaultStop("pregame")
+    override fun stop(): Unit = defaultStop("pregame")
 
     override fun finish() {
 //        Bukkit.getPluginManager().callEvent(PreGameCountdownFinishedEvent(this))

@@ -19,7 +19,7 @@ object Utils {
 
     @Deprecated(
         "", ReplaceWith(
-            "players.forEach { lambda(it) }",
+            "players.forEach { lambda() }",
             "net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players"
         )
     )

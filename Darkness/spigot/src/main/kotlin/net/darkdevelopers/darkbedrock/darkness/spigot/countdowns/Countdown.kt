@@ -3,8 +3,9 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 import org.bukkit.entity.Player
+import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
 abstract class Countdown internal constructor(internal var seconds: Int) {
@@ -12,7 +13,7 @@ abstract class Countdown internal constructor(internal var seconds: Int) {
     private lateinit var thread: Thread
     internal var isRunning: Boolean = false
 
-    internal fun setLevel() = Utils.goThroughAllPlayers { setLevel(it) }
+    internal fun setLevel(): Unit = players.forEach { setLevel(it) }
 
     private fun setLevel(player: Player) {
         player.level = seconds
@@ -20,7 +21,7 @@ abstract class Countdown internal constructor(internal var seconds: Int) {
     }
 
     internal fun loop(lambda: () -> Unit) {
-        thread = loop(1000, lambda)
+        thread = loop(TimeUnit.SECONDS.toMillis(1), lambda)
     }
 
     internal fun loop(sleep: Long, lambda: () -> Unit) = thread {
