@@ -19,7 +19,7 @@ import org.bukkit.entity.Player
  */
 class EndGameCountdown(
     seconds: Int = 15,
-    private val players: Collection<Player> = Utils.players
+    val players: Collection<Player> = Utils.players
 ) : Countdown(seconds) {
 
     override fun start(): Unit = if (!isRunning) {

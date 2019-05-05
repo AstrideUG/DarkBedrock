@@ -8,8 +8,8 @@ import org.bukkit.entity.Player
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
-abstract class Countdown internal constructor(internal var seconds: Int) {
-    private val startSeconds = seconds
+abstract class Countdown internal constructor(var seconds: Int) {
+    val startSeconds = seconds
     private lateinit var thread: Thread
     var isRunning: Boolean = false
 

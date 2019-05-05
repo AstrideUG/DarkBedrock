@@ -24,12 +24,12 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players as all
  */
 class LobbyCountdown(
     seconds: Int = 60,
-    private val minPlayers: Int,
-    private val gameName: String,
-    private val players: Collection<Player> = allPlayers
+    val minPlayers: Int,
+    val gameName: String,
+    val players: Collection<Player> = allPlayers
 ) : Countdown(seconds) {
 
-    private var idling: Boolean = false
+    var idling: Boolean = false
     private lateinit var idle: Thread
 
     override fun start(): Unit = if (!isRunning) {
