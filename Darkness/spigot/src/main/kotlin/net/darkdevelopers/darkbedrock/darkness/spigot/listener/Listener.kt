@@ -1,10 +1,10 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.listener
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.interfaces.Listener
-import org.bukkit.Bukkit
-import org.bukkit.event.HandlerList
 import org.bukkit.plugin.PluginManager
 import org.bukkit.plugin.java.JavaPlugin
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.register as register0
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.unregister as unregister0
 
 /**
  * @author Lars Artmann | LartyHD
@@ -14,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin
 @Suppress("LeakingThis")
 open class Listener(
     protected val javaPlugin: JavaPlugin,
-    private val pluginManager: PluginManager = Bukkit.getPluginManager(),
+    private val pluginManager: PluginManager = javaPlugin.server.pluginManager,
     override val permissionMessage: String = ""
 ) : Listener {
 
@@ -27,9 +27,9 @@ open class Listener(
 
     }
 
-    final override fun register(): Unit = pluginManager.registerEvents(this, javaPlugin)
+    final override fun register(): Unit = register0(javaPlugin, pluginManager)
 
-    final override fun unregister(): Unit = HandlerList.unregisterAll(this)
+    final override fun unregister(): Unit = unregister0()
 
     final override fun reload() {
         unregister()
