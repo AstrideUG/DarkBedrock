@@ -3,10 +3,12 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.EndGameCountdownCallEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
+import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
@@ -23,6 +25,8 @@ class EndGameCountdown(
         isRunning = true
 //            Bukkit.getPluginManager().callEvent(EndGameCountdownStartedEvent(this))
         loop {
+
+            if (EndGameCountdownCallEvent().call().isCancelled) return@loop
 
             if (seconds == 0 || players.isEmpty()) finish()
             else if (seconds in arrayOf(1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60))

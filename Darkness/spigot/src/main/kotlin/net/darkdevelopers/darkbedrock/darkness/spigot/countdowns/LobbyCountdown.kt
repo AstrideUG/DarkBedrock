@@ -3,11 +3,14 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.LobbyCountdownCallEvent
+import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.LobbyCountdownIdleEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendSubTitle
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTimings
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTitle
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
+import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -34,12 +37,13 @@ class LobbyCountdown(
         stopIdle()
         loop {
 
+            if (LobbyCountdownCallEvent().call().isCancelled) return@loop
+
             if (seconds == 0) finish()
             else if (seconds in arrayOf(1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60))
                 Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Das Spiel startet in $IMPORTANT${if (seconds == 1) "einer$TEXT Sekunde" else "$seconds$TEXT Sekunden"}")
 
             if (seconds == 10) {
-                //                    Bukkit.getPluginManager().callEvent(LobbyCountdownLastTenSecondsEvent(this))
                 players.forEach {
                     it.sendTitle(gameName)
                     it.sendSubTitle(Messages.SERVER_NAME.toString())
@@ -62,6 +66,9 @@ class LobbyCountdown(
         idling = true
         stopCountdown()
         idle = loop(TimeUnit.SECONDS.toMillis(10)) {
+
+            if (LobbyCountdownIdleEvent().call().isCancelled) return@loop
+
             val i = minPlayers - players.size
             if (i == 0) start()
             else Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Warte auf $IMPORTANT${if (seconds == 1) "einen$TEXT weiteren" else "$i$TEXT weitere"} Spieler...")
