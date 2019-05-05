@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerEvent
 
 /**
  * Created by LartyHD on 29.11.2017 14:21.
- * Last edit 15.08.2018
+ * Last edit 05.05.2019
  */
 class PlayerDisconnectEvent(who: Player, message: String) : PlayerEvent(who) {
     var leaveMessage: String? = message
@@ -18,6 +18,6 @@ class PlayerDisconnectEvent(who: Player, message: String) : PlayerEvent(who) {
 
     companion object {
         @JvmStatic //Important for Bukkit due to the Java ByteCode
-        val handlerList = HandlerList()
+        val handlerList: HandlerList = HandlerList()
     }
 }
