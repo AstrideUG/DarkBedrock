@@ -27,7 +27,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players as all
  * Created by LartyHD on 29.11.2017 14:06.
  * Last edit 05.05.2019
  */
-object InGameEventsManager : EventsManager() {
+object InGameEventsTemplate : EventsTemplate() {
 
     @Suppress("MemberVisibilityCanBePrivate")
     val killer: MutableMap<UUID, Player> = mutableMapOf()
@@ -94,6 +94,7 @@ object InGameEventsManager : EventsManager() {
         unregisterDeathMessage()
 
         listener.unregister()
+        listener.clear()
 
     }
 

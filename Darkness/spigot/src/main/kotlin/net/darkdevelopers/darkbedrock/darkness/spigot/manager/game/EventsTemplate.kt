@@ -11,7 +11,7 @@ import org.bukkit.event.Listener
  * Created by Lars Artmann | LartyHD on 05.05.2019 09:21.
  * Current Version: 1.0 (05.05.2019 - 05.05.2019)
  */
-open class EventsManager(
+open class EventsTemplate(
     protected val listener: MutableCollection<Listener> = mutableSetOf()
 ) {
 

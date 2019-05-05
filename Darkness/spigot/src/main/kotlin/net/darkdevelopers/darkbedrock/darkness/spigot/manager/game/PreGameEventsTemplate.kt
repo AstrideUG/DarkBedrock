@@ -17,7 +17,7 @@ import org.bukkit.plugin.Plugin
  * Created by LartyHD on 29.11.2017 14:06.
  * Last edit 05.05.2019
  */
-object PreGameEventsManager : EventsManager() {
+object PreGameEventsTemplate : EventsTemplate() {
 
     fun setup(plugin: Plugin) {
 
@@ -49,6 +49,7 @@ object PreGameEventsManager : EventsManager() {
         unregisterChatFormat()
 
         listener.unregister()
+        listener.clear()
 
     }
 

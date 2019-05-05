@@ -19,11 +19,11 @@ import org.bukkit.plugin.Plugin
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 29.11.2017 14:06.
  *
- * Lobby & EndGame EventsManager
+ * Lobby & EndGame EventsTemplate
  *
  * Last edit 05.05.2019
  */
-object LobbyEventsManager : EventsManager() {
+object LobbyEventsTemplate : EventsTemplate() {
 
     fun setup(plugin: Plugin, location: Location, kickMessage: String = "LEAVE") {
 
@@ -60,6 +60,7 @@ object LobbyEventsManager : EventsManager() {
         unregisterKeepInventory()
 
         listener.unregister()
+        listener.clear()
 
     }
 
