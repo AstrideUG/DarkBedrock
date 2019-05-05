@@ -13,8 +13,7 @@ import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.PluginManager
 
 
-var pluginManager: PluginManager = Bukkit.getPluginManager()
-var plugin: Plugin = pluginManager.plugins.first()
+var plugin: Plugin = Bukkit.getPluginManager().plugins.first()
 var priority: EventPriority = EventPriority.NORMAL
 val activeListener: MutableMap<String, Listener> = mutableMapOf()
 
@@ -25,7 +24,7 @@ inline fun <reified E : Event> String.updateEvent(value: Boolean, noinline funct
 }
 
 inline fun <reified E : Event> String.addEvent(crossinline function: (E) -> Unit) {
-    activeListener[this] = listen(plugin, pluginManager, priority, function = function)
+    activeListener[this] = listen(plugin = plugin, priority = priority, function = function)
 }
 
 /**
@@ -56,4 +55,20 @@ inline fun <reified E : Event> listen(
  * Current Version: 1.0 (02.05.2019 - 02.05.2019)
  */
 fun Listener.unregister(): Unit = HandlerList.unregisterAll(this)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 05.05.2019 09:26.
+ * Current Version: 1.0 (05.05.2019 - 05.05.2019)
+ */
+fun Iterable<Listener>.unregister(): Unit = forEach { it.unregister() }
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 05.05.2019 09:05.
+ * Current Version: 1.0 (05.05.2019 - 05.05.2019)
+ */
+@Suppress("unused")
+fun Listener.register(plugin: Plugin, pluginManager: PluginManager = plugin.server.pluginManager): Unit =
+    pluginManager.registerEvents(this, plugin)
 
