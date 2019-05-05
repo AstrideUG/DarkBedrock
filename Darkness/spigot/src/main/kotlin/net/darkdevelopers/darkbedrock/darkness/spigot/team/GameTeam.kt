@@ -26,7 +26,7 @@ class GameTeam(
     val players: MutableSet<Player> = mutableSetOf()
     val team: Team
     val leatherColor: Color = getLeatherColor(chatColor)
-    private lateinit var location: Location
+    lateinit var location: Location
 
     init {
         val scoreboard = Bukkit.getScoreboardManager().mainScoreboard
@@ -72,10 +72,6 @@ class GameTeam(
         else -> Color.WHITE
     }
 
-
-    override fun toString(): String =
-        "GameTeam(chatColor=$chatColor, size=$size, players=$players, team=$team, leatherColor=$leatherColor, location=$location)"
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is GameTeam) return false
@@ -101,4 +97,9 @@ class GameTeam(
         result = 31 * result + location.hashCode()
         return result
     }
+
+    override fun toString(): String =
+        "GameTeam(name='$name', chatColor=$chatColor, size=$size, players=$players, team=$team, leatherColor=$leatherColor, location=$location)"
+
+
 }

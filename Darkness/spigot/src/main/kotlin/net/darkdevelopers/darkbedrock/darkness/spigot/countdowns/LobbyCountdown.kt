@@ -22,6 +22,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players as all
  * Created by LartyHD on 24.06.2017 16:41.
  * Last edit 05.05.2019
  */
+@Suppress("MemberVisibilityCanBePrivate")
 class LobbyCountdown(
     seconds: Int = 60,
     val minPlayers: Int,
