@@ -2,7 +2,7 @@
  * © Copyright - Lars Artmann aka. LartyHD 2019.
  */
 
-package net.darkdevelopers.darkbedrock.darkness.spigot.listener.game
+package net.darkdevelopers.darkbedrock.darkness.spigot.manager.game
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.*
 
