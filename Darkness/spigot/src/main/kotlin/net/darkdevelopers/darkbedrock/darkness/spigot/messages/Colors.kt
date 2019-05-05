@@ -32,5 +32,12 @@ enum class Colors(var chatColor: ChatColor) {
     DESIGN(ChatColor.STRIKETHROUGH),
     RESET(ChatColor.RESET);
 
-    override fun toString() = this.chatColor.toString()
+    override fun toString(): String = this.chatColor.toString()
 }
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 05.05.2019 10:19.
+ * Current Version: 1.0 (05.05.2019 - 05.05.2019)
+ */
+fun ChatColor?.orImportant(): ChatColor = this ?: Colors.IMPORTANT.chatColor
