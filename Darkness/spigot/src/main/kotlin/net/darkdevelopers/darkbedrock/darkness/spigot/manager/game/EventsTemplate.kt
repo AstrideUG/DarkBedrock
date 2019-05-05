@@ -12,7 +12,7 @@ import org.bukkit.event.Listener
  * Current Version: 1.0 (05.05.2019 - 05.05.2019)
  */
 open class EventsTemplate(
-    protected val listener: MutableCollection<Listener> = mutableSetOf()
+    val listener: MutableCollection<Listener> = mutableSetOf()
 ) {
 
     protected fun Listener.add() {
