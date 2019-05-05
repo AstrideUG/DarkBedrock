@@ -14,8 +14,9 @@ import org.bukkit.Bukkit
 import org.bukkit.Sound
 
 /**
+ * @author Lars Artmann | LartyHD
  * Created by LartyHD on 24.06.2017 18:01.
- * Last edit 03.05.2019
+ * Last edit 05.05.2019
  */
 class PreGameCountdown(seconds: Int = 5) : Countdown(seconds) {
 
@@ -24,7 +25,7 @@ class PreGameCountdown(seconds: Int = 5) : Countdown(seconds) {
 //        Bukkit.getPluginManager().callEvent(PreGameCountdownStartedEvent(this))
         loop {
 
-            if (PreGameCountdownCallEvent().call().isCancelled) return@loop
+            if (PreGameCountdownCallEvent(this).call().isCancelled) return@loop
 
             if (seconds == 0) finish()
             else if (seconds in arrayOf(1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60))

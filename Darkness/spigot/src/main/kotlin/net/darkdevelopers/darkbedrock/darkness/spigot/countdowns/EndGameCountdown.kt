@@ -13,8 +13,9 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 /**
+ * @author Lars Artmann | LartyHD
  * Created by LartyHD on 24.06.2017 17:22.
- * Last edit 03.05.2019
+ * Last edit 05.05.2019
  */
 class EndGameCountdown(
     seconds: Int = 15,
@@ -26,7 +27,7 @@ class EndGameCountdown(
 //            Bukkit.getPluginManager().callEvent(EndGameCountdownStartedEvent(this))
         loop {
 
-            if (EndGameCountdownCallEvent().call().isCancelled) return@loop
+            if (EndGameCountdownCallEvent(this).call().isCancelled) return@loop
 
             if (seconds == 0 || players.isEmpty()) finish()
             else if (seconds in arrayOf(1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60))

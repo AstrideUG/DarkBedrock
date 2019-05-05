@@ -3,6 +3,7 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.countdowns.EndGameCountdown
 import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
@@ -12,7 +13,7 @@ import org.bukkit.event.HandlerList
  * Created by Lars Artmann | LartyHD on 05.05.2019 13:35.
  * Current Version: 1.0 (05.05.2019 - 05.05.2019)
  */
-class EndGameCountdownCallEvent : Event(), Cancellable {
+class EndGameCountdownCallEvent(val endGameCountdown: EndGameCountdown) : Event(), Cancellable {
 
     private var cancellable: Boolean = false
 

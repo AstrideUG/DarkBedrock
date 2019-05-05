@@ -18,8 +18,9 @@ import java.util.concurrent.TimeUnit
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players as allPlayers
 
 /**
+ * @author Lars Artmann | LartyHD
  * Created by LartyHD on 24.06.2017 16:41.
- * Last edit 03.05.2019
+ * Last edit 05.05.2019
  */
 class LobbyCountdown(
     seconds: Int = 60,
@@ -37,7 +38,7 @@ class LobbyCountdown(
         stopIdle()
         loop {
 
-            if (LobbyCountdownCallEvent().call().isCancelled) return@loop
+            if (LobbyCountdownCallEvent(this).call().isCancelled) return@loop
 
             if (seconds == 0) finish()
             else if (seconds in arrayOf(1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60))
@@ -67,7 +68,7 @@ class LobbyCountdown(
         stopCountdown()
         idle = loop(TimeUnit.SECONDS.toMillis(10)) {
 
-            if (LobbyCountdownIdleEvent().call().isCancelled) return@loop
+            if (LobbyCountdownIdleEvent(this).call().isCancelled) return@loop
 
             val i = minPlayers - players.size
             if (i == 0) start()

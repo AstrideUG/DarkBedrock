@@ -11,8 +11,9 @@ import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
 import org.bukkit.Bukkit
 
 /**
+ * @author Lars Artmann | LartyHD
  * Created by LartyHD on 24.06.2017 18:01.
- * Last edit 03.05.2019
+ * Last edit 05.05.2019
  */
 class SaveTimeCountdown(seconds: Int = 60) : Countdown(seconds) {
 
@@ -21,7 +22,7 @@ class SaveTimeCountdown(seconds: Int = 60) : Countdown(seconds) {
 //        Bukkit.getPluginManager().callEvent(SaveTimeCountdownStartedEvent(this))
         loop {
 
-            if (SaveTimeCountdownCallEvent().call().isCancelled) return@loop
+            if (SaveTimeCountdownCallEvent(this).call().isCancelled) return@loop
 
             if (seconds == 0) finish()
             else if (seconds in arrayOf(1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60))
