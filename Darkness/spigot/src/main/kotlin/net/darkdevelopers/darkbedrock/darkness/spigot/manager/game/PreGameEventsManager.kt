@@ -17,9 +17,9 @@ import org.bukkit.plugin.Plugin
  * Created by LartyHD on 29.11.2017 14:06.
  * Last edit 05.05.2019
  */
-open class PreGameEventsManager : EventsManager() {
+object PreGameEventsManager : EventsManager() {
 
-    open fun setup(plugin: Plugin) {
+    fun setup(plugin: Plugin) {
 
         setupCancel()
 
@@ -38,7 +38,7 @@ open class PreGameEventsManager : EventsManager() {
 
     }
 
-    open fun reset() {
+    fun reset() {
 
         resetCancel()
 

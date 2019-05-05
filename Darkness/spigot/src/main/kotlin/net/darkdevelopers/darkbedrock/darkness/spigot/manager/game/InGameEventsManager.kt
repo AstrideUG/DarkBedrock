@@ -27,12 +27,12 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players as all
  * Created by LartyHD on 29.11.2017 14:06.
  * Last edit 05.05.2019
  */
-open class InGameEventsManager : EventsManager() {
+object InGameEventsManager : EventsManager() {
 
     @Suppress("MemberVisibilityCanBePrivate")
-    protected val killer: MutableMap<UUID, Player> = mutableMapOf()
+    val killer: MutableMap<UUID, Player> = mutableMapOf()
 
-    open fun setup(plugin: Plugin, players: Collection<Player> = allPlayers, isTeamChat: Boolean = true) {
+    fun setup(plugin: Plugin, players: Collection<Player> = allPlayers, isTeamChat: Boolean = true) {
 
         setJoinMessage { null }
         setDisconnectMessage { null }
@@ -87,7 +87,7 @@ open class InGameEventsManager : EventsManager() {
 
     }
 
-    open fun reset() {
+    fun reset() {
 
         unregisterJoinMessage()
         unregisterDisconnectMessage()

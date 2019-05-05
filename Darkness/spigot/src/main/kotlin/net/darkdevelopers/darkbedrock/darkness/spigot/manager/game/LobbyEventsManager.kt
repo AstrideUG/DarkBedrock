@@ -23,9 +23,9 @@ import org.bukkit.plugin.Plugin
  *
  * Last edit 05.05.2019
  */
-open class LobbyEventsManager : EventsManager() {
+object LobbyEventsManager : EventsManager() {
 
-    open fun setup(plugin: Plugin, location: Location, kickMessage: String = "LEAVE") {
+    fun setup(plugin: Plugin, location: Location, kickMessage: String = "LEAVE") {
 
         setupCancel()
 
@@ -48,7 +48,7 @@ open class LobbyEventsManager : EventsManager() {
 
     }
 
-    open fun reset() {
+    fun reset() {
 
         resetCancel()
 
