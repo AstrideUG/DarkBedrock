@@ -11,7 +11,7 @@ import kotlin.concurrent.thread
 abstract class Countdown internal constructor(internal var seconds: Int) {
     private val startSeconds = seconds
     private lateinit var thread: Thread
-    internal var isRunning: Boolean = false
+    var isRunning: Boolean = false
 
     internal fun setLevel(): Unit = players.forEach { setLevel(it) }
 
