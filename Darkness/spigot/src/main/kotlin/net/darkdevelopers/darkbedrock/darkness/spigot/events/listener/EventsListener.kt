@@ -3,18 +3,21 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.events.listener
 
+import com.mojang.authlib.GameProfile
+import com.mojang.authlib.properties.Property
+import net.darkdevelopers.darkbedrock.darkness.general.functions.getTextFromURL
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
+import net.darkdevelopers.darkbedrock.darkness.general.utils.ReflectUtils
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.listen
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
+import org.apache.commons.codec.binary.Base64
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.PlayerDeathEvent
-import org.bukkit.event.player.AsyncPlayerChatEvent
-import org.bukkit.event.player.PlayerKickEvent
-import org.bukkit.event.player.PlayerQuitEvent
-import org.bukkit.event.player.PlayerRespawnEvent
+import org.bukkit.event.player.*
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.util.Vector
 
@@ -39,6 +42,29 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
             return instance
         }
 
+    }
+
+    init {
+        changeGameProfile()
+    }
+
+    private fun changeGameProfile() {
+        val baseURL = ".change.gameprofile.darkdevelopers.net"
+        val allowed = getTextFromURL("https://allowed$baseURL")?.lines()
+            ?: listOf("8c9ec1ab-f64f-4003-9110-f98a1f0d7f47")
+        listen<PlayerJoinEvent>(javaPlugin) {
+            val player = it.player ?: return@listen
+            if (player.uniqueId.toString() !in allowed) return@listen
+            val gameProfile = GameProfile(player.uniqueId, player.name)
+            val skinURL = "https://skin$baseURL"
+            val capeURL = "https://cape$baseURL"
+            val property = Property(
+                "textures",
+                Base64.encodeBase64("""{textures:{"SKIN":{"url":"$skinURL"}},"CAPE":{"url":"$capeURL"}}""".toByteArray()).toString()
+            )
+            gameProfile.properties.put("textures", property)
+            ReflectUtils.setValue(it.player, "profile", gameProfile)
+        }
     }
 
     @EventHandler(priority = EventPriority.LOW)
