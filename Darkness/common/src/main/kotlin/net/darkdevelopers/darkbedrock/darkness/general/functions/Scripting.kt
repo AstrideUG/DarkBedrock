@@ -12,7 +12,11 @@ import javax.script.ScriptEngineManager
 private const val defaultHookingFunction: String = "hooking"
 var scriptEngineManager: ScriptEngineManager = ScriptEngineManager()
 private val defaultEngine: ScriptEngine?
-    get() = scriptEngineManager.getEngineByExtension("kts") ?: scriptEngineManager.getEngineByName("javascript")
+    get() = try {
+        scriptEngineManager.getEngineByExtension("kts")
+    } catch (ex: Exception) {
+        null
+    } ?: scriptEngineManager.getEngineByName("javascript")
 
 /**
  * @author Lars Artmann | LartyHD
