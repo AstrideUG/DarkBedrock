@@ -3,23 +3,25 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.events.listener
 
-import com.mojang.authlib.GameProfile
-import com.mojang.authlib.properties.Property
 import net.darkdevelopers.darkbedrock.darkness.general.functions.getTextFromURL
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
-import net.darkdevelopers.darkbedrock.darkness.general.utils.ReflectUtils
+import net.darkdevelopers.darkbedrock.darkness.general.minecraft.fetcher.Fetcher
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.listen
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toPlayerUUID
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
-import org.apache.commons.codec.binary.Base64
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.*
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.util.Vector
+import java.io.IOException
+import kotlin.concurrent.thread
 
 /**
  * Created by LartyHD on 22.01.2018 00:14.
@@ -50,20 +52,35 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
 
     private fun changeGameProfile() {
         val baseURL = ".change.gameprofile.darkdevelopers.net"
-        val allowed = getTextFromURL("https://allowed$baseURL")?.lines()
-            ?: listOf("8c9ec1ab-f64f-4003-9110-f98a1f0d7f47")
-        listen<PlayerJoinEvent>(javaPlugin) {
-            val player = it.player ?: return@listen
-            if (player.uniqueId.toString() !in allowed) return@listen
-            val gameProfile = GameProfile(player.uniqueId, player.name)
-            val skinURL = "https://skin$baseURL"
-            val capeURL = "https://cape$baseURL"
-            val property = Property(
-                "textures",
-                Base64.encodeBase64("""{textures:{"SKIN":{"url":"$skinURL"}},"CAPE":{"url":"$capeURL"}}""".toByteArray()).toString()
-            )
-            gameProfile.properties.put("textures", property)
-            ReflectUtils.setValue(it.player, "profile", gameProfile)
+
+        listen<PlayerLoginEvent>(javaPlugin) { event ->
+            thread {
+
+                val player = event.player ?: return@thread
+                val allowed = getTextFromURL("https://allowed$baseURL")?.lines()
+                    ?: listOf("8c9ec1ab-f64f-4003-9110-f98a1f0d7f47")
+                if (allowed.firstOrNull() != "*" && player.uniqueId.toString() !in allowed) return@thread
+
+                try {
+
+                    val replacement = (getTextFromURL("https://replacement$baseURL") ?: "Cristian429_tw").toPlayerUUID()
+
+                    val name = Fetcher.getName(replacement) ?: replacement.toString()
+                    val profile = GameProfileBuilder.fetch(replacement)
+
+                    val properties = profile.properties["textures"]
+                    val craftPlayer = player as? CraftPlayer ?: return@thread
+                    craftPlayer.profile.properties.removeAll("textures")
+                    craftPlayer.profile.properties.putAll("textures", properties)
+
+                    player.sendMessage("${ChatColor.GREEN}Oh... you have the skin of $name")
+
+                } catch (ex: IOException) {
+                    player.sendMessage("${ChatColor.RED}The GameProfile change is failed :(")
+                    ex.printStackTrace()
+                }
+            }
+
         }
     }
 
