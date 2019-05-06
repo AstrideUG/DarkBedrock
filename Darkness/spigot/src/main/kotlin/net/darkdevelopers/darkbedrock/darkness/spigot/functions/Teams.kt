@@ -16,9 +16,9 @@ import org.bukkit.entity.Player
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 26.04.2019 03:11.
- * Current Version: 1.0 (26.04.2019 - 26.04.2019) (moved form BedWars on 05.05.2019)
+ * Current Version: 1.0 (26.04.2019 - 06.05.2019) (moved form BedWars on 05.05.2019)
  */
-lateinit var teams: Set<GameTeam>
+var teams: Set<GameTeam> = emptySet()
 
 /**
  * @author Lars Artmann | LartyHD
