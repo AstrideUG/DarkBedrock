@@ -66,7 +66,7 @@ fun <T : Any> Class<T>.getModifiableField(name: String): Field? {
 }
 
 private fun <T : Any> Class<T>.getAccessibleField(name: String): Field =
-    getField(name).apply { isAccessible = true }
+    getDeclaredField(name).apply { isAccessible = true }
 
 private inline fun printException(lambda: () -> Unit) = try {
     lambda()
