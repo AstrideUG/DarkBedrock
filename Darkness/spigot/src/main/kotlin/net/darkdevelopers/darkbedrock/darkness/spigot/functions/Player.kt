@@ -1,18 +1,17 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
 import net.darkdevelopers.darkbedrock.darkness.general.utils.setValue
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 import net.minecraft.server.v1_8_R3.*
 import org.bukkit.Bukkit
 import org.bukkit.Location
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
 import org.bukkit.entity.Player
 import java.util.*
 
-/**
+/*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 22.12.2018 04:55.
- * Current Version: 1.0 (22.12.2018 - 21.03.2019)
+ * Current Version: 1.0 (22.12.2018 - 06.05.2019)
  */
 
 /**
@@ -29,9 +28,18 @@ fun String.toPlayer(): Player? = try {
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 21.03.2019 01:40.
- * Current Version: 1.0 (21.03.2019 - 21.03.2019)
+ * Current Version: 1.0 (21.03.2019 - 06.05.2019)
  */
-fun Player.sendPacket(packet: Packet<*>): Unit = (this as CraftPlayer).handle.playerConnection.sendPacket(packet)
+fun Player.sendPacket(packet: Packet<*>) {
+    try {
+        val entityPlayer = this.javaClass.getMethod("getHandle").invoke(this)
+        val get = entityPlayer.javaClass.getField("playerConnection").get(entityPlayer)
+        get.javaClass.getMethod("sendPacket").invoke(packet)
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+    }
+//    (this as CraftPlayer).handle.playerConnection.sendPacket(packet)
+}
 
 /**
  * @author Lars Artmann | LartyHD
@@ -55,10 +63,10 @@ fun Player.sendHeaderAndFooter(header: String, footer: String) {
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 21.03.2019 01:44.
- * Current Version: 1.0 (21.03.2019 - 21.03.2019)
+ * Current Version: 1.0 (21.03.2019 - 06.05.2019)
  */
 fun sendAllParticle(particleType: EnumParticle, loc: Location, speed: Float, amount: Int): Unit =
-    Utils.goThroughAllPlayers { it.sendParticle(particleType, loc, speed, amount) }
+    players.forEach { it.sendParticle(particleType, loc, speed, amount) }
 
 /**
  * @author Lars Artmann | LartyHD
