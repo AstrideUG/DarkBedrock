@@ -5,6 +5,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 import net.minecraft.server.v1_8_R3.*
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -31,14 +32,14 @@ fun String.toPlayer(): Player? = try {
  * Current Version: 1.0 (21.03.2019 - 06.05.2019)
  */
 fun Player.sendPacket(packet: Packet<*>) {
-    try {
-        val entityPlayer = this.javaClass.getMethod("getHandle").invoke(this)
-        val get = entityPlayer.javaClass.getField("playerConnection").get(entityPlayer)
-        get.javaClass.getMethod("sendPacket").invoke(packet)
-    } catch (ex: Exception) {
-        ex.printStackTrace()
-    }
-//    (this as CraftPlayer).handle.playerConnection.sendPacket(packet)
+//    try {
+//        val entityPlayer = this.javaClass.getMethod("getHandle").invoke(this)
+//        val get = entityPlayer.javaClass.getField("playerConnection").get(entityPlayer)
+//        get.javaClass.getMethod("sendPacket").invoke(packet)
+//    } catch (ex: Exception) {
+//        ex.printStackTrace()
+//    }
+    (this as CraftPlayer).handle.playerConnection.sendPacket(packet)
 }
 
 /**
