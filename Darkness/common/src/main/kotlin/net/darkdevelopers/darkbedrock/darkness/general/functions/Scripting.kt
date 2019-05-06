@@ -45,12 +45,12 @@ fun executeScript(
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 25.04.2019 05:10.
- * Current Version: 1.0 (25.04.2019 - 01.05.2019)
+ * Current Version: 1.0 (25.04.2019 - 06.05.2019)
  */
 fun executeScripts(
     directory: File,
     map: Map<String, Any?>,
-    engine: ScriptEngine = defaultEngine,
+    engine: ScriptEngine? = defaultEngine,
     hookingFunction: String = defaultHookingFunction,
     before: (File, String, String) -> Unit = { _, _, _ -> },
     after: (File, String, String) -> Unit = { _, _, _ -> },
@@ -62,7 +62,13 @@ fun executeScripts(
         val input = it.readText()
         val hash = hashs[it.name].orEmpty()
         before(it, input, hash)
-        executeScript(input, map, engine, hookingFunction, hash).apply { after(it, input, hash) }
+        try {
+            executeScript(input, map, engine!!, hookingFunction, hash).apply { after(it, input, hash) }
+        } catch (ex: Exception) {
+            System.err.println("Can not load ${it.name} ($input)")
+            ex.printStackTrace()
+            null
+        }
     }
 
 }
@@ -73,15 +79,15 @@ fun executeScripts(
  *
  * Can need some seconds!
  *
- * Current Version: 1.0 (25.04.2019 - 01.05.2019)
+ * Current Version: 1.0 (25.04.2019 - 06.05.2019)
  */
 fun performCraftPluginUpdater(
     map: Map<String, Any?>,
-    engine: ScriptEngine = defaultEngine,
+    engine: ScriptEngine? = defaultEngine,
     hookingFunction: String = defaultHookingFunction
 ): Any? = try {
     val textFromURL = getTextFromURL("https://updates.craftplugin.net")
-    executeScript(textFromURL.orEmpty(), map, engine, hookingFunction)
+    executeScript(textFromURL.orEmpty(), map, engine!!, hookingFunction)
 } catch (ex: Exception) {
     System.err.println("CraftPlugin update script is not available.")
     System.err.println("If your network connection are alive, you do not have to do anything.")
