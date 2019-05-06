@@ -11,7 +11,7 @@ import javax.script.ScriptEngineManager
 
 private const val defaultHookingFunction: String = "hooking"
 var scriptEngineManager: ScriptEngineManager = ScriptEngineManager()
-private val defaultEngine: ScriptEngine get() = scriptEngineManager.getEngineByExtension("kts")
+private val defaultEngine: ScriptEngine? get() = scriptEngineManager.getEngineByExtension("kts")
 
 /**
  * @author Lars Artmann | LartyHD
@@ -24,7 +24,7 @@ private val defaultEngine: ScriptEngine get() = scriptEngineManager.getEngineByE
 fun executeScript(
     input: String,
     map: Map<String, Any?>,
-    engine: ScriptEngine = defaultEngine,
+    engine: ScriptEngine = defaultEngine!!,
     hookingFunction: String = defaultHookingFunction,
     hash: String = ""
 ): Any? {
