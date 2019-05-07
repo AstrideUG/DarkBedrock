@@ -15,7 +15,7 @@ import java.util.*
 /*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 22.12.2018 04:55.
- * Current Version: 1.0 (22.12.2018 - 07.05.2019)
+ * Current Version: 1.0 (22.12.2018 - 08.05.2019)
  */
 
 /**
@@ -107,14 +107,9 @@ fun Player.sendParticle(particleType: EnumParticle, loc: Location, speed: Float,
  * run it async
  * @throws IOException
  *
- * Current Version: 1.0 (07.05.2019 - 07.05.2019)
+ * Current Version: 1.0 (07.05.2019 - 08.05.2019)
  */
-fun Player.changeGameProfile(profile: GameProfile, plugin: Plugin) {
-
-    val oldExp = exp
-    val oldHealth = health
-    val oldFoodLevel = foodLevel
-    val oldLocation = location
+fun Player.changeGameProfile(profile: GameProfile, plugin: Plugin, delay: Long = 2) {
 
     val properties = profile.properties["textures"]
     val craftPlayer = this as? CraftPlayer ?: return
@@ -132,18 +127,12 @@ fun Player.changeGameProfile(profile: GameProfile, plugin: Plugin) {
         spigot().respawn()
     }
 
-    plugin.schedule(delay = 1) {
+    plugin.schedule(delay = delay) {
         PacketPlayOutNamedEntitySpawn(craftPlayer.handle).sendToPlayers()
         PacketPlayOutPlayerInfo(
             PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
             craftPlayer.handle
         ).sendToPlayers()
-
-        exp = oldExp
-        health = oldHealth
-        foodLevel = oldFoodLevel
-        teleport(oldLocation)
     }
-
 
 }
