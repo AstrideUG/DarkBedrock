@@ -54,7 +54,7 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
     private fun changeGameProfile() {
         val baseURL = ".change.gameprofile.darkdevelopers.net"
 
-        listen<PlayerJoinEvent>(javaPlugin) { event ->
+        listen<PlayerLoginEvent>(javaPlugin) { event ->
             thread {
 
                 val player = event.player ?: return@thread
