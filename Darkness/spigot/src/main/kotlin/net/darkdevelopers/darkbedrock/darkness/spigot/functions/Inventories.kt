@@ -5,6 +5,7 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.listen
+import org.bukkit.entity.HumanEntity
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryAction
@@ -22,6 +23,7 @@ import org.bukkit.plugin.Plugin
 
 inline fun Inventory.listenTop(
     plugin: Plugin,
+    crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
     crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
     crossinline acceptSlot: (Int) -> Boolean = { true },
     crossinline acceptSlotType: (InventoryType.SlotType) -> Boolean = { true },
@@ -35,6 +37,7 @@ inline fun Inventory.listenTop(
     crossinline block: (InventoryClickEvent) -> Unit
 ): Listener = listenInventories(
     plugin,
+    acceptWhoClicked,
     acceptCurrentItem,
     acceptSlot,
     acceptSlotType,
@@ -51,6 +54,7 @@ inline fun Inventory.listenTop(
 
 inline fun Inventory.listenBottom(
     plugin: Plugin,
+    crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
     crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
     crossinline acceptSlot: (Int) -> Boolean = { true },
     crossinline acceptSlotType: (InventoryType.SlotType) -> Boolean = { true },
@@ -64,6 +68,7 @@ inline fun Inventory.listenBottom(
     crossinline block: (InventoryClickEvent) -> Unit
 ): Listener = listenInventories(
     plugin,
+    acceptWhoClicked,
     acceptCurrentItem,
     acceptSlot,
     acceptSlotType,
@@ -80,6 +85,7 @@ inline fun Inventory.listenBottom(
 
 inline fun Inventory.listenClicked(
     plugin: Plugin,
+    crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
     crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
     crossinline acceptSlot: (Int) -> Boolean = { true },
     crossinline acceptSlotType: (InventoryType.SlotType) -> Boolean = { true },
@@ -93,6 +99,7 @@ inline fun Inventory.listenClicked(
     crossinline block: (InventoryClickEvent) -> Unit
 ): Listener = listenInventories(
     plugin,
+    acceptWhoClicked,
     acceptCurrentItem,
     acceptSlot,
     acceptSlotType,
@@ -109,6 +116,7 @@ inline fun Inventory.listenClicked(
 
 inline fun listenInventories(
     plugin: Plugin,
+    crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
     crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
     crossinline acceptSlot: (Int) -> Boolean = { true },
     crossinline acceptSlotType: (InventoryType.SlotType) -> Boolean = { true },
@@ -121,6 +129,7 @@ inline fun listenInventories(
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     crossinline block: (InventoryClickEvent) -> Unit
 ): Listener = listen<InventoryClickEvent>(plugin) listener@{ event ->
+    if (!acceptWhoClicked(event.whoClicked)) return@listener
     if (!acceptCurrentItem(event.currentItem)) return@listener
     if (!acceptSlot(event.slot)) return@listener
     if (!acceptSlotType(event.slotType)) return@listener
