@@ -2,7 +2,7 @@
  * © Copyright - Lars Artmann aka. LartyHD 2019.
  */
 
-package net.darkdevelopers.darkbedrock.darkness.spigot.events.listener
+package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 
 /**
  * @author Lars Artmann | LartyHD
@@ -32,7 +32,10 @@ object GameProfileBuilder {
         """{"timestamp":%d,"profileId":"%s","profileName":"%s","isPublic":true,"textures":{"SKIN":{"url":"%s"},"CAPE":{"url":"%s"}}}"""
 
     private val gson = GsonBuilder().disableHtmlEscaping().registerTypeAdapter(UUID::class.java, UUIDTypeAdapter())
-        .registerTypeAdapter(GameProfile::class.java, GameProfileSerializer())
+        .registerTypeAdapter(
+            GameProfile::class.java,
+            GameProfileSerializer()
+        )
         .registerTypeAdapter(PropertyMap::class.java, PropertyMap.Serializer()).create()
 
     private val cache = mutableMapOf<UUID, CachedProfile>()
@@ -62,7 +65,8 @@ object GameProfileBuilder {
                 val json = BufferedReader(InputStreamReader(connection.inputStream)).readLine()
 
                 val result = gson.fromJson(json, GameProfile::class.java)
-                cache[uuid] = CachedProfile(result)
+                cache[uuid] =
+                    CachedProfile(result)
                 return result
             } else {
                 val profile = cache[uuid]
