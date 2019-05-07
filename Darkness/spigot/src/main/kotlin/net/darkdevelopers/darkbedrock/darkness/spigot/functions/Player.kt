@@ -110,6 +110,12 @@ fun Player.sendParticle(particleType: EnumParticle, loc: Location, speed: Float,
  * Current Version: 1.0 (07.05.2019 - 07.05.2019)
  */
 fun Player.changeGameProfile(profile: GameProfile, plugin: Plugin) {
+
+    val oldExp = exp
+    val oldHealth = health
+    val oldFoodLevel = foodLevel
+    val oldLocation = location
+
     val properties = profile.properties["textures"]
     val craftPlayer = this as? CraftPlayer ?: return
     craftPlayer.profile.properties.removeAll("textures")
@@ -126,11 +132,18 @@ fun Player.changeGameProfile(profile: GameProfile, plugin: Plugin) {
         spigot().respawn()
     }
 
-    plugin.schedule(delay = 2) {
+    plugin.schedule(delay = 1) {
         PacketPlayOutNamedEntitySpawn(craftPlayer.handle).sendToPlayers()
         PacketPlayOutPlayerInfo(
             PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
             craftPlayer.handle
         ).sendToPlayers()
+
+        exp = oldExp
+        health = oldHealth
+        foodLevel = oldFoodLevel
+        teleport(oldLocation)
     }
+
+
 }
