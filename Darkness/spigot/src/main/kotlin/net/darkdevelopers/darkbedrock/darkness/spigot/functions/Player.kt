@@ -12,7 +12,7 @@ import java.util.*
 /*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 22.12.2018 04:55.
- * Current Version: 1.0 (22.12.2018 - 06.05.2019)
+ * Current Version: 1.0 (22.12.2018 - 07.05.2019)
  */
 
 /**
@@ -41,6 +41,13 @@ fun Player.sendPacket(packet: Packet<*>) {
 //    }
     (this as CraftPlayer).handle.playerConnection.sendPacket(packet)
 }
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 07.05.2019 21:02.
+ * Current Version: 1.0 (07.05.2019 - 07.05.2019)
+ */
+fun Packet<*>.sendToPlayers(): Unit = players.forEach { it.sendPacket(this) }
 
 /**
  * @author Lars Artmann | LartyHD
