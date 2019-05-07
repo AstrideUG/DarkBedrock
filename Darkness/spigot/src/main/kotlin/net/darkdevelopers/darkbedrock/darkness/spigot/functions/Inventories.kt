@@ -33,7 +33,7 @@ inline fun Inventory.listenTop(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     crossinline block: (InventoryClickEvent) -> Unit
-): Listener = listen(
+): Listener = listenInventories(
     plugin,
     acceptCurrentItem,
     acceptSlot,
@@ -62,7 +62,7 @@ inline fun Inventory.listenBottom(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     crossinline block: (InventoryClickEvent) -> Unit
-): Listener = listen(
+): Listener = listenInventories(
     plugin,
     acceptCurrentItem,
     acceptSlot,
@@ -91,7 +91,7 @@ inline fun Inventory.listenClicked(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     crossinline block: (InventoryClickEvent) -> Unit
-): Listener = listen(
+): Listener = listenInventories(
     plugin,
     acceptCurrentItem,
     acceptSlot,
@@ -107,7 +107,7 @@ inline fun Inventory.listenClicked(
     if (event.clickedInventory == this) block(event)
 }
 
-inline fun Inventory.listen(
+inline fun listenInventories(
     plugin: Plugin,
     crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
     crossinline acceptSlot: (Int) -> Boolean = { true },
