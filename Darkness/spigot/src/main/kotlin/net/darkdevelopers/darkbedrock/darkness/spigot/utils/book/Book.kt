@@ -5,6 +5,8 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.utils.book
 
 import net.minecraft.server.v1_8_R3.*
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack
+import org.bukkit.inventory.ItemStack
 
 data class Book(
     val title: String,
@@ -23,7 +25,7 @@ data class Book(
         for (page in this.pages) pages.add(NBTTagString(page))
         tag.set("pages", pages)
         book.tag = tag
-        return book
+        return CraftItemStack.asBukkitCopy(book)
     }
 
 }

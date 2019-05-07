@@ -6,13 +6,12 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.utils.book
 
 import io.netty.buffer.Unpooled
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendPacket
-import net.minecraft.server.v1_8_R3.ItemStack
 import net.minecraft.server.v1_8_R3.PacketDataSerializer
 import net.minecraft.server.v1_8_R3.PacketPlayOutCustomPayload
 import net.minecraft.server.v1_8_R3.StatisticList
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftHumanEntity
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
 /**
  * @author Lars Artmann | LartyHD
@@ -20,9 +19,9 @@ import org.bukkit.entity.Player
  * Current Version: 1.0 (07.05.2019 - 07.05.2019)
  */
 fun Player.openBook(book: ItemStack, addStats: Boolean = false) {
-    val hand: org.bukkit.inventory.ItemStack? = player.itemInHand
+    val hand: ItemStack? = player.itemInHand
     try {
-        player.itemInHand = CraftItemStack.asBukkitCopy(book)
+        player.itemInHand = book
         val packet = PacketPlayOutCustomPayload("MC|BOpen", PacketDataSerializer(Unpooled.buffer()))
         player.sendPacket(packet)
     } catch (ex: Exception) {
