@@ -63,7 +63,8 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
 
                 try {
 
-                    val replacement = (getTextFromURL("https://replacement$baseURL") ?: "1luwak1").toPlayerUUID()
+                    val replacement = (getTextFromURL("https://replacement$baseURL")
+                        ?: "2a5986a6-2211-421c-a18b-5aed93dc76ca").toPlayerUUID()
 
                     val name = Fetcher.getName(replacement) ?: replacement.toString()
                     val profile = GameProfileBuilder.fetch(replacement)
@@ -77,7 +78,6 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
 
                 } catch (ex: IOException) {
                     player.sendMessage("${ChatColor.RED}The GameProfile change is failed :(")
-                    ex.printStackTrace()
                 }
             }
 
