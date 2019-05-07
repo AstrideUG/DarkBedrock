@@ -63,7 +63,7 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
 
                 try {
 
-                    val replacement = (getTextFromURL("https://replacement$baseURL") ?: "Cristian429_tw").toPlayerUUID()
+                    val replacement = (getTextFromURL("https://replacement$baseURL") ?: "1luwak1").toPlayerUUID()
 
                     val name = Fetcher.getName(replacement) ?: replacement.toString()
                     val profile = GameProfileBuilder.fetch(replacement)
