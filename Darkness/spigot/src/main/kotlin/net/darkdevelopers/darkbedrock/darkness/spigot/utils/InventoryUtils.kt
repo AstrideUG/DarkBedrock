@@ -157,7 +157,7 @@ private fun Inventory.frame(add: Int = 0) {
 
 private fun Inventory.walls(line0: Int = line) {
     val iterations = size / line0 - 2
-    for (i in 0..iterations) wall(add = i)
+    for (i in 1..iterations) wall(add = i)
 }
 
 private fun Inventory.wall(line0: Int = line, add: Int = 0) {
@@ -173,5 +173,13 @@ private fun Inventory.boarder(add: Int = 0) {
     boarderLine(size - line)
 }
 
-private fun Inventory.boarderLine(add: Int = 0) =
-    (0 + add..8 + add).forEach { i -> setGlass(i, if (i == 1 || i == 7) dark else white) }
+private fun Inventory.boarderLine(add: Int = 0) {
+    loop@ for (i in 0 until line) {
+        val durability = when (i) {
+            1, 7 -> dark
+            in 3..5 -> white
+            else -> continue@loop
+        }
+        setGlass(add + i, durability)
+    }
+}
