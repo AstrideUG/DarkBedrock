@@ -177,7 +177,7 @@ private fun Inventory.boarderLine(add: Int = 0) {
     loop@ for (i in 0 until line) {
         val durability = when (i) {
             1, 7 -> dark
-            in 3..5 -> white
+            0, 3, 4, 5, 9 -> white
             else -> continue@loop
         }
         setGlass(add + i, durability)
