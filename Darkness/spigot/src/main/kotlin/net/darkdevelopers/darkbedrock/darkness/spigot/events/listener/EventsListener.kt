@@ -7,13 +7,14 @@ import net.darkdevelopers.darkbedrock.darkness.general.functions.getTextFromURL
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.general.minecraft.fetcher.Fetcher
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.changeGameProfile
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.listen
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toPlayerUUID
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.GameProfileBuilder
 import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.PlayerDeathEvent
@@ -53,7 +54,7 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
     private fun changeGameProfile() {
         val baseURL = ".change.gameprofile.darkdevelopers.net"
 
-        listen<PlayerLoginEvent>(javaPlugin) { event ->
+        listen<PlayerJoinEvent>(javaPlugin) { event ->
             thread {
 
                 val player = event.player ?: return@thread
@@ -69,11 +70,7 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
                     val name = Fetcher.getName(replacement) ?: replacement.toString()
                     val profile = GameProfileBuilder.fetch(replacement)
 
-                    val properties = profile.properties["textures"]
-                    val craftPlayer = player as? CraftPlayer ?: return@thread
-                    craftPlayer.profile.properties.removeAll("textures")
-                    craftPlayer.profile.properties.putAll("textures", properties)
-
+                    player.changeGameProfile(profile, javaPlugin)
                     player.sendMessage("${ChatColor.GREEN}Oh... you have the skin of $name")
 
                 } catch (ex: IOException) {

@@ -1,5 +1,6 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
+import com.mojang.authlib.GameProfile
 import net.darkdevelopers.darkbedrock.darkness.general.utils.setValue
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 import net.minecraft.server.v1_8_R3.*
@@ -7,6 +8,8 @@ import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
 import org.bukkit.entity.Player
+import org.bukkit.plugin.Plugin
+import java.io.IOException
 import java.util.*
 
 /*
@@ -96,3 +99,38 @@ fun Player.sendParticle(particleType: EnumParticle, loc: Location, speed: Float,
         0
     )
 )
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 07.05.2019 21:56.
+ *
+ * run it async
+ * @throws IOException
+ *
+ * Current Version: 1.0 (07.05.2019 - 07.05.2019)
+ */
+fun Player.changeGameProfile(profile: GameProfile, plugin: Plugin) {
+    val properties = profile.properties["textures"]
+    val craftPlayer = this as? CraftPlayer ?: return
+    craftPlayer.profile.properties.removeAll("textures")
+    craftPlayer.profile.properties.putAll("textures", properties)
+
+    PacketPlayOutEntityDestroy(entityId).sendToPlayers()
+    PacketPlayOutPlayerInfo(
+        PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER,
+        craftPlayer.handle
+    ).sendToPlayers()
+
+    plugin.schedule {
+        craftPlayer.handle.health = 0f
+        spigot().respawn()
+    }
+
+    plugin.schedule(delay = 2) {
+        PacketPlayOutNamedEntitySpawn(craftPlayer.handle).sendToPlayers()
+        PacketPlayOutPlayerInfo(
+            PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
+            craftPlayer.handle
+        ).sendToPlayers()
+    }
+}
