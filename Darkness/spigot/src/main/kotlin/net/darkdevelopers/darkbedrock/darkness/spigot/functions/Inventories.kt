@@ -175,7 +175,7 @@ inline fun Inventory.listenTop(
         if (inventory.name != name) return@listenInventories
     } else {
         if (event.clickedInventory != this) return@listenInventories
-        if (inventory != event.clickedInventory) return@listenInventories
+        if (inventory != this) return@listenInventories
     }
 
     block(event)
@@ -216,7 +216,7 @@ inline fun Inventory.listenBottom(
         if (inventory.name != name) return@listenInventories
     } else {
         if (event.clickedInventory != this) return@listenInventories
-        if (inventory != event.clickedInventory) return@listenInventories
+        if (inventory != this) return@listenInventories
     }
 
     block(event)
