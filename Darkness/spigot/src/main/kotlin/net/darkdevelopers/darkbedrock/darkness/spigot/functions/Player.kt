@@ -122,10 +122,8 @@ fun Player.changeGameProfile(profile: GameProfile, plugin: Plugin, delay: Long =
         craftPlayer.handle
     ).sendToPlayers()
 
-    plugin.schedule {
-        craftPlayer.handle.health = 0f
-        spigot().respawn()
-    }
+    craftPlayer.handle.health = 0f
+    plugin.schedule { spigot().respawn() }
 
     plugin.schedule(delay = delay) {
         PacketPlayOutNamedEntitySpawn(craftPlayer.handle).sendToPlayers()
