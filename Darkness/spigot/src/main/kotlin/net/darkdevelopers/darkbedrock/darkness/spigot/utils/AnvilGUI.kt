@@ -5,6 +5,7 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.utils
  */
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.AnvilClickEvent
+import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.listen
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.unregister
@@ -15,7 +16,6 @@ import net.minecraft.server.v1_8_R3.*
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
-import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
@@ -35,6 +35,9 @@ class AnvilGUI(val plugin: Plugin, val player: Player) : EventsTemplate() {
     }
 
     fun open(title: String = "Repairing") {
+
+        player.level++
+
         val entity = (player as CraftPlayer).handle
 
         val container = AnvilContainer(entity)
@@ -59,6 +62,8 @@ class AnvilGUI(val plugin: Plugin, val player: Player) : EventsTemplate() {
 
         //Add the slot listener
         entity.activeContainer.addSlotListener(entity)
+
+        if (listener.isEmpty()) registerListener()
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
@@ -82,7 +87,7 @@ class AnvilGUI(val plugin: Plugin, val player: Player) : EventsTemplate() {
             event.inventory.clear()
             destroy()
         }.add()
-        listen<PlayerQuitEvent>(plugin) { event ->
+        listen<PlayerDisconnectEvent>(plugin) { event ->
             if (event.player === player) destroy()
         }.add()
     }
