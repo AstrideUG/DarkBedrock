@@ -37,7 +37,7 @@ inline fun Iterable<Inventory>.listenTop(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
     cancel: Boolean = false,
-    crossinline block: (InventoryClickEvent) -> Unit
+    crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
     plugin,
     acceptWhoClicked,
@@ -82,7 +82,7 @@ inline fun Iterable<Inventory>.listenBottom(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
     cancel: Boolean = false,
-    crossinline block: (InventoryClickEvent) -> Unit
+    crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
     plugin,
     acceptWhoClicked,
@@ -127,7 +127,7 @@ inline fun Iterable<Inventory>.listenClicked(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     cancel: Boolean = false,
-    crossinline block: (InventoryClickEvent) -> Unit
+    crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
     plugin,
     acceptWhoClicked,
@@ -166,7 +166,7 @@ inline fun Inventory.listenTop(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
     cancel: Boolean = false,
-    crossinline block: (InventoryClickEvent) -> Unit
+    crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
     plugin,
     acceptWhoClicked,
@@ -211,7 +211,7 @@ inline fun Inventory.listenBottom(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
     cancel: Boolean = false,
-    crossinline block: (InventoryClickEvent) -> Unit
+    crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
     plugin,
     acceptWhoClicked,
@@ -256,7 +256,7 @@ inline fun Inventory.listenClicked(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     cancel: Boolean = false,
-    crossinline block: (InventoryClickEvent) -> Unit
+    crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
     plugin,
     acceptWhoClicked,
@@ -295,7 +295,7 @@ inline fun Iterable<String>.listenTop(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
     cancel: Boolean = false,
-    crossinline block: (InventoryClickEvent) -> Unit
+    crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
     plugin,
     acceptWhoClicked,
@@ -335,7 +335,7 @@ inline fun Iterable<String>.listenBottom(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
     cancel: Boolean = false,
-    crossinline block: (InventoryClickEvent) -> Unit
+    crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
     plugin,
     acceptWhoClicked,
@@ -374,7 +374,7 @@ inline fun Iterable<String>.listenClicked(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     cancel: Boolean = false,
-    crossinline block: (InventoryClickEvent) -> Unit
+    crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
     plugin,
     acceptWhoClicked,
@@ -410,7 +410,7 @@ inline fun String.listenTop(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
     cancel: Boolean = false,
-    crossinline block: (InventoryClickEvent) -> Unit
+    crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
     plugin,
     acceptWhoClicked,
@@ -450,7 +450,7 @@ inline fun String.listenBottom(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
     cancel: Boolean = false,
-    crossinline block: (InventoryClickEvent) -> Unit
+    crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
     plugin,
     acceptWhoClicked,
@@ -490,7 +490,7 @@ inline fun String.listenClicked(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     cancel: Boolean = false,
-    crossinline block: (InventoryClickEvent) -> Unit
+    crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
     plugin,
     acceptWhoClicked,
@@ -526,7 +526,7 @@ inline fun listenInventories(
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     cancel: Boolean = false,
-    crossinline block: (InventoryClickEvent) -> Unit
+    crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listen<InventoryClickEvent>(plugin) listener@{ event ->
     if (!acceptWhoClicked(event.whoClicked)) return@listener
     if (!acceptCurrentItem(event.currentItem)) return@listener
