@@ -2,6 +2,8 @@
  * © Copyright - Lars Artmann aka. LartyHD 2019.
  */
 
+@file:Suppress("unused")
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
