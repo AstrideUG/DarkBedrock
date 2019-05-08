@@ -6,7 +6,6 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.AnvilClickEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.listen
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.unregister
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.listenTop
@@ -74,8 +73,7 @@ class AnvilGUI(val plugin: Plugin, val player: Player) : EventsTemplate() {
     }
 
     private fun registerListener() {
-        inventory?.listenTop(plugin, acceptWhoClicked = { it === player }) { event ->
-            event.cancel()
+        inventory?.listenTop(plugin, acceptWhoClicked = { it === player }, cancel = true) { event ->
             val slot = AnvilSlot.bySlot(event.rawSlot) ?: return@listenTop
             val clickEvent = AnvilClickEvent(this, slot, event.currentItem).call()
             if (clickEvent.willClose) event.whoClicked.closeInventory()
