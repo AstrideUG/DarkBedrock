@@ -18,12 +18,12 @@ import org.bukkit.plugin.Plugin
 /*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 07.05.2019 13:31.
- * Current Version: 1.0 (07.05.2019 - 07.05.2019)
+ * Current Version: 1.0 (07.05.2019 - 08.05.2019)
  */
-
 
 inline fun Iterable<Inventory>.listenTop(
     plugin: Plugin,
+    onlyCheckName: Boolean = false,
     crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
     crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
     crossinline acceptSlot: (Int) -> Boolean = { true },
@@ -50,13 +50,21 @@ inline fun Iterable<Inventory>.listenTop(
     acceptIsRightClick,
     acceptIsShiftClick
 ) { event ->
-    if (event.clickedInventory !in this) return@listenInventories
-    if (event.whoClicked.openInventory.topInventory != event.clickedInventory) return@listenInventories
+
+    val inventory = event.whoClicked.openInventory.topInventory
+    if (onlyCheckName) {
+        if (inventory.name !in map { it.name }) return@listenInventories
+    } else {
+        if (event.clickedInventory !in this) return@listenInventories
+        if (inventory !in this) return@listenInventories
+    }
+
     block(event)
 }
 
 inline fun Iterable<Inventory>.listenBottom(
     plugin: Plugin,
+    onlyCheckName: Boolean = false,
     crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
     crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
     crossinline acceptSlot: (Int) -> Boolean = { true },
@@ -83,13 +91,21 @@ inline fun Iterable<Inventory>.listenBottom(
     acceptIsRightClick,
     acceptIsShiftClick
 ) { event ->
-    if (event.clickedInventory !in this) return@listenInventories
-    if (event.whoClicked.openInventory.bottomInventory != event.clickedInventory) return@listenInventories
+
+    val inventory = event.whoClicked.openInventory.bottomInventory
+    if (onlyCheckName) {
+        if (inventory.name !in map { it.name }) return@listenInventories
+    } else {
+        if (event.clickedInventory !in this) return@listenInventories
+        if (inventory !in this) return@listenInventories
+    }
+
     block(event)
 }
 
 inline fun Iterable<Inventory>.listenClicked(
     plugin: Plugin,
+    onlyCheckName: Boolean = false,
     crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
     crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
     crossinline acceptSlot: (Int) -> Boolean = { true },
@@ -116,11 +132,17 @@ inline fun Iterable<Inventory>.listenClicked(
     acceptIsRightClick,
     acceptIsShiftClick
 ) { event ->
-    if (event.clickedInventory in this) block(event)
+
+    if (onlyCheckName) {
+        if (event.clickedInventory.name !in map { it.name }) return@listenInventories
+    } else if (event.clickedInventory !in this) return@listenInventories
+
+    block(event)
 }
 
 inline fun Inventory.listenTop(
     plugin: Plugin,
+    onlyCheckName: Boolean = false,
     crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
     crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
     crossinline acceptSlot: (Int) -> Boolean = { true },
@@ -147,13 +169,21 @@ inline fun Inventory.listenTop(
     acceptIsRightClick,
     acceptIsShiftClick
 ) { event ->
-    if (event.clickedInventory != this) return@listenInventories
-    if (event.whoClicked.openInventory.topInventory != event.clickedInventory) return@listenInventories
+
+    val inventory = event.whoClicked.openInventory.topInventory
+    if (onlyCheckName) {
+        if (inventory.name != name) return@listenInventories
+    } else {
+        if (event.clickedInventory != this) return@listenInventories
+        if (inventory != event.clickedInventory) return@listenInventories
+    }
+
     block(event)
 }
 
 inline fun Inventory.listenBottom(
     plugin: Plugin,
+    onlyCheckName: Boolean = false,
     crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
     crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
     crossinline acceptSlot: (Int) -> Boolean = { true },
@@ -180,13 +210,21 @@ inline fun Inventory.listenBottom(
     acceptIsRightClick,
     acceptIsShiftClick
 ) { event ->
-    if (event.clickedInventory != this) return@listenInventories
-    if (event.whoClicked.openInventory.bottomInventory != event.clickedInventory) return@listenInventories
+
+    val inventory = event.whoClicked.openInventory.bottomInventory
+    if (onlyCheckName) {
+        if (inventory.name != name) return@listenInventories
+    } else {
+        if (event.clickedInventory != this) return@listenInventories
+        if (inventory != event.clickedInventory) return@listenInventories
+    }
+
     block(event)
 }
 
 inline fun Inventory.listenClicked(
     plugin: Plugin,
+    onlyCheckName: Boolean = false,
     crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
     crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
     crossinline acceptSlot: (Int) -> Boolean = { true },
@@ -213,7 +251,13 @@ inline fun Inventory.listenClicked(
     acceptIsRightClick,
     acceptIsShiftClick
 ) { event ->
-    if (event.clickedInventory == this) block(event)
+
+    val inventory = event.clickedInventory
+    if (onlyCheckName) {
+        if (inventory.name != name) return@listenInventories
+    } else if (event.clickedInventory != this) return@listenInventories
+
+    block(event)
 }
 
 inline fun listenInventories(
