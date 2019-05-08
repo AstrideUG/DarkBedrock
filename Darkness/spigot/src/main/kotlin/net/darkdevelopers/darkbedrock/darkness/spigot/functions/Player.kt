@@ -215,7 +215,7 @@ fun Player.changeGameProfile(profile: GameProfile, plugin: Plugin, delay: Long =
     }
 
     plugin.schedule(delay = delay + 1) {
-        PacketPlayOutNamedEntitySpawn(craftPlayer.handle).sendToPlayers()
+        PacketPlayOutNamedEntitySpawn(craftPlayer.handle).sendToPlayers(players - craftPlayer)
         sendTabListInfoToPlayers(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, craftPlayer)
     }
 
