@@ -9,6 +9,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.listen
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.unregister
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.listenTop
+import net.darkdevelopers.darkbedrock.darkness.spigot.manager.game.EventsTemplate
 import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
 import net.minecraft.server.v1_8_R3.*
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
@@ -24,28 +25,10 @@ import org.bukkit.plugin.Plugin
  * Created by Lars Artmann | LartyHD on 19.04.2019 15:32.
  * Current Version: 1.0 (19.04.2019 - 08.05.2019)
  */
-class AnvilGUI(plugin: Plugin, val player: Player) {
+class AnvilGUI(val plugin: Plugin, val player: Player) : EventsTemplate() {
 
     private val items: MutableMap<AnvilSlot, ItemStack> = mutableMapOf()
-    private var inventory: Inventory? = null
-    private val listeners = arrayOf(
-        inventory?.listenTop(plugin, acceptWhoClicked = { it === player }) { event ->
-            event.cancel()
-            val slot = AnvilSlot.bySlot(event.rawSlot) ?: return@listenTop
-            val clickEvent = AnvilClickEvent(this, slot, event.currentItem).call()
-            if (clickEvent.willClose) event.whoClicked.closeInventory()
-            if (clickEvent.willDestroy) destroy()
-        },
-        listen<InventoryCloseEvent>(plugin) { event ->
-            if (event.player !== player) return@listen
-            if (event.inventory != this@AnvilGUI.inventory) return@listen
-            event.inventory.clear()
-            destroy()
-        },
-        listen<PlayerQuitEvent>(plugin) { event ->
-            if (event.player === player) destroy()
-        }
-    )
+    var inventory: Inventory? = null
 
     fun setSlot(slot: AnvilSlot, item: ItemStack) {
         items[slot] = item
@@ -81,7 +64,27 @@ class AnvilGUI(plugin: Plugin, val player: Player) {
     @Suppress("MemberVisibilityCanBePrivate")
     fun destroy() {
         inventory = null
-        listeners.forEach { it?.unregister() }
+        listener.unregister()
+        listener.clear()
+    }
+
+    private fun registerListener() {
+        inventory?.listenTop(plugin, acceptWhoClicked = { it === player }) { event ->
+            event.cancel()
+            val slot = AnvilSlot.bySlot(event.rawSlot) ?: return@listenTop
+            val clickEvent = AnvilClickEvent(this, slot, event.currentItem).call()
+            if (clickEvent.willClose) event.whoClicked.closeInventory()
+            if (clickEvent.willDestroy) destroy()
+        }?.add()
+        listen<InventoryCloseEvent>(plugin) { event ->
+            if (event.player !== player) return@listen
+            if (event.inventory != this@AnvilGUI.inventory) return@listen
+            event.inventory.clear()
+            destroy()
+        }.add()
+        listen<PlayerQuitEvent>(plugin) { event ->
+            if (event.player === player) destroy()
+        }.add()
     }
 
     enum class AnvilSlot(val slot: Int) {
