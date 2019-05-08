@@ -260,6 +260,208 @@ inline fun Inventory.listenClicked(
     block(event)
 }
 
+inline fun Iterable<String>.listenTop(
+    plugin: Plugin,
+    crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
+    crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
+    crossinline acceptSlot: (Int) -> Boolean = { true },
+    crossinline acceptSlotType: (InventoryType.SlotType) -> Boolean = { true },
+    crossinline acceptClick: (ClickType) -> Boolean = { true },
+    crossinline acceptAction: (InventoryAction) -> Boolean = { true },
+    crossinline acceptCursor: (ItemStack?) -> Boolean = { true },
+    crossinline acceptHotBarButton: (Int) -> Boolean = { true },
+    crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
+    crossinline block: (InventoryClickEvent) -> Unit
+): Listener = listenInventories(
+    plugin,
+    acceptWhoClicked,
+    acceptCurrentItem,
+    acceptSlot,
+    acceptSlotType,
+    acceptClick,
+    acceptAction,
+    acceptCursor,
+    acceptHotBarButton,
+    acceptIsLeftClick,
+    acceptIsRightClick,
+    acceptIsShiftClick
+) { event ->
+
+    if (event.whoClicked.openInventory.topInventory.name !in this) return@listenInventories
+    block(event)
+
+}
+
+inline fun Iterable<String>.listenBottom(
+    plugin: Plugin,
+    crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
+    crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
+    crossinline acceptSlot: (Int) -> Boolean = { true },
+    crossinline acceptSlotType: (InventoryType.SlotType) -> Boolean = { true },
+    crossinline acceptClick: (ClickType) -> Boolean = { true },
+    crossinline acceptAction: (InventoryAction) -> Boolean = { true },
+    crossinline acceptCursor: (ItemStack?) -> Boolean = { true },
+    crossinline acceptHotBarButton: (Int) -> Boolean = { true },
+    crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
+    crossinline block: (InventoryClickEvent) -> Unit
+): Listener = listenInventories(
+    plugin,
+    acceptWhoClicked,
+    acceptCurrentItem,
+    acceptSlot,
+    acceptSlotType,
+    acceptClick,
+    acceptAction,
+    acceptCursor,
+    acceptHotBarButton,
+    acceptIsLeftClick,
+    acceptIsRightClick,
+    acceptIsShiftClick
+) { event ->
+
+    if (event.whoClicked.openInventory.bottomInventory.name !in this) return@listenInventories
+    block(event)
+}
+
+inline fun Iterable<String>.listenClicked(
+    plugin: Plugin,
+    crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
+    crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
+    crossinline acceptSlot: (Int) -> Boolean = { true },
+    crossinline acceptSlotType: (InventoryType.SlotType) -> Boolean = { true },
+    crossinline acceptClick: (ClickType) -> Boolean = { true },
+    crossinline acceptAction: (InventoryAction) -> Boolean = { true },
+    crossinline acceptCursor: (ItemStack?) -> Boolean = { true },
+    crossinline acceptHotBarButton: (Int) -> Boolean = { true },
+    crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
+    crossinline block: (InventoryClickEvent) -> Unit
+): Listener = listenInventories(
+    plugin,
+    acceptWhoClicked,
+    acceptCurrentItem,
+    acceptSlot,
+    acceptSlotType,
+    acceptClick,
+    acceptAction,
+    acceptCursor,
+    acceptHotBarButton,
+    acceptIsLeftClick,
+    acceptIsRightClick,
+    acceptIsShiftClick
+) { event ->
+
+    if (event.clickedInventory.name !in this) return@listenInventories
+    block(event)
+
+}
+
+inline fun String.listenTop(
+    plugin: Plugin,
+    crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
+    crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
+    crossinline acceptSlot: (Int) -> Boolean = { true },
+    crossinline acceptSlotType: (InventoryType.SlotType) -> Boolean = { true },
+    crossinline acceptClick: (ClickType) -> Boolean = { true },
+    crossinline acceptAction: (InventoryAction) -> Boolean = { true },
+    crossinline acceptCursor: (ItemStack?) -> Boolean = { true },
+    crossinline acceptHotBarButton: (Int) -> Boolean = { true },
+    crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
+    crossinline block: (InventoryClickEvent) -> Unit
+): Listener = listenInventories(
+    plugin,
+    acceptWhoClicked,
+    acceptCurrentItem,
+    acceptSlot,
+    acceptSlotType,
+    acceptClick,
+    acceptAction,
+    acceptCursor,
+    acceptHotBarButton,
+    acceptIsLeftClick,
+    acceptIsRightClick,
+    acceptIsShiftClick
+) { event ->
+
+    if (event.whoClicked.openInventory.topInventory.name != this) return@listenInventories
+    block(event)
+
+}
+
+inline fun String.listenBottom(
+    plugin: Plugin,
+    crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
+    crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
+    crossinline acceptSlot: (Int) -> Boolean = { true },
+    crossinline acceptSlotType: (InventoryType.SlotType) -> Boolean = { true },
+    crossinline acceptClick: (ClickType) -> Boolean = { true },
+    crossinline acceptAction: (InventoryAction) -> Boolean = { true },
+    crossinline acceptCursor: (ItemStack?) -> Boolean = { true },
+    crossinline acceptHotBarButton: (Int) -> Boolean = { true },
+    crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
+    crossinline block: (InventoryClickEvent) -> Unit
+): Listener = listenInventories(
+    plugin,
+    acceptWhoClicked,
+    acceptCurrentItem,
+    acceptSlot,
+    acceptSlotType,
+    acceptClick,
+    acceptAction,
+    acceptCursor,
+    acceptHotBarButton,
+    acceptIsLeftClick,
+    acceptIsRightClick,
+    acceptIsShiftClick
+) { event ->
+
+    if (event.whoClicked.openInventory.bottomInventory.name != this) return@listenInventories
+    block(event)
+}
+
+inline fun String.listenClicked(
+    plugin: Plugin,
+    crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
+    crossinline acceptCurrentItem: (ItemStack?) -> Boolean = { it != null },
+    crossinline acceptSlot: (Int) -> Boolean = { true },
+    crossinline acceptSlotType: (InventoryType.SlotType) -> Boolean = { true },
+    crossinline acceptClick: (ClickType) -> Boolean = { true },
+    crossinline acceptAction: (InventoryAction) -> Boolean = { true },
+    crossinline acceptCursor: (ItemStack?) -> Boolean = { true },
+    crossinline acceptHotBarButton: (Int) -> Boolean = { true },
+    crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
+    crossinline block: (InventoryClickEvent) -> Unit
+): Listener = listenInventories(
+    plugin,
+    acceptWhoClicked,
+    acceptCurrentItem,
+    acceptSlot,
+    acceptSlotType,
+    acceptClick,
+    acceptAction,
+    acceptCursor,
+    acceptHotBarButton,
+    acceptIsLeftClick,
+    acceptIsRightClick,
+    acceptIsShiftClick
+) { event ->
+
+    if (event.clickedInventory.name != this) return@listenInventories
+    block(event)
+
+}
+
 inline fun listenInventories(
     plugin: Plugin,
     crossinline acceptWhoClicked: (HumanEntity) -> Boolean = { true },
