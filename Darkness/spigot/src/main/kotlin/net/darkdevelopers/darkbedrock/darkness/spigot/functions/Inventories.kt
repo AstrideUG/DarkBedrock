@@ -34,7 +34,7 @@ inline fun Iterable<Inventory>.listenTop(
     crossinline acceptHotBarButton: (Int) -> Boolean = { true },
     crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
-    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
     crossinline block: (InventoryClickEvent) -> Unit
 ): Listener = listenInventories(
     plugin,
@@ -75,7 +75,7 @@ inline fun Iterable<Inventory>.listenBottom(
     crossinline acceptHotBarButton: (Int) -> Boolean = { true },
     crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
-    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
     crossinline block: (InventoryClickEvent) -> Unit
 ): Listener = listenInventories(
     plugin,
@@ -153,7 +153,7 @@ inline fun Inventory.listenTop(
     crossinline acceptHotBarButton: (Int) -> Boolean = { true },
     crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
-    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
     crossinline block: (InventoryClickEvent) -> Unit
 ): Listener = listenInventories(
     plugin,
@@ -194,7 +194,7 @@ inline fun Inventory.listenBottom(
     crossinline acceptHotBarButton: (Int) -> Boolean = { true },
     crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
-    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
     crossinline block: (InventoryClickEvent) -> Unit
 ): Listener = listenInventories(
     plugin,
