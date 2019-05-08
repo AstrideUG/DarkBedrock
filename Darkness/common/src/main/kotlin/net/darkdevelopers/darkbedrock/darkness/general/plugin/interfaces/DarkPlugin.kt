@@ -20,12 +20,12 @@ interface DarkPlugin {
     }
 
     fun onLoad(lambda: () -> Unit) {
-        this.loadTime = System.nanoTime()
+        this.loadTime = System.currentTimeMillis()
         sendPluginInfos("Load", lambda) { sendLoadTimeMessage() }
     }
 
     fun onEnable(lambda: () -> Unit) {
-        this.enableTime = System.nanoTime()
+        this.enableTime = System.currentTimeMillis()
         sendPluginInfos("Enable", lambda) { sendEnableTimeMessage() }
     }
 
@@ -64,9 +64,9 @@ interface DarkPlugin {
     private fun sendEnableTimeMessage() = sendTimeMessage(enableTime, "gestartet")
 
     private fun sendTimeMessage(time: Long, reason: String) =
-        sendMessage("§a${parameter["Name"]} wurde in ${format(time)}ns $reason")
+        sendMessage("§a${parameter["Name"]} wurde in ${format(time)}ms $reason")
 
-    private fun format(long: Long): String = DecimalFormat("#,##0").format(System.nanoTime() - long)
+    private fun format(long: Long): String = DecimalFormat("#,##0").format(System.currentTimeMillis() - long)
 
     fun sendParameter() = parameter.keys.forEach { sendMessage("§a$it§8: ${parameter[it]}") }
 
