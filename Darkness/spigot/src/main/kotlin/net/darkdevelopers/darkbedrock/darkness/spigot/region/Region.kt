@@ -3,62 +3,63 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.region
 
-import org.bukkit.Location
-import org.bukkit.World
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.Location
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.toLocation
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.*
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 07.08.2017 03:10.
  * Last edit 09.05.2019
  */
-class Region(pos1: Location, pos2: Location) {
+class Region @Deprecated("Will be changed to data class", ReplaceWith("Region.of(world, pos1, pos2)")) constructor(
+    val world: String,
+    pos1: Vector3D,
+    pos2: Vector3D
+) {
 
-    val min: Location
-    val max: Location
+    val min: Vector3D = pos1 min pos2
+    val max: Vector3D = pos1 max pos2
 
-    init {
-        val world = pos1.world ?: throw NullPointerException("world can not be null")
-        if (world != pos2.world) throw IllegalArgumentException("pos1 world and pos2 world must be the same")
-        min = getMinLocation(world, pos1, pos2)
-        max = getMaxLocation(world, pos1, pos2)
+    @Suppress("DEPRECATION", "MemberVisibilityCanBePrivate")
+    companion object {
+        fun of(pos1: org.bukkit.Location, pos2: org.bukkit.Location): Region = of(pos1.toLocation(), pos2.toLocation())
+        fun of(pos1: Location, pos2: Location): Region {
+            if (pos1.world != pos2.world) throw IllegalArgumentException("pos1 world and pos2 world must be the same")
+            return of(pos1.world, pos1.vector, pos2.vector)
+        }
+
+        fun of(world: String, pos1: Vector3D, pos2: Vector3D): Region = Region(world, pos1, pos2)
     }
 
-    fun isInside(location: Location): Boolean =
-        location.world == min.world && location.toVector().isInAABB(min.toVector(), max.toVector())
-
-    private fun getMinLocation(world: World, pos1: Location, pos2: Location): Location {
-        val minX = Math.min(pos1.x, pos2.x)
-        val minY = Math.min(pos1.y, pos2.y)
-        val minZ = Math.min(pos1.z, pos2.z)
-        return Location(world, minX, minY, minZ)
+    @Suppress("DEPRECATION")
+    @Deprecated("Will be changed to data class", ReplaceWith("Region.of(pos1, pos2)"))
+    constructor(pos1: org.bukkit.Location, pos2: org.bukkit.Location) : this(
+        pos1.world.name,
+        pos1.toLocation().vector,
+        pos2.toLocation().vector
+    ) {
+        if (world != pos2.world.name) throw IllegalArgumentException("pos1 world and pos2 world must be the same")
     }
 
-    private fun getMaxLocation(world: World, pos1: Location, pos2: Location): Location {
-        val maxX = Math.max(pos1.x, pos2.x)
-        val maxY = Math.max(pos1.y, pos2.y)
-        val maxZ = Math.max(pos1.z, pos2.z)
-        return Location(world, maxX, maxY, maxZ)
-    }
+}
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+fun Region.isInside(vector3D: Vector3D): Boolean = vector3D.isInside(min, max)
+fun Region.isInside(location: Location): Boolean = location.world == world && isInside(location.vector)
+fun Region.isInside(location: org.bukkit.Location): Boolean = isInside(location.toLocation())
 
-        other as Region
+fun Region.toMap(): Map<String, Any?> = toMapTo(mutableMapOf())
+fun <D : MutableMap<String, Any?>> Region.toMapTo(destination: D): Map<String, Any?> = destination.apply {
+    this["world"] = world
+    min.toMap().also { if (it.isNotEmpty()) this["pos1"] = it }
+    max.toMap().also { if (it.isNotEmpty()) this["pos2"] = it }
+}
 
-        if (min != other.min) return false
-        if (max != other.max) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = min.hashCode()
-        result = 31 * result + max.hashCode()
-        return result
-    }
-
-    override fun toString(): String {
-        return "Region(min=$min, max=$max)"
-    }
+@Suppress("UNCHECKED_CAST")
+fun Map<String, Any?>.toRegion(): Region? {
+    return Region.of(
+        this["world"].toString(),
+        (this["pos1"] as? Map<String, Any?>)?.toVector3D() ?: return null,
+        (this["pos2"] as? Map<String, Any?>)?.toVector3D() ?: return null
+    )
 }

@@ -12,8 +12,10 @@ import org.bukkit.World
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 07.08.2017 03:10.
- * Last edit 09.07.2018
+ * Last edit 09.05.2019
  */
+@Suppress("DEPRECATION")
+@Deprecated("Use Region")
 class ConfigRegion(configData: ConfigData, private val regionName: String) {
     private val config: BukkitGsonConfig = BukkitGsonConfig(configData).load()
     private val min: Location
