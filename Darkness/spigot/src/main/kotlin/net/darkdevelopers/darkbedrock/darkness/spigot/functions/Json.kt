@@ -65,3 +65,19 @@ fun JsonElement.toObject(): Any? = when (this) {
 //            is JsonObject -> value
     else -> this
 }
+
+fun Any?.toJsonElement(serializeNull: Boolean = false): JsonElement? = when (this) {
+    null -> if (serializeNull) JsonNull.INSTANCE else null
+    is Iterable<*> -> JsonArray(this.mapNotNull { it?.toJsonPrimitive() })
+    //TODO     is Map<String, Any?> -> JsonObject()
+    else -> toJsonPrimitive()
+}
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 09.05.2019 22:18.
+ * Current Version: 1.0 (09.05.2019 - 09.05.2019)
+ */
+fun Map<String, Any?>.toJsonObject(serializeNull: Boolean = false): JsonObject = mapNotNull { (key, value) ->
+    (key to value.toJsonElement(serializeNull)).toSecondNotNull()
+}.toMap().toJsonObject()

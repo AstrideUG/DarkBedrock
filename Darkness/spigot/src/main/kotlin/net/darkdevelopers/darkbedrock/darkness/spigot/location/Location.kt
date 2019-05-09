@@ -1,10 +1,5 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.location
 
-import com.google.gson.JsonNull
-import com.google.gson.JsonObject
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.JsonArray
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toJsonObject
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toJsonPrimitive
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.data.DataLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.data.DataVector3D
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.lookable.Lookable
@@ -76,17 +71,6 @@ fun Location.toMap(
     if (yawOr0 != defaultYaw) this["yaw"] = yawOr0
     if (pitchOr0 != defaultPitch) this["pitch"] = pitchOr0
 }
-
-fun Location.toJsonObject(serializeNull: Boolean = false): JsonObject = toMap().mapNotNull { (key, value) ->
-    val jsonElement = when (value) {
-        null -> if (serializeNull) JsonNull.INSTANCE else null
-        is Iterable<*> -> JsonArray(value.mapNotNull { it?.toJsonPrimitive() })
-        //TODO     is GameMap<String, Any?> -> JsonObject()
-        else -> value.toJsonPrimitive()
-    }
-    jsonElement ?: return@mapNotNull null
-    key to jsonElement
-}.toMap().toJsonObject()
 
 /**
  * @author Lars Artmann | LartyHD
