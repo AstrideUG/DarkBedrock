@@ -4,14 +4,14 @@
 
 package net.darkdevelopers.darkbedrock.darkframe.general
 
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import java.awt.GraphicsEnvironment
 import kotlin.concurrent.thread
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 05.07.2018 12:24.
- * Last edit 03.02.2019
+ * Last edit 09.05.2019
  */
 class BootstrapKtTest {
     @Test
@@ -22,7 +22,7 @@ class BootstrapKtTest {
 
         //when
         thread {
-            net.darkdevelopers.darkbedrock.darkframe.general.main()
+            main()
             bool = false
         }
 

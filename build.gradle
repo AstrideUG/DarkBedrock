@@ -64,9 +64,9 @@ subprojects {
         compileOnly "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$versions_serialization"
 
         testCompileOnly "org.jetbrains.kotlin:kotlin-test"
-        testCompileOnly "org.jetbrains.kotlin:kotlin-test-junit5"
         testCompileOnly "org.mockito:mockito-all:2.0.2-beta"
-        testCompileOnly "org.junit.jupiter:junit-jupiter-api:5.3.1"
+        // https://mvnrepository.com/artifact/junit/junit
+        testCompile group: 'junit', name: 'junit', version: '4.12'
 
     }
 
