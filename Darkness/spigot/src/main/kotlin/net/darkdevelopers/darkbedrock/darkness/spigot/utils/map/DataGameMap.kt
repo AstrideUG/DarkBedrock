@@ -2,6 +2,7 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.utils.map
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.Location
 import net.darkdevelopers.darkbedrock.darkness.spigot.region.Region
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.map.worldborder.WorldBorder
 
 /**
  * @author Lars Artmann | LartyHD
@@ -12,5 +13,6 @@ data class DataGameMap(
     override val name: String,
     override val spawn: Location,
     override val hologram: Location?,
-    override val region: Region?
+    override val region: Region?,
+    override val worldBorder: WorldBorder?
 ) : GameMap
