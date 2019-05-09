@@ -9,12 +9,12 @@ import org.bukkit.World
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 07.08.2017 03:10.
- * Last edit 27.03.2019
+ * Last edit 09.05.2019
  */
 class Region(pos1: Location, pos2: Location) {
 
-    private val min: Location
-    private val max: Location
+    val min: Location
+    val max: Location
 
     init {
         val world = pos1.world ?: throw NullPointerException("world can not be null")
