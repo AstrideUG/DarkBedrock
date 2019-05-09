@@ -37,7 +37,7 @@ inline fun Iterable<Inventory>.listenTop(
     crossinline acceptHotBarButton: (Int) -> Boolean = { true },
     crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
-    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     cancel: Boolean = false,
     crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
@@ -52,19 +52,19 @@ inline fun Iterable<Inventory>.listenTop(
     acceptHotBarButton,
     acceptIsLeftClick,
     acceptIsRightClick,
-    acceptIsShiftClick,
-    cancel
+    acceptIsShiftClick
 ) { event ->
 
     val inventory = event.whoClicked.openInventory.topInventory
     if (onlyCheckName) {
         if (inventory.name !in map { it.name }) return@listenInventories
-        event.blockIfIsShift(cancel)
+        event.block(cancel)
     } else {
-        if (event.clickedInventory !in this) return@listenInventories
-        event.blockIfIsShift(cancel)
         if (inventory !in this) return@listenInventories
+        event.block(cancel)
+        if (event.clickedInventory !in this) return@listenInventories
     }
+    if (cancel) event.cancel()
 
     block(event)
 }
@@ -82,7 +82,7 @@ inline fun Iterable<Inventory>.listenBottom(
     crossinline acceptHotBarButton: (Int) -> Boolean = { true },
     crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
-    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     cancel: Boolean = false,
     crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
@@ -97,19 +97,19 @@ inline fun Iterable<Inventory>.listenBottom(
     acceptHotBarButton,
     acceptIsLeftClick,
     acceptIsRightClick,
-    acceptIsShiftClick,
-    cancel
+    acceptIsShiftClick
 ) { event ->
 
     val inventory = event.whoClicked.openInventory.bottomInventory
     if (onlyCheckName) {
         if (inventory.name !in map { it.name }) return@listenInventories
-        event.blockIfIsShift(cancel)
+        event.block(cancel)
     } else {
-        if (event.clickedInventory !in this) return@listenInventories
-        event.blockIfIsShift(cancel)
         if (inventory !in this) return@listenInventories
+        event.block(cancel)
+        if (event.clickedInventory !in this) return@listenInventories
     }
+    if (cancel) event.cancel()
 
     block(event)
 }
@@ -142,13 +142,13 @@ inline fun Iterable<Inventory>.listenClicked(
     acceptHotBarButton,
     acceptIsLeftClick,
     acceptIsRightClick,
-    acceptIsShiftClick,
-    cancel
+    acceptIsShiftClick
 ) { event ->
 
     if (onlyCheckName) {
         if (event.clickedInventory.name !in map { it.name }) return@listenInventories
     } else if (event.clickedInventory !in this) return@listenInventories
+    if (cancel) event.cancel()
 
     block(event)
 }
@@ -166,7 +166,7 @@ inline fun Inventory.listenTop(
     crossinline acceptHotBarButton: (Int) -> Boolean = { true },
     crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
-    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     cancel: Boolean = false,
     crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
@@ -181,19 +181,19 @@ inline fun Inventory.listenTop(
     acceptHotBarButton,
     acceptIsLeftClick,
     acceptIsRightClick,
-    acceptIsShiftClick,
-    cancel
+    acceptIsShiftClick
 ) { event ->
 
     val inventory = event.whoClicked.openInventory.topInventory
     if (onlyCheckName) {
         if (inventory.name != name) return@listenInventories
-        event.blockIfIsShift(cancel)
+        event.block(cancel)
     } else {
-        if (event.clickedInventory != this) return@listenInventories
-        event.blockIfIsShift(cancel)
         if (inventory != this) return@listenInventories
+        event.block(cancel)
+        if (event.clickedInventory != this) return@listenInventories
     }
+    if (cancel) event.cancel()
 
     block(event)
 }
@@ -211,7 +211,7 @@ inline fun Inventory.listenBottom(
     crossinline acceptHotBarButton: (Int) -> Boolean = { true },
     crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
-    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     cancel: Boolean = false,
     crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
@@ -226,19 +226,19 @@ inline fun Inventory.listenBottom(
     acceptHotBarButton,
     acceptIsLeftClick,
     acceptIsRightClick,
-    acceptIsShiftClick,
-    cancel
+    acceptIsShiftClick
 ) { event ->
 
     val inventory = event.whoClicked.openInventory.bottomInventory
     if (onlyCheckName) {
         if (inventory.name != name) return@listenInventories
-        event.blockIfIsShift(cancel)
+        event.block(cancel)
     } else {
-        if (event.clickedInventory != this) return@listenInventories
-        event.blockIfIsShift(cancel)
         if (inventory != this) return@listenInventories
+        event.block(cancel)
+        if (event.clickedInventory != this) return@listenInventories
     }
+    if (cancel) event.cancel()
 
     block(event)
 }
@@ -271,14 +271,14 @@ inline fun Inventory.listenClicked(
     acceptHotBarButton,
     acceptIsLeftClick,
     acceptIsRightClick,
-    acceptIsShiftClick,
-    cancel
+    acceptIsShiftClick
 ) { event ->
 
     val inventory = event.clickedInventory
     if (onlyCheckName) {
         if (inventory.name != name) return@listenInventories
     } else if (event.clickedInventory != this) return@listenInventories
+    if (cancel) event.cancel()
 
     block(event)
 }
@@ -295,7 +295,7 @@ inline fun Iterable<String>.listenTop(
     crossinline acceptHotBarButton: (Int) -> Boolean = { true },
     crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
-    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     cancel: Boolean = false,
     crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
@@ -310,14 +310,14 @@ inline fun Iterable<String>.listenTop(
     acceptHotBarButton,
     acceptIsLeftClick,
     acceptIsRightClick,
-    acceptIsShiftClick,
-    cancel
+    acceptIsShiftClick
 ) { event ->
 
     val inventory = event.whoClicked.openInventory.topInventory
-    if (event.clickedInventory.name !in this) return@listenInventories
-    event.blockIfIsShift(cancel)
     if (inventory.name !in this) return@listenInventories
+    event.block(cancel)
+    if (event.clickedInventory.name !in this) return@listenInventories
+    if (cancel) event.cancel()
 
     block(event)
 
@@ -335,7 +335,7 @@ inline fun Iterable<String>.listenBottom(
     crossinline acceptHotBarButton: (Int) -> Boolean = { true },
     crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
-    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     cancel: Boolean = false,
     crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
@@ -350,14 +350,14 @@ inline fun Iterable<String>.listenBottom(
     acceptHotBarButton,
     acceptIsLeftClick,
     acceptIsRightClick,
-    acceptIsShiftClick,
-    cancel
+    acceptIsShiftClick
 ) { event ->
 
     val inventory = event.whoClicked.openInventory.bottomInventory
-    if (event.clickedInventory.name !in this) return@listenInventories
-    event.blockIfIsShift(cancel)
     if (inventory.name !in this) return@listenInventories
+    event.block(cancel)
+    if (event.clickedInventory.name !in this) return@listenInventories
+    if (cancel) event.cancel()
 
     block(event)
 }
@@ -389,11 +389,11 @@ inline fun Iterable<String>.listenClicked(
     acceptHotBarButton,
     acceptIsLeftClick,
     acceptIsRightClick,
-    acceptIsShiftClick,
-    cancel
+    acceptIsShiftClick
 ) { event ->
 
     if (event.clickedInventory.name !in this) return@listenInventories
+    if (cancel) event.cancel()
     block(event)
 
 }
@@ -410,7 +410,7 @@ inline fun String.listenTop(
     crossinline acceptHotBarButton: (Int) -> Boolean = { true },
     crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
-    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     cancel: Boolean = false,
     crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
@@ -425,14 +425,14 @@ inline fun String.listenTop(
     acceptHotBarButton,
     acceptIsLeftClick,
     acceptIsRightClick,
-    acceptIsShiftClick,
-    cancel
+    acceptIsShiftClick
 ) { event ->
 
     val inventory = event.whoClicked.openInventory.topInventory
-    if (event.clickedInventory.name != this) return@listenInventories
-    event.blockIfIsShift(cancel)
     if (inventory.name != this) return@listenInventories
+    event.block(cancel)
+    if (event.clickedInventory.name != this) return@listenInventories
+    if (cancel) event.cancel()
 
     block(event)
 
@@ -450,7 +450,7 @@ inline fun String.listenBottom(
     crossinline acceptHotBarButton: (Int) -> Boolean = { true },
     crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
-    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { false },
+    crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
     cancel: Boolean = false,
     crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listenInventories(
@@ -465,14 +465,14 @@ inline fun String.listenBottom(
     acceptHotBarButton,
     acceptIsLeftClick,
     acceptIsRightClick,
-    acceptIsShiftClick,
-    cancel
+    acceptIsShiftClick
 ) { event ->
 
     val inventory = event.whoClicked.openInventory.bottomInventory
-    if (event.clickedInventory.name != this) return@listenInventories
-    event.blockIfIsShift(cancel)
     if (inventory.name != this) return@listenInventories
+    event.block(cancel)
+    if (event.clickedInventory.name != this) return@listenInventories
+    if (cancel) event.cancel()
 
     block(event)
 
@@ -505,11 +505,11 @@ inline fun String.listenClicked(
     acceptHotBarButton,
     acceptIsLeftClick,
     acceptIsRightClick,
-    acceptIsShiftClick,
-    cancel
+    acceptIsShiftClick
 ) { event ->
 
     if (event.clickedInventory.name != this) return@listenInventories
+    if (cancel) event.cancel()
     block(event)
 
 }
@@ -527,7 +527,6 @@ inline fun listenInventories(
     crossinline acceptIsLeftClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsRightClick: (Boolean) -> Boolean = { true },
     crossinline acceptIsShiftClick: (Boolean) -> Boolean = { true },
-    cancel: Boolean = false,
     crossinline block: (InventoryClickEvent) -> Unit = {}
 ): Listener = listen<InventoryClickEvent>(plugin) listener@{ event ->
     if (!acceptWhoClicked(event.whoClicked)) return@listener
@@ -541,11 +540,10 @@ inline fun listenInventories(
     if (!acceptIsLeftClick(event.isLeftClick)) return@listener
     if (!acceptIsRightClick(event.isRightClick)) return@listener
     if (!acceptIsShiftClick(event.isShiftClick)) return@listener
-    if (cancel) event.cancel()
 
     block(event)
 }
 
-fun InventoryClickEvent.blockIfIsShift(cancel: Boolean) {
-    if (cancel && isShiftClick) cancel()
+fun InventoryClickEvent.block(cancel: Boolean) {
+    if (cancel && (isShiftClick || click == ClickType.DOUBLE_CLICK)) cancel()
 }
