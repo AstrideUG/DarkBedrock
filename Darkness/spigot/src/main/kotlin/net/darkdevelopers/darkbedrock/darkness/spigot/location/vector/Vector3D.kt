@@ -27,22 +27,14 @@ fun Number.toVector3D(): Vector3D = DataVector3D(toDouble(), toDouble(), toDoubl
  * Created by Lars Artmann | LartyHD on 09.05.2019 20:16.
  * Current Version: 1.0 (09.05.2019 - 09.05.2019)
  */
-infix fun Vector3D.min(other: Vector3D): Vector3D = DataVector3D(
-    min(x, other.x),
-    min(y, other.y),
-    min(z, other.z)
-)
+infix fun Vector3D.min(other: Vector3D): Vector3D = DataVector3D(min(other as Vector2D), min(z, other.z))
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.05.2019 20:16.
  * Current Version: 1.0 (09.05.2019 - 09.05.2019)
  */
-infix fun Vector3D.max(other: Vector3D): Vector3D = DataVector3D(
-    max(x, other.x),
-    max(y, other.y),
-    max(z, other.z)
-)
+infix fun Vector3D.max(other: Vector3D): Vector3D = DataVector3D(max(other as Vector2D), max(z, other.z))
 
 /**
  * @author Lars Artmann | LartyHD
@@ -66,9 +58,8 @@ fun <D : MutableMap<String, Any?>> Vector3D.toMapTo(
     z: Double = 0.0,
     destination: D
 ): Map<String, Any?> {
-    if (this.x != x) destination["x"] = this.x
+    toMapTo(x, z, destination)
     if (this.y != y) destination["y"] = this.y
-    if (this.z != z) destination["z"] = this.z
     return destination
 }
 
@@ -81,11 +72,7 @@ fun Map<String, Any?>.toVector3D(
     x: Double = 0.0,
     y: Double = 0.0,
     z: Double = 0.0
-): Vector3D = DataVector3D(
-    this["x"].toString().toDoubleOrNull() ?: x,
-    this["y"].toString().toDoubleOrNull() ?: y,
-    this["z"].toString().toDoubleOrNull() ?: z
-)
+): Vector3D = DataVector3D(toVector2D(x, z), this["y"].toString().toDoubleOrNull() ?: y)
 
 /**
  * @author Lars Artmann | LartyHD
@@ -93,7 +80,7 @@ fun Map<String, Any?>.toVector3D(
  * Current Version: 1.0 (09.05.2019 - 09.05.2019)
  */
 fun Vector3D.isInside(min: Vector3D, max: Vector3D): Boolean =
-    this.x >= min.x && this.x <= max.x && this.y >= min.y && this.y <= max.y && this.z >= min.z && this.z <= max.z
+    (this as Vector2D).isInside(min, max) && this.y >= min.y && this.y <= max.y
 
 fun Vector3D.toLocation(world: String): DataLocation = DataLocation(world, x, y, z)
 
@@ -106,5 +93,5 @@ fun Vector3D.copy(
     x: Double = this.x,
     y: Double = this.y,
     z: Double = this.z
-): Vector3D = DataVector3D(y, x, z)
+): Vector3D = DataVector3D((this as Vector2D).copy(x, z), y)
 
