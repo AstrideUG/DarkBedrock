@@ -18,13 +18,17 @@ class GsonServiceTest {
     /**
      * @author Lars Artmann | LartyHD
      * Created by Lars Artmann | LartyHD on 18.03.2019 22:16.
-     * Current Version: 1.0 (18.03.2019 - 18.03.2019)
+     * Current Version: 1.0 (18.03.2019 - 10.05.2019)
      */
     @Test
     fun save() {
-        GsonService.save(File("save-test.json"), JsonObject().apply {
-            for (i in 1..1000) addProperty("Test$i", "Hallo World $i")
+        val file = File("save-test.json")
+        val max = 1000
+        GsonService.save(file, JsonObject().apply {
+            for (i in 1..max) addProperty("Test$i", "Hallo World $i")
         })
+        assert(file.readLines().size == max + 2)
+        file.deleteOnExit()
     }
 
 }
