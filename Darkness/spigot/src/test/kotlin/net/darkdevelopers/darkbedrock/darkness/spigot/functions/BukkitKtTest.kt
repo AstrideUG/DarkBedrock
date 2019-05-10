@@ -5,8 +5,8 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
 import org.bukkit.Location
+import org.junit.Test
 import org.mockito.Mockito
-import kotlin.test.Test
 
 /**
  * @author Lars Artmann | LartyHD

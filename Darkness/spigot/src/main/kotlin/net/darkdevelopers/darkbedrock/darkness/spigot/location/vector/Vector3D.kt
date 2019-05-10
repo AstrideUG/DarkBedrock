@@ -58,8 +58,9 @@ fun <D : MutableMap<String, Any?>> Vector3D.toMapTo(
     z: Double = 0.0,
     destination: D
 ): Map<String, Any?> {
-    toMapTo(x, z, destination)
+    if (this.x != x) destination["x"] = this.x
     if (this.y != y) destination["y"] = this.y
+    if (this.z != z) destination["z"] = this.z
     return destination
 }
 

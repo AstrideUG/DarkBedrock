@@ -8,5 +8,5 @@ dependencies {
         transitive = false
     }
     compileOnly("org.spigotmc:spigot-api:${versions_spigot}")
-    testCompileOnly("org.spigotmc:spigot-api:${versions_spigot}")
+    testCompile("org.spigotmc:spigot-api:${versions_spigot}")
 }

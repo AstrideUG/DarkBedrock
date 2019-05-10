@@ -1189,6 +1189,9 @@
     </option>
     <option name="configurationPath" value="" />
   </component>
+  <component name="Statistic">
+    <option name="separateTabsFileTypes" value="java;xml;css;html;js;properties;jsp;txt;php;php4;php5;phtml;inc;py;kt;kts" />
+  </component>
   <component name="SuppressionsComponent">
     <option name="suppComments" value="[]" />
   </component>

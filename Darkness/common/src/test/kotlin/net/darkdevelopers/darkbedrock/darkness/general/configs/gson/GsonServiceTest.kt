@@ -5,7 +5,7 @@
 package net.darkdevelopers.darkbedrock.darkness.general.configs.gson
 
 import com.google.gson.JsonObject
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import java.io.File
 
 /**

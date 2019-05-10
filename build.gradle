@@ -16,6 +16,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "org.sonarqube" version "2.7"
+}
+
 import org.apache.tools.ant.filters.ReplaceTokens
 
 subprojects {
@@ -63,8 +67,13 @@ subprojects {
         compileOnly "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1"
         compileOnly "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$versions_serialization"
 
-        testCompileOnly "org.jetbrains.kotlin:kotlin-test"
-        testCompileOnly "org.mockito:mockito-all:2.0.2-beta"
+        testCompile "org.jetbrains.kotlin:kotlin-stdlib"
+        testCompile "org.jetbrains.kotlin:kotlin-reflect"
+        testCompile "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1"
+        testCompile "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$versions_serialization"
+
+        testCompile "org.jetbrains.kotlin:kotlin-test"
+        testCompile "org.mockito:mockito-all:2.0.2-beta"
         // https://mvnrepository.com/artifact/junit/junit
         testCompile group: 'junit', name: 'junit', version: '4.12'
 

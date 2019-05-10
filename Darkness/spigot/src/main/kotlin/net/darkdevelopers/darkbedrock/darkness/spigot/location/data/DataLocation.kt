@@ -29,6 +29,6 @@ data class DataLocation(
         z: Double,
         yaw: Float = 0f,
         pitch: Float = 0f
-    ) : this(world, DataVector3D(y, x, z), yaw, pitch)
+    ) : this(world, DataVector3D(x, y, z), yaw, pitch)
 
 }

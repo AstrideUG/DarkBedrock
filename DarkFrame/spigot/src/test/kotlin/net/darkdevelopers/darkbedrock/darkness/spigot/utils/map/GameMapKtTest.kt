@@ -20,7 +20,7 @@ class GameMapKtTest {
         val spawn = DataLocation(world, 10.5, 100.0, 7.5, 90f, 180f)
         val hologram = DataLocation(world, 101.toVector3D())
         val region = Region.of(world, 0.toVector3D(), 1000.toVector3D())
-        val gameMap = DataGameMap("Test", spawn, hologram, region)
+        val gameMap = DataGameMap("Test", spawn, hologram, region, null)
 
         val check = mapOf(
             "name" to "Test",
@@ -52,6 +52,8 @@ class GameMapKtTest {
         val generated = gameMap.toMap()
 
         //then
+        println(generated.toString())
+        println(check.toString())
         assert(generated.toString() == check.toString())
         assert(generated.toGameMap() == check.toGameMap())
 
