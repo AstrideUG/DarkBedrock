@@ -50,7 +50,15 @@ fun unregisterKeepInventory() {
  */
 fun setRespawn(block: (PlayerRespawnEvent) -> Location) {
     unregisterRespawn()
-    "respawn".addEvent<PlayerRespawnEvent> { event -> event.respawnLocation = block(event) }
+    "respawn".addEvent<PlayerRespawnEvent> { event ->
+        val location = block(event)
+        if (location.world == null) {
+            unregisterRespawn()
+            System.err.println("Respawn location world can not be null")
+            return@addEvent
+        }
+        event.respawnLocation = location
+    }
 }
 
 fun unregisterRespawn() {
