@@ -4,6 +4,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.location.Location
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.data.DataLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.toLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.toMap
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.toVector3D
 import net.darkdevelopers.darkbedrock.darkness.spigot.region.Region
 import net.darkdevelopers.darkbedrock.darkness.spigot.region.toMap
 import net.darkdevelopers.darkbedrock.darkness.spigot.region.toRegion
@@ -27,7 +28,7 @@ interface GameMap {
 @Suppress("UNCHECKED_CAST")
 fun Map<String, Any?>.toGameMap(
     defaultName: String = "GameMap",
-    defaultSpawn: Location = DataLocation(defaultName, 0.0, 100.0, 0.0),
+    defaultSpawn: Location = DataLocation(defaultName, 0.0.toVector3D()),
     defaultHologram: Location? = null,
     defaultRegion: Region? = null,
     defaultWorldBorder: WorldBorder? = null
@@ -41,7 +42,7 @@ fun Map<String, Any?>.toGameMap(
 
 fun GameMap.toMap(
     defaultName: String = "GameMap",
-    defaultSpawn: Location = DataLocation(defaultName, 0.0, 100.0, 0.0),
+    defaultSpawn: Location = DataLocation(defaultName, 0.0.toVector3D()),
     defaultHologram: Location? = null,
     defaultRegion: Region? = null,
     defaultWorldBorder: WorldBorder? = null
