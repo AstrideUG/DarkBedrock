@@ -8,17 +8,12 @@ import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 
-/*
- * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 30.04.2019 02:37.
- * Current Version: 1.0 (30.04.2019 - 30.04.2019)
- */
-
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 30.04.2019 02:37.
  * Current Version: 1.0 (30.04.2019 - 30.04.2019)
  */
+
 fun ItemStack.copy(
     type: Material? = null,
     amount: Int? = null,

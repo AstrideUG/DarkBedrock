@@ -11,7 +11,7 @@ enum class Messages(var message: String) {
     NAME("DarkFrame"),
     SERVER_NAME("$PRIMARY${EXTRA}Darkblocks§f$EXTRA.$PRIMARY${EXTRA}net$RESET"),
     PREFIX("$PRIMARY$EXTRA$NAME$IMPORTANT | $RESET"),
-    PLAYER_NOT_ONLINE("$PREFIX${TEXT}Der Spieler ist nicht Online$RESET");
+    PLAYER_NOT_ONLINE("$PREFIX${TEXT}Dieser Spieler ist nicht online$RESET");
 
     override fun toString() = this.message
 }
