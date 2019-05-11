@@ -13,13 +13,15 @@ import java.util.*
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 12.08.2018 20:49.
- * Last edit 06.04.2019
+ * Last edit 11.05.2019
  */
+@Deprecated("Use GameMap")
 data class Map(
     val name: String,
     val spawn: Location,
     val hologram: Location,
     val region: Region,
+    @Suppress("DEPRECATION")
     val sendHolograms: (Player, MutableMap<UUID, Holograms>, map: Map) -> Unit
 ) {
 
