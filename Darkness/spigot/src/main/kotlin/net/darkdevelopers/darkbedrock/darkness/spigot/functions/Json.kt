@@ -77,7 +77,7 @@ fun JsonElement.toObject(): Any? = when (this) {
 fun Any?.toJsonElement(serializeNull: Boolean = false): JsonElement? = when (this) {
     null -> if (serializeNull) JsonNull.INSTANCE else null
     is Iterable<*> -> JsonArray(this.mapNotNull { it?.toJsonPrimitive() })
-    //TODO     is Map<String, Any?> -> JsonObject()
+    is Map<*, Any?> -> JsonObject(this.mapNotNull { (it.key as? String to it.value.toJsonElement()).toNotNull() }.toMap())
     else -> toJsonPrimitive()
 }
 
