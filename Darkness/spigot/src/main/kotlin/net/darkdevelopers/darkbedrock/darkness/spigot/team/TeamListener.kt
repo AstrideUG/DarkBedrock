@@ -4,7 +4,7 @@
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.team
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inverntory.InventoryBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inventory.InventoryBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.isRight
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
