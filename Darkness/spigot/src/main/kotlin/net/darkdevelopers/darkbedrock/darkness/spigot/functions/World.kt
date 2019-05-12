@@ -35,21 +35,21 @@ fun World.setup() {
  * Created by Lars Artmann | LartyHD on 12.05.2019 19:15.
  * Current Version: 1.0 (12.05.2019 - 12.05.2019)
  */
-fun World.setWorldBoarder(
+fun World.setWorldBorder(
     size: Double,
     center: Vector2D,
     buffer: Double,
     amount: Double,
     distance: Int,
     time: Int
-) = setWorldBoarder(size, center.x, center.z, buffer, amount, distance, time)
+) = setWorldBorder(size, center.x, center.z, buffer, amount, distance, time)
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 12.05.2019 19:14.
  * Current Version: 1.0 (12.05.2019 - 12.05.2019)
  */
-fun World.setWorldBoarder(
+fun World.setWorldBorder(
     size: Double,
     x: Double,
     z: Double,
