@@ -9,7 +9,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.toVector2D
  * Current Version: 1.0 (09.05.2019 - 09.05.2019)
  */
 data class DataWorldBorder(
-    override val size: Int = 60_000_000,
+    override val size: Double = 60_000_000.0,
     override val center: Vector2D = 0.toVector2D(),
     override val damageBuffer: Double = 0.0,
     override val damageAmount: Double = 0.0,
