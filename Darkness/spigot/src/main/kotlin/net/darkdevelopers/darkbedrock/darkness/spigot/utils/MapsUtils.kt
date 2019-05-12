@@ -12,6 +12,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.configs.gson.BukkitGsonConfig
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.setWorldBorder
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.setup
 import net.darkdevelopers.darkbedrock.darkness.spigot.region.Region
 import org.bukkit.Bukkit
@@ -167,6 +168,12 @@ object MapsUtils {
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
+    @Deprecated(
+        "Use world.setWorldBorder", ReplaceWith(
+            "world.setWorldBorder(size, x, z, buffer, amount, distance, time)",
+            "net.darkdevelopers.darkbedrock.darkness.spigot.functions.setWorldBorder"
+        )
+    )
     fun setWorldBoarder(
         world: World,
         size: Double,
@@ -176,13 +183,5 @@ object MapsUtils {
         amount: Double,
         distance: Int,
         time: Int
-    ) = world.apply {
-        worldBorder.size = size
-        worldBorder.setCenter(x, z)
-        worldBorder.damageBuffer = buffer
-        worldBorder.damageAmount = amount
-        worldBorder.warningDistance = distance
-        worldBorder.warningTime = time
-    }
-
+    ): Unit = world.setWorldBorder(size, x, z, buffer, amount, distance, time)
 }
