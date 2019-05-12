@@ -1,5 +1,7 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.utils.map
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.setWorldBorder
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toBukkitWorld
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.Location
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.data.DataLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.toLocation
@@ -55,4 +57,22 @@ fun GameMap.toMap(
     if (hologram != defaultHologram) this["hologram"] = this@toMap.hologram?.toMap() ?: return@apply
     if (region != defaultRegion) this["region"] = region?.toMap() ?: return@apply
     if (worldBorder != defaultWorldBorder) this["worldborder"] = worldBorder?.toMap() ?: return@apply
+}
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 12.05.2019 22:34.
+ * Current Version: 1.0 (12.05.2019 - 12.05.2019)
+ */
+fun GameMap.setupWorldBorder() {
+    val worldBorder = worldBorder ?: return
+    val world = spawn.world.toBukkitWorld() ?: return
+    world.setWorldBorder(
+        worldBorder.size,
+        worldBorder.center,
+        worldBorder.damageBuffer,
+        worldBorder.damageAmount,
+        worldBorder.warningDistance,
+        worldBorder.warningTime
+    )
 }
