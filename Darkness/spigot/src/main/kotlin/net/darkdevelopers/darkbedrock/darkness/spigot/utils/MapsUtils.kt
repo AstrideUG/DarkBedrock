@@ -1,6 +1,8 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
+@file:Suppress("DEPRECATION")
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 
 import com.google.gson.JsonArray
@@ -10,8 +12,12 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.configs.gson.BukkitGsonConfig
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.setup
 import net.darkdevelopers.darkbedrock.darkness.spigot.region.Region
-import org.bukkit.*
+import org.bukkit.Bukkit
+import org.bukkit.Location
+import org.bukkit.World
+import org.bukkit.WorldCreator
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
@@ -22,8 +28,9 @@ import kotlin.concurrent.thread
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 04.01.2018 20:31.
- * Last edit 24.08.2018
+ * Last edit 12.05.2019
  */
+@Deprecated("Use GameMap")
 object MapsUtils {
     fun loadMapNames(folder: File): List<String> = GsonConfig(
         ConfigData(
@@ -40,20 +47,7 @@ object MapsUtils {
     fun loadMap(mapName: String): World {
         val world = Bukkit.getWorld(mapName) ?: Bukkit.createWorld(WorldCreator(mapName))
         ?: throw IllegalStateException("world can no be created / loaded")
-        world.apply {
-            weatherDuration = -1
-            time = 6000
-            monsterSpawnLimit = 0
-            difficulty = Difficulty.EASY
-            keepSpawnInMemory = true
-            isAutoSave = false
-            setGameRuleValue("spawnRadius", "0")
-            setGameRuleValue("doDaylightCycle", "false")
-            setGameRuleValue("doMobSpawning", "false")
-            setGameRuleValue("doFireTick", "false")
-        }
-        for (i in -5..4) for (j in -5..4) world.loadChunk(j, i)
-        world.entities.forEach { it.remove() }
+        world.setup()
         fixBowBug(world)
         return world
     }
@@ -93,7 +87,7 @@ object MapsUtils {
     ): Map {
         val name = config.getAs<JsonPrimitive>("name", jsonObject)?.asString.toNonNull()
         val worldName = getWorldName(config, jsonObject)
-        val world = MapsUtils.loadMap(worldName)
+        val world = loadMap(worldName)
         setWorldBoarder(config, "worldBoarder", jsonObject, world)
         val spawn = config.getLocation("spawn", jsonObject, world)
         val hologram = config.getLocationWithOutYawAndPitch("hologram", jsonObject, world)
