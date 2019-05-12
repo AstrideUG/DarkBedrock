@@ -62,7 +62,7 @@ fun JsonElement.toObject(): Any? = when (this) {
         else -> IllegalStateException("JsonPrimitive value can not be anyone else as Boolean, Number or String")
     }
     is JsonArray -> this.toList()
-//            is JsonObject -> value
+    is JsonObject -> this.toMap()
     else -> this
 }
 
