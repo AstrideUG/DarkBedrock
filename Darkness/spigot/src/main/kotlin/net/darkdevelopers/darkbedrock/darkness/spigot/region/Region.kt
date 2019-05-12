@@ -42,6 +42,26 @@ class Region @Deprecated("Will be changed to data class", ReplaceWith("Region.of
         if (world != pos2.world.name) throw IllegalArgumentException("pos1 world and pos2 world must be the same")
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Region) return false
+
+        if (world != other.world) return false
+        if (min != other.min) return false
+        if (max != other.max) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = world.hashCode()
+        result = 31 * result + min.hashCode()
+        result = 31 * result + max.hashCode()
+        return result
+    }
+
+    override fun toString(): String = "Region(world='$world', min=$min, max=$max)"
+
 }
 
 fun Region.isInside(vector3D: Vector3D): Boolean = vector3D.isInside(min, max)
