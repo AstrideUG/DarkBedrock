@@ -10,7 +10,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.toVector2D
  * Current Version: 1.0 (09.05.2019 - 09.05.2019)
  */
 interface WorldBorder {
-    val size: Int
+    val size: Double
     val center: Vector2D
     val damageBuffer: Double
     val damageAmount: Double
