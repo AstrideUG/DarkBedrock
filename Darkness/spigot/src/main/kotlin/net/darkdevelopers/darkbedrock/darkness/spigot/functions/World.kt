@@ -1,5 +1,6 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.Vector2D
 import org.bukkit.Difficulty
 import org.bukkit.World
 
@@ -28,3 +29,40 @@ fun World.setup() {
     for (x in -5..4) for (z in -5..4) loadChunk(x, z)
     entities.forEach { it.remove() }
 }
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 12.05.2019 19:15.
+ * Current Version: 1.0 (12.05.2019 - 12.05.2019)
+ */
+fun World.setWorldBoarder(
+    size: Double,
+    center: Vector2D,
+    buffer: Double,
+    amount: Double,
+    distance: Int,
+    time: Int
+) = setWorldBoarder(size, center.x, center.z, buffer, amount, distance, time)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 12.05.2019 19:14.
+ * Current Version: 1.0 (12.05.2019 - 12.05.2019)
+ */
+fun World.setWorldBoarder(
+    size: Double,
+    x: Double,
+    z: Double,
+    buffer: Double,
+    amount: Double,
+    distance: Int,
+    time: Int
+) {
+    worldBorder.size = size
+    worldBorder.setCenter(x, z)
+    worldBorder.damageBuffer = buffer
+    worldBorder.damageAmount = amount
+    worldBorder.warningDistance = distance
+    worldBorder.warningTime = time
+}
+
