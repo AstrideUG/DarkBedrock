@@ -2,7 +2,7 @@
  * © Copyright - Lars Artmann aka. LartyHD 2019.
  */
 
-package net.darkdevelopers.darkbedrock.darkness.spigot.builder.inverntory.interfaces
+package net.darkdevelopers.darkbedrock.darkness.spigot.builder.inventory.interfaces
 
 import net.darkdevelopers.darkbedrock.darkness.general.builder.interfaces.Builder
 import org.bukkit.inventory.Inventory

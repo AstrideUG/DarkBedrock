@@ -1,6 +1,6 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.vote.listener
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inverntory.InventoryBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inventory.InventoryBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.ItemBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.interfaces.IItemBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel

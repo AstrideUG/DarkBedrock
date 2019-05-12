@@ -2,9 +2,9 @@
  * © Copyright - Lars Artmann aka. LartyHD 2019.
  */
 
-package net.darkdevelopers.darkbedrock.darkness.spigot.builder.inverntory
+package net.darkdevelopers.darkbedrock.darkness.spigot.builder.inventory
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inverntory.interfaces.IInventoryBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inventory.interfaces.IInventoryBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.setDesign
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.sortChestInventory
 import org.bukkit.Bukkit
