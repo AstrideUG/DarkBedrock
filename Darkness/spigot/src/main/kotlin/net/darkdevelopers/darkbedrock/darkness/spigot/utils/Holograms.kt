@@ -15,7 +15,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players as all
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 09.07.2018 10:45.
- * Last edit 03.05.2019
+ * Last edit 12.05.2019
  */
 class Holograms(
     private val lines: Array<String>,
@@ -49,15 +49,20 @@ class Holograms(
 
     private fun create() {
         val clone = location.clone()
+        val world = clone.world as? CraftWorld
+        if (world == null) {
+            System.err.println("[Holograms] World of location ($clone) is null")
+            return
+        }
         lines.forEach {
             if (it.isNotEmpty()) {
-                val entity = EntityArmorStand((clone.world as CraftWorld).handle, clone.x, clone.y, clone.z).apply {
+                val entity = EntityArmorStand(world.handle, clone.x, clone.y, clone.z).apply {
                     customName = it
                     customNameVisible = true
                     isInvisible = true
                     setGravity(false)
                 }
-                armorStands.add(entity)
+                armorStands += entity
             }
             clone.add(0.0, DISTANCE, 0.0)
         }
