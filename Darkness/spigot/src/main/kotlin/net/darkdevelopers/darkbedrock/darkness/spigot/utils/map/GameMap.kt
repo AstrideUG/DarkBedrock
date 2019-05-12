@@ -32,13 +32,16 @@ fun Map<String, Any?>.toGameMap(
     defaultHologram: Location? = null,
     defaultRegion: Region? = null,
     defaultWorldBorder: WorldBorder? = null
-): GameMap = DataGameMap(
-    this["name"]?.toString() ?: defaultName,
-    (this["spawn"] as? Map<String, Any?>)?.toLocation() ?: defaultSpawn,
-    (this["hologram"] as? Map<String, Any?>)?.toLocation() ?: defaultHologram,
-    (this["region"] as? Map<String, Any?>)?.toRegion() ?: defaultRegion,
-    (this["worldborder"] as? Map<String, Any?>)?.toWorldBorder() ?: defaultWorldBorder
-)
+): GameMap {
+    val world = this["world"]?.toString()
+    return DataGameMap(
+        this["name"]?.toString() ?: defaultName,
+        (this["spawn"] as? Map<String, Any?>)?.toLocation(world = world) ?: defaultSpawn,
+        (this["hologram"] as? Map<String, Any?>)?.toLocation(world = world) ?: defaultHologram,
+        (this["region"] as? Map<String, Any?>)?.toRegion(defaultWorld = world) ?: defaultRegion,
+        (this["worldborder"] as? Map<String, Any?>)?.toWorldBorder() ?: defaultWorldBorder
+    )
+}
 
 fun GameMap.toMap(
     defaultName: String = "GameMap",
