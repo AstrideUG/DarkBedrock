@@ -4,6 +4,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.Vector2D
 import org.bukkit.Bukkit
 import org.bukkit.Difficulty
 import org.bukkit.World
+import org.bukkit.WorldBorder
 
 /*
  * @author Lars Artmann | LartyHD
@@ -33,7 +34,7 @@ fun World.setup() {
 
 /**
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 12.05.2019 19:15.
+ * Created by Lars Artmann | LartyHD on 12.05.2019 22:38.
  * Current Version: 1.0 (12.05.2019 - 12.05.2019)
  */
 fun World.setWorldBorder(
@@ -43,11 +44,11 @@ fun World.setWorldBorder(
     amount: Double,
     distance: Int,
     time: Int
-) = setWorldBorder(size, center.x, center.z, buffer, amount, distance, time)
+): Unit = worldBorder.setWorldBorder(size, center, buffer, amount, distance, time)
 
 /**
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 12.05.2019 19:14.
+ * Created by Lars Artmann | LartyHD on 12.05.2019 22:39.
  * Current Version: 1.0 (12.05.2019 - 12.05.2019)
  */
 fun World.setWorldBorder(
@@ -58,13 +59,42 @@ fun World.setWorldBorder(
     amount: Double,
     distance: Int,
     time: Int
+): Unit = worldBorder.setWorldBorder(size, x, z, buffer, amount, distance, time)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 12.05.2019 19:15.
+ * Current Version: 1.0 (12.05.2019 - 12.05.2019)
+ */
+fun WorldBorder.setWorldBorder(
+    size: Double,
+    center: Vector2D,
+    buffer: Double,
+    amount: Double,
+    distance: Int,
+    time: Int
+): Unit = setWorldBorder(size, center.x, center.z, buffer, amount, distance, time)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 12.05.2019 19:14.
+ * Current Version: 1.0 (12.05.2019 - 12.05.2019)
+ */
+fun WorldBorder.setWorldBorder(
+    size: Double,
+    x: Double,
+    z: Double,
+    buffer: Double,
+    amount: Double,
+    distance: Int,
+    time: Int
 ) {
-    worldBorder.size = size
-    worldBorder.setCenter(x, z)
-    worldBorder.damageBuffer = buffer
-    worldBorder.damageAmount = amount
-    worldBorder.warningDistance = distance
-    worldBorder.warningTime = time
+    this.size = size
+    this.setCenter(x, z)
+    this.damageBuffer = buffer
+    this.damageAmount = amount
+    this.warningDistance = distance
+    this.warningTime = time
 }
 
 /**
