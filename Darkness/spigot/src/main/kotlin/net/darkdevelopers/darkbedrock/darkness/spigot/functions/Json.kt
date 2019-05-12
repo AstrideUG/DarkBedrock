@@ -16,6 +16,11 @@ import com.google.gson.*
 @Suppress("FunctionName")
 fun JsonArray(input: Iterable<JsonElement>): JsonArray = JsonArray().apply { input.forEach { add(it) } }
 
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 12.05.2019 18:54.
+ * Current Version: 1.0 (12.05.2019 - 12.05.2019)
+ */
 fun JsonObject(input: Map<String, JsonElement>): JsonObject =
     JsonObject().apply { input.entries.forEach { add(it.key, it.value) } }
 
