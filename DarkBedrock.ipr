@@ -1098,6 +1098,13 @@
       </codeStyleSettings>
     </code_scheme>
   </component>
+  <component name="ProjectDictionaryState">
+    <dictionary name="LartyHD">
+      <words>
+        <w>bukkit</w>
+      </words>
+    </dictionary>
+  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/APIs/APIs.iml" filepath="$PROJECT_DIR$/APIs/APIs.iml" />
@@ -1713,22 +1720,22 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core/1.0.1/b1cf01c9c43664298d84d9fd3342786142889538/kotlinx-coroutines-core-1.0.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:0.10.0" type="kotlin.common">
+    <library name="Gradle: org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:0.11.0" type="kotlin.common">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-runtime-common/0.10.0/99d20e7757c3a56eeba569b7a5939b629643d885/kotlinx-serialization-runtime-common-0.10.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-runtime-common/0.11.0/29737222e88a4b991be3989b9ef921a28745524a/kotlinx-serialization-runtime-common-0.11.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-runtime-common/0.10.0/cf64612677e4b69beca73c058e9aaa0c6f45c998/kotlinx-serialization-runtime-common-0.10.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-runtime-common/0.11.0/abd2a80df0d7e0924fc4a23fce19ef3b250fc123/kotlinx-serialization-runtime-common-0.11.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.10.0">
+    <library name="Gradle: org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-runtime/0.10.0/23d777a5282c1957c7ce35946374fff0adab114c/kotlinx-serialization-runtime-0.10.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-runtime/0.11.0/76cc88b4aa3f91ee2eb657fda3e05c8bb449678d/kotlinx-serialization-runtime-0.11.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-runtime/0.10.0/adf850006cf0918b5fa1379aef9fb7bb45d8c42c/kotlinx-serialization-runtime-0.10.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-runtime/0.11.0/a0f704331179222be564ca7353195bf01afc6d1a/kotlinx-serialization-runtime-0.11.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.jetbrains:annotations:13.0">
