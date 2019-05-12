@@ -48,18 +48,37 @@ fun Region.isInside(vector3D: Vector3D): Boolean = vector3D.isInside(min, max)
 fun Region.isInside(location: Location): Boolean = location.world == world && isInside(location.vector)
 fun Region.isInside(location: org.bukkit.Location): Boolean = isInside(location.toLocation())
 
-fun Region.toMap(): Map<String, Any?> = toMapTo(mutableMapOf())
-fun <D : MutableMap<String, Any?>> Region.toMapTo(destination: D): Map<String, Any?> = destination.apply {
-    this["world"] = world
-    min.toMap().also { if (it.isNotEmpty()) this["pos1"] = it }
-    max.toMap().also { if (it.isNotEmpty()) this["pos2"] = it }
+fun Region.toMap(
+    defaultWorld: String? = null,
+    defaultMin: Vector3D = 0.toVector3D(),
+    defaultMax: Vector3D = 0.toVector3D()
+): Map<String, Any?> = toMapTo(
+    defaultWorld,
+    defaultMin,
+    defaultMax,
+    mutableMapOf()
+)
+
+fun <D : MutableMap<String, Any?>> Region.toMapTo(
+    defaultWorld: String? = null,
+    defaultMin: Vector3D = 0.toVector3D(),
+    defaultMax: Vector3D = 0.toVector3D(),
+    destination: D
+): Map<String, Any?> = destination.apply {
+    if (world == defaultWorld) this["world"] = world
+    if (min == defaultMin) min.toMap().also { if (it.isNotEmpty()) this["pos1"] = it }
+    if (max == defaultMax) max.toMap().also { if (it.isNotEmpty()) this["pos2"] = it }
 }
 
 @Suppress("UNCHECKED_CAST")
-fun Map<String, Any?>.toRegion(): Region? {
+fun Map<String, Any?>.toRegion(
+    defaultWorld: String? = null,
+    defaultPos1: Vector3D? = null,
+    defaultPos2: Vector3D? = null
+): Region? {
     return Region.of(
-        this["world"].toString(),
-        (this["pos1"] as? Map<String, Any?>)?.toVector3D() ?: return null,
-        (this["pos2"] as? Map<String, Any?>)?.toVector3D() ?: return null
+        this["world"]?.toString() ?: defaultWorld.toString(),
+        (this["pos1"] as? Map<String, Any?>)?.toVector3D() ?: defaultPos1 ?: return null,
+        (this["pos2"] as? Map<String, Any?>)?.toVector3D() ?: defaultPos2 ?: return null
     )
 }
