@@ -3,7 +3,7 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.region
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.Location
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.ReadOnlyLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.toLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.*
 
@@ -24,7 +24,7 @@ class Region @Deprecated("Will be changed to data class", ReplaceWith("Region.of
     @Suppress("DEPRECATION", "MemberVisibilityCanBePrivate")
     companion object {
         fun of(pos1: org.bukkit.Location, pos2: org.bukkit.Location): Region = of(pos1.toLocation(), pos2.toLocation())
-        fun of(pos1: Location, pos2: Location): Region {
+        fun of(pos1: ReadOnlyLocation, pos2: ReadOnlyLocation): Region {
             if (pos1.world != pos2.world) throw IllegalArgumentException("pos1 world and pos2 world must be the same")
             return of(pos1.world, pos1.vector, pos2.vector)
         }
@@ -65,7 +65,7 @@ class Region @Deprecated("Will be changed to data class", ReplaceWith("Region.of
 }
 
 fun Region.isInside(vector3D: Vector3D): Boolean = vector3D.isInside(min, max)
-fun Region.isInside(location: Location): Boolean = location.world == world && isInside(location.vector)
+fun Region.isInside(location: ReadOnlyLocation): Boolean = location.world == world && isInside(location.vector)
 fun Region.isInside(location: org.bukkit.Location): Boolean = isInside(location.toLocation())
 
 fun Region.toMap(
