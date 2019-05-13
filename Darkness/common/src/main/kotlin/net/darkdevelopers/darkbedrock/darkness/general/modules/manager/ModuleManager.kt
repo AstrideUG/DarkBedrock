@@ -31,10 +31,10 @@ abstract class ModuleManager(val folder: File) {
     protected abstract fun loadModules()
 
     protected fun loadModule(
-        folder: File,
+        source: File,
         main: String,
         loader: ClassLoader = URLClassLoader(
-            arrayOf(folder.toURI().toURL()),
+            arrayOf(source.toURI().toURL()),
             javaClass.classLoader
         )
     ) {
@@ -42,7 +42,7 @@ abstract class ModuleManager(val folder: File) {
             val rawClass = loader.loadClass(main) ?: return
             val module = isModule(rawClass)
             val moduleClass = module.newInstance()
-            moduleClass.description.folder = File("$folder${File.separator}$main")
+            moduleClass.description.folder = File("${source.parent}${File.separator}$main")
             call(moduleClass, "Loaded") { it.load() }
             modules.add(moduleClass)
         } catch (ex: Throwable) {
