@@ -42,7 +42,7 @@ abstract class ModuleManager(val folder: File) {
             val rawClass = loader.loadClass(main) ?: return
             val module = isModule(rawClass)
             val moduleClass = module.newInstance()
-            moduleClass.description.folder = File("${source.parent}${File.separator}$main")
+            moduleClass.description.folder = File("${source.parent}${File.separator}${moduleClass.description.name}")
             call(moduleClass, "Loaded") { it.load() }
             modules.add(moduleClass)
         } catch (ex: Throwable) {
