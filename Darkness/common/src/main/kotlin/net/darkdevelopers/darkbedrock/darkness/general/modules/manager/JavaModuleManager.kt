@@ -7,14 +7,17 @@ package net.darkdevelopers.darkbedrock.darkness.general.modules.manager
 import java.io.File
 import java.io.IOException
 import java.lang.reflect.Field
+import java.util.*
+import java.util.jar.JarFile
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.04.2018 01:26.
- * Last edit 19.04.2018 (03.02.2019)
+ * Last edit 13.05.2019
  */
 class JavaModuleManager(folder: File, lambdas: Array<(Field) -> Unit> = arrayOf()) : ModuleManager(folder, lambdas) {
-    private val modulesToLoad: MutableMap<String, String> = HashMap()
+    private val modulesToLoad: MutableMap<String, String> = mutableMapOf()
+    private val properties: String = "module.properties"
 
     init {
         run()
@@ -40,13 +43,12 @@ class JavaModuleManager(folder: File, lambdas: Array<(Field) -> Unit> = arrayOf(
             val name = file.name
             if (name.endsWith(".jar")) {
                 try {
-                    //TODO: FIX IT
-//                    val loadModuleProperties = loadModuleProperties(file)
-//                        ?: throw NullPointerException("module.properties can not be null")
-//                    if (modulesToLoad.contains(name))
-//                        System.err.println("Two modules named \"$name\" were found in the java module folder")
-//                    else
-//                        this.modulesToLoad[name] = loadModuleProperties.getString("main")
+                    val loadModuleProperties = loadModuleProperties(file)
+                        ?: throw NullPointerException("module.properties can not be null")
+                    if (modulesToLoad.contains(name))
+                        System.err.println("Two modules named \"$name\" were found in the java module folder")
+                    else
+                        this.modulesToLoad[name] = loadModuleProperties.getProperty("main")
                 } catch (ex: Throwable) {
                     println("Could not load java module with gameName $name")
                     ex.printStackTrace()
@@ -55,23 +57,19 @@ class JavaModuleManager(folder: File, lambdas: Array<(Field) -> Unit> = arrayOf(
         } else for (listFile in file.listFiles()) addModules(listFile)
     }
 
-    //TODO: FIX IT
-//    @Suppress("DEPRECATION")
-//    private fun loadModuleProperties(file: File): YamlConfiguration? {
-//        val jarFile = JarFile(file)
-//        try {
-//            val properties = "module.properties"
-//            val moduleYML = jarFile.getJarEntry(properties)
-//                ?: throw NullPointerException("Java module must have a $properties")
-//            val config = YamlConfiguration()
-//            config.load(jarFile.getInputStream(moduleYML))
-//            return config
-//        } catch (ex: Exception) {
-//            ex.printStackTrace()
-//        } finally {
-//            jarFile.close()
-//        }
-//        return null
-//    }
+    @Suppress("DEPRECATION")
+    private fun loadModuleProperties(file: File): Properties? {
+        val jarFile = JarFile(file)
+        try {
+            jarFile.use {
+                val moduleYML = jarFile.getJarEntry(properties)
+                    ?: throw NullPointerException("Java module must have a $properties")
+                return Properties().apply { load(jarFile.getInputStream(moduleYML)) }
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+        return null
+    }
 }
 
