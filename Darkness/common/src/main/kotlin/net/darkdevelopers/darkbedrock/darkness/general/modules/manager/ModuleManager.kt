@@ -6,7 +6,6 @@ package net.darkdevelopers.darkbedrock.darkness.general.modules.manager
 
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import java.io.File
-import java.lang.reflect.Field
 import java.net.URLClassLoader
 import kotlin.concurrent.thread
 
@@ -15,9 +14,9 @@ import kotlin.concurrent.thread
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.04.2018 01:26.
- * Last edit 19.04.2018
+ * Last edit 13.05.2019
  */
-abstract class ModuleManager(val folder: File, val lambdas: Array<(Field) -> Unit> = arrayOf()) {
+abstract class ModuleManager(val folder: File) {
     val modules: MutableSet<Module> = HashSet()
 
     protected fun run() {
@@ -31,19 +30,19 @@ abstract class ModuleManager(val folder: File, val lambdas: Array<(Field) -> Uni
 
     protected abstract fun loadModules()
 
-    protected fun loadModule(folder: File, clazz: String) {
+    protected fun loadModule(
+        folder: File,
+        main: String,
+        loader: ClassLoader = URLClassLoader(
+            arrayOf(folder.toURI().toURL()),
+            javaClass.classLoader
+        )
+    ) {
         try {
-            val loader = URLClassLoader(arrayOf(folder.toURI().toURL()), javaClass.classLoader)
-            val rawClass = loader.loadClass(clazz) ?: return
+            val rawClass = loader.loadClass(main) ?: return
             val module = isModule(rawClass)
-//            module.declaredFields.forEach {
-//                if (it.isAnnotationPresent(Injector::class.java)) {
-//                    it.isAccessible = true
-//                    lambdas.forEach { lambda -> lambda(it) }
-//                }
-//            }
             val moduleClass = module.newInstance()
-            moduleClass.description.folder = File("$folder${File.separator}$clazz")
+            moduleClass.description.folder = File("$folder${File.separator}$main")
             call(moduleClass, "Loaded") { it.load() }
             modules.add(moduleClass)
         } catch (ex: Throwable) {
@@ -92,10 +91,7 @@ abstract class ModuleManager(val folder: File, val lambdas: Array<(Field) -> Uni
         else onSuccess()
     }
 
-    fun getModule(name: String): Module? {
-        modules.forEach { if (it.description.name.toLowerCase() == name.toLowerCase()) return it }
-        return null
-    }
+    fun getModule(name: String): Module? = modules.find { it.description.name.toLowerCase() == name.toLowerCase() }
 
 }
 

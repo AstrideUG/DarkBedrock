@@ -4,9 +4,9 @@
 
 package net.darkdevelopers.darkbedrock.darkness.general.modules.manager
 
+import net.darkdevelopers.darkbedrock.darkness.general.modules.loader.ModuleClassLoader
 import java.io.File
 import java.io.IOException
-import java.lang.reflect.Field
 import java.util.*
 import java.util.jar.JarFile
 
@@ -15,7 +15,7 @@ import java.util.jar.JarFile
  * Created by Lars Artmann | LartyHD on 09.04.2018 01:26.
  * Last edit 13.05.2019
  */
-class JavaModuleManager(folder: File, lambdas: Array<(Field) -> Unit> = arrayOf()) : ModuleManager(folder, lambdas) {
+class JavaModuleManager(folder: File) : ModuleManager(folder) {
     private val modulesToLoad: MutableMap<String, String> = mutableMapOf()
     private val properties: String = "module.properties"
 
@@ -34,7 +34,12 @@ class JavaModuleManager(folder: File, lambdas: Array<(Field) -> Unit> = arrayOf(
     }, { throw IOException("The folder java modules could not be created") })
 
     override fun loadModules() {
-        for (module in modulesToLoad) loadModule(File("$folder${module.key}"), module.value)
+        for (module in modulesToLoad) {
+            val folder = File("$folder${File.separator}${module.key}")
+            val loader = ModuleClassLoader(arrayOf(folder.toURI().toURL()), javaClass.classLoader)
+            loader.addToClassloaders()
+            loadModule(folder, module.value, loader)
+        }
         modulesToLoad.clear()
     }
 
@@ -45,7 +50,7 @@ class JavaModuleManager(folder: File, lambdas: Array<(Field) -> Unit> = arrayOf(
                 try {
                     val loadModuleProperties = loadModuleProperties(file)
                         ?: throw NullPointerException("module.properties can not be null")
-                    if (modulesToLoad.contains(name))
+                    if (name in modulesToLoad)
                         System.err.println("Two modules named \"$name\" were found in the java module folder")
                     else
                         this.modulesToLoad[name] = loadModuleProperties.getProperty("main")
