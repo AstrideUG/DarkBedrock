@@ -66,7 +66,7 @@ interface DarkPlugin {
     private fun sendTimeMessage(time: Long, reason: String) =
         sendMessage("§a${parameter["Name"]} wurde in ${format(time)}ms $reason")
 
-    private fun format(long: Long): String = DecimalFormat("#.##0").format(System.currentTimeMillis() - long)
+    private fun format(long: Long): String = DecimalFormat("#,##0").format(System.currentTimeMillis() - long)
 
     fun sendParameter() = parameter.keys.forEach { sendMessage("§a$it§8: ${parameter[it]}") }
 
