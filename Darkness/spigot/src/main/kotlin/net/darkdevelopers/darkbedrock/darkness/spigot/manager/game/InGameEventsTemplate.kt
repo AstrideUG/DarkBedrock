@@ -25,7 +25,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players as all
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 29.11.2017 14:06.
- * Last edit 05.05.2019
+ * Last edit 13.05.2019
  */
 object InGameEventsTemplate : EventsTemplate() {
 
@@ -87,7 +87,7 @@ object InGameEventsTemplate : EventsTemplate() {
 
     }
 
-    fun reset() {
+    override fun reset() {
 
         unregisterJoinMessage()
         unregisterDisconnectMessage()
