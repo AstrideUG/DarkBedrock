@@ -7,7 +7,7 @@ import java.text.DecimalFormat
 
 /**
  * Created by LartyHD on 15.12.2017 03:21.
- * Last edit 03.07.2018
+ * Last edit 13.05.2019
  */
 @Suppress("unused")
 interface DarkPlugin {
@@ -32,7 +32,7 @@ interface DarkPlugin {
     fun onDisable(lambda: () -> Unit) = sendPluginInfos(
         "Disable",
         lambda
-    ) { sendMessage("§a${parameter["Name"]} lief seit dem Start ${format(enableTime)}ns") }
+    ) { sendMessage("§a${parameter["Name"]} lief seit dem Start ${format(enableTime)}ms") }
 
     private fun sendPluginInfos(key: String, lambda: () -> Unit, end: () -> Unit) {
         sendMessage("§2==================================================================================================")
@@ -66,7 +66,7 @@ interface DarkPlugin {
     private fun sendTimeMessage(time: Long, reason: String) =
         sendMessage("§a${parameter["Name"]} wurde in ${format(time)}ms $reason")
 
-    private fun format(long: Long): String = DecimalFormat("#,##0").format(System.currentTimeMillis() - long)
+    private fun format(long: Long): String = DecimalFormat("#.##0").format(System.currentTimeMillis() - long)
 
     fun sendParameter() = parameter.keys.forEach { sendMessage("§a$it§8: ${parameter[it]}") }
 
