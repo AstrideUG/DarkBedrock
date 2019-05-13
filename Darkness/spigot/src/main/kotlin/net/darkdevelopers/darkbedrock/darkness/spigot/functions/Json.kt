@@ -89,3 +89,13 @@ fun Any?.toJsonElement(serializeNull: Boolean = false): JsonElement? = when (thi
 fun Map<String, Any?>.toJsonObject(serializeNull: Boolean = false): JsonObject = mapNotNull { (key, value) ->
     (key to value.toJsonElement(serializeNull)).toSecondNotNull()
 }.toMap().toJsonObject()
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 13.05.2019 03:56.
+ * Current Version: 1.0 (13.05.2019 - 13.05.2019)
+ */
+fun Iterable<JsonElement>.toMap() = mapNotNull {
+    val jsonObject = it as? JsonObject ?: return@mapNotNull null
+    jsonObject.toMap()
+}
