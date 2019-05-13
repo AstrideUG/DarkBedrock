@@ -15,13 +15,13 @@ import org.bukkit.plugin.java.JavaPlugin
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 22.12.2018 06:09.
- * Current Version: 1.0 (22.12.2018 - 22.12.2018)
+ * Current Version: 1.0 (22.12.2018 - 13.05.2019)
  */
 abstract class SimplePermissionsCommandModule(protected val defaultCommandName: String) : Module {
 
     override val description: ModuleDescription = ModuleDescription(
-        javaClass.canonicalName,
-        "1.0",
+        javaClass.simpleName,
+        "1.0.0",
         "Lars Artmann | LartyHD",
         "Added a ${defaultCommandName.toLowerCase()} command"
     )
@@ -67,6 +67,7 @@ abstract class SimplePermissionsCommandModule(protected val defaultCommandName: 
     protected inner class Config {
         val configData = ConfigData(description.folder, "config.json")
         val jsonObject = loadAs(configData) ?: JsonObject()
+        @Suppress("DEPRECATION")
         val messages = SpigotGsonMessages(GsonConfig(configData).load()).availableMessages
         val permissions = GsonStringMapWithSubs(jsonObject["permissions"]?.asJsonObject ?: JsonObject()).available
         val commandName = jsonObject["command-name"]?.asString ?: defaultCommandName
