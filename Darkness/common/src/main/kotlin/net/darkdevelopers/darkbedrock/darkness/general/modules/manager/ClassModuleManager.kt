@@ -6,15 +6,14 @@ package net.darkdevelopers.darkbedrock.darkness.general.modules.manager
 
 import java.io.File
 import java.io.IOException
-import java.lang.reflect.Field
 
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.04.2018 01:26.
- * Last edit 19.04.2018
+ * Last edit 13.05.2019
  */
-class ClassModuleManager(folder: File, lambdas: Array<(Field) -> Unit> = arrayOf()) : ModuleManager(folder, lambdas) {
+class ClassModuleManager(folder: File) : ModuleManager(folder) {
     private val modulesToLoad: MutableSet<String> = mutableSetOf()
 
     init {
