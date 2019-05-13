@@ -2,7 +2,7 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.utils.map
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.setWorldBorder
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toBukkitWorld
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.Location
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.ReadOnlyLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.data.DataLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.toLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.toMap
@@ -21,8 +21,8 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.map.worldborder.toWo
  */
 interface GameMap {
     val name: String
-    val spawn: Location
-    val hologram: Location?
+    val spawn: ReadOnlyLocation
+    val hologram: ReadOnlyLocation?
     val region: Region?
     val worldBorder: WorldBorder?
 }
@@ -30,8 +30,8 @@ interface GameMap {
 @Suppress("UNCHECKED_CAST")
 fun Map<String, Any?>.toGameMap(
     defaultName: String = "GameMap",
-    defaultSpawn: Location = DataLocation(defaultName, 0.0.toVector3D()),
-    defaultHologram: Location? = null,
+    defaultSpawn: ReadOnlyLocation = DataLocation(defaultName, 0.0.toVector3D()),
+    defaultHologram: ReadOnlyLocation? = null,
     defaultRegion: Region? = null,
     defaultWorldBorder: WorldBorder? = null
 ): GameMap {
@@ -47,8 +47,8 @@ fun Map<String, Any?>.toGameMap(
 
 fun GameMap.toMap(
     defaultName: String = "GameMap",
-    defaultSpawn: Location = DataLocation(defaultName, 0.0.toVector3D()),
-    defaultHologram: Location? = null,
+    defaultSpawn: ReadOnlyLocation = DataLocation(defaultName, 0.0.toVector3D()),
+    defaultHologram: ReadOnlyLocation? = null,
     defaultRegion: Region? = null,
     defaultWorldBorder: WorldBorder? = null
 ): Map<String, Any?> = mutableMapOf<String, Any?>().apply {

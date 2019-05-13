@@ -1,5 +1,6 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.location.vector
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.ReadOnlyLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.data.DataLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.data.DataVector3D
 import kotlin.collections.set
@@ -83,7 +84,7 @@ fun Map<String, Any?>.toVector3D(
 fun Vector3D.isInside(min: Vector3D, max: Vector3D): Boolean =
     (this as Vector2D).isInside(min, max) && this.y >= min.y && this.y <= max.y
 
-fun Vector3D.toLocation(world: String): DataLocation = DataLocation(world, x, y, z)
+fun Vector3D.toLocation(world: String): ReadOnlyLocation = DataLocation(world, x, y, z)
 
 /**
  * @author Lars Artmann | LartyHD
