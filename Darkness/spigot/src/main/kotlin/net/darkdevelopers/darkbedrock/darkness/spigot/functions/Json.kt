@@ -34,9 +34,9 @@ fun JsonObject.toMap(): Map<String, Any?> = entrySet().map { (key, value) -> key
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.05.2019 14:27.
- * Current Version: 1.0 (09.05.2019 - 09.05.2019)
+ * Current Version: 1.0 (09.05.2019 - 13.05.2019)
  */
-fun Map<String, JsonElement>.toJsonObject(): JsonObject = JsonObject().apply {
+fun Map<String, JsonElement>.toJsonObject(jsonObject: JsonObject = JsonObject()): JsonObject = jsonObject.apply {
     this@toJsonObject.forEach { (value, key) -> add(value, key) }
 }
 
@@ -84,11 +84,14 @@ fun Any?.toJsonElement(serializeNull: Boolean = false): JsonElement? = when (thi
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.05.2019 22:18.
- * Current Version: 1.0 (09.05.2019 - 09.05.2019)
+ * Current Version: 1.0 (09.05.2019 - 13.05.2019)
  */
-fun Map<String, Any?>.toJsonObject(serializeNull: Boolean = false): JsonObject = mapNotNull { (key, value) ->
+fun Map<String, Any?>.toJsonObject(
+    serializeNull: Boolean = false,
+    jsonObject: JsonObject = JsonObject()
+): JsonObject = mapNotNull { (key, value) ->
     (key to value.toJsonElement(serializeNull)).toSecondNotNull()
-}.toMap().toJsonObject()
+}.toMap().toJsonObject(jsonObject)
 
 /**
  * @author Lars Artmann | LartyHD
