@@ -15,7 +15,7 @@ import org.bukkit.plugin.Plugin
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 29.11.2017 14:06.
- * Last edit 05.05.2019
+ * Last edit 13.05.2019
  */
 object PreGameEventsTemplate : EventsTemplate() {
 
@@ -38,7 +38,7 @@ object PreGameEventsTemplate : EventsTemplate() {
 
     }
 
-    fun reset() {
+    override fun reset() {
 
         resetCancel()
 

@@ -20,7 +20,7 @@ open class EventsTemplate(
         listener += this
     }
 
-    fun reset() {
+    open fun reset() {
         listener.unregister()
         listener.clear()
     }

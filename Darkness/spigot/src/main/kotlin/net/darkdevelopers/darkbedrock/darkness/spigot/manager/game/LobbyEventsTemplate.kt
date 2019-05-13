@@ -21,7 +21,7 @@ import org.bukkit.plugin.Plugin
  *
  * Lobby & EndGame EventsTemplate
  *
- * Last edit 05.05.2019
+ * Last edit 13.05.2019
  */
 object LobbyEventsTemplate : EventsTemplate() {
 
@@ -48,7 +48,7 @@ object LobbyEventsTemplate : EventsTemplate() {
 
     }
 
-    fun reset() {
+    override fun reset() {
 
         resetCancel()
 
