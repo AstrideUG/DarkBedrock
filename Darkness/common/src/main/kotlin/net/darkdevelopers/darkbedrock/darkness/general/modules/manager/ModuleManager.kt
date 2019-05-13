@@ -56,7 +56,16 @@ abstract class ModuleManager(val folder: File) {
         throw IllegalArgumentException("main class `$clazz' does not extend Module", ex)
     }
 
-    protected fun startModules() = call("Started") { it.start() }
+    protected fun startModules() = call("Started") {
+        try {
+            it.start()
+        } catch (ex: Throwable) {
+            it.stop()
+            System.err.println("$it thrown an uncaught error ${ex.message}")
+            ex.printStackTrace()
+        }
+    }
+
 
     protected fun addToShutdownHook() =
         Runtime.getRuntime().addShutdownHook(Thread { callSync("Stopped") { it.stop() } })
