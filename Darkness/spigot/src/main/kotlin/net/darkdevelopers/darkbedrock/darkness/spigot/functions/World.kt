@@ -1,10 +1,7 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.Vector2D
-import org.bukkit.Bukkit
-import org.bukkit.Difficulty
-import org.bukkit.World
-import org.bukkit.WorldBorder
+import org.bukkit.*
 
 /*
  * @author Lars Artmann | LartyHD
@@ -103,3 +100,10 @@ fun WorldBorder.setWorldBorder(
  * Current Version: 1.0 (12.05.2019 - 12.05.2019)
  */
 fun String.toBukkitWorld(): World? = Bukkit.getWorld(this)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 15.05.2019 00:53.
+ * Current Version: 1.0 (15.05.2019 - 15.05.2019)
+ */
+fun String.loadBukkitWorld(): World = Bukkit.getWorld(this) ?: Bukkit.createWorld(WorldCreator(this))
