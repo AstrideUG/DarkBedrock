@@ -92,8 +92,7 @@ fun Map<String, Any?>.toVector2D(
  * Created by Lars Artmann | LartyHD on 09.05.2019 20:48.
  * Current Version: 1.0 (09.05.2019 - 09.05.2019)
  */
-fun Vector2D.isInside(min: Vector2D, max: Vector2D): Boolean =
-    this.x >= min.x && this.x <= max.x && this.z >= min.z && this.z <= max.z
+fun Vector2D.isInside(min: Vector2D, max: Vector2D): Boolean = this.x in min.x..max.x && this.z in min.z..max.z
 
 /**
  * @author Lars Artmann | LartyHD

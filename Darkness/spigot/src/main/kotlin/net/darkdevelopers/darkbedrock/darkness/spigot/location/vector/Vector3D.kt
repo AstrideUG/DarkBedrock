@@ -82,7 +82,7 @@ fun Map<String, Any?>.toVector3D(
  * Current Version: 1.0 (09.05.2019 - 09.05.2019)
  */
 fun Vector3D.isInside(min: Vector3D, max: Vector3D): Boolean =
-    (this as Vector2D).isInside(min, max) && this.y >= min.y && this.y <= max.y
+    (this as Vector2D).isInside(min, max) && this.y in min.y..max.y
 
 fun Vector3D.toLocation(world: String): ReadOnlyLocation = DataLocation(world, x, y, z)
 
