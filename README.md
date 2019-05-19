@@ -7,7 +7,8 @@ DarkBedrock is a API collection with focus on Minecraft server modding
 repositories {
     maven { url "https://jitpack.io" }
 }
+
 dependencies {
-    compileOnly("com.github.AstrideUG.DarkBedrock:Darkness-Spigot:8ee58575b")
+    compileOnly("com.github.AstrideUG.DarkBedrock:Darkness-Spigot:master-SNAPSHOT")
 }
 ```
