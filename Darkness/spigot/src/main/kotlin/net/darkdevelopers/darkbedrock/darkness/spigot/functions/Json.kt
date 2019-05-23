@@ -1,11 +1,12 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
 import com.google.gson.*
+import kotlin.collections.toList as toKList
 
 /*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.05.2019 14:16.
- * Current Version: 1.0 (09.05.2019 - 09.05.2019)
+ * Current Version: 1.0 (09.05.2019 - 23.05.2019)
  */
 
 /**
@@ -30,6 +31,13 @@ fun JsonObject(input: Map<String, JsonElement>): JsonObject =
  * Current Version: 1.0 (09.05.2019 - 09.05.2019)
  */
 fun JsonObject.toMap(): Map<String, Any?> = entrySet().map { (key, value) -> key to value.toObject() }.toMap()
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 23.05.2019 21:47.
+ * Current Version: 1.0 (23.05.2019 - 23.05.2019)
+ */
+fun JsonArray.toList(): List<Any?> = this.toKList().map { it.toObject() }
 
 /**
  * @author Lars Artmann | LartyHD
