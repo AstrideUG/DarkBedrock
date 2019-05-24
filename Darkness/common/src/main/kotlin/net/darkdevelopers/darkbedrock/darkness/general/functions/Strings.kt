@@ -10,5 +10,5 @@ package net.darkdevelopers.darkbedrock.darkness.general.functions
  * Last edit 24.05.2019
  */
 
-private infix fun String.notSame(other: String): Boolean = !this.equals(other, ignoreCase = true)
-private infix fun String.same(other: String): Boolean = this.equals(other, ignoreCase = true)
+infix fun String.notSame(other: String): Boolean = !this.equals(other, ignoreCase = true)
+infix fun String.same(other: String): Boolean = this.equals(other, ignoreCase = true)
