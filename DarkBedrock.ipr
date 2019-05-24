@@ -1005,7 +1005,12 @@
       <module name="DarkBedrock.Darkness.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
-  <component name="CopyrightManager" default="" />
+  <component name="CopyrightManager" default="AstrideAndLars">
+    <copyright>
+      <option name="notice" value="© Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD &amp;#36;today.year. " />
+      <option name="myName" value="AstrideAndLars" />
+    </copyright>
+  </component>
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
@@ -1102,6 +1107,7 @@
     <dictionary name="LartyHD">
       <words>
         <w>bukkit</w>
+        <w>haftungsbeschränkt</w>
       </words>
     </dictionary>
   </component>
