@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.general.delegate
@@ -12,7 +12,7 @@ import kotlin.reflect.KProperty
  * Last edit 23.05.2019
  */
 @Suppress("unused")
-class CheckByCollection<T : Any?>(private val collection: MutableCollection<T>) {
+class CheckByCollection<T : Any?>(private val collection: MutableCollection<T> = mutableSetOf()) {
 
     operator fun getValue(thisRef: T, property: KProperty<*>): Boolean = thisRef in collection
 

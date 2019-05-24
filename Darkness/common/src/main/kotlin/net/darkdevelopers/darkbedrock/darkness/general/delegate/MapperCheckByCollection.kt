@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.general.delegate
@@ -13,7 +13,7 @@ import kotlin.reflect.KProperty
  */
 @Suppress("unused")
 class MapperCheckByCollection<I : Any?, C : Any?>(
-    private val collection: MutableCollection<C>,
+    private val collection: MutableCollection<C> = mutableSetOf(),
     private val mapped: I.() -> C
 ) {
 
