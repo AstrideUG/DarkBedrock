@@ -1,3 +1,7 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.location.vector
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.ReadOnlyLocation
@@ -26,16 +30,16 @@ fun Number.toVector3D(): Vector3D = DataVector3D(toDouble(), toDouble(), toDoubl
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.05.2019 20:16.
- * Current Version: 1.0 (09.05.2019 - 09.05.2019)
+ * Current Version: 1.0 (09.05.2019 - 25.05.2019)
  */
-infix fun Vector3D.min(other: Vector3D): Vector3D = DataVector3D(min(other as Vector2D), min(z, other.z))
+infix fun Vector3D.min(other: Vector3D): Vector3D = DataVector3D(min(other as Vector2D), min(y, other.y))
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.05.2019 20:16.
- * Current Version: 1.0 (09.05.2019 - 09.05.2019)
+ * Current Version: 1.0 (09.05.2019 - 25.05.2019)
  */
-infix fun Vector3D.max(other: Vector3D): Vector3D = DataVector3D(max(other as Vector2D), max(z, other.z))
+infix fun Vector3D.max(other: Vector3D): Vector3D = DataVector3D(max(other as Vector2D), max(y, other.y))
 
 /**
  * @author Lars Artmann | LartyHD
