@@ -1,13 +1,18 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.utils.map.worldborder
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.Vector2D
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.toMap
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.toVector2D
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.alliases.Vector2D
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.serialization.deserialization.toVector2D
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.serialization.serialization.toMap
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.to.toVector2
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.05.2019 22:21.
- * Current Version: 1.0 (09.05.2019 - 09.05.2019)
+ * Current Version: 1.0 (09.05.2019 - 25.05.2019)
  */
 interface WorldBorder {
     val size: Double
@@ -20,7 +25,7 @@ interface WorldBorder {
 
 fun WorldBorder.toMap(
     defaultSize: Double = 60_000_000.0,
-    defaultCenter: Vector2D = 0.toVector2D(),
+    defaultCenter: Vector2D = 0.0.toVector2(),
     defaultDamageBuffer: Double = 0.0,
     defaultDamageAmount: Double = 0.0,
     defaultWarningTime: Int = 0,
@@ -37,7 +42,7 @@ fun WorldBorder.toMap(
 
 fun <D : MutableMap<String, Any?>> WorldBorder.toMapTo(
     defaultSize: Double = 60_000_000.0,
-    defaultCenter: Vector2D = 0.toVector2D(),
+    defaultCenter: Vector2D = 0.0.toVector2(),
     defaultDamageBuffer: Double = 0.0,
     defaultDamageAmount: Double = 0.0,
     defaultWarningTime: Int = 0,
@@ -55,7 +60,7 @@ fun <D : MutableMap<String, Any?>> WorldBorder.toMapTo(
 @Suppress("UNCHECKED_CAST")
 fun Map<String, Any?>.toWorldBorder(
     defaultSize: Double = 60_000_000.0,
-    defaultCenter: Vector2D = 0.toVector2D(),
+    defaultCenter: Vector2D = 0.0.toVector2(),
     defaultDamageBuffer: Double = 0.0,
     defaultDamageAmount: Double = 0.0,
     defaultWarningTime: Int = 0,

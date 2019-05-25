@@ -1,16 +1,23 @@
 /*
- * © Copyright - MineWar.net | Lars Artmann aka. LartyHD 2017
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.region
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.ReadOnlyLocation
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.toLocation
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.*
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.extensions.BukkitLocation
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.extensions.toLocation
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.location.inmutable.extensions.alliases.DefaultEntityLocation
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.alliases.Vector3D
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.compare.max.max
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.compare.min.min
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.range.inside.isInside
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.serialization.deserialization.toVector3D
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.serialization.serialization.toMap
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.to.toVector3
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by LartyHD on 07.08.2017 03:10.
- * Last edit 09.05.2019
+ * Last edit 25.05.2019
  */
 class Region @Deprecated("Will be changed to data class", ReplaceWith("Region.of(world, pos1, pos2)")) constructor(
     val world: String,
@@ -23,8 +30,8 @@ class Region @Deprecated("Will be changed to data class", ReplaceWith("Region.of
 
     @Suppress("DEPRECATION", "MemberVisibilityCanBePrivate")
     companion object {
-        fun of(pos1: org.bukkit.Location, pos2: org.bukkit.Location): Region = of(pos1.toLocation(), pos2.toLocation())
-        fun of(pos1: ReadOnlyLocation, pos2: ReadOnlyLocation): Region {
+        fun of(pos1: BukkitLocation, pos2: BukkitLocation): Region = of(pos1.toLocation(), pos2.toLocation())
+        fun of(pos1: DefaultEntityLocation, pos2: DefaultEntityLocation): Region {
             if (pos1.world != pos2.world) throw IllegalArgumentException("pos1 world and pos2 world must be the same")
             return of(pos1.world, pos1.vector, pos2.vector)
         }
@@ -34,7 +41,7 @@ class Region @Deprecated("Will be changed to data class", ReplaceWith("Region.of
 
     @Suppress("DEPRECATION")
     @Deprecated("Will be changed to data class", ReplaceWith("Region.of(pos1, pos2)"))
-    constructor(pos1: org.bukkit.Location, pos2: org.bukkit.Location) : this(
+    constructor(pos1: BukkitLocation, pos2: BukkitLocation) : this(
         pos1.world.name,
         pos1.toLocation().vector,
         pos2.toLocation().vector
@@ -65,13 +72,13 @@ class Region @Deprecated("Will be changed to data class", ReplaceWith("Region.of
 }
 
 fun Region.isInside(vector3D: Vector3D): Boolean = vector3D.isInside(min, max)
-fun Region.isInside(location: ReadOnlyLocation): Boolean = location.world == world && isInside(location.vector)
-fun Region.isInside(location: org.bukkit.Location): Boolean = isInside(location.toLocation())
+fun Region.isInside(location: DefaultEntityLocation): Boolean = location.world == world && isInside(location.vector)
+fun Region.isInside(location: BukkitLocation): Boolean = isInside(location.toLocation())
 
 fun Region.toMap(
     defaultWorld: String? = null,
-    defaultMin: Vector3D = 0.toVector3D(),
-    defaultMax: Vector3D = 0.toVector3D()
+    defaultMin: Vector3D = 0.0.toVector3(),
+    defaultMax: Vector3D = 0.0.toVector3()
 ): Map<String, Any?> = toMapTo(
     defaultWorld,
     defaultMin,
@@ -81,8 +88,8 @@ fun Region.toMap(
 
 fun <D : MutableMap<String, Any?>> Region.toMapTo(
     defaultWorld: String? = null,
-    defaultMin: Vector3D = 0.toVector3D(),
-    defaultMax: Vector3D = 0.toVector3D(),
+    defaultMin: Vector3D = 0.0.toVector3(),
+    defaultMax: Vector3D = 0.0.toVector3(),
     destination: D
 ): Map<String, Any?> = destination.apply {
     if (world != defaultWorld) this["world"] = world

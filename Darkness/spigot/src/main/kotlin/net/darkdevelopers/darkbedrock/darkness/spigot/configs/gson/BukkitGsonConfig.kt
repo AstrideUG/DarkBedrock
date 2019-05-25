@@ -1,3 +1,7 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.configs.gson
 
 import com.google.gson.JsonObject
@@ -10,9 +14,9 @@ import org.bukkit.World
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.06.2018 18:09.
- * Last edit 15.08.2018
+ * Last edit 25.05.2019
  */
-@Suppress("MemberVisibilityCanBePrivate")
+@Suppress("MemberVisibilityCanBePrivate", "OverridingDeprecatedMember", "DEPRECATION")
 class BukkitGsonConfig(configData: ConfigData) : GsonConfig(configData) {
 
     override fun load(): BukkitGsonConfig {
