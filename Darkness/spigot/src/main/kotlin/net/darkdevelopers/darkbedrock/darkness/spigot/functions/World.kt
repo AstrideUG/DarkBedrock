@@ -1,6 +1,10 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.Vector2D
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.alliases.Vector2D
 import org.bukkit.*
 
 /*
@@ -70,7 +74,7 @@ fun WorldBorder.setWorldBorder(
     amount: Double,
     distance: Int,
     time: Int
-): Unit = setWorldBorder(size, center.x, center.z, buffer, amount, distance, time)
+): Unit = setWorldBorder(size, center.x, center.y, buffer, amount, distance, time)
 
 /**
  * @author Lars Artmann | LartyHD

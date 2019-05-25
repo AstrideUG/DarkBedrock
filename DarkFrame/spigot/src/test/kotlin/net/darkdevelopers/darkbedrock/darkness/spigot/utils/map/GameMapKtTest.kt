@@ -1,7 +1,12 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.utils.map
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.data.DataLocation
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.toVector3D
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.location.inmutable.extensions.locationOf
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.location.inmutable.extensions.lookableLocationOf
+import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.to.toVector3
 import net.darkdevelopers.darkbedrock.darkness.spigot.region.Region
 import org.junit.Test
 
@@ -17,9 +22,9 @@ class GameMapKtTest {
 
         //given
         val world = "TestWorld"
-        val spawn = DataLocation(world, 10.5, 100.0, 7.5, 90f, 180f)
-        val hologram = DataLocation(world, 101.toVector3D())
-        val region = Region.of(world, 0.toVector3D(), 1000.toVector3D())
+        val spawn = lookableLocationOf(world, 10.5, 100.0, 7.5, 90f, 180f)
+        val hologram = locationOf(world, 101.0.toVector3())
+        val region = Region.of(world, 0.0.toVector3(), 1000.0.toVector3())
         val gameMap = DataGameMap("Test", spawn, hologram, region, null)
 
         val check = mapOf(
@@ -29,8 +34,8 @@ class GameMapKtTest {
                 "x" to 10.5,
                 "y" to 100.0,
                 "z" to 7.5,
-                "yaw" to 90.0,
-                "pitch" to 180.0
+                "yaw" to 90f,
+                "pitch" to 180f
             ),
             "hologram" to mapOf(
                 "world" to "TestWorld",
