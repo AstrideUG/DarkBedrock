@@ -1,3 +1,7 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
 import net.darkdevelopers.darkbedrock.darkness.general.minecraft.fetcher.Fetcher
@@ -5,13 +9,16 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
 import org.bukkit.*
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
+import org.bukkit.plugin.Plugin
+import org.bukkit.plugin.ServicePriority
+import org.bukkit.plugin.ServicesManager
 import java.util.*
 import kotlin.random.Random
 
 /*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 22.12.2018 13:59.
- * Current Version: 1.0 (22.12.2018 - 27.03.2019)
+ * Current Version: 1.0 (22.12.2018 - 29.05.2019)
  */
 
 /**
@@ -117,4 +124,14 @@ fun Cancellable.cancel(value: Boolean) {
     isCancelled = value
 }
 
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 29.05.2019 15:12.
+ * Current Version: 1.0 (29.05.2019 - 29.05.2019)
+ */
+inline fun <reified S> ServicesManager.register(
+    provider: S,
+    plugin: Plugin,
+    priority: ServicePriority = ServicePriority.Normal
+): Unit = this.register(S::class.java, provider, plugin, priority)
 
