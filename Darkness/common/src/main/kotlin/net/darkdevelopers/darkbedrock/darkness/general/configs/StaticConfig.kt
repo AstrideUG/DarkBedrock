@@ -65,7 +65,8 @@ inline fun <reified V : Any> Map<in String, V>.mappedBy(
     mappings: Map<Class<out Any>, (Any?) -> Any?>
 ): V {
     val returnType = property.returnType
-    val value = get(property.name)!!
+
+    val value = get(property.name.replace("[A-Z]".toRegex()) { "-${it.value.toLowerCase()}" })!!
     val mapped = value.mapped<V>(returnType.jvmErasure, mappings)
     returnType.arguments.forEach { argument ->
         val clazz = argument.type?.jvmErasure ?: return@forEach
