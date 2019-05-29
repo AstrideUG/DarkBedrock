@@ -31,7 +31,7 @@ subprojects {
     apply plugin: 'maven'
 
     group = "net.darkdevelopers.darkbedrock"
-    version = "3.2.0"
+    version = "3.2.1"
 
     libsDirName = "libraries"
 
@@ -63,10 +63,10 @@ subprojects {
 
         compileOnly(fileTree(libsDirName))
 
-        compileOnly "org.jetbrains.kotlin:kotlin-stdlib"
-        compileOnly "org.jetbrains.kotlin:kotlin-reflect"
-        compileOnly "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1"
-        compileOnly "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$versions_serialization"
+        compile "org.jetbrains.kotlin:kotlin-stdlib"
+        compile "org.jetbrains.kotlin:kotlin-reflect"
+        compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1"
+        compile "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$versions_serialization"
 
         testCompile "org.jetbrains.kotlin:kotlin-stdlib"
         testCompile "org.jetbrains.kotlin:kotlin-reflect"
