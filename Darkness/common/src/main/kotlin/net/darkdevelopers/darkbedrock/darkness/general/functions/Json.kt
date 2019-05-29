@@ -1,4 +1,8 @@
-package net.darkdevelopers.darkbedrock.darkness.spigot.functions
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ */
+
+package net.darkdevelopers.darkbedrock.darkness.general.functions
 
 import com.google.gson.*
 import kotlin.collections.toList as toKList
@@ -94,7 +98,8 @@ fun Any?.toJsonElement(serializeNull: Boolean = false): JsonElement? = when (thi
  * Created by Lars Artmann | LartyHD on 23.05.2019 18:58.
  * Current Version: 1.0 (23.05.2019 - 23.05.2019)
  */
-fun Iterable<*>.toJsonArray(): JsonArray = JsonArray(this.mapNotNull { it?.toJsonElement() })
+fun Iterable<*>.toJsonArray(): JsonArray =
+    JsonArray(this.mapNotNull { it?.toJsonElement() })
 
 /**
  * @author Lars Artmann | LartyHD

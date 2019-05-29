@@ -1,4 +1,8 @@
-package net.darkdevelopers.darkbedrock.darkness.spigot.functions
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ */
+
+package net.darkdevelopers.darkbedrock.darkness.general.functions
 
 /*
  * @author Lars Artmann | LartyHD
