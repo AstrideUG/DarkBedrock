@@ -135,3 +135,10 @@ inline fun <reified S> ServicesManager.register(
     priority: ServicePriority = ServicePriority.Normal
 ): Unit = this.register(S::class.java, provider, plugin, priority)
 
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 29.05.2019 15:24.
+ * Current Version: 1.0 (29.05.2019 - 29.05.2019)
+ */
+inline fun <reified S> ServicesManager.provider(): S? = getRegistration(S::class.java)?.provider
+
