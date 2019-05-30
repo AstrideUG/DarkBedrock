@@ -5,6 +5,9 @@
 package net.darkdevelopers.darkbedrock.darkness.general.functions
 
 import com.google.gson.*
+import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
+import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
+import kotlin.reflect.full.createInstance
 import kotlin.collections.toList as toKList
 
 /*
@@ -130,3 +133,11 @@ fun Iterable<JsonElement>.toMap() = mapNotNull {
     val jsonObject = it as? JsonObject ?: return@mapNotNull null
     jsonObject.toMap()
 }
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 30.05.2019 15:47.
+ * Current Version: 1.0 (30.05.2019 - 30.05.2019)
+ */
+inline fun <reified E : JsonElement> ConfigData.load(): E =
+    GsonService.load(this) as? E ?: E::class.createInstance()
