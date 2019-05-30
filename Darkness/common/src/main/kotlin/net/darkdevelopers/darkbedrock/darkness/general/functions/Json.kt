@@ -7,6 +7,7 @@ package net.darkdevelopers.darkbedrock.darkness.general.functions
 import com.google.gson.*
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
+import java.io.File
 import kotlin.reflect.full.createInstance
 import kotlin.collections.toList as toKList
 
@@ -139,5 +140,18 @@ fun Iterable<JsonElement>.toMap() = mapNotNull {
  * Created by Lars Artmann | LartyHD on 30.05.2019 15:47.
  * Current Version: 1.0 (30.05.2019 - 30.05.2019)
  */
-inline fun <reified E : JsonElement> ConfigData.load(): E =
-    GsonService.load(this) as? E ?: E::class.createInstance()
+inline fun <reified E : JsonElement> ConfigData.load(): E = file.load()
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 30.05.2019 15:53.
+ * Current Version: 1.0 (30.05.2019 - 30.05.2019)
+ */
+inline fun <reified E : JsonElement> File.load(): E = readText().load()
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 30.05.2019 15:55.
+ * Current Version: 1.0 (30.05.2019 - 30.05.2019)
+ */
+inline fun <reified E : JsonElement> String.load(): E = GsonService.load(this) as? E ?: E::class.createInstance()
