@@ -1,11 +1,12 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.general.configs.gson
 
 import com.google.gson.*
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
+import net.darkdevelopers.darkbedrock.darkness.general.functions.load
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import java.io.File
 import java.io.FileWriter
@@ -17,6 +18,7 @@ import java.nio.file.StandardCopyOption
  * Created by Lars Artmann | LartyHD on 20.10.2018 17:36.
  * Current Version: 1.1.1 (20.10.2018 - 04.04.2019)
  */
+@Suppress("DEPRECATION")
 object GsonService {
 
     /**
@@ -33,9 +35,15 @@ object GsonService {
      *
      * Converts the content of a [File] content into a [JsonElement]
      *
-     * @since 1.0 (20.10.2018 - 20.10.2018)
+     * @since 1.0 (20.10.2018 - 30.05.2019)
      */
-    fun load(file: File): JsonElement = load(String(Files.readAllBytes(file.toPath())))
+    @Deprecated(
+        "use file.load<JsonElement>()", ReplaceWith(
+            "file.load<JsonElement>()",
+            "net.darkdevelopers.darkbedrock.darkness.general.functions.load"
+        )
+    )
+    fun load(file: File): JsonElement = load(file.readText())
 
     /**
      * @author Lars Artmann | LartyHD
@@ -45,7 +53,13 @@ object GsonService {
      * @param configData used for the [File]
      * @since 1.0 (20.10.2018 - 20.10.2018)
      */
-    fun load(configData: ConfigData): JsonElement = load(configData.file)
+    @Deprecated(
+        "use configData.file.load<JsonElement>()", ReplaceWith(
+            "configData.file.load<JsonElement>()",
+            "net.darkdevelopers.darkbedrock.darkness.general.functions.load"
+        )
+    )
+    fun load(configData: ConfigData): JsonElement = configData.file.load()
 
     /**
      * @author Lars Artmann | LartyHD
@@ -54,6 +68,12 @@ object GsonService {
      *
      * @since 1.1 (20.10.2018 - 01.04.2019)
      */
+    @Deprecated(
+        "", ReplaceWith(
+            "load(file) as? J",
+            "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.load"
+        )
+    )
     inline fun <reified J : JsonElement> loadAs(file: File): J? = load(file) as? J
 
     /**
@@ -63,6 +83,12 @@ object GsonService {
      *
      * @since 1.1 (20.10.2018 - 01.04.2019)
      */
+    @Deprecated(
+        "", ReplaceWith(
+            "loadAs(configData.file)",
+            "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAs"
+        )
+    )
     inline fun <reified J : JsonElement> loadAs(configData: ConfigData): J? = loadAs(configData.file)
 
     /**
@@ -154,10 +180,10 @@ object GsonService {
      * Saves the [JsonElement] into the [File] of the [ConfigData] with [formatJson]
      *
      * @param serializeNulls see [formatJson]
-     * @since 1.0 (20.10.2018 - 04.04.2019)
+     * @since 1.0 (20.10.2018 - 30.05.2019)
      */
     fun save(file: File, jsonElement: JsonElement, serializeNulls: Boolean = true): Unit =
-        GsonService.save(file, formatJson(jsonElement, serializeNulls))
+        save(file, formatJson(jsonElement, serializeNulls))
 
     /**
      * @author Lars Artmann | LartyHD
@@ -195,6 +221,12 @@ object GsonService {
      * @since 1.0 (20.10.2018 - 20.10.2018)
      */
     @Suppress("MemberVisibilityCanBePrivate")
+    @Deprecated(
+        "use toMap", ReplaceWith(
+            "jsonObject.toMap()",
+            "net.darkdevelopers.darkbedrock.darkness.general.functions.toMap"
+        )
+    )
     fun mapByJson(jsonObject: JsonObject): Map<String, Any?> =
         Gson().fromJson<Map<String, Any?>>(jsonObject, Map::class.java).toNonNull("Map")
 
