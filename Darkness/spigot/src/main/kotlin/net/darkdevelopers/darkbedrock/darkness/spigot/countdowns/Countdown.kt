@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
 abstract class Countdown internal constructor(var seconds: Int) {
+    @Suppress("MemberVisibilityCanBePrivate")
     val startSeconds = seconds
     private lateinit var thread: Thread
     var isRunning: Boolean = false
@@ -48,5 +49,4 @@ abstract class Countdown internal constructor(var seconds: Int) {
         seconds = startSeconds
     } else System.err.println("The $countdownName countdown should be stopped even though it is not running")
 
-    internal abstract fun finish()
 }

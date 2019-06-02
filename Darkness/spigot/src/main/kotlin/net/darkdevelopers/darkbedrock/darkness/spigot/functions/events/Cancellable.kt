@@ -1,8 +1,8 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
-@file:Suppress("unused")
+@file:Suppress("unused", "DEPRECATION")
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions.events
 
@@ -35,8 +35,9 @@ import org.spigotmc.event.entity.EntityMountEvent
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.05.2019 06:25.
  * Current Version: 1.0 (02.05.2019 - 02.05.2019)
+ *
  */
-var cancelFunction: (Cancellable) -> Unit = { event -> (event as? Cancellable)?.cancel() }
+var cancelFunction: (Cancellable) -> Unit = { it.cancel() }
 
 var cancelAsyncPlayerChat: Boolean = false
     set(value) {
