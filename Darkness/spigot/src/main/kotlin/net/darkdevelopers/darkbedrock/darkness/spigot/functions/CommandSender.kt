@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
@@ -22,6 +22,7 @@ import org.bukkit.entity.Player
 @Deprecated("static problems")
 var messages: MutableMap<String, String> = mutableMapOf()
 
+@Suppress("DEPRECATION")
 @Deprecated("static problems", ReplaceWith("sendMessage(messages[name])"))
 fun CommandSender.sendConfigurableMessage(name: String): Unit = sendMessage(messages[name])
 
@@ -54,6 +55,13 @@ fun Collection<String?>.sendIfNotNull(sender: CommandSender): Unit = mapNotNull 
  * Current Version: 1.0 (21.03.2019 - 21.03.2019)
  */
 fun String.sendTo(sender: CommandSender): Unit = sender.sendMessage(this)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 01.06.2019 16:49.
+ * Current Version: 1.0 (01.06.2019 - 01.06.2019)
+ */
+fun String.sendTo(players: Iterable<CommandSender>): Unit = players.forEach { sendTo(it) }
 
 /**
  * @author Lars Artmann | LartyHD

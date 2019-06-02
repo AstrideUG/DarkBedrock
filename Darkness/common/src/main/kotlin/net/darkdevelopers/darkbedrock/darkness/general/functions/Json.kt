@@ -92,6 +92,7 @@ fun JsonElement.toObject(): Any? = when (this) {
 
 fun Any?.toJsonElement(serializeNull: Boolean = false): JsonElement? = when (this) {
     null -> if (serializeNull) JsonNull.INSTANCE else null
+    is JsonElement -> this
     is Iterable<*> -> this.toJsonArray()
     is Map<*, Any?> -> this.toJsonObject()
     else -> toJsonPrimitive()
@@ -100,10 +101,10 @@ fun Any?.toJsonElement(serializeNull: Boolean = false): JsonElement? = when (thi
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 23.05.2019 18:58.
- * Current Version: 1.0 (23.05.2019 - 23.05.2019)
+ * Current Version: 1.0 (23.05.2019 - 02.06.2019)
  */
 fun Iterable<*>.toJsonArray(): JsonArray =
-    JsonArray(this.mapNotNull { it?.toJsonElement() })
+    if (this is JsonArray) this else JsonArray(this.mapNotNull { it?.toJsonElement() })
 
 /**
  * @author Lars Artmann | LartyHD

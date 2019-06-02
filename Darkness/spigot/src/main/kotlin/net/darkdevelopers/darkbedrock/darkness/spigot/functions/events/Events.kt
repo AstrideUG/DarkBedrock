@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions.events
@@ -14,17 +14,20 @@ import org.bukkit.plugin.PluginManager
 
 
 var plugin: Plugin = Bukkit.getPluginManager().plugins.first()
-var priority: EventPriority = EventPriority.NORMAL
 val activeListener: MutableMap<String, Listener> = mutableMapOf()
 
-inline fun <reified E : Event> String.updateEvent(value: Boolean, noinline function: (E) -> Unit) {
+inline fun <reified E : Event> String.updateEvent(value: Boolean, crossinline function: (E) -> Unit) {
     val listener = activeListener[this]
     if (listener != null && !value) listener.unregister()
-    else if (listener == null && value) addEvent(function)
+    else if (listener == null && value) addEvent(function = function)
 }
 
-inline fun <reified E : Event> String.addEvent(crossinline function: (E) -> Unit) {
-    activeListener[this] = listen(plugin = plugin, priority = priority, function = function)
+inline fun <reified E : Event> String.addEvent(
+    plugin0: Plugin = plugin,
+    priority0: EventPriority = EventPriority.NORMAL,
+    crossinline function: (E) -> Unit
+) {
+    activeListener[this] = listen(plugin = plugin0, priority = priority0, function = function)
 }
 
 /**
