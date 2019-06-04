@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.commands
 
@@ -16,7 +16,6 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandMap
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
-import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -104,24 +103,6 @@ abstract class Command(
             it.spigot().sendMessage(textComponent)
         }, { sender.sendMessage(textComponent.text) })
     }
-
-    @Deprecated(
-        "",
-        ReplaceWith("sender.isPlayer(lambda)", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer")
-    )
-    override fun isPlayer(sender: CommandSender, lambda: (Player) -> Unit) = sender.isPlayer(lambda) {
-        sender.sendMessage("Der Command ist nur für Spieler")
-    }
-
-    @Deprecated(
-        "",
-        ReplaceWith(
-            "sender.isPlayer(onSuccess, onFail)",
-            "net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer"
-        )
-    )
-    override fun isPlayer(sender: CommandSender, onSuccess: (Player) -> Unit, onFail: () -> Unit) =
-        if (sender is Player) onSuccess(sender) else onFail()
 
 }
 
