@@ -4,8 +4,8 @@
 
 package net.darkdevelopers.darkbedrock.darkness.general.configs
 
-import net.darkdevelopers.darkbedrock.darkness.general.functions.toSecondNotNull
-import net.darkdevelopers.darkbedrock.darkness.general.functions.toUUIDOrNull
+import com.google.gson.JsonObject
+import net.darkdevelopers.darkbedrock.darkness.general.functions.*
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.util.*
@@ -93,3 +93,16 @@ inline fun <reified O> Any.mapped(
     to: KClass<*> = O::class,
     mappings: Map<Class<out Any>, (Any?) -> Any?> = defaultMappings
 ): O? = if (this is O) this else mappings.entries.find { it.key.kotlin.isSuperclassOf(to) }?.value?.invoke(this) as O
+
+fun Any.toConfigMap(): JsonObject = javaClass.declaredMethods.mapNotNull { method ->
+    method.isAccessible = true
+    val prefix = "get"
+    if (!method.name.startsWith(prefix)) return@mapNotNull null
+    val invoke = method.invoke(this)
+    val output = if (invoke is Iterable<*>) {
+        JsonArray(invoke.mapNotNull { it?.toConfigMap() })
+    } else invoke.toJsonElement()
+    (method.name.drop(prefix.length).decapitalize().replace("[A-Z]".toRegex()) {
+        "-${it.value.toLowerCase()}"
+    } to output).toNotNull()
+}.toMap().toJsonObject()
