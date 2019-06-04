@@ -222,3 +222,25 @@ fun String.save(file: File) {
 fun JsonElement.format(serializeNulls: Boolean = true): String = GsonBuilder().setPrettyPrinting().apply {
     if (serializeNulls) serializeNulls()
 }.create().toJson(this)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 04.06.2019 23:43.
+ * Current Version: 1.0 (04.06.2019 - 04.06.2019)
+ */
+fun File.toConfigData(
+    file: String,
+    prefix: String = "",
+    suffix: String = ".json"
+): ConfigData = file.toConfigData(this, prefix, suffix)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 04.06.2019 23:42.
+ * Current Version: 1.0 (04.06.2019 - 04.06.2019)
+ */
+fun String.toConfigData(
+    directory: File,
+    prefix: String = "",
+    suffix: String = ".json"
+): ConfigData = ConfigData(directory, "$prefix$this$suffix")
