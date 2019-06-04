@@ -7,9 +7,6 @@ package net.darkdevelopers.darkbedrock.darkness.general.functions
 import com.google.gson.*
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import java.io.File
-import java.io.FileWriter
-import java.nio.file.Files
-import java.nio.file.StandardCopyOption
 import kotlin.collections.Iterable
 import kotlin.collections.List
 import kotlin.collections.Map
@@ -200,16 +197,6 @@ fun ConfigData.save(jsonElement: JsonElement, serializeNulls: Boolean = true): U
 fun File.save(jsonElement: JsonElement, serializeNulls: Boolean = true): Unit =
     jsonElement.format(serializeNulls).save(this)
 
-fun String.save(file: File) {
-    val temp = File("$file.temp")
-    FileWriter(temp).also {
-        it.write(this)
-        it.flush()
-        it.close()
-    }
-    Files.move(temp.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE)
-}
-
 /**
  * @author Lars Artmann | LartyHD
  *
@@ -223,24 +210,3 @@ fun JsonElement.format(serializeNulls: Boolean = true): String = GsonBuilder().s
     if (serializeNulls) serializeNulls()
 }.create().toJson(this)
 
-/**
- * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 04.06.2019 23:43.
- * Current Version: 1.0 (04.06.2019 - 04.06.2019)
- */
-fun File.toConfigData(
-    file: String,
-    prefix: String = "",
-    suffix: String = ".json"
-): ConfigData = file.toConfigData(this, prefix, suffix)
-
-/**
- * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 04.06.2019 23:42.
- * Current Version: 1.0 (04.06.2019 - 04.06.2019)
- */
-fun String.toConfigData(
-    directory: File,
-    prefix: String = "",
-    suffix: String = ".json"
-): ConfigData = ConfigData(directory, "$prefix$this$suffix")
