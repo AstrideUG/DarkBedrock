@@ -112,22 +112,6 @@ object GsonService {
     /**
      * @author Lars Artmann | LartyHD
      *
-     * Cast the loaded [JsonElement] by [ConfigData] to [JsonObject]
-     *
-     * @since 1.1 (20.10.2018 - 01.04.2019)
-     */
-    @Deprecated(
-        "", ReplaceWith(
-            "loadAs(configData) ?: JsonObject()",
-            "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAsJsonObject",
-            "com.google.gson.*"
-        )
-    )
-    fun loadAsJsonObject(configData: ConfigData): JsonObject? = loadAs(configData.file)
-
-    /**
-     * @author Lars Artmann | LartyHD
-     *
      * Saves the [JsonElement] into the [File] of the [ConfigData] with [formatJson]
      *
      * @param configData used for the [File]
