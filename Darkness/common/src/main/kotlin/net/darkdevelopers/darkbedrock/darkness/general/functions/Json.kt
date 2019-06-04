@@ -6,8 +6,16 @@ package net.darkdevelopers.darkbedrock.darkness.general.functions
 
 import com.google.gson.*
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
 import java.io.File
+import kotlin.collections.Iterable
+import kotlin.collections.List
+import kotlin.collections.Map
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.forEach
+import kotlin.collections.map
+import kotlin.collections.mapNotNull
+import kotlin.collections.toMap
 import kotlin.reflect.full.createInstance
 import kotlin.collections.toList as toKList
 
@@ -155,4 +163,4 @@ inline fun <reified E : JsonElement> File.load(): E = readText().load()
  * Created by Lars Artmann | LartyHD on 30.05.2019 15:55.
  * Current Version: 1.0 (30.05.2019 - 30.05.2019)
  */
-inline fun <reified E : JsonElement> String.load(): E = GsonService.load(this) as? E ?: E::class.createInstance()
+inline fun <reified E : JsonElement> String.load(): E = JsonParser().parse(this) as? E ?: E::class.createInstance()

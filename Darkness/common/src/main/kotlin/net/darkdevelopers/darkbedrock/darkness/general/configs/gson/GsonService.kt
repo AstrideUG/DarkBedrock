@@ -6,7 +6,6 @@ package net.darkdevelopers.darkbedrock.darkness.general.configs.gson
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
-import com.google.gson.JsonParser
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import java.io.File
 import java.io.FileWriter
@@ -20,15 +19,6 @@ import java.nio.file.StandardCopyOption
  */
 @Suppress("DEPRECATION")
 object GsonService {
-
-    /**
-     * @author Lars Artmann | LartyHD
-     *
-     * Converts the content of a [String] content into a [JsonElement]
-     *
-     * @since 1.0 (20.10.2018 - 20.10.2018)
-     */
-    fun load(string: String): JsonElement = JsonParser().parse(string)
 
     /**
      * @author Lars Artmann | LartyHD
