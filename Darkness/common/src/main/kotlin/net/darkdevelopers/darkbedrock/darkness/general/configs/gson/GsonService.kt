@@ -4,7 +4,10 @@
 
 package net.darkdevelopers.darkbedrock.darkness.general.configs.gson
 
-import com.google.gson.*
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.functions.load
 import java.io.File
@@ -121,22 +124,6 @@ object GsonService {
         )
     )
     fun loadAsJsonObject(configData: ConfigData): JsonObject? = loadAs(configData.file)
-
-    /**
-     * @author Lars Artmann | LartyHD
-     *
-     * Cast the loaded [JsonElement] by [File] to [JsonArray]
-     *
-     * @since 1.0 (20.10.2018 - 01.04.2019)
-     */
-    @Deprecated(
-        "", ReplaceWith(
-            "loadAs(file) ?: JsonArray()",
-            "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAs",
-            "com.google.gson.*"
-        )
-    )
-    fun loadAsJsonArray(file: File) = loadAs<JsonArray>(file)
 
     /**
      * @author Lars Artmann | LartyHD
