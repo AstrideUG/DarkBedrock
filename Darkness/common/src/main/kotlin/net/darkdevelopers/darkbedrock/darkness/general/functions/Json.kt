@@ -15,6 +15,7 @@ import kotlin.collections.component2
 import kotlin.collections.forEach
 import kotlin.collections.map
 import kotlin.collections.mapNotNull
+import kotlin.collections.mapOf
 import kotlin.collections.toMap
 import kotlin.reflect.full.createInstance
 import kotlin.collections.toList as toKList
@@ -38,7 +39,22 @@ fun JsonArray(input: Iterable<JsonElement>): JsonArray = JsonArray().apply { inp
  * Created by Lars Artmann | LartyHD on 12.05.2019 18:54.
  * Current Version: 1.0 (12.05.2019 - 12.05.2019)
  */
-fun JsonObject(input: Map<String, JsonElement>): JsonObject =
+@Suppress("FunctionName")
+fun JsonObject(input: Map<String, JsonElement>): JsonObject = jsonObjectOf(input)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 05.06.2019 00:04.
+ * Current Version: 1.0 (05.06.2019 - 05.06.2019)
+ */
+fun jsonObjectOf(vararg input: Pair<String, JsonElement>): JsonObject = jsonObjectOf(mapOf(*input))
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 05.06.2019 00:04.
+ * Current Version: 1.0 (05.06.2019 - 05.06.2019)
+ */
+fun jsonObjectOf(input: Map<String, JsonElement>): JsonObject =
     JsonObject().apply { input.entries.forEach { add(it.key, it.value) } }
 
 /**
