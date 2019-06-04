@@ -33,21 +33,6 @@ object GsonService {
     /**
      * @author Lars Artmann | LartyHD
      *
-     * Converts the content of a [File] content into a [JsonElement]
-     *
-     * @since 1.0 (20.10.2018 - 30.05.2019)
-     */
-    @Deprecated(
-        "use file.load<JsonElement>()", ReplaceWith(
-            "file.load<JsonElement>()",
-            "net.darkdevelopers.darkbedrock.darkness.general.functions.load"
-        )
-    )
-    fun load(file: File): JsonElement = load(file.readText())
-
-    /**
-     * @author Lars Artmann | LartyHD
-     *
      * Saves the [JsonElement] into the [File] of the [ConfigData] with [formatJson]
      *
      * @param configData used for the [File]
