@@ -65,21 +65,6 @@ object GsonService {
     /**
      * @author Lars Artmann | LartyHD
      *
-     * Cast the loaded [JsonElement] by [File] to [J]
-     *
-     * @since 1.1 (20.10.2018 - 01.04.2019)
-     */
-    @Deprecated(
-        "", ReplaceWith(
-            "load(file) as? J",
-            "net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.load"
-        )
-    )
-    inline fun <reified J : JsonElement> loadAs(file: File): J? = load(file) as? J
-
-    /**
-     * @author Lars Artmann | LartyHD
-     *
      * Saves the [JsonElement] into the [File] of the [ConfigData] with [formatJson]
      *
      * @param configData used for the [File]
