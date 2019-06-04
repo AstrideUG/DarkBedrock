@@ -1,11 +1,11 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.fakeplayer
 
 import com.mojang.authlib.GameProfile
-import net.darkdevelopers.darkbedrock.darkness.general.utils.ReflectUtils.getValueAs
 import net.darkdevelopers.darkbedrock.darkness.general.utils.ReflectUtils.setValue
+import net.darkdevelopers.darkbedrock.darkness.general.utils.getValue
 import net.minecraft.server.v1_8_R3.*
 import net.minecraft.server.v1_8_R3.WorldSettings.EnumGamemode
 import org.bukkit.Location
@@ -15,8 +15,8 @@ import org.bukkit.entity.Player
 import java.util.*
 
 /**
- * Created by LartyHD on 17.01.2018  00:30.
- * Last edit 13.03.2018 (16.10.2018 #MiniChange)
+ * Created by LartyHD on 17.01.2018 00:30.
+ * Last edit 05.06.2019
  */
 internal class FakePlayer(name: String, private val location: Location) {
     private val entityID: Int = Math.ceil(Math.random() * 1000).toInt() + 2000
@@ -76,7 +76,9 @@ internal class FakePlayer(name: String, private val location: Location) {
             EnumGamemode.NOT_SET,
             CraftChatMessage.fromString(this.gameProfile.name)[0]
         )
-        val players = getValueAs<MutableList<PacketPlayOutPlayerInfo.PlayerInfoData>>(packet, "b") ?: return
+        @Suppress("UNCHECKED_CAST")
+        val players =
+            packet.getValue("b") as? MutableList<PacketPlayOutPlayerInfo.PlayerInfoData> ?: return
         players.add(data)
         setValue(packet, "a", PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER)
         setValue(packet, "b", players)
@@ -91,7 +93,9 @@ internal class FakePlayer(name: String, private val location: Location) {
             EnumGamemode.NOT_SET,
             CraftChatMessage.fromString(this.gameProfile.name)[0]
         )
-        val players = getValueAs<MutableList<PacketPlayOutPlayerInfo.PlayerInfoData>>(packet, "b") ?: return
+        @Suppress("UNCHECKED_CAST")
+        val players =
+            packet.getValue("b") as? MutableList<PacketPlayOutPlayerInfo.PlayerInfoData> ?: return
         players.add(data)
         setValue(packet, "a", PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER)
         setValue(packet, "b", players)

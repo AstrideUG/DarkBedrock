@@ -3,8 +3,9 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.commands
 
-import net.darkdevelopers.darkbedrock.darkness.general.utils.ReflectUtils
+import net.darkdevelopers.darkbedrock.darkness.general.utils.getValue
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.interfaces.ICommand
+import net.darkdevelopers.darkbedrock.darkness.spigot.copyed.ExternalPluginCommand
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
@@ -12,7 +13,6 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
-import org.bukkit.Bukkit
 import org.bukkit.command.CommandMap
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
@@ -21,7 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 26.03.2018 03:41.
- * Last edit 24.05.2018
+ * Last edit 05.06.2019
  */
 @Suppress("MemberVisibilityCanBePrivate", "LeakingThis", "CanBeParameter", "unused")
 abstract class Command(
@@ -39,11 +39,9 @@ abstract class Command(
     val hasHelp = usage.split("|").size > 1
 
     init {
-        @Suppress("DEPRECATION")
-        val commandMap = ReflectUtils.getValueAs<CommandMap>(Bukkit.getServer(), "commandMap")
+        val commandMap = javaPlugin.server.getValue("commandMap") as? CommandMap
         if (commandMap != null) {
-            val command =
-                net.darkdevelopers.darkbedrock.darkness.spigot.copyed.ExternalPluginCommand(commandName, javaPlugin)
+            val command = ExternalPluginCommand(commandName, javaPlugin)
             if (maxLength > 0) usage = when {
                 minLength == 0 -> "|[help]|$usage"
                 hasHelp -> "help|$usage"
