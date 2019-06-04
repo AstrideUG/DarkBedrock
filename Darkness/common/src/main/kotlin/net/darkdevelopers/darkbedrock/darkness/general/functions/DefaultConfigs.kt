@@ -1,18 +1,16 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.general.functions
 
 import com.google.gson.JsonObject
-import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAs
-import java.io.File
+import java.io.File.separator
 
-/**
+/*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 15.10.2018 09:45.
- * Last edit 15.10.2018
+ * Last edit 04.06.2019
  */
 
 /**
@@ -25,15 +23,16 @@ import java.io.File
  *
  * @since 1.0
  * @since 15.10.2018
+ * Last edit 04.06.2019
  */
-fun Class<*>.generateExamples(folder: String, restGeneratedExamples: Boolean = true): Unit =
-    this.javaClass.declaredMethods.forEach {
-        if (!it.name.startsWith("example") || it.parameterCount != 0/*1 || it.parameters[1].type == GsonConfig::class.java*/) return
-        val id = it.name.substring(7)
-        val configData = ConfigData("$folder${File.separator}examples${File.separator}$id", "config.json", false)
-        if (restGeneratedExamples || !configData.exists()) {
-            val jsonObject = loadAs(configData) ?: JsonObject()
-            jsonObject.addProperty("ConfigVersion", id.replace('_', '.'))
-            it(jsonObject)
-        }
+fun Class<*>.generateExamples(folder: String, restGeneratedExamples: Boolean = true): Unit = declaredMethods.forEach {
+    if (!it.name.startsWith("example") || it.parameterCount != 0/*1 || it.parameters[1].type == GsonConfig::class.java*/) return
+    val id = it.name.substring(7)
+
+    val configData = "$folder${separator}examples$separator$id".toConfigData("config")
+    if (restGeneratedExamples || !configData.exists()) {
+        val jsonObject = configData.load<JsonObject>()
+        jsonObject.addProperty("ConfigVersion", id.replace('_', '.'))
+        it(jsonObject)
     }
+}
