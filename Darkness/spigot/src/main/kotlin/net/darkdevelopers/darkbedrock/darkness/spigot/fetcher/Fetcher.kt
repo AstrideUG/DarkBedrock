@@ -1,7 +1,7 @@
 /*
  * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
-package net.darkdevelopers.darkbedrock.darkness.general.minecraft.fetcher
+package net.darkdevelopers.darkbedrock.darkness.spigot.fetcher
 
 import com.google.gson.JsonArray
 import net.darkdevelopers.darkbedrock.darkness.general.functions.getTextFromURL
@@ -14,9 +14,8 @@ import java.util.*
  *
  * Helper-class for getting UUIDs of players
  *
- * Current Version: 1.0 (03.02.2019 - 25.04.2019)
+ * Current Version: 1.0 (03.02.2019 - 05.06.2019)
  */
-//TODO: Move to Spigot
 object Fetcher {
 
     private val nameCash = mutableMapOf<String, String>() //UUID, NAME

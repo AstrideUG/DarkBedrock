@@ -4,7 +4,7 @@
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
-import net.darkdevelopers.darkbedrock.darkness.general.minecraft.fetcher.Fetcher
+import net.darkdevelopers.darkbedrock.darkness.spigot.fetcher.Fetcher
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
 import org.bukkit.*
 import org.bukkit.entity.Player
