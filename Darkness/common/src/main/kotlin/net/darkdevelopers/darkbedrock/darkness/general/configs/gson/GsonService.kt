@@ -7,7 +7,6 @@ package net.darkdevelopers.darkbedrock.darkness.general.configs.gson
 import com.google.gson.*
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.functions.load
-import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import java.io.File
 import java.io.FileWriter
 import java.nio.file.Files
@@ -214,21 +213,6 @@ object GsonService {
         if (serializeNulls) result.serializeNulls()
         return result.create().toJson(jsonElement)
     }
-
-    /**
-     * @author Lars Artmann | LartyHD
-     * @return a [Map] of the [JsonObject]s
-     * @since 1.0 (20.10.2018 - 20.10.2018)
-     */
-    @Suppress("MemberVisibilityCanBePrivate")
-    @Deprecated(
-        "use toMap", ReplaceWith(
-            "jsonObject.toMap()",
-            "net.darkdevelopers.darkbedrock.darkness.general.functions.toMap"
-        )
-    )
-    fun mapByJson(jsonObject: JsonObject): Map<String, Any?> =
-        Gson().fromJson<Map<String, Any?>>(jsonObject, Map::class.java).toNonNull("Map")
 
 
 }

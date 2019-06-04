@@ -1,14 +1,14 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.general.message
 
 import com.google.gson.JsonObject
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
 import net.darkdevelopers.darkbedrock.darkness.general.functions.castedInstanceAndNotNull
 import net.darkdevelopers.darkbedrock.darkness.general.functions.check
+import net.darkdevelopers.darkbedrock.darkness.general.functions.toMap
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 
 /**
@@ -36,7 +36,7 @@ class Messages2(unsafeInput: Map<String, Any?>, defaultOutput: Map<String, Map<S
          * @since 20.10.2018
          */
         fun byJson(jsonObject: JsonObject, defaultOutput: Map<String, Map<String, String>>): Messages2 =
-            Messages2(GsonService.mapByJson(jsonObject), defaultOutput)
+            Messages2(jsonObject.toMap(), defaultOutput)
 
         /**
          * @author Lars Artmann | LartyHD
