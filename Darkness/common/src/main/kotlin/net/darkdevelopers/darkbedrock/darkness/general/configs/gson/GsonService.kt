@@ -8,7 +8,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
-import net.darkdevelopers.darkbedrock.darkness.general.functions.load
 import java.io.File
 import java.io.FileWriter
 import java.nio.file.Files
@@ -45,22 +44,6 @@ object GsonService {
         )
     )
     fun load(file: File): JsonElement = load(file.readText())
-
-    /**
-     * @author Lars Artmann | LartyHD
-     *
-     * Converts the content of a [File] content into a [JsonElement]
-     *
-     * @param configData used for the [File]
-     * @since 1.0 (20.10.2018 - 20.10.2018)
-     */
-    @Deprecated(
-        "use configData.file.load<JsonElement>()", ReplaceWith(
-            "configData.file.load<JsonElement>()",
-            "net.darkdevelopers.darkbedrock.darkness.general.functions.load"
-        )
-    )
-    fun load(configData: ConfigData): JsonElement = configData.file.load()
 
     /**
      * @author Lars Artmann | LartyHD
