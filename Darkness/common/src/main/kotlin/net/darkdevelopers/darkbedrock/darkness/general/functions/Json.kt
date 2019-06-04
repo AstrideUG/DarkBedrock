@@ -7,6 +7,9 @@ package net.darkdevelopers.darkbedrock.darkness.general.functions
 import com.google.gson.*
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import java.io.File
+import java.io.FileWriter
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 import kotlin.collections.Iterable
 import kotlin.collections.List
 import kotlin.collections.Map
@@ -22,7 +25,7 @@ import kotlin.collections.toList as toKList
 /*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.05.2019 14:16.
- * Current Version: 1.0 (09.05.2019 - 23.05.2019)
+ * Current Version: 1.0 (09.05.2019 - 04.06.2019)
  */
 
 /**
@@ -164,3 +167,58 @@ inline fun <reified E : JsonElement> File.load(): E = readText().load()
  * Current Version: 1.0 (30.05.2019 - 30.05.2019)
  */
 inline fun <reified E : JsonElement> String.load(): E = JsonParser().parse(this) as? E ?: E::class.createInstance()
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 04.06.2019 23:30.
+ * Current Version: 1.0 (04.06.2019 - 04.06.2019)
+ */
+fun JsonElement.save(configData: ConfigData, serializeNulls: Boolean = true): Unit =
+    configData.save(this, serializeNulls)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 04.06.2019 23:30.
+ * Current Version: 1.0 (04.06.2019 - 04.06.2019)
+ */
+fun JsonElement.save(file: File, serializeNulls: Boolean = true): Unit =
+    file.save(this, serializeNulls)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 04.06.2019 23:31.
+ * Current Version: 1.0 (04.06.2019 - 04.06.2019)
+ */
+fun ConfigData.save(jsonElement: JsonElement, serializeNulls: Boolean = true): Unit =
+    file.save(jsonElement, serializeNulls)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 04.06.2019 23:31.
+ * Current Version: 1.0 (04.06.2019 - 04.06.2019)
+ */
+fun File.save(jsonElement: JsonElement, serializeNulls: Boolean = true): Unit =
+    jsonElement.format(serializeNulls).save(this)
+
+fun String.save(file: File) {
+    val temp = File("$file.temp")
+    FileWriter(temp).also {
+        it.write(this)
+        it.flush()
+        it.close()
+    }
+    Files.move(temp.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE)
+}
+
+/**
+ * @author Lars Artmann | LartyHD
+ *
+ * Converts a [JsonElement] to a [String]
+ *
+ * @param serializeNulls is `false`, does not call [GsonBuilder#serializeNulls()]
+ * @since 1.0 (20.10.2018 - 20.10.2018)
+ */
+@Suppress("MemberVisibilityCanBePrivate")
+fun JsonElement.format(serializeNulls: Boolean = true): String = GsonBuilder().setPrettyPrinting().apply {
+    if (serializeNulls) serializeNulls()
+}.create().toJson(this)

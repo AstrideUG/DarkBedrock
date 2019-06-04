@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.general.configs.gson
@@ -7,8 +7,7 @@ package net.darkdevelopers.darkbedrock.darkness.general.configs.gson
 import com.google.gson.*
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.DefaultConfig
-import net.darkdevelopers.darkbedrock.darkness.general.functions.check
-import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
+import net.darkdevelopers.darkbedrock.darkness.general.functions.*
 import java.io.File
 import java.io.FileWriter
 import java.nio.file.Files
@@ -123,20 +122,23 @@ open class GsonConfig(
             directory: File,
             exception: IllegalStateException = IllegalStateException("$name must a String or JsonObject")
         ): JsonObject = when (element) {
-            is JsonPrimitive -> if (element.isString) GsonService.load(GsonConfig(ConfigData(
-                if (!element.asString.contains(File.separator))
-                    directory
-                else {
-                    val split = element.asString.split(File.separator).toMutableList()
-                    split.removeAt(split.size - 1)
-                    val a = split.run {
-                        val stringBuilder = StringBuilder()
-                        this.forEach { stringBuilder.append(File.separator).append(it) }
-                        stringBuilder.toString()
-                    }
-                    File("$directory$a")
-                }, element.asString
-            )).configData).asJsonObject else throw exception
+            is JsonPrimitive -> if (element.isString) {
+                val configData = ConfigData(
+                    if (!element.asString.contains(File.separator))
+                        directory
+                    else {
+                        val split = element.asString.split(File.separator).toMutableList()
+                        split.removeAt(split.size - 1)
+                        val a = split.run {
+                            val stringBuilder = StringBuilder()
+                            this.forEach { stringBuilder.append(File.separator).append(it) }
+                            stringBuilder.toString()
+                        }
+                        File("$directory$a")
+                    }, element.asString
+                )
+                configData.load<JsonObject>()
+            } else throw exception
             is JsonObject -> element
             else -> throw exception
         }
@@ -233,7 +235,7 @@ open class GsonConfig(
             jsonObject = JsonParser().parse(String(Files.readAllBytes(getFile().toPath()))).asJsonObject
 //			jsonObject = Gson().fromJson(String(Files.readAllBytes(getFile().toPath())), JsonObject::class.java)
         } catch (ex: IllegalStateException) {
-            GsonService.save(configData, jsonObject)
+            jsonObject.save(configData)
         }
         return this
     }
@@ -249,7 +251,7 @@ open class GsonConfig(
         ConfigData.createFoldersIfNotExists(getDirectory())
         ConfigData.createFileIfNotExists(getFile())
         FileWriter(getFile()).apply {
-            write(GsonService.formatJson(jsonObject))
+            write(jsonObject.format())
             flush()
             close()
         }

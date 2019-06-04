@@ -1,11 +1,11 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.general.minecraft.fetcher
 
 import com.google.gson.JsonArray
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
 import net.darkdevelopers.darkbedrock.darkness.general.functions.getTextFromURL
+import net.darkdevelopers.darkbedrock.darkness.general.functions.load
 import java.util.*
 
 /**
@@ -69,7 +69,7 @@ object Fetcher {
 
         val url = "https://api.mojang.com/user/profiles/${uuid.replace("-", "")}/names"
         val text = getTextFromURL(url)
-        val jsonArray = GsonService.load(text ?: return null) as JsonArray
+        val jsonArray = text?.load() as? JsonArray ?: return null
         return jsonArray.last().asJsonObject["name"]?.asString?.apply { nameCash += uuid to this }
     }
 
