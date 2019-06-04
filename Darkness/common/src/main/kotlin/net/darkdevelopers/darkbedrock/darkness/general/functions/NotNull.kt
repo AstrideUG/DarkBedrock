@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.general.functions
@@ -18,7 +18,7 @@ fun <T : Any> T?.toNonNull(name: String) = this@toNonNull ?: throw NullPointerEx
 inline fun <reified T : Any> T?.toNonNull(): T = toNonNull(T::class.java.simpleName)
 
 @ExperimentalContracts
-inline fun <reified T : Any> T?.toNonNull(name: String, lambda: (T) -> Unit): Unit {
+inline fun <reified T : Any> T?.toNonNull(name: String, lambda: (T) -> Unit) {
     contract { callsInPlace(lambda, InvocationKind.EXACTLY_ONCE) }
     lambda(toNonNull(name))
 }
