@@ -1,4 +1,4 @@
 steps:
   - name: gcr.io/cloud-builders/gradle
-    args: ['build','--build-cache']
+    args: ['--build-cache','build']
 timeout: 600s
