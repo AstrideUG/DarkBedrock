@@ -1,10 +1,10 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.messages
 
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
+import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.message.GsonMessages
 import org.bukkit.ChatColor
 
@@ -13,7 +13,7 @@ import org.bukkit.ChatColor
  * Created by Lars Artmann | LartyHD on 26.08.2018 13:08.
  * Last edit 05.04.2019
  */
-class SpigotGsonMessages(config: GsonConfig) : GsonMessages(config) {
+class SpigotGsonMessages(configData: ConfigData) : GsonMessages(configData) {
 
     init {
 

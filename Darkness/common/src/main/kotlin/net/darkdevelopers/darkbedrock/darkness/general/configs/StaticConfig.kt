@@ -17,12 +17,12 @@ import kotlin.reflect.jvm.jvmErasure
 /*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 29.05.2019 13:39.
- * Last edit 29.05.2019
+ * Last edit 05.06.2019
  */
-
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 val defaultMappings: MutableMap<Class<out Any>, (Any?) -> Any?> = mutableMapOf(
+    //Kotlin
     Set::class.java to { any ->
         when (any) {
             is Iterable<*> -> any.toSet()
@@ -53,7 +53,9 @@ val defaultMappings: MutableMap<Class<out Any>, (Any?) -> Any?> = mutableMapOf(
     UShort::class.java to { any -> any?.mapped<String>()?.toUShortOrNull() },
     UInt::class.java to { any -> any?.mapped<String>()?.toUIntOrNull() },
     ULong::class.java to { any -> any?.mapped<String>()?.toULongOrNull() },
-    UUID::class.java to { any -> any?.mapped<String>()?.toUUIDOrNull() }
+    UUID::class.java to { any -> any?.mapped<String>()?.toUUIDOrNull() }//,
+    //Darkness
+//    MongoData::class.java to { any -> any?.toConfigMap() }
 )
 
 inline operator fun <reified V : Any> Map<in String, V>.getValue(thisRef: Any?, property: KProperty<*>): V =
@@ -66,7 +68,7 @@ inline fun <reified V : Any> Map<in String, V>.mappedBy(
 ): V {
     val returnType = property.returnType
 
-    val value = get(property.name.replace("[A-Z]".toRegex()) { "-${it.value.toLowerCase()}" })!!
+    val value = get(property.name.formatToConfigPattern())!!
     val mapped = value.mapped<V>(returnType.jvmErasure, mappings)
     returnType.arguments.forEach { argument ->
         val clazz = argument.type?.jvmErasure ?: return@forEach
@@ -102,7 +104,7 @@ fun Any.toConfigMap(): JsonObject = javaClass.declaredMethods.mapNotNull { metho
     val output = if (invoke is Iterable<*>) {
         JsonArray(invoke.mapNotNull { it?.toConfigMap() })
     } else invoke.toJsonElement()
-    (method.name.drop(prefix.length).decapitalize().replace("[A-Z]".toRegex()) {
-        "-${it.value.toLowerCase()}"
-    } to output).toNotNull()
+    (method.name.drop(prefix.length).formatToConfigPattern() to output).toNotNull()
 }.toMap().toJsonObject()
+
+fun String.formatToConfigPattern(): String = decapitalize().replace("[A-Z]".toRegex()) { "-${it.value.toLowerCase()}" }

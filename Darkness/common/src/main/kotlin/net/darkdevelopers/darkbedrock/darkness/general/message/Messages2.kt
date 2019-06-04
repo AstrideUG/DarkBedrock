@@ -14,7 +14,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 17.10.2018 07:52.
- * Last edit 20.10.2018
+ * Last edit 05.06.2019
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class Messages2(unsafeInput: Map<String, Any?>, defaultOutput: Map<String, Map<String, String>>) {
@@ -79,9 +79,9 @@ class Messages2(unsafeInput: Map<String, Any?>, defaultOutput: Map<String, Map<S
      *
      * @since 17.10.2018
      */
-    val separator: String = kotlin.run {
+    val separator: String = run {
         val separator = input["separator"] as? String
-        return@run if (separator == null || separator == "\\") "." else separator
+        if (separator == null || separator == "\\") "." else separator
     }
     /**
      * @author Lars Artmann | LartyHD
@@ -100,7 +100,7 @@ class Messages2(unsafeInput: Map<String, Any?>, defaultOutput: Map<String, Map<S
      */
     @Suppress("UNCHECKED_CAST")
 //	TODO: Check if is the best way
-    val languages: Map<String, Map<String, String>> = kotlin.run {
+    val languages: Map<String, Map<String, String>> = run {
         val input = input["languages"] as? Map<String, Any> ?: emptyMap()
         of {
             fun Any.forAllMaps() {

@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkframe.spigot
@@ -7,9 +7,8 @@ package net.darkdevelopers.darkbedrock.darkframe.spigot
 import de.astride.darkbedrock.apis.modules.common.loader.ClassModuleLoader
 import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.ModulesCommand
 import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.OldModulesCommand
-import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.general.functions.performCraftPluginUpdater
+import net.darkdevelopers.darkbedrock.darkness.general.functions.toConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.modules.manager.ClassJavaModuleManager
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.listener.EventsListener
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.plugin
@@ -29,8 +28,7 @@ class DarkFrame : DarkPlugin() {
 
     private var moduleManager: ClassJavaModuleManager by Delegates.notNull()
     @Suppress("DEPRECATION")
-    private val messages =
-        SpigotGsonMessages(GsonConfig(ConfigData(dataFolder, "config.json")).load()).availableMessages
+    private val messages = SpigotGsonMessages(dataFolder.toConfigData("config")).availableMessages
 
     init {
 //        if (!KotlinVersion.CURRENT.isAtLeast(1, 2, 61)) throw IllegalStateException("Current KotlinVersion is to low. Use 1.2.61 or higher")

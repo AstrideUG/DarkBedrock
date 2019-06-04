@@ -54,7 +54,7 @@ object Fetcher {
 //     */
 //    @Suppress("MemberVisibilityCanBePrivate")
 //    fun getName(uuid: String): String? = getTextFromURL(
-//        "https://sessionserver.mojang.com/session/minecraft/profile/${uuid.replace("-", "")}"
+//        "https://sessionserver.mojang.com/session/minecraft/profile/${uuid.formatToConfigPattern("-", "")}"
 //    )?.substring(49)?.takeWhile { it != '"' }?.dropLast(1)
 
     /**

@@ -1,11 +1,16 @@
 /*
- * © Copyright - DarkBlocks.net | Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.general.databases.mysql
 
-import net.darkdevelopers.darkbedrock.darkness.general.configs.Config
+import com.google.gson.JsonObject
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
+import net.darkdevelopers.darkbedrock.darkness.general.configs.mapped
+import net.darkdevelopers.darkbedrock.darkness.general.configs.toConfigMap
+import net.darkdevelopers.darkbedrock.darkness.general.functions.load
+import net.darkdevelopers.darkbedrock.darkness.general.functions.save
+import net.darkdevelopers.darkbedrock.darkness.general.functions.toConfigData
+import net.darkdevelopers.darkbedrock.darkness.general.functions.toMap
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.PreparedStatement
@@ -30,14 +35,16 @@ class MySQL(private val mySQLData: MySQLData) {
             return field
         }
 
-    constructor(config: Config = GsonConfig(ConfigData("configs", "mysql.json"))) : this(
+    private constructor() : this("configs".toConfigData("mysql"))
+
+    constructor(configData: ConfigData) : this(
         try {
-            MySQLData.createMySQLData(config)
+            configData.load<JsonObject>().toMap().mapped<MySQLData>()!!
         } catch (ex: NullPointerException) {
-            MySQLData.printDefaultMySQLDataInConfigFile(config)
-            println(" ")
+            configData.save(MySQLData().toConfigMap())
+            println()
             println("[MySQL] Please enter the MySQL data")
-            println(" ")
+            println()
             throw IllegalArgumentException("The MySQL data has not configured yet")
         }
     )
