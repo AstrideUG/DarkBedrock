@@ -23,7 +23,7 @@ import kotlin.collections.toList as toKList
 /*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 09.05.2019 14:16.
- * Current Version: 1.0 (09.05.2019 - 04.06.2019)
+ * Current Version: 1.0 (09.05.2019 - 05.06.2019)
  */
 
 /**
@@ -225,4 +225,11 @@ fun File.save(jsonElement: JsonElement, serializeNulls: Boolean = true): Unit =
 fun JsonElement.format(serializeNulls: Boolean = true): String = GsonBuilder().setPrettyPrinting().apply {
     if (serializeNulls) serializeNulls()
 }.create().toJson(this)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 18.03.2019 21:41.
+ * Current Version: 1.0 (18.03.2019 - 05.06.2019)
+ */
+fun JsonElement.asString(): String? = if (isJsonNull) null else asString
 
