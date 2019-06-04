@@ -1,8 +1,12 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.vote
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.loadBukkitWorld
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.MapsUtils
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
 
 /**
@@ -12,7 +16,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
  */
 class MapVotesHandler(votes: MutableSet<Vote>, private val force: String?) : VotesHandler(votes) {
     public override fun finishVotes(winner: String) {
-        MapsUtils.loadMap(getMapAndBroadcast(winner))
+        getMapAndBroadcast(winner).loadBukkitWorld()
     }
 
     private fun getMapAndBroadcast(winner: String): String {
