@@ -5,6 +5,7 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.configs
 
 import net.darkdevelopers.darkbedrock.darkness.general.configs.default
+import net.darkdevelopers.darkbedrock.darkness.general.configs.getValue
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
@@ -23,7 +24,6 @@ open class ConfigService(values: Map<String, Any?>) {
     val commandUseMessageRun by values.default { "$commandStart@commandName@ @usage@" }
     val commandUseMessageHover by values.default { "${TEXT}Klicke um den Command vorzuschlagen" }
     val defaultHasPermission by values.default { "§cI'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error." }
-
 }
 
 var configService: ConfigService = ConfigService(mapOf())
