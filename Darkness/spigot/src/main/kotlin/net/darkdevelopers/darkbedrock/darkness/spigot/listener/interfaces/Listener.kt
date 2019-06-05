@@ -1,15 +1,18 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.listener.interfaces
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.listener.cancellable.DefaultCancellable
 import net.darkdevelopers.darkbedrock.darkness.spigot.permissions.requests.SimpleHasPermission
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.06.2018 18:58.
- * Last edit 02.06.2018 (15.02.2019 added deprecated)
+ * Last edit 05.06.2019
  */
 @Suppress("DEPRECATION")
-interface Listener : DefaultCancellable, SimpleHasPermission, org.bukkit.event.Listener {
+interface Listener : SimpleHasPermission, org.bukkit.event.Listener {
 
     fun register()
 
