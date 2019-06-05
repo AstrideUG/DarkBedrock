@@ -52,7 +52,7 @@ fun Any.getValue(name: String, field: Field = javaClass.getAccessibleField(name)
 fun <T : Any> Class<T>.getModifiableField(name: String, field: Field = javaClass.getAccessibleField(name)): Field? {
     printException {
         if (Modifier.isFinal(field.modifiers))
-            Field::class.java.getField("modifiers")?.set(field, field.modifiers and Modifier.FINAL.inv())
+            ReflectUtils.getField(Field::class.java, "modifiers")?.set(field, field.modifiers and Modifier.FINAL.inv())
         return field
     }
     return null
