@@ -146,7 +146,7 @@ fun Any?.toJsonElement(serializeNull: Boolean = false, default: Any.() -> JsonPr
     when (this) {
         null -> if (serializeNull) JsonNull.INSTANCE else null
         is JsonElement -> this
-        is Iterable<*> -> this.toJsonArray()
+        is Iterable<*> -> this.toJsonArray(default)
         is Map<*, Any?> -> this.toJsonObject()
         else -> toJsonPrimitive(default)
     }
@@ -156,8 +156,8 @@ fun Any?.toJsonElement(serializeNull: Boolean = false, default: Any.() -> JsonPr
  * Created by Lars Artmann | LartyHD on 23.05.2019 18:58.
  * Current Version: 1.0 (23.05.2019 - 02.06.2019)
  */
-fun Iterable<*>.toJsonArray(): JsonArray =
-    if (this is JsonArray) this else JsonArray(this.mapNotNull { it?.toJsonElement() })
+fun Iterable<*>.toJsonArray(default: Any.() -> JsonElement?): JsonArray =
+    if (this is JsonArray) this else JsonArray(this.mapNotNull { it?.toJsonElement() ?: it?.default() })
 
 /**
  * @author Lars Artmann | LartyHD
