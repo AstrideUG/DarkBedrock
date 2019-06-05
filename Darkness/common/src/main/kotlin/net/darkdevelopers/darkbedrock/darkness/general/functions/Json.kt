@@ -147,7 +147,7 @@ fun Any?.toJsonElement(serializeNull: Boolean = false, default: Any.() -> JsonPr
         null -> if (serializeNull) JsonNull.INSTANCE else null
         is JsonElement -> this
         is Iterable<*> -> this.toJsonArray(default)
-        is Map<*, Any?> -> this.toJsonObject()
+        is Map<*, Any?> -> this.toJsonObject(default)
         else -> toJsonPrimitive(default)
     }
 
@@ -156,7 +156,7 @@ fun Any?.toJsonElement(serializeNull: Boolean = false, default: Any.() -> JsonPr
  * Created by Lars Artmann | LartyHD on 23.05.2019 18:58.
  * Current Version: 1.0 (23.05.2019 - 02.06.2019)
  */
-fun Iterable<*>.toJsonArray(default: Any.() -> JsonElement?): JsonArray =
+fun Iterable<*>.toJsonArray(default: Any.() -> JsonElement? = { null }): JsonArray =
     if (this is JsonArray) this else JsonArray(this.mapNotNull { it?.toJsonElement() ?: it?.default() })
 
 /**
@@ -164,8 +164,9 @@ fun Iterable<*>.toJsonArray(default: Any.() -> JsonElement?): JsonArray =
  * Created by Lars Artmann | LartyHD on 23.05.2019 18:59.
  * Current Version: 1.0 (23.05.2019 - 23.05.2019)
  */
-fun Map<*, Any?>.toJsonObject(): JsonObject =
-    JsonObject(this.mapNotNull { (it.key as? String to it.value.toJsonElement()).toNotNull() }.toMap())
+fun Map<*, Any?>.toJsonObject(default: Any.() -> JsonElement? = { null }): JsonObject = JsonObject(this.mapNotNull {
+    (it.key as? String to (it.value.toJsonElement() ?: it.value?.default())).toNotNull()
+}.toMap())
 
 /**
  * @author Lars Artmann | LartyHD
