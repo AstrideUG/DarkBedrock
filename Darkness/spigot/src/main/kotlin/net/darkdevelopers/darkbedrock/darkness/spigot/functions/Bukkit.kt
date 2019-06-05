@@ -12,14 +12,22 @@ import org.bukkit.event.Cancellable
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.ServicePriority
 import org.bukkit.plugin.ServicesManager
+import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 import kotlin.random.Random
 
 /*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 22.12.2018 13:59.
- * Current Version: 1.0 (22.12.2018 - 29.05.2019)
+ * Current Version: 1.0 (22.12.2018 - 05.06.2019)
  */
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 05.06.2019 16:05.
+ * Current Version: 1.0 (05.06.2019 - 05.06.2019)
+ */
+val <P : JavaPlugin> Class<P>.instance: JavaPlugin? get() = JavaPlugin.getPlugin(this)
 
 /**
  * @author Lars Artmann | LartyHD
@@ -103,6 +111,7 @@ fun Location.randomLook(a: Int = 3, b: Int = 90): Location {
     return Location(world, x, y, z, yaw.toFloat(), pitch)
 }
 
+
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 15.02.2019 04:06.
@@ -110,7 +119,6 @@ fun Location.randomLook(a: Int = 3, b: Int = 90): Location {
  */
 @Deprecated("", ReplaceWith("this.cancel()", "net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel"))
 fun Cancellable.cancel(): Unit = cancel(true)
-
 
 /**
  * @author Lars Artmann | LartyHD
