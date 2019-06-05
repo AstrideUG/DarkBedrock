@@ -86,15 +86,43 @@ fun Map<String, JsonElement>.toJsonObject(jsonObject: JsonObject = JsonObject())
  *
  * only Boolean, Number, String, Char are allowed
  *
- * Current Version: 1.0 (09.05.2019 - 09.05.2019)
+ * Current Version: 1.0 (09.05.2019 - 05.06.2019)
  */
-fun Any.toJsonPrimitive(): JsonPrimitive? = when (this) {
-    is Boolean -> JsonPrimitive(this)
-    is Number -> JsonPrimitive(this)
-    is String -> JsonPrimitive(this)
-    is Char -> JsonPrimitive(this)
-    else -> null
+fun Any.toJsonPrimitive(default: JsonPrimitive? = null): JsonPrimitive? = when (this) {
+    is Boolean -> toJsonPrimitive()
+    is Number -> toJsonPrimitive()
+    is String -> toJsonPrimitive()
+    is Char -> toJsonPrimitive()
+    else -> default
 }
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 05.06.2019 16:00.
+ * Current Version: 1.0 (05.06.2019 - 05.06.2019)
+ */
+fun Boolean.toJsonPrimitive(): JsonPrimitive = JsonPrimitive(this)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 05.06.2019 16:01.
+ * Current Version: 1.0 (05.06.2019 - 05.06.2019)
+ */
+fun Number.toJsonPrimitive(): JsonPrimitive = JsonPrimitive(this)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 05.06.2019 16:01.
+ * Current Version: 1.0 (05.06.2019 - 05.06.2019)
+ */
+fun String.toJsonPrimitive(): JsonPrimitive = JsonPrimitive(this)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 05.06.2019 16:01.
+ * Current Version: 1.0 (05.06.2019 - 05.06.2019)
+ */
+fun Char.toJsonPrimitive(): JsonPrimitive = JsonPrimitive(this)
 
 /**
  * @author Lars Artmann | LartyHD
