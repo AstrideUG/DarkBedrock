@@ -69,7 +69,7 @@ inline fun <reified V : Any> Map<in String, V>.mappedBy(
     val returnType = property.returnType
 
     val value = get(property.name.formatToConfigPattern())!!
-    val mapped = value.mapped<V>(returnType.jvmErasure, mappings)
+    val mapped = value.mapped<V?>(returnType.jvmErasure, mappings)
     returnType.arguments.forEach { argument ->
         val clazz = argument.type?.jvmErasure ?: return@forEach
         val transform: (Any?) -> Any? = { it?.mapped(clazz, mappings) }
@@ -94,7 +94,7 @@ inline fun <reified V : Any> Map<in String, V>.mappedBy(
 inline fun <reified O> Any.mapped(
     to: KClass<*> = O::class,
     mappings: Map<Class<out Any>, (Any?) -> Any?> = defaultMappings
-): O? = if (this is O) this else mappings.entries.find { it.key.kotlin.isSuperclassOf(to) }?.value?.invoke(this) as O
+): O? = if (this is O) this else mappings.entries.find { it.key.kotlin.isSuperclassOf(to) }?.value?.invoke(this) as? O?
 
 fun Any.toConfigMap(): JsonObject = TreeMap(javaClass.declaredMethods.mapNotNull { method ->
     method.isAccessible = true
@@ -104,7 +104,8 @@ fun Any.toConfigMap(): JsonObject = TreeMap(javaClass.declaredMethods.mapNotNull
         println("$javaClass method.parameters.size are bigger than 0 ${method.name}={$method}")
         return@mapNotNull null
     }
-    val output = method.invoke(this).toJsonElement { "::::".toJsonPrimitive() }
+    val invoke = method.invoke(this)
+    val output = invoke.toJsonElement { this.toConfigMap() }
     (method.name.drop(prefix.length).formatToConfigPattern() to output).toNotNull()
 }.toMap()).toJsonObject()
 
