@@ -4,13 +4,13 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.EndGameCountdownCallEvent
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.call
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.plugin
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
-import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
 import org.bukkit.entity.Player
 
 /**

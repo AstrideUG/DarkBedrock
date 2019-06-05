@@ -9,7 +9,9 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
 import org.bukkit.*
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
+import org.bukkit.event.Event
 import org.bukkit.plugin.Plugin
+import org.bukkit.plugin.PluginManager
 import org.bukkit.plugin.ServicePriority
 import org.bukkit.plugin.ServicesManager
 import org.bukkit.plugin.java.JavaPlugin
@@ -28,6 +30,14 @@ import kotlin.random.Random
  * Current Version: 1.0 (05.06.2019 - 05.06.2019)
  */
 val <P : JavaPlugin> Class<P>.instance: JavaPlugin? get() = JavaPlugin.getPlugin(this)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 28.08.2018 01:04.
+ * Last edit 05.06.2019
+ */
+fun <O : Event> O.call(pluginManager: PluginManager = Bukkit.getPluginManager()): O =
+    apply { pluginManager.callEvent(this) }
 
 /**
  * @author Lars Artmann | LartyHD

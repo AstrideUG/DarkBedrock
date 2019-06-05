@@ -7,12 +7,12 @@ import net.darkdevelopers.darkbedrock.darkness.general.functions.getTextFromURL
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.fetcher.Fetcher
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.call
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.changeGameProfile
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.listen
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toPlayerUUID
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.GameProfileBuilder
-import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.event.EventHandler
