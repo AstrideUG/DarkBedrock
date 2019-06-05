@@ -17,11 +17,17 @@ import org.bukkit.Material
 /*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 29.05.2019 13:51.
- * Last edit 29.05.2019
+ * Last edit 05.06.2019
  */
 
+val spigotDefaultMappings = mutableMapOf<Class<out Any>, (Any?) -> Any?>(
+    Material::class.java to { any -> any?.mapped<String>()?.toMaterial() },
+    LookableLocation::class.java to { any -> any?.mapped<Map<String, *>>()?.toLookableLocation() },
+    BukkitLocation::class.java to { any -> any?.mapped<DefaultLivingLocation>()?.toBukkitLocation() }
+)
+
 fun initSpigotStaticConfigMappings() {
-    defaultMappings += Material::class.java to { any -> any?.mapped<String>()?.toMaterial() }
-    defaultMappings += LookableLocation::class.java to { any -> any?.mapped<Map<String, *>>()?.toLookableLocation() }
-    defaultMappings += BukkitLocation::class.java to { any -> any?.mapped<DefaultLivingLocation>()?.toBukkitLocation() }
+    defaultMappings += spigotDefaultMappings
 }
+
+fun resetSpigotStaticConfigMappings(): Unit = spigotDefaultMappings.keys.forEach { defaultMappings -= it }
