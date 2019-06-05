@@ -5,10 +5,9 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.commands
 
 import net.darkdevelopers.darkbedrock.darkness.general.utils.getValue
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.interfaces.ICommand
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
 import net.darkdevelopers.darkbedrock.darkness.spigot.copyed.ExternalPluginCommand
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -33,7 +32,7 @@ abstract class Command(
     val minLength: Int = 0,
     val maxLength: Int = 0,
     tabCompleter: TabCompleter? = null,
-    vararg aliases: String
+    vararg val aliases: String
 ) : ICommand {
 
     val hasHelp = usage.split("|").size > 1
@@ -76,9 +75,9 @@ abstract class Command(
     }
 
     override fun sendUseMessage(sender: CommandSender) = if (!hasHelp)
-        sender.sendMessage("${Messages.PREFIX}${TEXT}Nutze: $IMPORTANT/$commandName $TEXT$usage")
+        configService.commandUseMessageSingle.replaceCommand().sendTo(sender)
     else {
-        sender.sendMessage("${Messages.PREFIX}${TEXT}Nutze:")
+        configService.commandUseMessagePrefix.replaceCommand().sendTo(sender)
         for (usage in usage.split("|")) {
             if (usage.contains(":")) {
                 val subCommand = usage.split(":")
@@ -88,19 +87,27 @@ abstract class Command(
     }
 
     private fun sendUseMessage(sender: CommandSender, usage: String) {
-        val textComponent = TextComponent("$TEXT- $IMPORTANT/$commandName $TEXT$usage")
+        val textComponent = TextComponent(configService.commandUseMessageLine.replaceCommand(usage))
         sender.isPlayer({
             textComponent.clickEvent = ClickEvent(
                 ClickEvent.Action.SUGGEST_COMMAND,
-                "/$commandName ${usage.replace("[", "").replace("]", "").replace("<", "").replace(">", "")}"
+                configService.commandUseMessageRun.replaceCommand(usage)
             )
             textComponent.hoverEvent = HoverEvent(
                 HoverEvent.Action.SHOW_TEXT,
-                arrayOf(TextComponent("${TEXT}Klicke um den Command vorzuschlagen"))
+                arrayOf(TextComponent(configService.commandUseMessageHover.replaceCommand(usage)))
             )
             it.spigot().sendMessage(textComponent)
         }, { sender.sendMessage(textComponent.text) })
     }
+
+    private fun String.replaceCommand(usage0: String = usage) = replace("@command-name@", commandName)
+        .replace("@permission@", permission)
+        .replace("@permissionMessage@", permissionMessage)
+        .replace("@usage@", usage0)
+        .replace("@minLength@", minLength.toString())
+        .replace("@maxLength@", maxLength.toString())
+        .replace("@aliases@", aliases.joinToString())
 
 }
 
