@@ -142,13 +142,14 @@ fun JsonElement.toObject(): Any? = when (this) {
     else -> this
 }
 
-fun Any?.toJsonElement(serializeNull: Boolean = false): JsonElement? = when (this) {
-    null -> if (serializeNull) JsonNull.INSTANCE else null
-    is JsonElement -> this
-    is Iterable<*> -> this.toJsonArray()
-    is Map<*, Any?> -> this.toJsonObject()
-    else -> toJsonPrimitive()
-}
+fun Any?.toJsonElement(serializeNull: Boolean = false, default: Any.() -> JsonPrimitive? = { null }): JsonElement? =
+    when (this) {
+        null -> if (serializeNull) JsonNull.INSTANCE else null
+        is JsonElement -> this
+        is Iterable<*> -> this.toJsonArray()
+        is Map<*, Any?> -> this.toJsonObject()
+        else -> toJsonPrimitive(default)
+    }
 
 /**
  * @author Lars Artmann | LartyHD
