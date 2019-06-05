@@ -1,3 +1,7 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
@@ -16,14 +20,6 @@ import org.bukkit.entity.Player
 object Utils {
 
     val players: Collection<Player> get() = Bukkit.getOnlinePlayers()
-
-    @Deprecated(
-        "", ReplaceWith(
-            "players.forEach { lambda() }",
-            "net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players"
-        )
-    )
-    inline fun goThroughAllPlayers(lambda: (Player) -> Unit) = players.forEach { lambda(it) }
 
     @Suppress("MemberVisibilityCanBePrivate")
     @Deprecated(

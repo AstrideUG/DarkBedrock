@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.team
@@ -10,6 +10,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.team.utils.Teams
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -22,7 +23,7 @@ import org.bukkit.inventory.ItemStack
  * Current Version: 1.0 (26.04.2019 - 26.04.2019)
  */
 
-val Iterable<GameTeam>.noTeamPlayers: Set<Player> get() = Utils.players.filter { getTeam(it) == null }.toSet()
+val Iterable<GameTeam>.noTeamPlayers: Set<Player> get() = players.filter { getTeam(it) == null }.toSet()
 val Iterable<GameTeam>.livingTeams: Int get() = count { it.players.size > 0 }
 val Iterable<GameTeam>.lastLivingTeam: GameTeam? get() = find { it.players.size > 0 }
 val Iterable<GameTeam>.lowestTeam: GameTeam
@@ -41,12 +42,12 @@ fun Iterable<GameTeam>.getTeam(player: Player): GameTeam? = find { player in it.
 fun Iterable<GameTeam>.getTeam(name: String): GameTeam? = find { it.name.equals(name, ignoreCase = true) }
 
 fun Iterable<GameTeam>.finishTeams(): Boolean {
-    Utils.goThroughAllPlayers {
-        if (getTeam(it) != null) return@goThroughAllPlayers
+    players.forEach {
+        if (getTeam(it) != null) return@forEach
         val gameTeam = lowestTeam
         if (!gameTeam.add(it))
             it.sendMessage("${Messages.PREFIX}${IMPORTANT}Du konntest keine Team zugeortet werden!")
-//                it.sendMessage("${Messages.PREFIX}${TEXT}Das Team $teamWithColors${TEXT}ist$IMPORTANT voll")
+        //                it.sendMessage("${Messages.PREFIX}${TEXT}Das Team $teamWithColors${TEXT}ist$IMPORTANT voll")
         else
             it.sendMessage("${Messages.PREFIX}${TEXT}Du bist nun im Team $IMPORTANT${gameTeam.chatColor}${gameTeam.name}")
     }

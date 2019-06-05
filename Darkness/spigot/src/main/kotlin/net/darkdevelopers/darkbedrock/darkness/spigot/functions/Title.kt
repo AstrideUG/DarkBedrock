@@ -1,10 +1,10 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 import net.minecraft.server.v1_8_R3.IChatBaseComponent
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle
 import org.bukkit.entity.Player
@@ -53,14 +53,14 @@ fun Player.sendTimings(fadeIn: Int, stay: Int, fadeOut: Int) = sendPacket(
  * Created by Lars Artmann | LartyHD on 21.03.2019 02:32.
  * Current Version: 1.0 (21.03.2019 - 21.03.2019)
  */
-fun sendAllTitle(title: String) = Utils.goThroughAllPlayers { it.sendTitle(title) }
+fun sendAllTitle(title: String) = players.forEach { it.sendTitle(title) }
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 21.03.2019 02:32.
  * Current Version: 1.0 (21.03.2019 - 21.03.2019)
  */
-fun sendAllSubTitle(subtitle: String) = Utils.goThroughAllPlayers { it.sendSubTitle(subtitle) }
+fun sendAllSubTitle(subtitle: String) = players.forEach { it.sendSubTitle(subtitle) }
 
 /**
  * @author Lars Artmann | LartyHD
@@ -68,4 +68,4 @@ fun sendAllSubTitle(subtitle: String) = Utils.goThroughAllPlayers { it.sendSubTi
  * Current Version: 1.0 (21.03.2019 - 21.03.2019)
  */
 fun sendAllTimings(fadeIn: Int, stay: Int, fadeOut: Int) =
-    Utils.goThroughAllPlayers { it.sendTimings(fadeIn, stay, fadeOut) }
+    players.forEach { it.sendTimings(fadeIn, stay, fadeOut) }

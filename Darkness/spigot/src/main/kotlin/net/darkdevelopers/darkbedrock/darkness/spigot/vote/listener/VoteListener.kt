@@ -1,15 +1,19 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.vote.listener
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inventory.InventoryBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.ItemBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.interfaces.IItemBuilder
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendLobbyScoreBoard
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Items
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.getInventorySize
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.sortChestInventory
 import net.darkdevelopers.darkbedrock.darkness.spigot.vote.MapVotesHandler
@@ -33,7 +37,7 @@ import java.util.*
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 07.07.2018 15:22.
- * Last edit 13.01.2019
+ * Last edit 05.06.2019
  */
 class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, private val voteMaps: Array<String>) :
     Listener(javaPlugin) {
@@ -166,7 +170,7 @@ class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, privat
         if (Bukkit.getOnlinePlayers().size > 1) {
             val mapName = ChatColor.stripColor(displayName)
             force = Vote(mapName)
-            Utils.goThroughAllPlayers { it.sendLobbyScoreBoard(mapName, Messages.SERVER_NAME.toString()) }
+            players.forEach { it.sendLobbyScoreBoard(mapName, Messages.SERVER_NAME.toString()) }
             Bukkit.broadcastMessage("${Messages.PREFIX}${TEXT}Map$IMPORTANT: $mapName")
         } else humanEntity.sendMessage("${Messages.PREFIX}${TEXT}Es braucht min. 2 ${IMPORTANT}Spieler$TEXT um eine ${IMPORTANT}Map ${TEXT}auszuwählen")
         humanEntity.closeInventory()

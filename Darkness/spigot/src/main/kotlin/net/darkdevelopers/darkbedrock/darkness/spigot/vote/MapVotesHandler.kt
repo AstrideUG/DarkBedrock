@@ -7,7 +7,7 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.vote
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.loadBukkitWorld
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 
 /**
  * @author Lars Artmann | LartyHD
@@ -40,7 +40,7 @@ class MapVotesHandler(votes: MutableSet<Vote>, private val force: String?) : Vot
         return count
     }
 
-    private fun sendMapInfo(prefix: String, mapName: String) = Utils.goThroughAllPlayers {
+    private fun sendMapInfo(prefix: String, mapName: String) = players.forEach {
         it.run {
             sendMessage(prefix)
             sendMessage("$prefix$TEXT     Map$IMPORTANT: $PRIMARY$mapName")
@@ -48,7 +48,7 @@ class MapVotesHandler(votes: MutableSet<Vote>, private val force: String?) : Vot
         }
     }
 
-    private fun sendWinnerMapInfo(prefix: String, winner: String, count: Int) = Utils.goThroughAllPlayers {
+    private fun sendWinnerMapInfo(prefix: String, winner: String, count: Int) = players.forEach {
         it.run {
             sendMessage(prefix)
             sendMessage("$prefix$TEXT     Das Voting ist beendet")

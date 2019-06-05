@@ -1,16 +1,17 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.team
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inventory.InventoryBuilder
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.isRight
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.getInventorySize
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -44,8 +45,8 @@ class TeamListener(
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
         teams.forEach { it.size = (Utils.players.size / teams.size + 1) }
-        Utils.goThroughAllPlayers {
-            if (it.openInventory?.title?.equals(title, ignoreCase = true) != true) return@goThroughAllPlayers
+        players.forEach {
+            if (it.openInventory?.title?.equals(title, ignoreCase = true) != true) return@forEach
             it.closeInventory()
             openTeamGUI(it)
             //TODO: CACHE THE INVENTORY!
