@@ -88,12 +88,12 @@ fun Map<String, JsonElement>.toJsonObject(jsonObject: JsonObject = JsonObject())
  *
  * Current Version: 1.0 (09.05.2019 - 05.06.2019)
  */
-fun Any.toJsonPrimitive(default: JsonPrimitive? = null): JsonPrimitive? = when (this) {
+fun Any.toJsonPrimitive(default: Any.() -> JsonPrimitive? = { null }): JsonPrimitive? = when (this) {
     is Boolean -> toJsonPrimitive()
     is Number -> toJsonPrimitive()
     is String -> toJsonPrimitive()
     is Char -> toJsonPrimitive()
-    else -> default
+    else -> default()
 }
 
 /**
