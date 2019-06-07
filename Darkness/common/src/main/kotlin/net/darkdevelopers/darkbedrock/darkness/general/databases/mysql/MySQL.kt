@@ -46,6 +46,8 @@ class MySQL(private val mySQLData: MySQLData, private val logger: Logger = Logge
         connect()
     }
 
+    fun preparedStatement(statement: String): PreparedStatement? = connection?.prepareStatement(statement)
+
     suspend fun update(update: String) = suspendCoroutine<Unit> { updateSync(update) }
 
     fun updateSync(update: String) {
