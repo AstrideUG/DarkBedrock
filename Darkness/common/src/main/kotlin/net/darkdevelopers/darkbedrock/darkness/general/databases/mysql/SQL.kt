@@ -22,7 +22,7 @@ import kotlin.coroutines.suspendCoroutine
  * Created by Lars Artmann | LartyHD on 10.11.2017 00:44.
  * Last edit 07.06.2019
  */
-class MySQL(private val mySQLData: MySQLData, private val logger: Logger = Logger.getGlobal()) {
+class SQL(private val mySQLData: SQLData, private val logger: Logger = Logger.getGlobal()) {
     private var connection: Connection? = null
         get() {
             if (field?.isValid(2)!!) {
@@ -35,8 +35,8 @@ class MySQL(private val mySQLData: MySQLData, private val logger: Logger = Logge
     constructor(configData: ConfigData, logger: Logger = Logger.getGlobal()) : this(
         "".run {
             val values = configData.load<JsonObject>().toMap()
-            if (values.isEmpty()) logger.warning("${prefix}MySQL data are not configured yet (It is resorted to the standard)")
-            val mySQLConfigs = MySQLData(values)
+            if (values.isEmpty()) logger.warning("${prefix}SQL data are not configured yet (It is resorted to the standard)")
+            val mySQLConfigs = SQLData(values)
             configData.save(mySQLConfigs.toConfigMap())
             mySQLConfigs
         }, logger
@@ -70,26 +70,26 @@ class MySQL(private val mySQLData: MySQLData, private val logger: Logger = Logge
     fun preparedQuerySync(preparedQuery: PreparedStatement) = preparedQuery.executeQuery()!!
 
     private fun connect() /*= if (isOpen())*/ {
-        logger.info("${prefix}The connection is made...")
+        logger.info("$prefix[${mySQLData.type}] The connection is made...")
         connection = DriverManager.getConnection(
-            "jdbc:mysql://${mySQLData.host}:${mySQLData.port}/${mySQLData.database}",
+            "jdbc:${mySQLData.type}://${mySQLData.host}:${mySQLData.port}/${mySQLData.database}",
             mySQLData.username,
             mySQLData.password
         )
-        logger.info("${prefix}The connection was successfully established")
+        logger.info("$prefix[${mySQLData.type}] The connection was successfully established")
     } //else System.err.println("${prefix}The connection has already established")
 
     private fun disconnect(connection: Connection?)/* = if (!isOpen()) */ {
-        logger.info("${prefix}The connection is closing...")
+        logger.info("$prefix[${mySQLData.type}] The connection is closing...")
         connection?.close()
         this.connection = null
-        logger.info("${prefix}The connection was successfully closed")
+        logger.info("$prefix[${mySQLData.type}] The connection was successfully closed")
     } //else System.err.println("${prefix}The connection has already closed")
 
     //private fun isOpen() = connection != null && connection?.isClosed == false
 
     companion object {
-        private const val prefix = "[MySQL] "
+        private const val prefix = "[SQL] "
     }
 
 }
