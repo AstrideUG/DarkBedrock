@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.manager.game
 
@@ -34,7 +34,7 @@ object PreGameEventsTemplate : EventsTemplate() {
             val to = event.to
             if (to.blockX == from.blockX && from.blockZ == to.blockZ) return@listen
             event.player.teleport(Location(from.world, from.x, from.y, from.z, to.yaw, to.pitch))
-        }
+        }.add()
 
     }
 
@@ -48,8 +48,7 @@ object PreGameEventsTemplate : EventsTemplate() {
         unregisterKeepInventory()
         unregisterChatFormat()
 
-        listener.unregister()
-        listener.clear()
+        super.reset()
 
     }
 

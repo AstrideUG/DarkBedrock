@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.manager.game
 
@@ -59,8 +59,7 @@ object LobbyEventsTemplate : EventsTemplate() {
         unregisterChatFormat()
         unregisterKeepInventory()
 
-        listener.unregister()
-        listener.clear()
+        super.reset()
 
     }
 
