@@ -105,7 +105,9 @@ fun Any.toConfigMap(): JsonObject = TreeMap(javaClass.declaredMethods.mapNotNull
         return@mapNotNull null
     }
     val invoke = method.invoke(this)
-    val output = invoke.toJsonElement { this.toConfigMap() }
+    val output = invoke.toJsonElement {
+        if (this is Enum<*>) name.toJsonPrimitive() else toConfigMap()
+    }
     (method.name.drop(prefix.length).formatToConfigPattern() to output).toNotNull()
 }.toMap()).toJsonObject()
 
