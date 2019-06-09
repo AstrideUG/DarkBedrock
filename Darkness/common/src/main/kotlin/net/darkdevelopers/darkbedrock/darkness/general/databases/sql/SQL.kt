@@ -1,7 +1,7 @@
 /*
  * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
-package net.darkdevelopers.darkbedrock.darkness.general.databases.mysql
+package net.darkdevelopers.darkbedrock.darkness.general.databases.sql
 
 import com.google.gson.JsonObject
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
