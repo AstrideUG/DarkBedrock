@@ -16,18 +16,6 @@ import org.bukkit.entity.Player
 
 /**
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 31.08.2018 19:15.
- * Last edit 21.03.2019
- */
-@Deprecated("static problems")
-var messages: MutableMap<String, String> = mutableMapOf()
-
-@Suppress("DEPRECATION")
-@Deprecated("static problems", ReplaceWith("sendMessage(messages[name])"))
-fun CommandSender.sendConfigurableMessage(name: String): Unit = sendMessage(messages[name])
-
-/**
- * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 21.03.2019 02:39.
  * Current Version: 1.0 (21.03.2019 - 05.04.2019)
  */
