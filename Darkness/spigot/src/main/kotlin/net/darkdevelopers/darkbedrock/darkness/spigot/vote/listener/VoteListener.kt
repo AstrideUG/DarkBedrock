@@ -78,19 +78,18 @@ class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, privat
     fun onInventoryClickEvent(event: InventoryClickEvent) {
         val humanEntity = event.whoClicked ?: return
         val inventory = humanEntity.openInventory?.topInventory ?: return
-        if (inventory == Items.MAP_VOTE || inventory == Items.SETTINGS || inventory == Items.Settings.FORCE_MAP) {
-            event.cancel()
-            val displayName = event.currentItem?.itemMeta?.displayName ?: return
-            when (inventory.title) {
-                Items.MAP_VOTE.displayName -> addVote(humanEntity, displayName)
-                Items.SETTINGS.displayName -> when (displayName) {
-                    Items.Settings.START.displayName -> startRound(humanEntity)
-                    Items.Settings.MAP_VOTE.displayName -> openMapVoteInventory(humanEntity)
-                    Items.Settings.FORCE_MAP.displayName -> openForceMapInventory(humanEntity)
-                }
-                Items.Settings.FORCE_MAP.displayName -> forceMap(humanEntity, event.currentItem.type, displayName)
+        val displayName = event.currentItem?.itemMeta?.displayName ?: return
+        when (inventory.title) {
+            Items.MAP_VOTE.displayName -> addVote(humanEntity, displayName)
+            Items.SETTINGS.displayName -> when (displayName) {
+                Items.Settings.START.displayName -> startRound(humanEntity)
+                Items.Settings.MAP_VOTE.displayName -> openMapVoteInventory(humanEntity)
+                Items.Settings.FORCE_MAP.displayName -> openForceMapInventory(humanEntity)
             }
+            Items.Settings.FORCE_MAP.displayName -> forceMap(humanEntity, event.currentItem.type, displayName)
+            else -> return
         }
+        event.cancel()
     }
 
     //TODO
