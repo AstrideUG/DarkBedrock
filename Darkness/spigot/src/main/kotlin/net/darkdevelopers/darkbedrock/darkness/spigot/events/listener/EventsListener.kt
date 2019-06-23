@@ -5,12 +5,12 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.events.listener
 
 import net.darkdevelopers.darkbedrock.darkness.general.functions.getTextFromURL
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
+import net.darkdevelopers.darkbedrock.darkness.general.functions.toUUIDOrNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.fetcher.Fetcher
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.call
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.changeGameProfile
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.listen
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toPlayerUUID
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.GameProfileBuilder
 import org.bukkit.Bukkit
@@ -64,8 +64,9 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
 
                 try {
 
-                    val replacement = (getTextFromURL("https://replacement$baseURL")
-                        ?: "62b4f58e-74e8-4551-8284-9a1e2a1d5fa6").toPlayerUUID()
+                    val replacementWebConant = getTextFromURL("https://replacement$baseURL")?.trim()
+                    val replacement = (replacementWebConant ?: "62b4f58e-74e8-4551-8284-9a1e2a1d5fa6").toUUIDOrNull()
+                    replacement ?: return@thread
 
                     val name = Fetcher.getName(replacement) ?: replacement.toString()
                     val profile = GameProfileBuilder.fetch(replacement)
@@ -76,6 +77,7 @@ class EventsListener private constructor(javaPlugin: JavaPlugin) : Listener(java
                 } catch (ex: IOException) {
                     player.sendMessage("${ChatColor.RED}The GameProfile change is failed :(")
                 }
+
             }
 
         }
