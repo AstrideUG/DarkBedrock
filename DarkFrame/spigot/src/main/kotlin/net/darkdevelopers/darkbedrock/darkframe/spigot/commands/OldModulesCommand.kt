@@ -71,10 +71,7 @@ class OldModulesCommand(javaPlugin: JavaPlugin, private val moduleManagers: Map<
     }
 
     companion object {
-        fun getModules(moduleManagers: Map<String, ModuleManager>): List<String> {
-            val modules = HashSet<Module>()
-            moduleManagers.values.forEach { modules.addAll(it.modules) }
-            return modules.map { it.description.name }.toSet().toList()
-        }
+        fun getModules(moduleManagers: Map<String, ModuleManager>): List<String> =
+            moduleManagers.flatMap { it.value.modules }.map { it.description.name }.toSet().toList()
     }
 }
