@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkframe.spigot.commands
@@ -9,8 +9,8 @@ import de.astride.darkbedrock.apis.modules.api.events.ModulesReloadedEvent
 import de.astride.darkbedrock.apis.modules.api.interfaces.ModuleDescription
 import de.astride.darkbedrock.apis.modules.common.loader.ModuleLoader
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.Command
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.plugin.java.JavaPlugin
@@ -60,10 +60,10 @@ class ModulesCommand(
     private fun sendInfosOfModule(sender: CommandSender, module: ModuleDescription) {
         sender.run {
             fun message(arg1: String, arg2: String) =
-                sendMessage("${Messages.PREFIX}${Colors.SECONDARY}$arg1${Colors.IMPORTANT}: ${Colors.SECONDARY}${Colors.EXTRA}$arg2")
-            sendMessage("${Colors.PRIMARY}${Colors.EXTRA}${Colors.DESIGN}                                                               ")
+                sendMessage("${configService.prefix}$SECONDARY$arg1$IMPORTANT: $SECONDARY$EXTRA$arg2")
+            sendMessage("$PRIMARY$EXTRA$DESIGN                                                               ")
 
-            message("Infos of module ${Colors.EXTRA}${module.name}", "")
+            message("Infos of module $EXTRA${module.name}", "")
             message("ID", module.id)
             message("Version", module.version)
             message("Authors", module.authors.toString())
@@ -71,15 +71,15 @@ class ModulesCommand(
             message("Description", module.description)
             message("Dependencies", module.dependencies.toString())
 
-            sendMessage("${Colors.PRIMARY}${Colors.EXTRA}${Colors.DESIGN}                                                               ")
+            sendMessage("$PRIMARY$EXTRA$DESIGN                                                               ")
         }
     }
 
     private fun sendListOfModules(sender: CommandSender) {
         sender.design()
         loaders.forEach { loader ->
-            sender.sendMessage("${Messages.PREFIX}${Colors.SECONDARY}Modules from ModuleLoader ${loader.type}${Colors.IMPORTANT}:")
-            loader.modules.forEach { sender.sendMessage("${Messages.PREFIX}${Colors.PRIMARY}${it.description.name}") }
+            sender.sendMessage("${configService.prefix}${SECONDARY}Modules from ModuleLoader ${loader.type}$IMPORTANT:")
+            loader.modules.forEach { sender.sendMessage("${configService.prefix}$PRIMARY${it.description.name}") }
         }
         sender.design()
     }
@@ -111,6 +111,6 @@ class ModulesCommand(
      * Current Version: 1.0 (19.12.2018 - 19.12.2018)
      */
     private fun CommandSender.design() =
-        sendMessage("${Colors.PRIMARY}${Colors.EXTRA}${Colors.DESIGN}                                                               ")
+        sendMessage("$PRIMARY$EXTRA$DESIGN                                                               ")
 
 }

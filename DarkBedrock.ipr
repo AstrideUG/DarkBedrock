@@ -1005,11 +1005,18 @@
       <module name="DarkBedrock.Darkness.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
-  <component name="CopyrightManager" default="AstrideAndLars">
+  <component name="CopyrightManager" default="Astride">
+    <copyright>
+      <option name="notice" value="© Copyright by Astride UG (haftungsbeschränkt) 2018 - &amp;#36;today.year. " />
+      <option name="myName" value="Astride" />
+    </copyright>
     <copyright>
       <option name="notice" value="© Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD &amp;#36;today.year. " />
       <option name="myName" value="AstrideAndLars" />
     </copyright>
+    <module2copyright>
+      <element module="All" copyright="AstrideAndLars" />
+    </module2copyright>
   </component>
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
@@ -1214,8 +1221,10 @@
   </component>
   <component name="ProjectCodeStyleConfiguration">
     <option name="USE_PER_PROJECT_SETTINGS" value="true" />
-    <option name="PREFERRED_PROJECT_CODE_STYLE" value="Default" />
     <code_scheme name="Project" version="173">
+      <JavaCodeStyleSettings>
+        <option name="USE_EXTERNAL_ANNOTATIONS" value="true" />
+      </JavaCodeStyleSettings>
       <JetCodeStyleSettings>
         <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
       </JetCodeStyleSettings>
@@ -1733,103 +1742,103 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.intellij.deps/trove4j/1.0.20181211/fff84a7f9b3215e7ef684672d0adf2853e20040a/trove4j-1.0.20181211-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jetbrains.kotlin:kotlin-compiler-embeddable:1.3.31">
+    <library name="Gradle: org.jetbrains.kotlin:kotlin-compiler-embeddable:1.3.40">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.3.31/965ef6d9abe1555cc5d0a34dd24ce93b49123e7c/kotlin-compiler-embeddable-1.3.31.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.3.40/3075e01564a08e2d1ceac83175778d459036e5cd/kotlin-compiler-embeddable-1.3.40.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.3.31/9450f500ba4b67b25fe91c7529edb06fbb3ca88d/kotlin-compiler-embeddable-1.3.31-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.3.40/36141b0e6cf8c7e9a30c1c6f65d387cf0032cdfe/kotlin-compiler-embeddable-1.3.40-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jetbrains.kotlin:kotlin-daemon-client:1.3.31">
+    <library name="Gradle: org.jetbrains.kotlin:kotlin-daemon-client:1.3.40">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.3.31/c85646f88f4f99245f5b1e0a0ff2f43f5584d77e/kotlin-daemon-client-1.3.31.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.3.40/e43a7da214996ecd5ba5a37c5eac85f6e580a2cf/kotlin-daemon-client-1.3.40.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.3.31/a8d75cbbe859aca09f536b98a670539bd2ad0c08/kotlin-daemon-client-1.3.31-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.3.40/907a04b058f0279c06ad910f93d2106cb4df829/kotlin-daemon-client-1.3.40-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.3.31">
+    <library name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.3.40">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.3.31/5a426a5ada97967ca60fba495eeaa66cfa7c9e2f/kotlin-reflect-1.3.31.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.3.40/f2f8357e000fd80d8d799110f012b86fd4637386/kotlin-reflect-1.3.40.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.3.31/ebcecb195679ab8591806dd33ce273de290aeee7/kotlin-reflect-1.3.31-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.3.40/e03e6009b731f9140bc05b7ec950b9336bd8eedc/kotlin-reflect-1.3.40-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jetbrains.kotlin:kotlin-script-runtime:1.3.31">
+    <library name="Gradle: org.jetbrains.kotlin:kotlin-script-runtime:1.3.40">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.3.31/e63e9d1a9ddb5f43ac72115de992aed8eb938cb5/kotlin-script-runtime-1.3.31.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.3.40/3cc25515a8d5e4a59ef85e94625b8bf73bff47b2/kotlin-script-runtime-1.3.40.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.3.31/59939d82139bf6c6700818ddb6aadf3078ed1eb5/kotlin-script-runtime-1.3.31-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.3.40/3ba51da833f0bbb5d7be312bf312e0e94a736ecd/kotlin-script-runtime-1.3.40-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jetbrains.kotlin:kotlin-script-util:1.3.31">
+    <library name="Gradle: org.jetbrains.kotlin:kotlin-script-util:1.3.40">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-util/1.3.31/6f78b94dce983a0e37bc26b33f0169e784da03f0/kotlin-script-util-1.3.31.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-util/1.3.40/c997793825fb7d28c00046d9819f86cbfe36e25f/kotlin-script-util-1.3.40.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-util/1.3.31/7f9a7f0d7e7d549804b67728a46af6eeb4242fb/kotlin-script-util-1.3.31-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-util/1.3.40/191fdb34fd013c3f312e410f01edc82fefb9878b/kotlin-script-util-1.3.40-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jetbrains.kotlin:kotlin-scripting-common:1.3.31">
+    <library name="Gradle: org.jetbrains.kotlin:kotlin-scripting-common:1.3.40">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-common/1.3.31/e9a52d2f2c8494916d855844a59c308bbc49e783/kotlin-scripting-common-1.3.31.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-common/1.3.40/3de443ac4dc46a7606544fad207143dad1aaeeaf/kotlin-scripting-common-1.3.40.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-common/1.3.31/7fe9d6d31e15753356412b07944275a14e2c4043/kotlin-scripting-common-1.3.31-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-common/1.3.40/83e754d84d7a57cb17b978be825f5b70c0d83194/kotlin-scripting-common-1.3.40-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jetbrains.kotlin:kotlin-scripting-jvm:1.3.31">
+    <library name="Gradle: org.jetbrains.kotlin:kotlin-scripting-jvm:1.3.40">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-jvm/1.3.31/cc998264e548a0b36e6083c7cbeae61e4122d12e/kotlin-scripting-jvm-1.3.31.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-jvm/1.3.40/ebc58e35ce401c3550d11e4424e3f63331d9ff2d/kotlin-scripting-jvm-1.3.40.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-jvm/1.3.31/79b3cfbeeb45e26afe6cac4dae291b6b44470476/kotlin-scripting-jvm-1.3.31-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-jvm/1.3.40/c7ecc1d6dc9e241629e3c0ee178ce32ba27dabf3/kotlin-scripting-jvm-1.3.40-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.3.31" type="kotlin.common">
+    <library name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.3.40" type="kotlin.common">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.31/20c34a04ea25cb1ef0139598bd67c764562cb170/kotlin-stdlib-common-1.3.31.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.40/ff8f3da514fc2877d1303d55e22d6da8156c29fb/kotlin-stdlib-common-1.3.40.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.31/958c401b129f64de74af4b11a0894693edfa168d/kotlin-stdlib-common-1.3.31-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.40/682cd7821872d1a3c1e8a3e6bdaabd17f2b71004/kotlin-stdlib-common-1.3.40-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.3.31">
+    <library name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.3.40">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.31/11289d20fd95ae219333f3456072be9f081c30cc/kotlin-stdlib-1.3.31.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.40/b8a521c687329303778548e2f09b0ba5b2665236/kotlin-stdlib-1.3.40.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.31/d16c788b755be19bf8a7eace113755519a1d7182/kotlin-stdlib-1.3.31-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.40/7af6fd6b9293e80fc7408493a764858a7f66b022/kotlin-stdlib-1.3.40-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jetbrains.kotlin:kotlin-test-common:1.3.31" type="kotlin.common">
+    <library name="Gradle: org.jetbrains.kotlin:kotlin-test-common:1.3.40" type="kotlin.common">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test-common/1.3.31/d2550b51b405b97578b45ada566fe22cbabc120b/kotlin-test-common-1.3.31.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test-common/1.3.40/f4222fd6d6cc05a845a7d86bda3ded6f9e87647/kotlin-test-common-1.3.40.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test-common/1.3.31/6e9ebc506c84d757e2a2ab8f652423c826f023d0/kotlin-test-common-1.3.31-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test-common/1.3.40/691482fbd66e1a941f9c548e79e37929a88605ec/kotlin-test-common-1.3.40-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: org.jetbrains.kotlin:kotlin-test:1.3.31">
+    <library name="Gradle: org.jetbrains.kotlin:kotlin-test:1.3.40">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test/1.3.31/7e032e99d191919c5a67f633dfe57aeca9ae18e/kotlin-test-1.3.31.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test/1.3.40/25b09524308154c532e81904ec57fc0f9704e3d1/kotlin-test-1.3.40.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test/1.3.31/7d73c8c8f50026996422f3bb6acc57fd36bf5bff/kotlin-test-1.3.31-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test/1.3.40/d1380ceb52e4ce501a089f3589212ae4f3b1cd31/kotlin-test-1.3.40-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.0.1" type="kotlin.common">
@@ -1841,6 +1850,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-common/1.0.1/16382dce10af5c4159654272de71e8c0efe854c7/kotlinx-coroutines-core-common-1.0.1-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.1.1" type="kotlin.common">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-common/1.1.1/7ed04382bdf0c89c5d87ac462aa4935ae8e85243/kotlinx-coroutines-core-common-1.1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-common/1.1.1/113450f5f2a971252086c89dd26cde062455fbe8/kotlinx-coroutines-core-common-1.1.1-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core/1.0.1/f33e8dab753f33d1bbb07cca664fd6f13d993d7e/kotlinx-coroutines-core-1.0.1.jar!/" />
@@ -1848,6 +1866,15 @@
       <JAVADOC />
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core/1.0.1/b1cf01c9c43664298d84d9fd3342786142889538/kotlinx-coroutines-core-1.0.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core/1.1.1/3d2b7321cdef9ebf9cb7729ea4f75a6f6457df86/kotlinx-coroutines-core-1.1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core/1.1.1/7fa353579a38ee5bc873511455e4cca65d930b52/kotlinx-coroutines-core-1.1.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.jetbrains:annotations:13.0">

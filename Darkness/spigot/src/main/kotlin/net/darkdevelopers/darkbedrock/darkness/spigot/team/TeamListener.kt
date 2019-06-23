@@ -5,11 +5,11 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.team
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inventory.InventoryBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.isRight
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
+import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.getInventorySize
@@ -34,7 +34,7 @@ class TeamListener(
     val teams: MutableSet<GameTeam> = mutableSetOf()
 ) : Listener(javaPlugin) {
 
-    private val title: String = "${Colors.SECONDARY}Teams"
+    private val title: String = "${SECONDARY}Teams"
 
     @EventHandler
     fun onPlayerInteractEvent(event: PlayerInteractEvent) {
@@ -68,14 +68,14 @@ class TeamListener(
                     teams.getTeam(itemName.substring(0, 2))
             else teams.getTeam(ChatColor.stripColor(itemName).split(" ").dropLastWhile { it.isEmpty() }.toTypedArray()[0])
             if (gameTeam == null)
-                player.sendMessage("${Messages.PREFIX}${Colors.TEXT}Es ist ein ${Colors.IMPORTANT}Fehler ${Colors.TEXT}aufgetreten bitte versuche es noch mal")
+                player.sendMessage("${configService.prefix}${TEXT}Es ist ein ${IMPORTANT}Fehler ${TEXT}aufgetreten bitte versuche es noch mal")
             else {
                 teams.getTeam(player)?.remove(player)
                 player.closeInventory()
                 if (!gameTeam.add(player)) {
-                    player.sendMessage("${Messages.PREFIX}${Colors.TEXT}Das Team ist bereits ${Colors.IMPORTANT}voll")
+                    player.sendMessage("${configService.prefix}${TEXT}Das Team ist bereits ${IMPORTANT}voll")
                     openTeamGUI(player)
-                } else player.sendMessage("${Messages.PREFIX}${Colors.TEXT}Du bist nun im Team ${gameTeam.chatColor}${gameTeam.name}")
+                } else player.sendMessage("${configService.prefix}${TEXT}Du bist nun im Team ${gameTeam.chatColor}${gameTeam.name}")
             }
         }
     }

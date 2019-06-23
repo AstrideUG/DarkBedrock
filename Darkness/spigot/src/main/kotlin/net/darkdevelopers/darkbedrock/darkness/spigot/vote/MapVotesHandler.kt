@@ -4,9 +4,9 @@
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.vote
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.loadBukkitWorld
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 
 /**
@@ -24,11 +24,9 @@ class MapVotesHandler(votes: MutableSet<Vote>, private val force: String?) : Vot
         return getMap(winner)
     }
 
-    private fun broadcastMap(winner: String) =
-        if (isVotedMap())
-            sendMapInfo(Messages.PREFIX.toString(), winner)
-        else
-            sendWinnerMapInfo(Messages.PREFIX.toString(), winner, calculateVotesCount(winner))
+    private fun broadcastMap(winner: String): Unit = if (isVotedMap())
+        sendMapInfo(configService.prefix, winner)
+    else sendWinnerMapInfo(configService.prefix, winner, calculateVotesCount(winner))
 
     private fun getMap(winner: String) = if (isVotedMap()) winner else force!!
 

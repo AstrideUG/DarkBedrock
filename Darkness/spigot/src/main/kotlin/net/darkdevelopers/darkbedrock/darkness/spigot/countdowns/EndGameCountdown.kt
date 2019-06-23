@@ -3,20 +3,17 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.EndGameCountdownCallEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.call
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.plugin
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
 import org.bukkit.entity.Player
 
 /**
+ * Created on 24.06.2017 17:22.
  * @author Lars Artmann | LartyHD
- * Created by LartyHD on 24.06.2017 17:22.
- * Last edit 01.06.2019
  */
 class EndGameCountdown(
     seconds: Int = 15,
@@ -30,12 +27,12 @@ class EndGameCountdown(
             if (EndGameCountdownCallEvent(this).call().isCancelled) return@loop
 
             if (seconds == 0 || players.isEmpty()) {
-                "${Messages.PREFIX}${TEXT}Der Server startet neu".sendTo(players)
+                configService.endGameCountdownRestartsServer.sendTo(players)
                 plugin.server.shutdown()
                 stop()
-            } else if (seconds in arrayOf(1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60))
-                "${Messages.PREFIX}${TEXT}Die Server startet in ${if (seconds == 1) "${IMPORTANT}einer$TEXT Sekunde" else "$IMPORTANT$seconds$TEXT Sekunden"} neu"
-                    .sendTo(players)
+            } else if (seconds in configService.endGameCountdownRestartsServerInIfIn) configService.endGameCountdownRestartsServerIn
+                .replace("@seconds@", seconds.toString(), true)
+                .sendTo(players)
             setLevel()
             seconds--
 

@@ -28,20 +28,10 @@ infix fun String.sendTo(players: Iterable<CommandSender>): Unit = players.forEac
 infix fun Array<String?>.sendTo(sender: CommandSender): Unit = sender.sendMessage(this)
 infix fun Collection<String?>.sendTo(sender: CommandSender): Unit = sender.sendMessage(toTypedArray())
 
-
-/**
- * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 21.03.2019 02:34.
- * Current Version: 1.0 (21.03.2019 - 21.03.2019)
- */
-var isPlayerFailedMessage: String = "The command is only for players"
-
-/**
- * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 21.03.2019 02:35.
- * Current Version: 1.0 (21.03.2019 - 05.04.2019)
- */
-inline fun CommandSender.isPlayer(lambda: (Player) -> Unit, isNoPlayerMessage: String = isPlayerFailedMessage): Unit =
+inline fun CommandSender.isPlayer(
+    lambda: (Player) -> Unit,
+    isNoPlayerMessage: String = configService.isPlayerFailedMessage
+): Unit =
     isPlayer(lambda) { sendMessage(isNoPlayerMessage) }
 
 inline fun CommandSender.isPlayer(onSuccess: (Player) -> Unit, onFail: () -> Unit): Unit =
