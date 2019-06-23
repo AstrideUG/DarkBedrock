@@ -1,4 +1,12 @@
 /*
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
+/*
  * © Copyright - Lars Artmann aka. LartyHD 2018.
  */
 

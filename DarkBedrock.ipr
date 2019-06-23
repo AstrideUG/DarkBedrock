@@ -1007,16 +1007,13 @@
   </component>
   <component name="CopyrightManager" default="Astride">
     <copyright>
-      <option name="notice" value="© Copyright by Astride UG (haftungsbeschränkt) 2018 - &amp;#36;today.year. " />
+      <option name="notice" value="© Copyright by Astride UG (haftungsbeschränkt) 2018 - &amp;#36;today.year." />
       <option name="myName" value="Astride" />
     </copyright>
     <copyright>
       <option name="notice" value="© Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD &amp;#36;today.year. " />
       <option name="myName" value="AstrideAndLars" />
     </copyright>
-    <module2copyright>
-      <element module="All" copyright="AstrideAndLars" />
-    </module2copyright>
   </component>
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />

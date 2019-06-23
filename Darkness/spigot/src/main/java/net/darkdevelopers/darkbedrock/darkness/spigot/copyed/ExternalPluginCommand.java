@@ -1,3 +1,7 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.copyed;
 
 import org.apache.commons.lang.Validate;

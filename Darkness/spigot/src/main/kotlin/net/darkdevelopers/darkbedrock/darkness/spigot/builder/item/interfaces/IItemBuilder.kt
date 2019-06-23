@@ -1,5 +1,5 @@
 /*
- * © Copyright - SegdoMedia | Segdo aka. Dominik Milenko 2018
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.interfaces

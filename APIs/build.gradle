@@ -1,3 +1,7 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 subprojects {
 
     version = "1.0-SNAPSHOT"
