@@ -16,8 +16,9 @@ import java.net.URL
 fun getTextFromURL(url: String, timeout: Int = 1000): String? {
     return try {
         val urlConn = URL(url).openConnection()
-        urlConn?.getInputStream() ?: return null
         urlConn.readTimeout = timeout
+        urlConn.useCaches = false
+        urlConn?.getInputStream() ?: return null
 
         InputStreamReader(urlConn.getInputStream()).use {
             return it.readText().ifBlank { null }
