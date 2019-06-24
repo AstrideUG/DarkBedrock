@@ -14,6 +14,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
  * Last edit 11.06.2019
  */
 open class Messages(values: Map<String, Any?>) {
+    @Deprecated("")
     val prefix by values.default { "§b§lAstride§f | §r" }
     private val commandStart by values.default { "/" }
     private val commandUseMessageSuffix by values.default { "$$commandStart@command-name@ $TEXT@usage@" }
