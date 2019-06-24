@@ -5,7 +5,7 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.team
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inventory.InventoryBuilder
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.isRight
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
@@ -68,14 +68,14 @@ class TeamListener(
                     teams.getTeam(itemName.substring(0, 2))
             else teams.getTeam(ChatColor.stripColor(itemName).split(" ").dropLastWhile { it.isEmpty() }.toTypedArray()[0])
             if (gameTeam == null)
-                player.sendMessage("${configService.prefix}${TEXT}Es ist ein ${IMPORTANT}Fehler ${TEXT}aufgetreten bitte versuche es noch mal")
+                player.sendMessage("${messages.prefix}${TEXT}Es ist ein ${IMPORTANT}Fehler ${TEXT}aufgetreten bitte versuche es noch mal")
             else {
                 teams.getTeam(player)?.remove(player)
                 player.closeInventory()
                 if (!gameTeam.add(player)) {
-                    player.sendMessage("${configService.prefix}${TEXT}Das Team ist bereits ${IMPORTANT}voll")
+                    player.sendMessage("${messages.prefix}${TEXT}Das Team ist bereits ${IMPORTANT}voll")
                     openTeamGUI(player)
-                } else player.sendMessage("${configService.prefix}${TEXT}Du bist nun im Team ${gameTeam.chatColor}${gameTeam.name}")
+                } else player.sendMessage("${messages.prefix}${TEXT}Du bist nun im Team ${gameTeam.chatColor}${gameTeam.name}")
             }
         }
     }

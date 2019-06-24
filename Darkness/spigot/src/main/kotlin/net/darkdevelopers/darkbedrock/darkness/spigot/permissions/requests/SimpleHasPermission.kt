@@ -4,7 +4,7 @@
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.permissions.requests
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
 import org.bukkit.command.CommandSender
 
@@ -19,7 +19,7 @@ interface SimpleHasPermission : HasPermission {
 
     override fun hasPermission(target: CommandSender, permission: String, lambda: () -> Unit): Unit = when {
         hasPermission(target, permission) -> lambda()
-        permissionMessage.isBlank() -> target.sendMessage(configService.defaultHasPermission)
+        permissionMessage.isBlank() -> target.sendMessage(messages.defaultHasPermission)
         else -> for (line in permissionMessage.replace("<permission>", permission).split("\n")) line.sendTo(target)
     }
 

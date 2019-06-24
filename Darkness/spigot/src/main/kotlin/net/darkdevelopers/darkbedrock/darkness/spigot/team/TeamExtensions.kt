@@ -5,7 +5,7 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.team
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.ItemBuilder
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
@@ -47,13 +47,13 @@ fun Iterable<GameTeam>.finishTeams(): Boolean {
         if (getTeam(it) != null) return@forEach
         val gameTeam = lowestTeam
         if (!gameTeam.add(it))
-            "${configService.prefix}${IMPORTANT}Du konntest keine Team zugeortet werden!".sendTo(it)
-        else "${configService.prefix}${TEXT}Du bist nun im Team $IMPORTANT${gameTeam.chatColor}${gameTeam.name}".sendTo(
+            "${messages.prefix}${IMPORTANT}Du konntest keine Team zugeortet werden!".sendTo(it)
+        else "${messages.prefix}${TEXT}Du bist nun im Team $IMPORTANT${gameTeam.chatColor}${gameTeam.name}".sendTo(
             it
         )
     }
     val size = count { it.players.size > 0 }
-    if (size < 2) Bukkit.broadcastMessage("${configService.prefix}${TEXT}Es müssen mindestens ${IMPORTANT}zwei ${TEXT}Teams mit Spieler existieren")
+    if (size < 2) Bukkit.broadcastMessage("${messages.prefix}${TEXT}Es müssen mindestens ${IMPORTANT}zwei ${TEXT}Teams mit Spieler existieren")
     return size < 2
 }
 

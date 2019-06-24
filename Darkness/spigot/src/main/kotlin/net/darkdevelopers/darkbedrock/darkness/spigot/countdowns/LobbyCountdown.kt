@@ -3,7 +3,7 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.LobbyCountdownCallEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.LobbyCountdownIdleEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.*
@@ -38,16 +38,16 @@ class LobbyCountdown(
             if (LobbyCountdownCallEvent(this).call().isCancelled) return@loop
 
             if (seconds == 0) {
-                configService.lobbyCountdownStartGame.sendTo(players)
+                messages.lobbyCountdownStartGame.sendTo(players)
                 players.forEach { it.playSound(it.location, Sound.LEVEL_UP, 1F, 1F) }
                 stop()
-            } else if (seconds in configService.lobbyCountdownStartGameInIfIn) configService.lobbyCountdownStartGameIn
+            } else if (seconds in messages.lobbyCountdownStartGameInIfIn) messages.lobbyCountdownStartGameIn
                 .replace("@seconds@", seconds.toString(), true)
                 .sendTo(players)
 
             if (seconds == 10) players.forEach {
                 it.sendTitle(gameName)
-                it.sendSubTitle(configService.serverName)
+                it.sendSubTitle(messages.serverName)
                 it.sendTimings(10, 20, 10)
                 it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
             } else if (seconds in 1..5) players.forEach {
@@ -71,7 +71,7 @@ class LobbyCountdown(
 
             val i = minPlayers - players.size
             if (i == 0) start()
-            else configService.lobbyCountdownIdle.replace("@count@", seconds.toString(), true).sendTo(players)
+            else messages.lobbyCountdownIdle.replace("@count@", seconds.toString(), true).sendTo(players)
         }
     } else System.err.println("The lobby countdown idle should start, although it is already running")
 

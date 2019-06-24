@@ -5,7 +5,7 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.commands
 
 import net.darkdevelopers.darkbedrock.darkness.general.utils.getValue
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.interfaces.ICommand
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.copyed.ExternalPluginCommand
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
@@ -75,9 +75,9 @@ abstract class Command(
     }
 
     override fun sendUseMessage(sender: CommandSender) = if (!hasHelp)
-        configService.commandUseMessageSingle.replaceCommand().sendTo(sender)
+        messages.commandUseMessageSingle.replaceCommand().sendTo(sender)
     else {
-        configService.commandUseMessagePrefix.replaceCommand().sendTo(sender)
+        messages.commandUseMessagePrefix.replaceCommand().sendTo(sender)
         for (usage in usage.split("|")) {
             if (usage.contains(":")) {
                 val subCommand = usage.split(":")
@@ -87,15 +87,15 @@ abstract class Command(
     }
 
     private fun sendUseMessage(sender: CommandSender, usage: String) {
-        val textComponent = TextComponent(configService.commandUseMessageLine.replaceCommand(usage))
+        val textComponent = TextComponent(messages.commandUseMessageLine.replaceCommand(usage))
         sender.isPlayer({
             textComponent.clickEvent = ClickEvent(
                 ClickEvent.Action.SUGGEST_COMMAND,
-                configService.commandUseMessageRun.replaceCommand(usage)
+                messages.commandUseMessageRun.replaceCommand(usage)
             )
             textComponent.hoverEvent = HoverEvent(
                 HoverEvent.Action.SHOW_TEXT,
-                arrayOf(TextComponent(configService.commandUseMessageHover.replaceCommand(usage)))
+                arrayOf(TextComponent(messages.commandUseMessageHover.replaceCommand(usage)))
             )
             it.spigot().sendMessage(textComponent)
         }, { sender.sendMessage(textComponent.text) })

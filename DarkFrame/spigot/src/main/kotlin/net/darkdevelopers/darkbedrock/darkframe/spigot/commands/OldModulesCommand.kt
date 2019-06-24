@@ -7,7 +7,7 @@ package net.darkdevelopers.darkbedrock.darkframe.spigot.commands
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import net.darkdevelopers.darkbedrock.darkness.general.modules.manager.ModuleManager
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.Command
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
@@ -44,11 +44,11 @@ class OldModulesCommand(javaPlugin: JavaPlugin, private val moduleManagers: Map<
         val description = module.description
         sender.run {
             sendMessage("$PRIMARY$EXTRA$DESIGN                                                               ")
-            sendMessage("${configService.prefix}${SECONDARY}Infos of module $EXTRA${description.name}$IMPORTANT:")
-            sendMessage("${configService.prefix}${SECONDARY}Version$IMPORTANT: $SECONDARY$EXTRA${description.version}")
-            sendMessage("${configService.prefix}${SECONDARY}Author$IMPORTANT: $SECONDARY$EXTRA${description.author}")
-            sendMessage("${configService.prefix}${SECONDARY}Description$IMPORTANT: $SECONDARY$EXTRA${description.description}")
-            sendMessage("${configService.prefix}${SECONDARY}Async$IMPORTANT: $SECONDARY$EXTRA${if (description.async) "enable" else "disabled"}")
+            sendMessage("${messages.prefix}${SECONDARY}Infos of module $EXTRA${description.name}$IMPORTANT:")
+            sendMessage("${messages.prefix}${SECONDARY}Version$IMPORTANT: $SECONDARY$EXTRA${description.version}")
+            sendMessage("${messages.prefix}${SECONDARY}Author$IMPORTANT: $SECONDARY$EXTRA${description.author}")
+            sendMessage("${messages.prefix}${SECONDARY}Description$IMPORTANT: $SECONDARY$EXTRA${description.description}")
+            sendMessage("${messages.prefix}${SECONDARY}Async$IMPORTANT: $SECONDARY$EXTRA${if (description.async) "enable" else "disabled"}")
             sendMessage("$PRIMARY$EXTRA$DESIGN                                                               ")
         }
     }
@@ -56,8 +56,8 @@ class OldModulesCommand(javaPlugin: JavaPlugin, private val moduleManagers: Map<
     private fun sendListOfModules(sender: CommandSender) {
         sender.sendMessage("$PRIMARY$EXTRA$DESIGN                                                               ")
         for (key in moduleManagers.keys) {
-            sender.sendMessage("${configService.prefix}${SECONDARY}Modules from ModuleManager $key$IMPORTANT:")
-            moduleManagers[key]?.modules?.forEach { sender.sendMessage("${configService.prefix}$PRIMARY${it.javaClass.simpleName}") }
+            sender.sendMessage("${messages.prefix}${SECONDARY}Modules from ModuleManager $key$IMPORTANT:")
+            moduleManagers[key]?.modules?.forEach { sender.sendMessage("${messages.prefix}$PRIMARY${it.javaClass.simpleName}") }
         }
         sender.sendMessage("$PRIMARY$EXTRA$DESIGN                                                               ")
     }

@@ -13,7 +13,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
  * Created by Lars Artmann | LartyHD on 05.06.2019 01:20.
  * Last edit 11.06.2019
  */
-open class ConfigService(values: Map<String, Any?>) {
+open class Messages(values: Map<String, Any?>) {
     val prefix by values.default { "§b§lAstride§f | §r" }
     private val commandStart by values.default { "/" }
     private val commandUseMessageSuffix by values.default { "$$commandStart@command-name@ $TEXT@usage@" }
@@ -44,5 +44,4 @@ open class ConfigService(values: Map<String, Any?>) {
     val isPlayerFailedMessage by values.default { "$prefix${TEXT}The command is only for players" }
 }
 
-var configService: ConfigService = ConfigService(mapOf())
 

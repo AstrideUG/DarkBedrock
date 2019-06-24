@@ -9,7 +9,6 @@ import de.astride.darkbedrock.apis.modules.api.events.ModulesReloadedEvent
 import de.astride.darkbedrock.apis.modules.api.interfaces.ModuleDescription
 import de.astride.darkbedrock.apis.modules.common.loader.ModuleLoader
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.Command
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
@@ -60,7 +59,7 @@ class ModulesCommand(
     private fun sendInfosOfModule(sender: CommandSender, module: ModuleDescription) {
         sender.run {
             fun message(arg1: String, arg2: String) =
-                sendMessage("${configService.prefix}$SECONDARY$arg1$IMPORTANT: $SECONDARY$EXTRA$arg2")
+                sendMessage("${net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages.prefix}$SECONDARY$arg1$IMPORTANT: $SECONDARY$EXTRA$arg2")
             sendMessage("$PRIMARY$EXTRA$DESIGN                                                               ")
 
             message("Infos of module $EXTRA${module.name}", "")
@@ -78,8 +77,8 @@ class ModulesCommand(
     private fun sendListOfModules(sender: CommandSender) {
         sender.design()
         loaders.forEach { loader ->
-            sender.sendMessage("${configService.prefix}${SECONDARY}Modules from ModuleLoader ${loader.type}$IMPORTANT:")
-            loader.modules.forEach { sender.sendMessage("${configService.prefix}$PRIMARY${it.description.name}") }
+            sender.sendMessage("${net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages.prefix}${SECONDARY}Modules from ModuleLoader ${loader.type}$IMPORTANT:")
+            loader.modules.forEach { sender.sendMessage("${net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages.prefix}$PRIMARY${it.description.name}") }
         }
         sender.design()
     }

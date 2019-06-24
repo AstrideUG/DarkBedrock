@@ -3,7 +3,7 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.PreGameCountdownCallEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.call
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTimings
@@ -27,9 +27,9 @@ class PreGameCountdown(seconds: Int = 5) : Countdown(seconds) {
             if (PreGameCountdownCallEvent(this).call().isCancelled) return@loop
 
             if (seconds == 0 || players.isEmpty()) {
-                configService.preGameCountdownStartRound.sendTo(players)
+                messages.preGameCountdownStartRound.sendTo(players)
                 stop()
-            } else if (seconds in configService.preGameCountdownStartRoundInIfIn) configService.preGameCountdownStartRoundIn
+            } else if (seconds in messages.preGameCountdownStartRoundInIfIn) messages.preGameCountdownStartRoundIn
                 .replace("@seconds@", seconds.toString(), true)
                 .sendTo(players)
 

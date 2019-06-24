@@ -3,7 +3,7 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.vote
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
 import net.darkdevelopers.darkbedrock.darkness.spigot.vote.interfaces.VotesHandler
@@ -35,11 +35,11 @@ abstract class VotesHandler(override val votes: MutableSet<Vote>) : VotesHandler
             it.voter.remove(sender.name)
             if (it.name.equals(voteName, ignoreCase = true)) {
                 it.voter.add(sender.name)
-                sender.sendMessage("${configService.prefix}${TEXT}Du hast für $IMPORTANT$voteName$TEXT abgestimmt")
+                sender.sendMessage("${messages.prefix}${TEXT}Du hast für $IMPORTANT$voteName$TEXT abgestimmt")
                 return true
             }
         }
-        sender.sendMessage("${configService.prefix}${TEXT}Es ist ein ${IMPORTANT}Fehler$TEXT beim zählen deiner stimme aufgetreten!")
+        sender.sendMessage("${messages.prefix}${TEXT}Es ist ein ${IMPORTANT}Fehler$TEXT beim zählen deiner stimme aufgetreten!")
         return false
     }
 

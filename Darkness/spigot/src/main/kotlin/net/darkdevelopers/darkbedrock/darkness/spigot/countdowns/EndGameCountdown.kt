@@ -3,7 +3,7 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.EndGameCountdownCallEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.call
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.plugin
@@ -27,10 +27,10 @@ class EndGameCountdown(
             if (EndGameCountdownCallEvent(this).call().isCancelled) return@loop
 
             if (seconds == 0 || players.isEmpty()) {
-                configService.endGameCountdownRestartsServer.sendTo(players)
+                messages.endGameCountdownRestartsServer.sendTo(players)
                 plugin.server.shutdown()
                 stop()
-            } else if (seconds in configService.endGameCountdownRestartsServerInIfIn) configService.endGameCountdownRestartsServerIn
+            } else if (seconds in messages.endGameCountdownRestartsServerInIfIn) messages.endGameCountdownRestartsServerIn
                 .replace("@seconds@", seconds.toString(), true)
                 .sendTo(players)
             setLevel()

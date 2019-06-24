@@ -7,7 +7,7 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.vote.listener
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inventory.InventoryBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.ItemBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.item.interfaces.IItemBuilder
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendLobbyScoreBoard
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
@@ -122,7 +122,7 @@ class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, privat
             humanEntity.openInventory(settingsInventory)
         else
             humanEntity.openInventory(startInventory)
-//      } else humanEntity.sendMessage("${configService.prefix}${TEXT}Die Settings wurde schon ${IMPORTANT}gesetzt")
+//      } else humanEntity.sendMessage("${messages.prefix}${TEXT}Die Settings wurde schon ${IMPORTANT}gesetzt")
     }
 
     private fun startRound(humanEntity: HumanEntity) {
@@ -132,12 +132,12 @@ class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, privat
                        if (countdown.getSeconds() > 11) {
                            if (Bukkit.getOnlinePlayers().size > 1) {
                                countdown.setSeconds(11)
-                               player.sendMessage("${configService.prefix}" + TEXT + "Die Runde wurde " + IMPORTANT + "gestartet")
+                               player.sendMessage("${messages.prefix}" + TEXT + "Die Runde wurde " + IMPORTANT + "gestartet")
                            } else {
-                               player.sendMessage("${configService.prefix}" + TEXT + "Es braucht min. 2 " + IMPORTANT + "Spieler" + TEXT + " um die " + IMPORTANT + "Runde " + TEXT + "zu starten")
+                               player.sendMessage("${messages.prefix}" + TEXT + "Es braucht min. 2 " + IMPORTANT + "Spieler" + TEXT + " um die " + IMPORTANT + "Runde " + TEXT + "zu starten")
                            }
                        } else {
-                           player.sendMessage("${configService.prefix}" + TEXT + "Die Runde ist schon " + IMPORTANT + "gestartet")
+                           player.sendMessage("${messages.prefix}" + TEXT + "Die Runde ist schon " + IMPORTANT + "gestartet")
                        }
                        player.closeInventory()
                    })*/
@@ -148,7 +148,7 @@ class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, privat
         if (force == null)
             humanEntity.openInventory(mapVoteInventory)
         else {
-            humanEntity.sendMessage("${configService.prefix}${TEXT}Die ${IMPORTANT}Map ${TEXT}wurde schon festgelegt")
+            humanEntity.sendMessage("${messages.prefix}${TEXT}Die ${IMPORTANT}Map ${TEXT}wurde schon festgelegt")
             humanEntity.closeInventory()
         }
     }
@@ -169,9 +169,9 @@ class VoteListener(javaPlugin: JavaPlugin, private val maps: Set<String>, privat
         if (Bukkit.getOnlinePlayers().size > 1) {
             val mapName = ChatColor.stripColor(displayName)
             force = Vote(mapName)
-            players.forEach { it.sendLobbyScoreBoard(mapName, configService.serverName) }
-            Bukkit.broadcastMessage("${configService.prefix}${TEXT}Map$IMPORTANT: $mapName")
-        } else humanEntity.sendMessage("${configService.prefix}${TEXT}Es braucht min. 2 ${IMPORTANT}Spieler$TEXT um eine ${IMPORTANT}Map ${TEXT}auszuwählen")
+            players.forEach { it.sendLobbyScoreBoard(mapName, messages.serverName) }
+            Bukkit.broadcastMessage("${messages.prefix}${TEXT}Map$IMPORTANT: $mapName")
+        } else humanEntity.sendMessage("${messages.prefix}${TEXT}Es braucht min. 2 ${IMPORTANT}Spieler$TEXT um eine ${IMPORTANT}Map ${TEXT}auszuwählen")
         humanEntity.closeInventory()
     }
 

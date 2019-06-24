@@ -6,7 +6,7 @@
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -30,7 +30,7 @@ infix fun Collection<String?>.sendTo(sender: CommandSender): Unit = sender.sendM
 
 inline fun CommandSender.isPlayer(
     lambda: (Player) -> Unit,
-    isNoPlayerMessage: String = configService.isPlayerFailedMessage
+    isNoPlayerMessage: String = messages.isPlayerFailedMessage
 ): Unit =
     isPlayer(lambda) { sendMessage(isNoPlayerMessage) }
 

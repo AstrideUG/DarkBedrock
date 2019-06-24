@@ -4,15 +4,14 @@
 
 package net.darkdevelopers.darkbedrock.darkframe.spigot
 
-import com.google.gson.JsonObject
 import de.astride.darkbedrock.apis.modules.common.loader.ClassModuleLoader
 import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.ModulesCommand
 import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.OldModulesCommand
-import net.darkdevelopers.darkbedrock.darkness.general.configs.toConfigMap
-import net.darkdevelopers.darkbedrock.darkness.general.functions.*
+import net.darkdevelopers.darkbedrock.darkness.general.functions.performCraftPluginUpdater
+import net.darkdevelopers.darkbedrock.darkness.general.functions.toConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.modules.manager.ClassJavaModuleManager
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.ConfigService
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.createConfigs
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.loadCancellable
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.listener.EventsListener
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.plugin
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessages
@@ -21,6 +20,7 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import java.io.File
 import kotlin.properties.Delegates
+import  net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages as messagesConfig
 
 /**
  * @author Lars Artmann | LartyHD
@@ -53,7 +53,7 @@ class DarkFrame : DarkPlugin() {
             EventsListener.getSimpleInstance(this)
             plugin = this
 
-            initMessagesConfig()
+            initConfigs()
 
             //Old Module System
             println("Enable Old Module System")
@@ -78,11 +78,13 @@ class DarkFrame : DarkPlugin() {
 
     }
 
-    private fun initMessagesConfig() {
-        val configData = dataFolder.toConfigData("messages")
-        val values = configData.load<JsonObject>().toMap()
-        configService = ConfigService(values)
-        if (values.isEmpty()) configData.save(configService.toConfigMap())
+    private fun initConfigs() {
+
+//        Classes.configsKt.kotlin.staticProperties
+//            .filterIsInstance(KMutableProperty0::class.java)
+        setOf(::messagesConfig).createConfigs(dataFolder)
+        "cancellables".toConfigData(dataFolder).loadCancellable()
+
     }
 
     companion object {

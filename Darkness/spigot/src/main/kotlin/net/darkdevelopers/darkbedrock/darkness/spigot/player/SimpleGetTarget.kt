@@ -4,7 +4,7 @@
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.player
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -17,7 +17,7 @@ interface SimpleGetTarget : DefaultGetTarget {
 
     override fun getTarget(sender: CommandSender, player: Player?, lambda: (Player) -> Unit): Unit = if (player != null)
         lambda(player)
-    else configService.playerNotOnline.sendTo(sender)
+    else messages.playerNotOnline.sendTo(sender)
 
     override fun getTarget(player: Player?, lambda: (Player?) -> Unit) = lambda(player)
 }

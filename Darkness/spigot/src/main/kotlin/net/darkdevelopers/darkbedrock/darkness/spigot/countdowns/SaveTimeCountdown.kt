@@ -3,7 +3,7 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.SaveTimeCountdownCallEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.call
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
@@ -27,9 +27,9 @@ class SaveTimeCountdown(
             if (SaveTimeCountdownCallEvent(this).call().isCancelled) return@loop
 
             if (seconds == 0 || Utils.players.isEmpty()) {
-                configService.saveTimeCountdownEndProtection.sendTo(Utils.players)
+                messages.saveTimeCountdownEndProtection.sendTo(Utils.players)
                 stop()
-            } else if (seconds in configService.saveTimeCountdownEndProtectionInIfIn) configService.saveTimeCountdownEndProtectionIn
+            } else if (seconds in messages.saveTimeCountdownEndProtectionInIfIn) messages.saveTimeCountdownEndProtectionIn
                 .replace("@seconds@", seconds.toString(), true)
                 .sendTo(Utils.players)
 

@@ -3,7 +3,7 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.manager.game
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.configService
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.team
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.teams
@@ -39,7 +39,7 @@ object InGameEventsTemplate : EventsTemplate() {
         setDeathMessage { event ->
             val player = event.entity
             val killer = killer[player.uniqueId]
-            "${configService.prefix}${player.team?.chatColor.orImportant()}${player.displayName}$TEXT ${if (killer == null) "ist gestorben" else "wurde von ${killer.team?.chatColor.orImportant()}${killer.displayName}$TEXT getötet"}"
+            "${messages.prefix}${player.team?.chatColor.orImportant()}${player.displayName}$TEXT ${if (killer == null) "ist gestorben" else "wurde von ${killer.team?.chatColor.orImportant()}${killer.displayName}$TEXT getötet"}"
         }
 
         listen<PlayerRespawnEvent>(plugin) { killer -= it.player.uniqueId }.add()
@@ -59,7 +59,7 @@ object InGameEventsTemplate : EventsTemplate() {
         }.add()
         listen<PlayerDeathEvent>(plugin, priority = EventPriority.HIGH) { event ->
             val killer = killer[event.entity.uniqueId] ?: return@listen
-            event.entity.sendMessage("${configService.prefix}$IMPORTANT${killer.displayName}$TEXT hatte $IMPORTANT${killer.health.toInt()}${ChatColor.RED}❥")
+            event.entity.sendMessage("${messages.prefix}$IMPORTANT${killer.displayName}$TEXT hatte $IMPORTANT${killer.health.toInt()}${ChatColor.RED}❥")
         }.add()
         listen<AsyncPlayerChatEvent>(plugin) { event ->
             val player = event.player
