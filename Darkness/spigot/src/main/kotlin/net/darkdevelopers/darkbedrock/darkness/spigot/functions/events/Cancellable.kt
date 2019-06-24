@@ -130,13 +130,6 @@ var cancelBlockPhysics: Boolean = false
             value, cancelFunction
         )
     }
-var cancelBlockPiston: Boolean = false
-    set(value) {
-        field = value
-        ::cancelBlockPiston.name.updateEvent<BlockPistonEvent>(
-            value, cancelFunction
-        )
-    }
 var cancelBlockPistonExtend: Boolean = false
     set(value) {
         field = value
