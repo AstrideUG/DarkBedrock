@@ -20,6 +20,7 @@ class BookItemBuilder(itemStack: ItemStack) : ItemBuilder(itemStack), IBookItemB
 
     constructor(itemBuilder: ItemBuilder) : this(itemBuilder.build())
 
+    @JvmOverloads
     constructor(material: Material, amount: Int = 1, damage: Short = 0) : this(ItemStack(material, amount, damage))
 
     override fun setTitle(title: String): IBookItemBuilder = apply { itemMeta.title = title }

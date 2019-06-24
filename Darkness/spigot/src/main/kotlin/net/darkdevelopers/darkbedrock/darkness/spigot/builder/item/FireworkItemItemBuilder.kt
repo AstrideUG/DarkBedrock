@@ -21,6 +21,7 @@ class FireworkItemItemBuilder(itemStack: ItemStack) : ItemBuilder(itemStack), IF
 
     constructor(itemBuilder: ItemBuilder) : this(itemBuilder.build())
 
+    @JvmOverloads
     constructor(material: Material, amount: Int = 1, damage: Short = 0) : this(ItemStack(material, amount, damage))
 
     override fun setFireworkMetaEffect(fireworkEffect: Iterable<FireworkEffect>): IFireworkItemBuilder =

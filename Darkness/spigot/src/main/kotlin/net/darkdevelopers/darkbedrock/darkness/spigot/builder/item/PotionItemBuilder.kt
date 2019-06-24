@@ -23,6 +23,7 @@ class PotionItemBuilder(itemStack: ItemStack) : ItemBuilder(itemStack), IPotinIt
 
     constructor(itemBuilder: ItemBuilder) : this(itemBuilder.build())
 
+    @JvmOverloads
     constructor(material: Material, amount: Int = 1, damage: Short = 0) : this(ItemStack(material, amount, damage))
 
     override fun setMainEffect(potionEffectType: PotionEffectType): IItemBuilder =

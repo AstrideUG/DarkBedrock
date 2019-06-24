@@ -26,6 +26,7 @@ class SkullItemBuilder(itemStack: ItemStack) : ItemBuilder(itemStack), ISkullIte
 
     constructor(itemBuilder: ItemBuilder) : this(itemBuilder.build())
 
+    @JvmOverloads
     constructor(material: Material, amount: Int = 1) : this(ItemStack(material, amount, 3))
 
     constructor() : this(Material.SKULL_ITEM)

@@ -27,6 +27,7 @@ open class ItemBuilder(private val itemStack: ItemStack) : IItemBuilder {
 
     constructor(itemBuilder: ItemBuilder) : this(itemBuilder.build())
 
+    @JvmOverloads
     constructor(material: Material, amount: Int = 1, damage: Short = 0) : this(ItemStack(material, amount, damage))
 
     /*ItemStack Setter*/

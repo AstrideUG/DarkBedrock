@@ -22,6 +22,7 @@ class BannerItemBuilder(itemStack: ItemStack) : ItemBuilder(itemStack), IBannerI
 
     constructor(itemBuilder: ItemBuilder) : this(itemBuilder.build())
 
+    @JvmOverloads
     constructor(material: Material, amount: Int = 1, damage: Short = 0) : this(ItemStack(material, amount, damage))
 
     override fun setBaseColor(dyeColor: DyeColor): BannerItemBuilder = apply { itemMeta.baseColor = dyeColor }
