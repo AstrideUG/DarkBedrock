@@ -10,10 +10,10 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.BookMeta
 
 /**
+ * Created on 07.03.2019 01:38.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 07.03.2019 01:39.
- * Current Version: 1.0 (07.03.2019 - 07.03.2019)
  */
+@Suppress("unused")
 class BookItemBuilder(itemStack: ItemStack) : ItemBuilder(itemStack), IBookItemBuilder {
 
     override val itemMeta = super.itemMeta as BookMeta

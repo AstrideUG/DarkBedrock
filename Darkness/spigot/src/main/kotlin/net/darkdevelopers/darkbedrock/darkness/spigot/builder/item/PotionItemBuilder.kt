@@ -13,10 +13,10 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
 /**
+ * Created on 07.03.2019 01:48.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 07.03.2019 01:48.
- * Current Version: 1.0 (07.03.2019 - 07.03.2019)
  */
+@Suppress("unused")
 class PotionItemBuilder(itemStack: ItemStack) : ItemBuilder(itemStack), IPotinItemBuilder {
 
     override val itemMeta = super.itemMeta as PotionMeta

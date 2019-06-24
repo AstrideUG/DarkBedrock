@@ -10,10 +10,10 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.MapMeta
 
 /**
+ * Created on 07.03.2019 02:05.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 07.03.2019 02:05.
- * Current Version: 1.0 (07.03.2019 - 07.03.2019)
  */
+@Suppress("unused")
 class MapItemBuilder(itemStack: ItemStack) : ItemBuilder(itemStack), IMapItemBuilder {
 
     override val itemMeta = super.itemMeta as MapMeta

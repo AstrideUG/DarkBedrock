@@ -11,12 +11,11 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 
-@Suppress("unused")
 /**
+ * Created on 07.03.2019 08:37.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 11.05.2018 08:37.
- * Last edit 12.04.2019
  */
+@Suppress("unused")
 open class ItemBuilder(private val itemStack: ItemStack) : IItemBuilder {
 
     init {
