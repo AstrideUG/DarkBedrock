@@ -595,13 +595,6 @@ var cancelPlayerBucketEmpty: Boolean = false
             value, cancelFunction
         )
     }
-var cancelPlayerBucket: Boolean = false
-    set(value) {
-        field = value
-        ::cancelPlayerBucket.name.updateEvent<PlayerBucketEvent>(
-            value, cancelFunction
-        )
-    }
 var cancelPlayerBucketFill: Boolean = false
     set(value) {
         field = value
