@@ -6,13 +6,16 @@ package net.darkdevelopers.darkbedrock.darkness.general.configs
 
 import com.google.gson.JsonObject
 import net.darkdevelopers.darkbedrock.darkness.general.functions.*
+import java.io.File
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.util.*
 import kotlin.reflect.KClass
+import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.isSuperclassOf
 import kotlin.reflect.jvm.jvmErasure
+import kotlin.reflect.typeOf
 
 /*
  * @author Lars Artmann | LartyHD
@@ -112,3 +115,30 @@ fun Any.toConfigMap(): JsonObject = TreeMap(javaClass.declaredMethods.mapNotNull
 }.toMap()).toJsonObject()
 
 fun String.formatToConfigPattern(): String = decapitalize().replace("[A-Z]".toRegex()) { "-${it.value.toLowerCase()}" }
+
+@Suppress("unused")
+@ExperimentalStdlibApi
+fun Iterable<KMutableProperty0<*>>.createConfigs(directory: File): Unit = forEach { property ->
+    property.createConfig(directory)
+}
+
+@ExperimentalStdlibApi
+fun KMutableProperty0<*>.createConfig(directory: File) {
+
+    val configData = toConfigData(directory)
+    val values = configData.load<JsonObject>().toMap()
+
+    val createType = returnType.jvmErasure
+    val constructor = createType.constructors.find {
+        it.parameters.singleOrNull()?.type == typeOf<Map<String, Any?>>()
+    } ?: return
+
+    val instance = constructor.call(values)
+    setter.call(instance)
+
+    configData.save(instance.toConfigMap())
+
+}
+
+@ExperimentalStdlibApi
+fun KMutableProperty0<*>.toConfigData(directory: File) = name.toLowerCase().toConfigData(directory)
