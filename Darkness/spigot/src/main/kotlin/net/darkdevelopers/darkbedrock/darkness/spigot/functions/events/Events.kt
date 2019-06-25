@@ -5,10 +5,7 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions.events
 
 import org.bukkit.Bukkit
-import org.bukkit.event.Event
-import org.bukkit.event.EventPriority
-import org.bukkit.event.HandlerList
-import org.bukkit.event.Listener
+import org.bukkit.event.*
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.PluginManager
 
@@ -27,7 +24,11 @@ inline fun <reified E : Event> String.addEvent(
     priority0: EventPriority = EventPriority.NORMAL,
     crossinline function: (E) -> Unit
 ) {
-    activeListener[this] = listen(plugin = plugin0, priority = priority0, function = function)
+    activeListener[this] = listen(plugin = plugin0, priority = priority0, function = { event: E ->
+        println("DEBUG: ${event.javaClass.simpleName} will be executed")
+        function(event)
+        println("DEBUG: ${event.javaClass.simpleName} have been executed${if (event is Cancellable) " (isCancelled = ${event.isCancelled})" else ""}")
+    })
 }
 
 /**
