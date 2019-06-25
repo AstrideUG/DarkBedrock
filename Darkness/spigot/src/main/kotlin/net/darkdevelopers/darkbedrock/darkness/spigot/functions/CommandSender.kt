@@ -31,8 +31,7 @@ infix fun Collection<String?>.sendTo(sender: CommandSender): Unit = sender.sendM
 inline fun CommandSender.isPlayer(
     lambda: (Player) -> Unit,
     isNoPlayerMessage: String = messages.isPlayerFailedMessage
-): Unit =
-    isPlayer(lambda) { sendMessage(isNoPlayerMessage) }
+): Unit = isPlayer(lambda) { sendMessage(isNoPlayerMessage) }
 
 inline fun CommandSender.isPlayer(onSuccess: (Player) -> Unit, onFail: () -> Unit): Unit =
     if (this is Player) onSuccess(this) else onFail()
