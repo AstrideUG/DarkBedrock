@@ -1234,6 +1234,7 @@
     <dictionary name="LartyHD">
       <words>
         <w>bukkit</w>
+        <w>cancellables</w>
         <w>haftungsbeschränkt</w>
         <w>lookable</w>
         <w>lookableable</w>

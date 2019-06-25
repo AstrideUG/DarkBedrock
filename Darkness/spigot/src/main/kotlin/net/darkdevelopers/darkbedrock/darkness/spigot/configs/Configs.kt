@@ -20,21 +20,22 @@ import java.lang.reflect.Modifier
 
 lateinit var messages: Messages
 
+val cancellableSetterMethods = Classes.cancellableKt.declaredMethods.filter {
+    it.name.startsWith("set") && it.parameterCount == 1 && Modifier.isStatic(it.modifiers)
+}
+
 fun ConfigData.loadCancellable() {
 
     val loaded = load<JsonObject>().toMap()
 
-    val methods = Classes.cancellableKt.declaredMethods.filter {
-        it.name.startsWith("set") && it.parameterCount == 1 && Modifier.isStatic(it.modifiers)
-    }
-    val map = methods.map { method ->
-        val getter = methods.find { it.name == "g${method.name.drop(1)}" }
+    val map = cancellableSetterMethods.map { method ->
+        val getter = cancellableSetterMethods.find { it.name == "g${method.name.drop(1)}" }
         method.name to getter?.invoke(null)
     }.toMap() + loaded
 
     map.forEach { (s, any) ->
         if (any !is Boolean) return@forEach
-        val setter = (methods.find { it.name == s } ?: return@forEach)
+        val setter = (cancellableSetterMethods.find { it.name == s } ?: return@forEach)
         setter.invoke(null, any)
     }
 

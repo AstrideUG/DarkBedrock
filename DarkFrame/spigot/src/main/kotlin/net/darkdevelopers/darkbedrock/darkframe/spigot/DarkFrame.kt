@@ -4,12 +4,15 @@
 
 package net.darkdevelopers.darkbedrock.darkframe.spigot
 
+import com.google.gson.JsonObject
 import de.astride.darkbedrock.apis.modules.common.loader.ClassModuleLoader
+import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.CancellablesCommand
 import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.ModulesCommand
 import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.OldModulesCommand
 import net.darkdevelopers.darkbedrock.darkness.general.configs.createConfigs
-import net.darkdevelopers.darkbedrock.darkness.general.functions.performCraftPluginUpdater
-import net.darkdevelopers.darkbedrock.darkness.general.functions.toConfigData
+import net.darkdevelopers.darkbedrock.darkness.general.configs.formatToConfigPattern
+import net.darkdevelopers.darkbedrock.darkness.general.configs.toConfigMap
+import net.darkdevelopers.darkbedrock.darkness.general.functions.*
 import net.darkdevelopers.darkbedrock.darkness.general.modules.manager.ClassJavaModuleManager
 import net.darkdevelopers.darkbedrock.darkness.spigot.configs.loadCancellable
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.listener.EventsListener
@@ -20,7 +23,7 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import java.io.File
 import kotlin.properties.Delegates
-import  net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages as messagesConfig
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages as messagesConfig
 
 /**
  * @author Lars Artmann | LartyHD
@@ -54,6 +57,13 @@ class DarkFrame : DarkPlugin() {
             plugin = this
 
             initConfigs()
+
+            println("Enable CancellablesCommand command")
+            val configData = CancellablesCommand.javaClass.simpleName.formatToConfigPattern().toConfigData(dataFolder)
+            val values = configData.load<JsonObject>().toMap()
+            CancellablesCommand.setup(this, values)
+            configData.save(values.toConfigMap())
+            println("Enabled CancellablesCommand command")
 
             //Old Module System
             println("Enable Old Module System")
