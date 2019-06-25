@@ -7,8 +7,8 @@ import net.darkdevelopers.darkbedrock.darkness.general.utils.getValue
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.interfaces.ICommand
 import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.copyed.ExternalPluginCommand
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.isPlayer
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent

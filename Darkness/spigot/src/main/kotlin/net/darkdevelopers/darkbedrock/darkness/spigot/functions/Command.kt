@@ -5,7 +5,6 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.interfaces.ICommand
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 

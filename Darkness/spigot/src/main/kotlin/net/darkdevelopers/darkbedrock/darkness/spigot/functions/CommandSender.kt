@@ -29,9 +29,9 @@ infix fun Array<String?>.sendTo(sender: CommandSender): Unit = sender.sendMessag
 infix fun Collection<String?>.sendTo(sender: CommandSender): Unit = sender.sendMessage(toTypedArray())
 
 inline fun CommandSender.isPlayer(
-    lambda: (Player) -> Unit,
-    isNoPlayerMessage: String = messages.isPlayerFailedMessage
-): Unit = isPlayer(lambda) { sendMessage(isNoPlayerMessage) }
+    lambda: (Player) -> Unit/*,
+    isNoPlayerMessage: String = messages.isPlayerFailedMessage*/
+): Unit = isPlayer(lambda) { messages.isPlayerFailedMessage.sendTo(this) }
 
 inline fun CommandSender.isPlayer(onSuccess: (Player) -> Unit, onFail: () -> Unit): Unit =
     if (this is Player) onSuccess(this) else onFail()
