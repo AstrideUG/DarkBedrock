@@ -2,6 +2,8 @@
  * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
+@file:Suppress("unused")
+
 package net.darkdevelopers.darkbedrock.darkness.general.configs
 
 import com.google.gson.JsonObject
@@ -139,3 +141,6 @@ fun KMutableProperty0<*>.createConfig(directory: File) {
 }
 
 fun KMutableProperty0<*>.toConfigData(directory: File) = name.toLowerCase().toConfigData(directory)
+
+fun Class<*>.mapFromConfig(directory: File) =
+    simpleName?.formatToConfigPattern()?.toConfigData(directory)?.load<JsonObject>()?.toMap() ?: emptyMap()
