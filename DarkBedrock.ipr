@@ -1478,6 +1478,24 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.moandjiezana.toml/toml4j/0.7.2/b957d79fcb9e8a7d06c9634a0c1110128f65405a/toml4j-0.7.2-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Gradle: com.rollbar:rollbar-api:1.5.2">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-api/1.5.2/663455ac291a3e795213f96ee2aae635cac89ccc/rollbar-api-1.5.2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-api/1.5.2/e03fc194f2d8d88c97884a96f7037589e2fe6497/rollbar-api-1.5.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.rollbar:rollbar-java:1.5.2">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-java/1.5.2/dad7830014dbd91bcd234bb620bf51b940d2072b/rollbar-java-1.5.2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-java/1.5.2/ee820e8ba2476f5b97aa7ce5db9dd213e9332f4a/rollbar-java-1.5.2-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Gradle: com.velocitypowered:velocity-api:1.0-SNAPSHOT">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.velocitypowered/velocity-api/1.0-SNAPSHOT/11ace04b8e90c48abcf81c92a6500be1998d393c/velocity-api-1.0-SNAPSHOT.jar!/" />
