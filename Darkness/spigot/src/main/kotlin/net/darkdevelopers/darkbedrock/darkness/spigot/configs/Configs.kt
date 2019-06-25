@@ -35,7 +35,7 @@ fun ConfigData.loadCancellable() {
 
     map.forEach { (s, any) ->
         if (any !is Boolean) return@forEach
-        val setter = (cancellableSetterMethods.find { it.name == s } ?: return@forEach)
+        val setter = cancellableSetterMethods.find { it.name == s } ?: return@forEach
         setter.invoke(null, any)
     }
 
