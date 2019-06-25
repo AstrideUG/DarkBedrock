@@ -117,12 +117,10 @@ fun Any.toConfigMap(): JsonObject = TreeMap(javaClass.declaredMethods.mapNotNull
 fun String.formatToConfigPattern(): String = decapitalize().replace("[A-Z]".toRegex()) { "-${it.value.toLowerCase()}" }
 
 @Suppress("unused")
-@ExperimentalStdlibApi
 fun Iterable<KMutableProperty0<*>>.createConfigs(directory: File): Unit = forEach { property ->
     property.createConfig(directory)
 }
 
-@ExperimentalStdlibApi
 fun KMutableProperty0<*>.createConfig(directory: File) {
 
     val configData = toConfigData(directory)
@@ -140,5 +138,4 @@ fun KMutableProperty0<*>.createConfig(directory: File) {
 
 }
 
-@ExperimentalStdlibApi
 fun KMutableProperty0<*>.toConfigData(directory: File) = name.toLowerCase().toConfigData(directory)
