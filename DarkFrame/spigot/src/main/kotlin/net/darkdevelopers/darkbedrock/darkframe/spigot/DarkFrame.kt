@@ -7,10 +7,10 @@ package net.darkdevelopers.darkbedrock.darkframe.spigot
 import de.astride.darkbedrock.apis.modules.common.loader.ClassModuleLoader
 import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.ModulesCommand
 import net.darkdevelopers.darkbedrock.darkframe.spigot.commands.OldModulesCommand
+import net.darkdevelopers.darkbedrock.darkness.general.configs.createConfigs
 import net.darkdevelopers.darkbedrock.darkness.general.functions.performCraftPluginUpdater
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.modules.manager.ClassJavaModuleManager
-import net.darkdevelopers.darkbedrock.darkness.spigot.configs.createConfigs
 import net.darkdevelopers.darkbedrock.darkness.spigot.configs.loadCancellable
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.listener.EventsListener
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.plugin
