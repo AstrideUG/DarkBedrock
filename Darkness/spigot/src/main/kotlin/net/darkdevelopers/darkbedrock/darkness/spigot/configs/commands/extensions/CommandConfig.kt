@@ -18,7 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin
 inline fun <C : CommandConfig> C.register(
     plugin: JavaPlugin,
     tabCompleter: TabCompleter? = null,
-    crossinline code: (sender: CommandSender, args: Array<String>, commandConfig: C) -> Unit
+    crossinline code: Command.(sender: CommandSender, args: Array<String>, commandConfig: C) -> Unit
 ): Command = object : Command(
     plugin,
     commandName,
