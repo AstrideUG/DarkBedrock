@@ -17,7 +17,7 @@ open class Messages(values: Map<String, Any?>) {
     @Deprecated("")
     val prefix by values.default { "§b§lAstride§f | §r" }
     private val commandStart by values.default { "/" }
-    private val commandUseMessageSuffix by values.default { "$$commandStart@command-name@ $TEXT@usage@" }
+    private val commandUseMessageSuffix by values.default { "$commandStart@command-name@ $TEXT@usage@" }
     private val ifIn by values.default { setOf(1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60) }
     val commandUseMessagePrefix by values.default { "$prefix${TEXT}Nutze: $IMPORTANT" }
     val commandUseMessageSingle by values.default { "$commandUseMessagePrefix$commandUseMessageSuffix" }
