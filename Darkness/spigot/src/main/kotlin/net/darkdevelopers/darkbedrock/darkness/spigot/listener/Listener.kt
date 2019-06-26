@@ -11,12 +11,11 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.register 
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.unregister as unregister0
 
 /**
+ * Created on 02.06.2018 19:01.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 02.06.2018 19:01.
- * Last edit 02.05.2019
  */
 @Suppress("LeakingThis")
-open class Listener(
+open class Listener @JvmOverloads constructor(
     protected val javaPlugin: JavaPlugin,
     private val pluginManager: PluginManager = javaPlugin.server.pluginManager,
     override val permissionMessage: String = ""
