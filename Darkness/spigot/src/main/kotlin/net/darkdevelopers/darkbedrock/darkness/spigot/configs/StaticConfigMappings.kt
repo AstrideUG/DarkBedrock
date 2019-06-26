@@ -6,8 +6,8 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.configs
 
 import net.darkdevelopers.darkbedrock.darkness.general.configs.defaultMappings
 import net.darkdevelopers.darkbedrock.darkness.general.configs.mapped
+import net.darkdevelopers.darkbedrock.darkness.spigot.aliases.BukkitLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toMaterial
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.extensions.BukkitLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.extensions.toBukkitLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.location.inmutable.LookableLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.location.inmutable.extensions.alliases.DefaultLivingLocation

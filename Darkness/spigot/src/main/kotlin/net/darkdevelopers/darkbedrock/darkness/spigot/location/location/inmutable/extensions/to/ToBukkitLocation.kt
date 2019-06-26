@@ -4,8 +4,8 @@
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.location.location.inmutable.extensions.to
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.aliases.BukkitLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toBukkitWorld
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.extensions.BukkitLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.extensions.toLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.location.inmutable.extensions.alliases.DefaultBlockLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.location.inmutable.extensions.alliases.x

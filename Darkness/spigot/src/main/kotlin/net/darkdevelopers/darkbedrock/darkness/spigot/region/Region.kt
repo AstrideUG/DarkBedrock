@@ -3,7 +3,7 @@
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.region
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.extensions.BukkitLocation
+import net.darkdevelopers.darkbedrock.darkness.spigot.aliases.BukkitLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.extensions.toLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.location.inmutable.extensions.alliases.DefaultEntityLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.alliases.Vector3D
