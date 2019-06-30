@@ -24,7 +24,7 @@ fun BukkitLocation.copy(
     pitch: Float? = null
 ): BukkitLocation = BukkitLocation(
     world ?: this.world,
-    x ?: this.z,
+    x ?: this.x,
     y ?: this.y,
     z ?: this.z,
     yaw ?: this.yaw,
