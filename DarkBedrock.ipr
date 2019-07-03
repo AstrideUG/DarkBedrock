@@ -1590,6 +1590,13 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/a6c32b40bf3d76eca54e3c601e5d1470c86fcdfa/junit-4.12-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Gradle: me.clip:placeholderapi:2.10.3">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.clip/placeholderapi/2.10.3/4a89f13cc409063293454a511ccc8344eb189968/placeholderapi-2.10.3.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
     <library name="Gradle: net.kyori:event-api:3.0.0">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.kyori/event-api/3.0.0/4e207f07d2adaa15e174a085f65bc6ae5a81029e/event-api-3.0.0.jar!/" />

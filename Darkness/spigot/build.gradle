@@ -2,6 +2,13 @@
  * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
+repositories {
+    maven {
+        name = 'placeholderapi'
+        url = 'http://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
+}
+
 dependencies {
     jarLibs(project(":Darkness:Darkness-Common"))
     jarLibs(project(":Darkness:Darkness-Universal")) {
@@ -9,4 +16,5 @@ dependencies {
     }
     compileOnly("org.spigotmc:spigot-api:${versions_spigot}")
     testCompile("org.spigotmc:spigot-api:${versions_spigot}")
+    compile 'me.clip:placeholderapi:2.10.3'
 }
