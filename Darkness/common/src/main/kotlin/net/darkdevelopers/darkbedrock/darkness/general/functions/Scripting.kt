@@ -63,7 +63,7 @@ fun executeScripts(
 ): List<Any?> {
 
     if (!directory.isDirectory) throw IllegalArgumentException("directory must be a directory")
-    return directory.listFiles().map {
+    return directory.listFiles()?.map {
         val input = it.readText()
         val hash = hashs[it.name].orEmpty()
         before(it, input, hash)
@@ -74,7 +74,7 @@ fun executeScripts(
             ex.printStackTrace()
             null
         }
-    }
+    } ?: emptyList()
 
 }
 
