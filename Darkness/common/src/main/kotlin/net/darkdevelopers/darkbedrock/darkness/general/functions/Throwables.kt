@@ -17,3 +17,10 @@ inline fun cryptThrowable(code: () -> Unit): String? = try {
 } catch (throwable: Throwable) {
     throwable.crypt()
 }
+
+inline fun throwable(code: () -> Unit): Throwable? = try {
+    code()
+    null
+} catch (throwable: Throwable) {
+    throwable
+}
