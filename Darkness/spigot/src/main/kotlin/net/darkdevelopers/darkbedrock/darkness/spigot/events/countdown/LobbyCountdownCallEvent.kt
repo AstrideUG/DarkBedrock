@@ -4,24 +4,17 @@
 package net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.countdowns.LobbyCountdown
-import org.bukkit.event.Cancellable
+import net.darkdevelopers.darkbedrock.darkness.spigot.events.KCancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
 /**
+ * Created on 05.05.2019 13:34.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 05.05.2019 13:34.
- * Current Version: 1.0 (05.05.2019 - 05.05.2019)
  */
-class LobbyCountdownCallEvent(val lobbyCountdown: LobbyCountdown) : Event(), Cancellable {
+class LobbyCountdownCallEvent(@Suppress("unused") val lobbyCountdown: LobbyCountdown) : Event(), KCancellable {
 
-    private var cancellable: Boolean = false
-
-    override fun isCancelled(): Boolean = cancellable
-
-    override fun setCancelled(cancel: Boolean) {
-        cancellable = cancel
-    }
+    override var cancellable: Boolean = false
 
     override fun getHandlers(): HandlerList = handlerList
 
