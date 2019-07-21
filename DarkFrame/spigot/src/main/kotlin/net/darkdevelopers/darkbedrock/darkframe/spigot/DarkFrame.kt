@@ -21,7 +21,10 @@ import net.darkdevelopers.darkbedrock.darkness.general.functions.*
 import net.darkdevelopers.darkbedrock.darkness.general.modules.manager.ClassJavaModuleManager
 import net.darkdevelopers.darkbedrock.darkness.spigot.configs.loadCancellable
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.listener.EventsListener
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.fixChatFormat
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.plugin
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.resetFireTicksAfterRespawn
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.resetVelocityAfterRespawn
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessages
 import net.darkdevelopers.darkbedrock.darkness.spigot.plugin.DarkPlugin
 import org.bukkit.Bukkit
@@ -62,8 +65,13 @@ class DarkFrame : DarkPlugin() {
         val throwable = throwable {
             reportThrowable {
                 onEnable {
-                    EventsListener.getSimpleInstance(this)
+
                     plugin = this
+                    fixChatFormat = true
+                    resetVelocityAfterRespawn = true
+                    resetFireTicksAfterRespawn = true
+                    EventsListener.setup(this)
+
 
                     initConfigs()
 
