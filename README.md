@@ -1,7 +1,7 @@
 # DarkBedrock
-DarkBedrock is a API collection with focus on Minecraft server modding
+DarkBedrock is a API collection with focus on Minecraft server modding.
 
-## Implementation with Grade
+## Use it as dependency (Gradle example)
 
 ```gradle
 repositories {
