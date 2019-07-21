@@ -44,7 +44,7 @@ fun <K : Any?, V : Any?> Map<K, V>.check(values1: Set<KClass<*>>, values2: Set<K
     fun Iterable<KClass<*>>.toSimpleName() =
         this.singleOrNull()?.notNullSimpleName() ?: this.map { it.notNullSimpleName() }.toString()
 
-    this.forEach { key: Any?, value: Any? ->
+    this.forEach { (key: Any?, value: Any?) ->
         if (!values1.isInstanceAndNotNull(key)) throw IllegalStateException("Map \"key\" (\"${key?.javaClass?.kotlin}\") is not a instance of \"${values1.toSimpleName()}\"")
         if (!values2.isInstanceAndNotNull(value)) throw IllegalStateException("Map \"value\" (\"${value?.javaClass?.kotlin}\") is not a instance of \"${values2.toSimpleName()}\"")
     }
@@ -86,3 +86,16 @@ fun <V : Any?> KClass<*>.isInstanceAndNotNull(value: V): Boolean = value != null
  */
 fun <K : Any?, V : Any?> of(function: MutableMap<K, V>.() -> Unit): Map<K, V> =
     mutableMapOf<K, V>().apply(function).toMap()
+
+/**
+ * Created on 30.04.2019 02:27.
+ * TODO: Add it to Kotlin
+ * @author Lars Artmann | LartyHD
+ */
+@JvmName("countWith")
+inline fun <T> Iterable<T>.count(predicate: (T) -> Int): Int {
+    if (this is Collection && isEmpty()) return 0
+    var count = 0
+    for (element in this) count += predicate(element)
+    return count
+}
