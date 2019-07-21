@@ -44,7 +44,7 @@ class TeamListener(
     @Suppress("UNUSED_PARAMETER")
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
-        teams.forEach { it.size = (Utils.players.size / teams.size + 1) }
+        teams.forEach { it.size = Utils.players.size / teams.size + 1 }
         players.forEach {
             if (it.openInventory?.title?.equals(title, ignoreCase = true) != true) return@forEach
             it.closeInventory()
