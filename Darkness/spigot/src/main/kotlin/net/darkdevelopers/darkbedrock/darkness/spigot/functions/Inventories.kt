@@ -6,6 +6,7 @@
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.inventory.InventoryBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.listen
 import org.bukkit.entity.HumanEntity
@@ -546,4 +547,8 @@ inline fun listenInventories(
 
 fun InventoryClickEvent.block(cancel: Boolean) {
     if (cancel && (isShiftClick || click == ClickType.DOUBLE_CLICK)) cancel()
+}
+
+fun Inventory.copy(): Inventory = InventoryBuilder(size, title).build().apply {
+    contents = this@copy.contents
 }
