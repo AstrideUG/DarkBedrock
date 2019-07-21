@@ -10,3 +10,10 @@ package net.darkdevelopers.darkbedrock.darkness.general.functions
  */
 
 fun Throwable.crypt(): String = "${message?.sha256()}:${stackTrace.joinToString("\n").sha256()}"
+
+inline fun cryptThrowable(code: () -> Unit): String? = try {
+    code()
+    null
+} catch (throwable: Throwable) {
+    throwable.crypt()
+}
