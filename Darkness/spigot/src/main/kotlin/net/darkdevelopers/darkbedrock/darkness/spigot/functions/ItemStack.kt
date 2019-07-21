@@ -25,3 +25,9 @@ fun ItemStack.copy(
     if (durability != null) this.durability = durability
     if (itemMeta != null) this.itemMeta = itemMeta
 }
+
+fun ItemStack.equals(itemStack: ItemStack, ignoreAmount: Boolean = false): Boolean {
+    val first = if (ignoreAmount) itemStack.copy(amount = 1) else itemStack
+    val second = if (ignoreAmount) this.copy(amount = 1) else this
+    return first == second
+}
