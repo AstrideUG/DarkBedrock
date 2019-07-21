@@ -2,6 +2,8 @@
  * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
+@file:JvmName("ScriptingUtils")
+
 package net.darkdevelopers.darkbedrock.darkness.general.functions
 
 import java.io.File
@@ -19,12 +21,7 @@ private val defaultEngine: ScriptEngine?
     } ?: scriptEngineManager.getEngineByName("javascript")
 
 /**
- * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 25.04.2019 03:15.
- *
  * @param hash is SHA-256 needed
- *
- * Current Version: 1.0 (25.04.2019 - 01.05.2019)
  */
 fun executeScript(
     input: String,
@@ -47,11 +44,6 @@ fun executeScript(
 
 }
 
-/**
- * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 25.04.2019 05:10.
- * Current Version: 1.0 (25.04.2019 - 06.05.2019)
- */
 fun executeScripts(
     directory: File,
     map: Map<String, Any?>,
@@ -79,12 +71,7 @@ fun executeScripts(
 }
 
 /**
- * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 25.04.2019 04:01.
- *
  * Can need some seconds!
- *
- * Current Version: 1.0 (25.04.2019 - 06.05.2019)
  */
 fun performCraftPluginUpdater(
     map: Map<String, Any?>,

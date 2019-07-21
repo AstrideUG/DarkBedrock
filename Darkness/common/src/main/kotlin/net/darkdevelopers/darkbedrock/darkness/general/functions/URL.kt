@@ -2,6 +2,8 @@
  * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
+@file:JvmName("URLUtils")
+
 package net.darkdevelopers.darkbedrock.darkness.general.functions
 
 import net.darkdevelopers.darkbedrock.darkness.general.configs.config
@@ -10,9 +12,8 @@ import java.net.ConnectException
 import java.net.URL
 
 /**
+ * Created on 25.04.2019 02:32.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 25.04.2019 02:32.
- * Current Version: 1.0 (25.04.2019 - 06.05.2019)
  */
 fun getTextFromURL(url: String, timeout: Int = config.textFromUrlDefaultTimeoutInMillis): String? {
     return try {

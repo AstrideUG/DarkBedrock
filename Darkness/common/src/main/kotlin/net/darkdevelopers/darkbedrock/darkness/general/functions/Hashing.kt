@@ -2,19 +2,18 @@
  * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
+@file:JvmName("HashingUtils")
+
 package net.darkdevelopers.darkbedrock.darkness.general.functions
 
 import java.security.MessageDigest
 
-/**
+/*
+ * Created on 01.05.2019 22:10.
+ *
+ * Based on the Hashing Utils of Sam Clarke <www.samclarke.com>
+ *
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 01.05.2019 22:10.
- *
- * Hashing Utils
- * @author Sam Clarke <www.samclarke.com>
- * @license MIT
- *
- * Current Version: 1.0 (01.05.2019 - 01.05.2019)
  */
 
 private const val HEX_CHARS: String = "0123456789ABCDEF"
@@ -31,17 +30,6 @@ fun String.sha384(): String = hash("SHA-384")
 
 fun String.sha512(): String = hash("SHA-512")
 
-/**
- * Supported algorithms on Android:
- *
- * Algorithm	Supported API Levels
- * MD5          1+
- * SHA-1	    1+
- * SHA-224	    1-8,22+
- * SHA-256	    1+
- * SHA-384	    1+
- * SHA-512	    1+
- */
 private fun String.hash(type: String): String {
 
     val bytes = MessageDigest
@@ -57,9 +45,3 @@ private fun String.hash(type: String): String {
 
     return result.toString()
 }
-
-//Other method (https://www.samclarke.com/kotlin-hash-strings/)
-//private fun String.hash(type: String): String = MessageDigest
-//    .getInstance(type)
-//    .digest(input.toByteArray())
-//    .joinToString(separator = "") { String.format("%02X", it) }

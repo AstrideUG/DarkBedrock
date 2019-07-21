@@ -2,17 +2,19 @@
  * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
+@file:JvmName("NonNullUtils")
+
 package net.darkdevelopers.darkbedrock.darkness.general.functions
 
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
-/**
+/*
+ * Created on 20.08.2018 12:50.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 20.08.2018 12:50.
- * Last edit 12.11.2018
  */
+
 fun <T : Any> T?.toNonNull(name: String) = this@toNonNull ?: throw NullPointerException("$name can not be null")
 
 inline fun <reified T : Any> T?.toNonNull(): T = toNonNull(T::class.java.simpleName)

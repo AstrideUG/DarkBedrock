@@ -2,12 +2,13 @@
  * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
+@file:JvmName("StringUtils")
+
 package net.darkdevelopers.darkbedrock.darkness.general.functions
 
 /*
+ * Created on 24.05.2019 07:11.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 24.05.2019 07:11.
- * Last edit 24.05.2019
  */
 
 infix fun String.notSame(other: String): Boolean = !this.equals(other, ignoreCase = true)
