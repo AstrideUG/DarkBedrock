@@ -13,3 +13,5 @@ import org.bukkit.ChatColor
 
 fun String.translateColors(altColorChar: Char = '&'): String =
     ChatColor.translateAlternateColorCodes(altColorChar, this)
+
+fun String.stripColor(): String = ChatColor.stripColor(this)
