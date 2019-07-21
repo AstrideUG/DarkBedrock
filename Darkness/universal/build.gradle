@@ -4,6 +4,5 @@
 
 dependencies {
     jarLibs(project(":Darkness:Darkness-Common"))
-    compileOnly("org.spigotmc:spigot-api:${versions_spigot}")
-    compileOnly("net.md-5:bungeecord-api:${versions_bungee}")
+    compileOnly("net.md-5:bungeecord-chat:${versions_bungee}")
 }
