@@ -59,42 +59,45 @@ class DarkFrame : DarkPlugin() {
     }
 
     override fun onEnable() = security {
-        reportThrowable {
-            onEnable {
-                EventsListener.getSimpleInstance(this)
-                plugin = this
+        val throwable = throwable {
+            reportThrowable {
+                onEnable {
+                    EventsListener.getSimpleInstance(this)
+                    plugin = this
 
-                initConfigs()
+                    initConfigs()
 
-                println("Enable CancellablesCommand command")
-                val configData =
-                    CancellablesCommand.javaClass.simpleName.formatToConfigPattern().toConfigData(dataFolder)
-                val values = configData.load<JsonObject>().toMap()
-                CancellablesCommand.setup(this, values)
-                configData.save(values.toConfigMap())
-                println("Enabled CancellablesCommand command")
+                    println("Enable CancellablesCommand command")
+                    val configData =
+                        CancellablesCommand.javaClass.simpleName.formatToConfigPattern().toConfigData(dataFolder)
+                    val values = configData.load<JsonObject>().toMap()
+                    CancellablesCommand.setup(this, values)
+                    configData.save(values.toConfigMap())
+                    println("Enabled CancellablesCommand command")
 
-                //Old Module System
-                println("Enable Old Module System")
-                moduleManager = ClassJavaModuleManager(File("$dataFolder${File.separator}old"))
-                OldModulesCommand(
-                    this,
-                    mapOf("Class" to moduleManager.classModuleManager, "Java" to moduleManager.javaModuleManager)
-                )
-                println("Enabled Old Module System")
+                    //Old Module System
+                    println("Enable Old Module System")
+                    moduleManager = ClassJavaModuleManager(File("$dataFolder${File.separator}old"))
+                    OldModulesCommand(
+                        this,
+                        mapOf("Class" to moduleManager.classModuleManager, "Java" to moduleManager.javaModuleManager)
+                    )
+                    println("Enabled Old Module System")
 
-                //New Module System
-                println("Enable New Module System")
-                val directory = File("$dataFolder${File.separator}modules")
-                val loader = setOf(ClassModuleLoader(directory)/*, JavaModuleLoader(directory)*/)
-                ModulesCommand(this, loader, messages.map { it.key to it.value.firstOrNull() }.toMap())
-                loader.forEach {
-                    it.detectModules()
-                    it.loadModules()
+                    //New Module System
+                    println("Enable New Module System")
+                    val directory = File("$dataFolder${File.separator}modules")
+                    val loader = setOf(ClassModuleLoader(directory)/*, JavaModuleLoader(directory)*/)
+                    ModulesCommand(this, loader, messages.map { it.key to it.value.firstOrNull() }.toMap())
+                    loader.forEach {
+                        it.detectModules()
+                        it.loadModules()
+                    }
+                    println("Enabled New Module System")
                 }
-                println("Enabled New Module System")
             }
-        }
+        }?.crypt()
+        System.err.println("The throwable code is $throwable")
     }
 
     private fun initConfigs() {
