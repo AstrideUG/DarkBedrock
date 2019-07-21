@@ -13,10 +13,15 @@ import org.bukkit.plugin.PluginManager
 var plugin: Plugin = Bukkit.getPluginManager().plugins.first()
 val activeListener: MutableMap<String, Listener> = mutableMapOf()
 
-inline fun <reified E : Event> String.updateEvent(value: Boolean, crossinline function: (E) -> Unit) {
+inline fun <reified E : Event> String.updateEvent(
+    value: Boolean,
+    crossinline function: (E) -> Unit,
+    plugin0: Plugin = plugin,
+    priority0: EventPriority = EventPriority.NORMAL
+) {
     val listener = activeListener[this]
     if (listener != null && !value) listener.unregister()
-    else if (listener == null && value) addEvent(function = function)
+    else if (listener == null && value) addEvent(plugin0, priority0, function)
 }
 
 inline fun <reified E : Event> String.addEvent(
