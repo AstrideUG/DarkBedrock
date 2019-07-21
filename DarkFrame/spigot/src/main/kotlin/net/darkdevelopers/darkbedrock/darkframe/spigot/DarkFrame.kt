@@ -67,13 +67,13 @@ class DarkFrame : DarkPlugin() {
 
                     initConfigs()
 
-                    println("Enable CancellablesCommand command")
+                    println("Enable Cancellables command")
                     val configData =
                         CancellablesCommand.javaClass.simpleName.formatToConfigPattern().toConfigData(dataFolder)
                     val values = configData.load<JsonObject>().toMap()
                     CancellablesCommand.setup(this, values)
                     configData.save(values.toConfigMap())
-                    println("Enabled CancellablesCommand command")
+                    println("Enabled Cancellables command")
 
                     //Old Module System
                     println("Enable Old Module System")
