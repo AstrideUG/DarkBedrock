@@ -2,6 +2,8 @@
  * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
+@file:JvmName("ItemStackUtils")
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
 import org.bukkit.Material

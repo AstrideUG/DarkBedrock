@@ -1,6 +1,7 @@
 /*
  * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
+@file:JvmName("BukkitUtils")
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 

@@ -2,6 +2,8 @@
  * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
+@file:JvmName("PlayerUtils")
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
 import com.mojang.authlib.GameProfile

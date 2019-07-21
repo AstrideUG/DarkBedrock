@@ -3,6 +3,7 @@
  */
 
 @file:Suppress("unused", "DEPRECATION")
+@file:JvmName("CancellableUtils")
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions.events
 
@@ -32,11 +33,10 @@ import org.bukkit.event.world.WorldUnloadEvent
 import org.spigotmc.event.entity.EntityMountEvent
 
 /*
+ * Created on 02.05.2019 06:25.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 02.05.2019 06:25.
- * Current Version: 1.0 (02.05.2019 - 02.05.2019)
- *
  */
+
 val cancelFunction: (Cancellable) -> Unit = { it.cancel() }
 
 var cancelAsyncPlayerChat: Boolean = false

@@ -2,6 +2,8 @@
  * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
+@file:JvmName("TitleUtils")
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
@@ -9,10 +11,9 @@ import net.minecraft.server.v1_8_R3.IChatBaseComponent
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle
 import org.bukkit.entity.Player
 
-/**
+/*
+ * Created on 20.08.2018 11:28.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 20.08.2018 11:28.
- * Last edit 21.03.2019
  */
 
 /**

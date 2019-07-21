@@ -2,13 +2,14 @@
  * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
+@file:JvmName("EventsUtils")
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions.events
 
 import org.bukkit.Bukkit
 import org.bukkit.event.*
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.PluginManager
-
 
 var plugin: Plugin = Bukkit.getPluginManager().plugins.first()
 val activeListener: MutableMap<String, Listener> = mutableMapOf()

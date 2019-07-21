@@ -2,6 +2,8 @@
  * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
+@file:JvmName("EventFeatureTemplates")
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions.events
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.schedule
@@ -13,9 +15,8 @@ import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.util.Vector
 
 /*
+ * Created on 05.05.2019 08:56.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 05.05.2019 08:56.
- * Current Version: 1.0 (05.05.2019 - 05.05.2019)
  */
 
 var autoRespawn: Boolean = false

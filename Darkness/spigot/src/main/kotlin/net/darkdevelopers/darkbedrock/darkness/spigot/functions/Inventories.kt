@@ -3,6 +3,7 @@
  */
 
 @file:Suppress("unused")
+@file:JvmName("InventoriesUtils")
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 

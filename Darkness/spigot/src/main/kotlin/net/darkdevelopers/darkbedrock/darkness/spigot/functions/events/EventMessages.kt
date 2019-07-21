@@ -2,6 +2,8 @@
  * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
+@file:JvmName("EventMessages")
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions.events
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
@@ -14,9 +16,8 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerRespawnEvent
 
 /*
+ * Created on 02.05.2019 11:43.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 02.05.2019 11:43.
- * Current Version: 1.0 (02.05.2019 - 05.05.2019)
  */
 
 /**

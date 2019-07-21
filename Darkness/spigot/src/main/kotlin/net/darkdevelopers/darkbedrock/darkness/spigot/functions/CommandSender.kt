@@ -3,6 +3,7 @@
  */
 
 @file:Suppress("unused")
+@file:JvmName("CommandSenderUtils")
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
