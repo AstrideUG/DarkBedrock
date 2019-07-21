@@ -4,6 +4,7 @@
 
 package net.darkdevelopers.darkbedrock.darkness.general.functions
 
+import net.darkdevelopers.darkbedrock.darkness.general.configs.config
 import java.io.InputStreamReader
 import java.net.ConnectException
 import java.net.URL
@@ -13,7 +14,7 @@ import java.net.URL
  * Created by Lars Artmann | LartyHD on 25.04.2019 02:32.
  * Current Version: 1.0 (25.04.2019 - 06.05.2019)
  */
-fun getTextFromURL(url: String, timeout: Int = 1000): String? {
+fun getTextFromURL(url: String, timeout: Int = config.textFromUrlDefaultTimeoutInMillis): String? {
     return try {
         val urlConn = URL(url).openConnection()
         urlConn.readTimeout = timeout

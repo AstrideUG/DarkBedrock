@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory
 import java.io.File
 import java.net.InetAddress
 import kotlin.properties.Delegates
+import net.darkdevelopers.darkbedrock.darkness.general.configs.config as configConfig
 import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages as messagesConfig
 
 /**
@@ -112,7 +113,7 @@ class DarkFrame : DarkPlugin() {
 
 //        Classes.configsKt.kotlin.staticProperties
 //            .filterIsInstance(KMutableProperty0::class.java)
-        setOf(::messagesConfig).createConfigs(dataFolder)
+        setOf(::messagesConfig, ::configConfig).createConfigs(dataFolder)
         "cancellables".toConfigData(dataFolder).loadCancellable()
 
     }
