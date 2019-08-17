@@ -20,7 +20,7 @@ import java.lang.reflect.Modifier
 
 lateinit var messages: Messages
 
-val cancellableSetterMethods = Classes.cancellableKt.declaredMethods.filter {
+val cancellableSetterMethods = Classes.cancellableUtils.declaredMethods.filter {
     it.name.startsWith("set") && it.parameterCount == 1 && Modifier.isStatic(it.modifiers)
 }
 
