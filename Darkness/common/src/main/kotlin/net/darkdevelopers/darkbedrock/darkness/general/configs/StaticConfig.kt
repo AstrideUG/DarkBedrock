@@ -140,7 +140,8 @@ fun KMutableProperty0<*>.createConfig(directory: File) {
 
 }
 
-fun KMutableProperty0<*>.toConfigData(directory: File) = name.toLowerCase().toConfigData(directory)
+fun KMutableProperty0<*>.toConfigData(directory: File): ConfigData =
+    name.formatToConfigPattern().toConfigData(directory)
 
 fun Class<*>.mapFromConfig(directory: File) =
     simpleName?.formatToConfigPattern()?.toConfigData(directory)?.load<JsonObject>()?.toMap() ?: emptyMap()
