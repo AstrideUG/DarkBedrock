@@ -101,10 +101,10 @@ inline fun <reified O> Any.mapped(
     mappings: Map<Class<out Any>, (Any?) -> Any?> = defaultMappings
 ): O? = if (this is O) this else mappings.entries.find { it.key.kotlin.isSuperclassOf(to) }?.value?.invoke(this) as? O?
 
-fun Any.toConfigMap(): JsonObject = TreeMap(javaClass.declaredMethods.mapNotNull { method ->
+fun Any.toConfigMap(): JsonObject = javaClass.declaredMethods.mapNotNull { method ->
     method.isAccessible = true
     val prefix = "get"
-    if (!method.name.startsWith(prefix) || method.name.length < 5) return@mapNotNull null
+    if (!method.name.startsWith(prefix) || method.name.length <= prefix.length) return@mapNotNull null
     if (method.parameterCount > 0) {
         println("$javaClass method.parameters.size are bigger than 0 ${method.name}={$method}")
         return@mapNotNull null
@@ -114,7 +114,7 @@ fun Any.toConfigMap(): JsonObject = TreeMap(javaClass.declaredMethods.mapNotNull
         if (this is Enum<*>) name.toJsonPrimitive() else toConfigMap()
     }
     (method.name.drop(prefix.length).formatToConfigPattern() to output).toNotNull()
-}.toMap()).toJsonObject()
+}.toMap().toSortedMap().toJsonObject()
 
 fun String.formatToConfigPattern(): String = decapitalize().replace("[A-Z]".toRegex()) { "-${it.value.toLowerCase()}" }
 
