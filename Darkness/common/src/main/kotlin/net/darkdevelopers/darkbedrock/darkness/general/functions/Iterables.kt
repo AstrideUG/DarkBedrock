@@ -38,8 +38,11 @@ fun <K : Any?, V : Any?> Map<K, V>.check(values1: Set<KClass<*>>, values2: Set<K
         this.singleOrNull()?.notNullSimpleName() ?: this.map { it.notNullSimpleName() }.toString()
 
     this.forEach { (key: Any?, value: Any?) ->
-        if (!values1.isInstanceAndNotNull(key)) throw IllegalStateException("Map \"key\" (\"${key?.javaClass?.kotlin}\") is not a instance of \"${values1.toSimpleName()}\"")
-        if (!values2.isInstanceAndNotNull(value)) throw IllegalStateException("Map \"value\" (\"${value?.javaClass?.kotlin}\") is not a instance of \"${values2.toSimpleName()}\"")
+        val k = key as Any?
+        val v = value as Any?
+
+        if (!values1.isInstanceAndNotNull(key)) throw IllegalStateException("Map \"key\" (\"${k?.javaClass?.kotlin}\") is not a instance of \"${values1.toSimpleName()}\"")
+        if (!values2.isInstanceAndNotNull(value)) throw IllegalStateException("Map \"value\" (\"${v?.javaClass?.kotlin}\") is not a instance of \"${values2.toSimpleName()}\"")
     }
     return this
 }
