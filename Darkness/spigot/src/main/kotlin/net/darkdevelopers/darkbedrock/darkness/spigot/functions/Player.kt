@@ -25,6 +25,8 @@ import java.util.*
  * Current Version: 1.0 (22.12.2018 - 08.05.2019)
  */
 
+val Player.locale: Locale get() = Locale.forLanguageTag((this as CraftPlayer).handle.locale)
+
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 22.12.2018 04:56.
