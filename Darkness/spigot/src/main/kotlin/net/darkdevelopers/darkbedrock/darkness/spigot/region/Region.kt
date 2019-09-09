@@ -46,7 +46,7 @@ class Region @Deprecated("Will be changed to data class", ReplaceWith("Region.of
         pos1.toLocation().vector,
         pos2.toLocation().vector
     ) {
-        if (world != pos2.world.name) throw IllegalArgumentException("pos1 world and pos2 world must be the same")
+        require(world == pos2.world.name) { "pos1 world and pos2 world must be the same" }
     }
 
     override fun equals(other: Any?): Boolean {
