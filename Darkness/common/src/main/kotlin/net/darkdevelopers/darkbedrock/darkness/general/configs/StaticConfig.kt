@@ -25,6 +25,10 @@ import kotlin.reflect.typeOf
  * Last edit 05.06.2019
  */
 
+@Target(AnnotationTarget.PROPERTY)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class Undercover
+
 @Suppress("EXPERIMENTAL_API_USAGE")
 val defaultMappings: MutableMap<Class<out Any>, (Any?) -> Any?> = mutableMapOf(
     //Kotlin
@@ -105,6 +109,7 @@ fun Any.toConfigMap(): JsonObject = javaClass.declaredMethods.mapNotNull { metho
     method.isAccessible = true
     val prefix = "get"
     if (!method.name.startsWith(prefix) || method.name.length <= prefix.length) return@mapNotNull null
+    if (method.isAnnotationPresent(Undercover::class.java)) return@mapNotNull null
     if (method.parameterCount > 0) {
         println("$javaClass method.parameters.size are bigger than 0 ${method.name}={$method}")
         return@mapNotNull null
