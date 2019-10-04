@@ -25,7 +25,7 @@ import kotlin.reflect.typeOf
  * Last edit 05.06.2019
  */
 
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY_GETTER)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class Undercover
 
