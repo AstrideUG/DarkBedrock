@@ -1,6 +1,8 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
+
+@file:JvmName("NonNullUtils")
 
 package net.darkdevelopers.darkbedrock.darkness.general.functions
 
@@ -8,17 +10,17 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
-/**
+/*
+ * Created on 20.08.2018 12:50.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 20.08.2018 12:50.
- * Last edit 12.11.2018
  */
+
 fun <T : Any> T?.toNonNull(name: String) = this@toNonNull ?: throw NullPointerException("$name can not be null")
 
 inline fun <reified T : Any> T?.toNonNull(): T = toNonNull(T::class.java.simpleName)
 
 @ExperimentalContracts
-inline fun <reified T : Any> T?.toNonNull(name: String, lambda: (T) -> Unit): Unit {
+inline fun <reified T : Any> T?.toNonNull(name: String, lambda: (T) -> Unit) {
     contract { callsInPlace(lambda, InvocationKind.EXACTLY_ONCE) }
     lambda(toNonNull(name))
 }

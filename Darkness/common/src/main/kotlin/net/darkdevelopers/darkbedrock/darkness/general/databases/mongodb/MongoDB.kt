@@ -1,5 +1,5 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.general.databases.mongodb
@@ -9,10 +9,7 @@ import com.mongodb.ConnectionString
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoClients
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
-import net.darkdevelopers.darkbedrock.darkness.general.configs.mapped
-import net.darkdevelopers.darkbedrock.darkness.general.configs.toConfigMap
 import net.darkdevelopers.darkbedrock.darkness.general.functions.load
-import net.darkdevelopers.darkbedrock.darkness.general.functions.save
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toMap
 
@@ -24,15 +21,7 @@ data class MongoDB(private val mongoData: MongoData) {
     private constructor() : this("configs".toConfigData("mongodb"))
 
     constructor(configData: ConfigData) : this(
-        try {
-            configData.load<JsonObject>().toMap().mapped<MongoData>()!!
-        } catch (ex: NullPointerException) {
-            configData.save(MongoData().toConfigMap())
-            println()
-            println("[MongoDB] Please enter the MongoDB data")
-            println()
-            throw IllegalArgumentException("The MongoDB data has not configured yet")
-        }
+        MongoData(configData.load<JsonObject>().toMap())
     )
 
     fun connect(database: String = ""): MongoClient {

@@ -1,15 +1,13 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.SaveTimeCountdownCallEvent
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.call
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
-import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
 import org.bukkit.entity.Player
 
 /**
@@ -28,12 +26,12 @@ class SaveTimeCountdown(
 
             if (SaveTimeCountdownCallEvent(this).call().isCancelled) return@loop
 
-            if (seconds == 0) {
-                "${Messages.PREFIX} ${TEXT}Die Schutzzeit ended".sendTo(players)
+            if (seconds == 0 || Utils.players.isEmpty()) {
+                messages.saveTimeCountdownEndProtection.sendTo(Utils.players)
                 stop()
-            } else if (seconds in arrayOf(1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60))
-                "${Messages.PREFIX}${TEXT}Die Schutzzeit ended in ${if (seconds == 1) "${IMPORTANT}einer$TEXT Sekunde" else "$IMPORTANT$seconds$TEXT Sekunden"}"
-                    .sendTo(players)
+            } else if (seconds in messages.saveTimeCountdownEndProtectionInIfIn) messages.saveTimeCountdownEndProtectionIn
+                .replace("@seconds@", seconds.toString(), true)
+                .sendTo(Utils.players)
 
             seconds--
 

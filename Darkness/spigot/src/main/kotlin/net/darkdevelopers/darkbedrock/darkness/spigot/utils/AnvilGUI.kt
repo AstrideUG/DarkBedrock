@@ -1,3 +1,7 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 
 /*
@@ -6,11 +10,11 @@ package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.AnvilClickEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.call
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.listen
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.unregister
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.listenTop
 import net.darkdevelopers.darkbedrock.darkness.spigot.manager.game.EventsTemplate
-import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
 import net.minecraft.server.v1_8_R3.*
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
 import org.bukkit.entity.Player

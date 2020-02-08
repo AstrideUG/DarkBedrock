@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.builder.item
@@ -16,16 +16,17 @@ import java.nio.charset.Charset
 import java.util.*
 
 /**
+ * Created on 07.03.2019 01:27.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 07.03.2019 01:27.
- * Current Version: 1.0 (07.03.2019 - 07.03.2019)
  */
+@Suppress("unused")
 class SkullItemBuilder(itemStack: ItemStack) : ItemBuilder(itemStack), ISkullItemBuilder {
 
     override val itemMeta = super.itemMeta as SkullMeta
 
     constructor(itemBuilder: ItemBuilder) : this(itemBuilder.build())
 
+    @JvmOverloads
     constructor(material: Material, amount: Int = 1) : this(ItemStack(material, amount, 3))
 
     constructor() : this(Material.SKULL_ITEM)

@@ -1,4 +1,24 @@
 steps:
-  - name: gcr.io/cloud-builders/gradle
-    args: ['build','--build-cache']
+  - name: 'gcr.io/$PROJECT_ID/restore_cache'
+    args:
+      - '--bucket=gs://${PROJECT_ID}_cloudbuild/${_CACHE_BUCKET}'
+      - '--key=${_CACHE_KEY}'
+  - name: 'java:8'
+    entrypoint: "bash"
+    args:
+      - '-c'
+      - './gradlew build'
+    env:
+      - 'GRADLE_OPTS="-Dorg.gradle.daemon=false -Dkotlin.incremental=false"'
+      - 'GRADLE_USER_HOME=${_GRADLE_USER_HOME}'
+  - name: 'gcr.io/$PROJECT_ID/save_cache'
+    args:
+      - '--bucket=gs://${PROJECT_ID}_cloudbuild/${_CACHE_BUCKET}'
+      - '--key=${_CACHE_KEY}'
+      - '--path=${_GRADLE_USER_HOME}/caches'
+      - '--path=${_GRADLE_USER_HOME}/wrapper'
+substitutions:
+  _CACHE_BUCKET: 'gradle_cache'
+  _GRADLE_USER_HOME: '/workspace/.gradle'
+  _CACHE_KEY: 'gradle-cache'
 timeout: 600s

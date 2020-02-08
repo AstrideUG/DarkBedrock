@@ -1,17 +1,13 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2020.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.LobbyCountdownCallEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.LobbyCountdownIdleEvent
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendSubTitle
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTimings
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTitle
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
-import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.*
+import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.SECONDARY
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import java.util.concurrent.TimeUnit
@@ -42,17 +38,16 @@ class LobbyCountdown(
             if (LobbyCountdownCallEvent(this).call().isCancelled) return@loop
 
             if (seconds == 0) {
-                "${Messages.PREFIX}${TEXT}Das Spiel startet".sendTo(players)
+                messages.lobbyCountdownStartGame.sendTo(players)
                 players.forEach { it.playSound(it.location, Sound.LEVEL_UP, 1F, 1F) }
                 stop()
-            } else if (seconds in arrayOf(1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60)) {
-                "${Messages.PREFIX}${TEXT}Das Spiel startet in $IMPORTANT${if (seconds == 1) "einer$TEXT Sekunde" else "$seconds$TEXT Sekunden"}"
-                    .sendTo(players)
-            }
+            } else if (seconds in messages.lobbyCountdownStartGameInIfIn) messages.lobbyCountdownStartGameIn
+                .replace("@seconds@", seconds.toString(), true)
+                .sendTo(players)
 
             if (seconds == 10) players.forEach {
                 it.sendTitle(gameName)
-                it.sendSubTitle(Messages.SERVER_NAME.toString())
+                it.sendSubTitle(messages.serverName)
                 it.sendTimings(10, 20, 10)
                 it.playSound(it.location, Sound.ORB_PICKUP, 1F, 1F)
             } else if (seconds in 1..5) players.forEach {
@@ -76,8 +71,7 @@ class LobbyCountdown(
 
             val i = minPlayers - players.size
             if (i == 0) start()
-            else "${Messages.PREFIX}${TEXT}Warte auf $IMPORTANT${if (seconds == 1) "einen$TEXT weiteren" else "$i$TEXT weitere"} Spieler..."
-                .sendTo(players)
+            else messages.lobbyCountdownIdle.replace("@count@", minPlayers.toString(), true).sendTo(players)
         }
     } else System.err.println("The lobby countdown idle should start, although it is already running")
 

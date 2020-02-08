@@ -1,8 +1,9 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
 @file:Suppress("unused")
+@file:JvmName("MaterialUtils")
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 

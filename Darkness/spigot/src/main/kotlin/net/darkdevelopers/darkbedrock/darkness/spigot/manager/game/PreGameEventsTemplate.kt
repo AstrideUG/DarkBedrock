@@ -1,13 +1,11 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.manager.game
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import org.bukkit.Location
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.plugin.Plugin
@@ -24,7 +22,7 @@ object PreGameEventsTemplate : EventsTemplate() {
         setupCancel()
 
         setJoinMessage { null }
-        setDisconnectMessage { "${Messages.PREFIX}$IMPORTANT${it.player.displayName}$TEXT hat die Runde verlassen" } //TODO: ADD TEAM INFOS
+        setConfigJoinDisconnectMessage() //TODO: ADD TEAM INFOS
         setDeathMessage { null }
         setKeepInventory { true }
         setChatFormat { "${it.player.displayName}$IMPORTANT: ${Colors.RESET}${it.message}" }
@@ -34,7 +32,7 @@ object PreGameEventsTemplate : EventsTemplate() {
             val to = event.to
             if (to.blockX == from.blockX && from.blockZ == to.blockZ) return@listen
             event.player.teleport(Location(from.world, from.x, from.y, from.z, to.yaw, to.pitch))
-        }
+        }.add()
 
     }
 
@@ -48,8 +46,7 @@ object PreGameEventsTemplate : EventsTemplate() {
         unregisterKeepInventory()
         unregisterChatFormat()
 
-        listener.unregister()
-        listener.clear()
+        super.reset()
 
     }
 
