@@ -1,5 +1,5 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2020.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.configs
@@ -31,7 +31,7 @@ open class Messages(values: Map<String, Any?>) {
     val lobbyCountdownStartGame by values.default { "$prefix${TEXT}Das Spiel startet" }
     val lobbyCountdownStartGameIn by values.default { "$prefix${TEXT}Das Spiel startet in $IMPORTANT@seconds@$TEXT Sekunden" }
     val lobbyCountdownStartGameInIfIn by values.default { ifIn }
-    val lobbyCountdownIdle by values.default { "$prefix${TEXT}Warte auf $IMPORTANT @count@$TEXT weitere Spieler..." }
+    val lobbyCountdownIdle by values.default { "$prefix${TEXT}Warte auf ${IMPORTANT}@count@$TEXT weitere Spieler..." }
     val preGameCountdownStartRound by values.default { "$prefix${TEXT}Die Runde startet" }
     val preGameCountdownStartRoundIn by values.default { "$prefix${TEXT}Die Runde startet in $IMPORTANT@seconds@$TEXT Sekunden" }
     val preGameCountdownStartRoundInIfIn by values.default { ifIn }

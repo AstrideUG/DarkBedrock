@@ -1,5 +1,5 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2020.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
@@ -71,7 +71,7 @@ class LobbyCountdown(
 
             val i = minPlayers - players.size
             if (i == 0) start()
-            else messages.lobbyCountdownIdle.replace("@count@", seconds.toString(), true).sendTo(players)
+            else messages.lobbyCountdownIdle.replace("@count@", minPlayers.toString(), true).sendTo(players)
         }
     } else System.err.println("The lobby countdown idle should start, although it is already running")
 
