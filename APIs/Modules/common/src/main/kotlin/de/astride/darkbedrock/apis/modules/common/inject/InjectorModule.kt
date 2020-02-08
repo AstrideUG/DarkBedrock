@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
 package de.astride.darkbedrock.apis.modules.common.inject

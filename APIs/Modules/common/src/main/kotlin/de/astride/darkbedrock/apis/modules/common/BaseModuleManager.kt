@@ -1,6 +1,8 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
- *//*
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
+/*
 
 package de.astride.darkbedrock.apis.modules.common
 
@@ -94,9 +96,9 @@ class BaseModuleManager : ModuleManager {
 
 	*/
 /**
-	 * @author Lars Artmann | LartyHD
-	 * Created by Lars Artmann | LartyHD on 09.11.2018 21:51.
-	 * Current Version: 1.0 (09.11.2018 - 09.11.2018)
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 09.11.2018 21:51.
+ * Current Version: 1.0 (09.11.2018 - 09.11.2018)
  *//*
 
 	private interface FileTypeLoader {
@@ -125,9 +127,9 @@ class BaseModuleManager : ModuleManager {
 
 	*/
 /**
-	 * @author Lars Artmann | LartyHD
-	 * Created by Lars Artmann | LartyHD on 09.11.2018 22:07.
-	 * Current Version: 1.0 (09.11.2018 - 09.11.2018)
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 09.11.2018 22:07.
+ * Current Version: 1.0 (09.11.2018 - 09.11.2018)
  *//*
 
 	private class JarFileTypeLoader : FileTypeLoader {
@@ -140,9 +142,9 @@ class BaseModuleManager : ModuleManager {
 
 	*/
 /**
-	 * @author Lars Artmann | LartyHD
-	 * Created by Lars Artmann | LartyHD on 09.11.2018 22:08.
-	 * Current Version: 1.0 (09.11.2018 - 09.11.2018)
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 09.11.2018 22:08.
+ * Current Version: 1.0 (09.11.2018 - 09.11.2018)
  *//*
 
 	private class ClassFileTypeLoader : FileTypeLoader {
@@ -155,9 +157,9 @@ class BaseModuleManager : ModuleManager {
 
 	*/
 /**
-	 * @author Lars Artmann | LartyHD
-	 * Created by Lars Artmann | LartyHD on 09.11.2018 22:08.
-	 * Current Version: 1.0 (09.11.2018 - 09.11.2018)
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 09.11.2018 22:08.
+ * Current Version: 1.0 (09.11.2018 - 09.11.2018)
  *//*
 
 	private class JavaFileTypeLoader : FileTypeLoader {
@@ -170,9 +172,9 @@ class BaseModuleManager : ModuleManager {
 
 	*/
 /**
-	 * @author Lars Artmann | LartyHD
-	 * Created by Lars Artmann | LartyHD on 09.11.2018 22:08.
-	 * Current Version: 1.0 (09.11.2018 - 09.11.2018)
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 09.11.2018 22:08.
+ * Current Version: 1.0 (09.11.2018 - 09.11.2018)
  *//*
 
 	private class KtFileTypeLoader : FileTypeLoader {

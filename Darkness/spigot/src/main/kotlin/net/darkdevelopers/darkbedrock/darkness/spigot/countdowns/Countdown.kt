@@ -1,20 +1,21 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 import org.bukkit.entity.Player
 import java.util.concurrent.TimeUnit
+import java.util.logging.Logger
 import kotlin.concurrent.thread
 
-abstract class Countdown internal constructor(var seconds: Int) {
+abstract class Countdown internal constructor(var seconds: Int, private val logger: Logger = Logger.getGlobal()) {
     @Suppress("MemberVisibilityCanBePrivate")
     val startSeconds = seconds
     private lateinit var thread: Thread
     var isRunning: Boolean = false
 
-    internal fun setLevel(): Unit = players.forEach { setLevel(it) }
+    internal fun setLevel(): Unit = players.forEach(::setLevel)
 
     private fun setLevel(player: Player) {
         player.level = seconds
@@ -25,15 +26,15 @@ abstract class Countdown internal constructor(var seconds: Int) {
         thread = loop(TimeUnit.SECONDS.toMillis(1), lambda)
     }
 
-    internal fun loop(sleep: Long, lambda: () -> Unit) = thread {
-        println("[${javaClass.simpleName}] Thread started")
+    internal fun loop(sleep: Long, lambda: () -> Unit): Thread = thread {
+        logger.info("[${javaClass.simpleName}] Thread started")
         try {
             while (true) {
                 lambda()
                 Thread.sleep(sleep)
             }
         } catch (ex: InterruptedException) {
-            println("[${javaClass.simpleName}] Thread stoped")
+            logger.info("[${javaClass.simpleName}] Thread stoped")
         }
     }
 
@@ -47,6 +48,6 @@ abstract class Countdown internal constructor(var seconds: Int) {
         seconds = 0
         setLevel()
         seconds = startSeconds
-    } else System.err.println("The $countdownName countdown should be stopped even though it is not running")
+    } else logger.warning("The $countdownName countdown should be stopped even though it is not running")
 
 }

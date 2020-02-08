@@ -1,27 +1,20 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.countdowns.PreGameCountdown
-import org.bukkit.event.Cancellable
+import net.darkdevelopers.darkbedrock.darkness.spigot.events.KCancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
 /**
+ * Created on 05.05.2019 13:35.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 05.05.2019 13:35.
- * Current Version: 1.0 (05.05.2019 - 05.05.2019)
  */
-class PreGameCountdownCallEvent(val preGameCountdown: PreGameCountdown) : Event(), Cancellable {
+class PreGameCountdownCallEvent(@Suppress("unused") val preGameCountdown: PreGameCountdown) : Event(), KCancellable {
 
-    private var cancellable: Boolean = false
-
-    override fun isCancelled(): Boolean = cancellable
-
-    override fun setCancelled(cancel: Boolean) {
-        cancellable = cancel
-    }
+    override var cancellable: Boolean = false
 
     override fun getHandlers(): HandlerList = handlerList
 

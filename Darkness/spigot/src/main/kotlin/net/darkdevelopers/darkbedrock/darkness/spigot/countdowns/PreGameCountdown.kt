@@ -1,16 +1,16 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.PreGameCountdownCallEvent
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.call
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTimings
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTitle
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
+import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.SECONDARY
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
-import net.darkdevelopers.darkbedrock.darkness.universal.functions.call
 import org.bukkit.Sound
 
 /**
@@ -26,13 +26,12 @@ class PreGameCountdown(seconds: Int = 5) : Countdown(seconds) {
 
             if (PreGameCountdownCallEvent(this).call().isCancelled) return@loop
 
-            if (seconds == 0) {
-                "${Messages.PREFIX}${TEXT}Die Runde startet".sendTo(players)
+            if (seconds == 0 || players.isEmpty()) {
+                messages.preGameCountdownStartRound.sendTo(players)
                 stop()
-            } else if (seconds in arrayOf(1, 2, 3, 4, 5, 10, 15, 20, 30, 45, 60))
-                "${Messages.PREFIX}${TEXT}Die Runde startet in ${if (seconds == 1) "${IMPORTANT}einer$TEXT Sekunde" else "$IMPORTANT$seconds$TEXT Sekunden"}"
-                    .sendTo(players)
-
+            } else if (seconds in messages.preGameCountdownStartRoundInIfIn) messages.preGameCountdownStartRoundIn
+                .replace("@seconds@", seconds.toString(), true)
+                .sendTo(players)
 
             if (seconds == 10 || seconds in 1..5) players.forEach {
                 it.sendTitle("$SECONDARY$seconds")

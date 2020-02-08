@@ -1,6 +1,8 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
+
+@file:JvmName("ItemStackUtils")
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
@@ -24,4 +26,10 @@ fun ItemStack.copy(
     if (amount != null) this.amount = amount
     if (durability != null) this.durability = durability
     if (itemMeta != null) this.itemMeta = itemMeta
+}
+
+fun ItemStack.equals(itemStack: ItemStack, ignoreAmount: Boolean = false): Boolean {
+    val first = if (ignoreAmount) itemStack.copy(amount = 1) else itemStack
+    val second = if (ignoreAmount) this.copy(amount = 1) else this
+    return first == second
 }

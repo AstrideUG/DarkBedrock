@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.general.configs
@@ -10,9 +10,9 @@ import java.io.File
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 02.06.2018 17:42.
- * Last edit 20.10.2018
+ * Last edit 05.06.2019
  */
-@Suppress("MemberVisibilityCanBePrivate")
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 data class ConfigData(
     val directory: File,
     val fileName: String,
@@ -30,12 +30,6 @@ data class ConfigData(
     val file: File = File(directory, fileName)
 
     constructor(directory: String, fileName: String, create: Boolean = true) : this(File(directory), fileName, create)
-    @Deprecated("Ends erroneously with .json", ReplaceWith("ConfigData(directory, \"config.json\")"))
-    constructor(directory: File) : this(directory, "config.json")
-
-    @Suppress("DEPRECATION")
-    @Deprecated("Use a Deprecated constructor", ReplaceWith("ConfigData(directory, \"config.json\")"))
-    constructor(directory: String) : this(File(directory))
 
     init {
         if (create) createIfNotExists(directory, file)

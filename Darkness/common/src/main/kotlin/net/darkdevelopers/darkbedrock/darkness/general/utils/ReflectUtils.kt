@@ -1,5 +1,5 @@
 /*
- * © Copyright - DarkBlocks.net | Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.general.utils
 
@@ -28,9 +28,6 @@ object ReflectUtils {
         null
     }
 
-    @Suppress("UNCHECKED_CAST")
-    fun <O : Any?> getValueAs(any: Any, name: String): O? = getValue(any.javaClass, any, name) as? O
-
     @Suppress("MemberVisibilityCanBePrivate")
     fun getField(clazz: Class<*>, name: String): Field? = try {
         val field = clazz.getAccessibleField(name)
@@ -47,9 +44,6 @@ object ReflectUtils {
 fun Any.setValue(name: String, value: Any, field: Field = javaClass.getAccessibleField(name)): Unit =
     printException { javaClass.getModifiableField(name, field)?.set(this, value) }
 
-@Suppress("UNCHECKED_CAST")
-fun <O : Any?> Any.getValueAs(name: String): O? = this.getValue(name) as? O
-
 fun Any.getValue(name: String, field: Field = javaClass.getAccessibleField(name)): Any? {
     printException { return javaClass.getModifiableField(name, field)?.get(this) }
     return null
@@ -58,7 +52,7 @@ fun Any.getValue(name: String, field: Field = javaClass.getAccessibleField(name)
 fun <T : Any> Class<T>.getModifiableField(name: String, field: Field = javaClass.getAccessibleField(name)): Field? {
     printException {
         if (Modifier.isFinal(field.modifiers))
-            Field::class.java.getField("modifiers")?.set(field, field.modifiers and Modifier.FINAL.inv())
+            ReflectUtils.getField(Field::class.java, "modifiers")?.set(field, field.modifiers and Modifier.FINAL.inv())
         return field
     }
     return null

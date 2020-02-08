@@ -1,9 +1,12 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
+
+@file:JvmName("EventMessages")
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions.events
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import org.bukkit.Location
 import org.bukkit.event.entity.PlayerDeathEvent
@@ -13,9 +16,8 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerRespawnEvent
 
 /*
+ * Created on 02.05.2019 11:43.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 02.05.2019 11:43.
- * Current Version: 1.0 (02.05.2019 - 05.05.2019)
  */
 
 /**
@@ -103,3 +105,14 @@ fun setDeathMessage(block: (PlayerDeathEvent) -> String?) {
 fun unregisterDeathMessage() {
     activeListener["death-message"]?.unregister()
 }
+
+fun setConfigJoinDisconnectMessage() {
+    setConfigJoinMessage()
+    setConfigDisconnectMessage()
+}
+
+fun setConfigJoinMessage(): Unit =
+    setJoinMessage { messages.joinMessage.replace("@player@", it.player.name, true) }
+
+fun setConfigDisconnectMessage(): Unit =
+    setDisconnectMessage { messages.leaveMessage.replace("@player@", it.player.name, true) }

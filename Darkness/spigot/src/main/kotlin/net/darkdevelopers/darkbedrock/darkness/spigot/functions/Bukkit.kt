@@ -1,25 +1,42 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
+@file:JvmName("BukkitUtils")
 
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
-import net.darkdevelopers.darkbedrock.darkness.general.minecraft.fetcher.Fetcher
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel
+import net.darkdevelopers.darkbedrock.darkness.spigot.fetcher.Fetcher
 import org.bukkit.*
 import org.bukkit.entity.Player
-import org.bukkit.event.Cancellable
+import org.bukkit.event.Event
 import org.bukkit.plugin.Plugin
+import org.bukkit.plugin.PluginManager
 import org.bukkit.plugin.ServicePriority
 import org.bukkit.plugin.ServicesManager
+import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 import kotlin.random.Random
 
 /*
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 22.12.2018 13:59.
- * Current Version: 1.0 (22.12.2018 - 29.05.2019)
+ * Current Version: 1.0 (22.12.2018 - 05.06.2019)
  */
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 05.06.2019 16:05.
+ * Current Version: 1.0 (05.06.2019 - 05.06.2019)
+ */
+val <P : JavaPlugin> Class<P>.instance: JavaPlugin? get() = JavaPlugin.getPlugin(this)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 28.08.2018 01:04.
+ * Last edit 05.06.2019
+ */
+fun <O : Event> O.call(pluginManager: PluginManager = Bukkit.getPluginManager()): O =
+    apply { pluginManager.callEvent(this) }
 
 /**
  * @author Lars Artmann | LartyHD
@@ -101,27 +118,6 @@ fun Location.randomLook(a: Int = 3, b: Int = 90): Location {
     val i1 = 180
     val yaw = if (i == i1) i else i % i1 * if (i / i1 > 0) -1 else 1
     return Location(world, x, y, z, yaw.toFloat(), pitch)
-}
-
-/**
- * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 15.02.2019 04:06.
- * Current Version: 1.0 (15.02.2019 - 15.02.2019)
- */
-@Deprecated("", ReplaceWith("this.cancel()", "net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel"))
-fun Cancellable.cancel(): Unit = cancel(true)
-
-
-/**
- * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 15.02.2019 04:07.
- * Current Version: 1.0 (15.02.2019 - 15.02.2019)
- */
-@Deprecated(
-    "", ReplaceWith("this.cancel(value)", "net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.cancel")
-)
-fun Cancellable.cancel(value: Boolean) {
-    isCancelled = value
 }
 
 /**

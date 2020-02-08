@@ -1,11 +1,14 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.commands
 
 import com.google.gson.JsonObject
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
-import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService.loadAs
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonStringMapWithSubs
 import net.darkdevelopers.darkbedrock.darkness.general.functions.getOrKey
+import net.darkdevelopers.darkbedrock.darkness.general.functions.load
 import net.darkdevelopers.darkbedrock.darkness.general.modules.Module
 import net.darkdevelopers.darkbedrock.darkness.general.modules.ModuleDescription
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessages
@@ -17,6 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin
  * Created by Lars Artmann | LartyHD on 22.12.2018 06:09.
  * Current Version: 1.0 (22.12.2018 - 13.05.2019)
  */
+@Suppress("MemberVisibilityCanBePrivate")
 abstract class SimplePermissionsCommandModule(protected val defaultCommandName: String) : Module {
 
     override val description: ModuleDescription = ModuleDescription(
@@ -66,9 +70,9 @@ abstract class SimplePermissionsCommandModule(protected val defaultCommandName: 
 
     protected inner class Config {
         val configData = ConfigData(description.folder, "config.json")
-        val jsonObject = loadAs(configData) ?: JsonObject()
+        val jsonObject = configData.load<JsonObject>()
         @Suppress("DEPRECATION")
-        val messages = SpigotGsonMessages(GsonConfig(configData).load()).availableMessages
+        val messages = SpigotGsonMessages(configData).availableMessages
         val permissions = GsonStringMapWithSubs(jsonObject["permissions"]?.asJsonObject ?: JsonObject()).available
         val commandName = jsonObject["command-name"]?.asString ?: defaultCommandName
         val aliases: Array<out String> =

@@ -1,10 +1,10 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
 buildscript {
     ext {
-        kotlinVersion = '1.3.31'
+        kotlinVersion = '1.3.41'
     }
     repositories {
         mavenCentral()
@@ -12,13 +12,8 @@ buildscript {
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:${kotlinVersion}")
     }
 }
-
-//plugins {
-//    id "org.sonarqube" version "2.7"
-//}
 
 import org.apache.tools.ant.filters.ReplaceTokens
 
@@ -26,12 +21,11 @@ subprojects {
 
     apply plugin: 'java'
     apply plugin: 'kotlin'
-    apply plugin: 'kotlinx-serialization'
     apply plugin: 'idea'
     apply plugin: 'maven'
 
     group = "net.darkdevelopers.darkbedrock"
-    version = "3.4.0"
+    version = "4.0.0-SNAPSHOT"
 
     libsDirName = "libraries"
 
@@ -66,12 +60,10 @@ subprojects {
         compileOnly "org.jetbrains.kotlin:kotlin-stdlib"
         compileOnly "org.jetbrains.kotlin:kotlin-reflect"
         compileOnly "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1"
-        compileOnly "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$versions_serialization"
 
         testCompile "org.jetbrains.kotlin:kotlin-stdlib"
         testCompile "org.jetbrains.kotlin:kotlin-reflect"
         testCompile "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1"
-        testCompile "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$versions_serialization"
 
         testCompile "org.jetbrains.kotlin:kotlin-test"
         testCompile "org.mockito:mockito-all:2.0.2-beta"
@@ -105,7 +97,7 @@ subprojects {
 
     compileKotlin {
         kotlinOptions {
-            freeCompilerArgs = ['-Xjsr305=strict', '-Xuse-experimental=kotlinx.serialization.ImplicitReflectionSerializer']
+            freeCompilerArgs = ['-Xjsr305=strict', "-Xuse-experimental=kotlin.ExperimentalStdlibApi", '-Xuse-experimental=kotlinx.serialization.ImplicitReflectionSerializer']
             jvmTarget = '1.8'
             suppressWarnings = true
         }
@@ -113,7 +105,7 @@ subprojects {
 
     compileTestKotlin {
         kotlinOptions {
-            freeCompilerArgs = ['-Xjsr305=strict', '-Xuse-experimental=kotlinx.serialization.ImplicitReflectionSerializer']
+            freeCompilerArgs = ['-Xjsr305=strict', "-Xuse-experimental=kotlin.ExperimentalStdlibApi", '-Xuse-experimental=kotlinx.serialization.ImplicitReflectionSerializer']
             jvmTarget = '1.8'
             suppressWarnings = true
         }

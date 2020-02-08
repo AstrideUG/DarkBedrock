@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.utils
 
@@ -161,7 +161,7 @@ private fun Inventory.walls(line0: Int = line) {
 }
 
 private fun Inventory.wall(line0: Int = line, add: Int = 0) {
-    val slot = (add * line0) //+ line0
+    val slot = add * line0 //+ line0
     setGlass(slot, dark)
     setGlass(size - slot - 1, dark)
 }

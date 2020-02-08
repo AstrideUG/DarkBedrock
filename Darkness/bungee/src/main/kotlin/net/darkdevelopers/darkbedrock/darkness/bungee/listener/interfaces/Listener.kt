@@ -1,3 +1,7 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.bungee.listener.interfaces
 
 import net.darkdevelopers.darkbedrock.darkness.bungee.listener.cancellable.DefaultCancellable

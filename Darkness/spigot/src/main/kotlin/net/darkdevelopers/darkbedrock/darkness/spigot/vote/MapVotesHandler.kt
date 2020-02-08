@@ -1,9 +1,13 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.vote
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.loadBukkitWorld
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.MapsUtils
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 
 /**
  * @author Lars Artmann | LartyHD
@@ -12,7 +16,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
  */
 class MapVotesHandler(votes: MutableSet<Vote>, private val force: String?) : VotesHandler(votes) {
     public override fun finishVotes(winner: String) {
-        MapsUtils.loadMap(getMapAndBroadcast(winner))
+        getMapAndBroadcast(winner).loadBukkitWorld()
     }
 
     private fun getMapAndBroadcast(winner: String): String {
@@ -20,11 +24,9 @@ class MapVotesHandler(votes: MutableSet<Vote>, private val force: String?) : Vot
         return getMap(winner)
     }
 
-    private fun broadcastMap(winner: String) =
-        if (isVotedMap())
-            sendMapInfo(Messages.PREFIX.toString(), winner)
-        else
-            sendWinnerMapInfo(Messages.PREFIX.toString(), winner, calculateVotesCount(winner))
+    private fun broadcastMap(winner: String): Unit = if (isVotedMap())
+        sendMapInfo(messages.prefix, winner)
+    else sendWinnerMapInfo(messages.prefix, winner, calculateVotesCount(winner))
 
     private fun getMap(winner: String) = if (isVotedMap()) winner else force!!
 
@@ -36,7 +38,7 @@ class MapVotesHandler(votes: MutableSet<Vote>, private val force: String?) : Vot
         return count
     }
 
-    private fun sendMapInfo(prefix: String, mapName: String) = Utils.goThroughAllPlayers {
+    private fun sendMapInfo(prefix: String, mapName: String) = players.forEach {
         it.run {
             sendMessage(prefix)
             sendMessage("$prefix$TEXT     Map$IMPORTANT: $PRIMARY$mapName")
@@ -44,7 +46,7 @@ class MapVotesHandler(votes: MutableSet<Vote>, private val force: String?) : Vot
         }
     }
 
-    private fun sendWinnerMapInfo(prefix: String, winner: String, count: Int) = Utils.goThroughAllPlayers {
+    private fun sendWinnerMapInfo(prefix: String, winner: String, count: Int) = players.forEach {
         it.run {
             sendMessage(prefix)
             sendMessage("$prefix$TEXT     Das Voting ist beendet")

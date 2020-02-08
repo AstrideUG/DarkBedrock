@@ -1,28 +1,26 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.commands
 
-import net.darkdevelopers.darkbedrock.darkness.general.utils.ReflectUtils
+import net.darkdevelopers.darkbedrock.darkness.general.utils.getValue
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.interfaces.ICommand
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
+import net.darkdevelopers.darkbedrock.darkness.spigot.copyed.ExternalPluginCommand
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.isPlayer
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
-import org.bukkit.Bukkit
 import org.bukkit.command.CommandMap
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
-import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 26.03.2018 03:41.
- * Last edit 24.05.2018
+ * Last edit 05.06.2019
  */
 @Suppress("MemberVisibilityCanBePrivate", "LeakingThis", "CanBeParameter", "unused")
 abstract class Command(
@@ -34,17 +32,15 @@ abstract class Command(
     val minLength: Int = 0,
     val maxLength: Int = 0,
     tabCompleter: TabCompleter? = null,
-    vararg aliases: String
+    vararg val aliases: String
 ) : ICommand {
 
     val hasHelp = usage.split("|").size > 1
 
     init {
-        @Suppress("DEPRECATION")
-        val commandMap = ReflectUtils.getValueAs<CommandMap>(Bukkit.getServer(), "commandMap")
+        val commandMap = javaPlugin.server.getValue("commandMap") as? CommandMap
         if (commandMap != null) {
-            val command =
-                net.darkdevelopers.darkbedrock.darkness.spigot.copyed.ExternalPluginCommand(commandName, javaPlugin)
+            val command = ExternalPluginCommand(commandName, javaPlugin)
             if (maxLength > 0) usage = when {
                 minLength == 0 -> "|[help]|$usage"
                 hasHelp -> "help|$usage"
@@ -79,9 +75,9 @@ abstract class Command(
     }
 
     override fun sendUseMessage(sender: CommandSender) = if (!hasHelp)
-        sender.sendMessage("${Messages.PREFIX}${TEXT}Nutze: $IMPORTANT/$commandName $TEXT$usage")
+        messages.commandUseMessageSingle.replaceCommand().sendTo(sender)
     else {
-        sender.sendMessage("${Messages.PREFIX}${TEXT}Nutze:")
+        messages.commandUseMessagePrefix.replaceCommand().sendTo(sender)
         for (usage in usage.split("|")) {
             if (usage.contains(":")) {
                 val subCommand = usage.split(":")
@@ -91,37 +87,27 @@ abstract class Command(
     }
 
     private fun sendUseMessage(sender: CommandSender, usage: String) {
-        val textComponent = TextComponent("$TEXT- $IMPORTANT/$commandName $TEXT$usage")
+        val textComponent = TextComponent(messages.commandUseMessageLine.replaceCommand(usage))
         sender.isPlayer({
             textComponent.clickEvent = ClickEvent(
                 ClickEvent.Action.SUGGEST_COMMAND,
-                "/$commandName ${usage.replace("[", "").replace("]", "").replace("<", "").replace(">", "")}"
+                messages.commandUseMessageRun.replaceCommand(usage)
             )
             textComponent.hoverEvent = HoverEvent(
                 HoverEvent.Action.SHOW_TEXT,
-                arrayOf(TextComponent("${TEXT}Klicke um den Command vorzuschlagen"))
+                arrayOf(TextComponent(messages.commandUseMessageHover.replaceCommand(usage)))
             )
             it.spigot().sendMessage(textComponent)
         }, { sender.sendMessage(textComponent.text) })
     }
 
-    @Deprecated(
-        "",
-        ReplaceWith("sender.isPlayer(lambda)", "net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer")
-    )
-    override fun isPlayer(sender: CommandSender, lambda: (Player) -> Unit) = sender.isPlayer(lambda) {
-        sender.sendMessage("Der Command ist nur für Spieler")
-    }
-
-    @Deprecated(
-        "",
-        ReplaceWith(
-            "sender.isPlayer(onSuccess, onFail)",
-            "net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer"
-        )
-    )
-    override fun isPlayer(sender: CommandSender, onSuccess: (Player) -> Unit, onFail: () -> Unit) =
-        if (sender is Player) onSuccess(sender) else onFail()
+    private fun String.replaceCommand(usage0: String = usage) = replace("@command-name@", commandName)
+        .replace("@permission@", permission)
+        .replace("@permissionMessage@", permissionMessage)
+        .replace("@usage@", usage0)
+        .replace("@minLength@", minLength.toString())
+        .replace("@maxLength@", maxLength.toString())
+        .replace("@aliases@", aliases.joinToString())
 
 }
 

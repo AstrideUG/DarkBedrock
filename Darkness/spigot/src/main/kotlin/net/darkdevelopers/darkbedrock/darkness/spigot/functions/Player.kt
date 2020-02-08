@@ -1,3 +1,9 @@
+/*
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
+@file:JvmName("PlayerUtils")
+
 package net.darkdevelopers.darkbedrock.darkness.spigot.functions
 
 import com.mojang.authlib.GameProfile
@@ -18,6 +24,8 @@ import java.util.*
  * Created by Lars Artmann | LartyHD on 22.12.2018 04:55.
  * Current Version: 1.0 (22.12.2018 - 08.05.2019)
  */
+
+val Player.locale: Locale get() = Locale.forLanguageTag((this as CraftPlayer).handle.locale)
 
 /**
  * @author Lars Artmann | LartyHD

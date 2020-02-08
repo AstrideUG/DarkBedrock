@@ -1,12 +1,12 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.manager.game
 
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.isRight
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.*
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
+import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
+import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.RESET
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Items
 import org.bukkit.Location
 import org.bukkit.World
@@ -31,8 +31,7 @@ object LobbyEventsTemplate : EventsTemplate() {
 
         location.setup()
 
-        setJoinMessage { "${Messages.PREFIX}$IMPORTANT${it.player.displayName}$TEXT hat die Runde betreten" }
-        setDisconnectMessage { "${Messages.PREFIX}$IMPORTANT${it.player.displayName}$TEXT hat die Runde verlassen" }
+        setConfigJoinDisconnectMessage()
         setDeathMessage { null }
         setRespawn { location }
         setChatFormat { "${it.player.displayName}$IMPORTANT: $RESET${it.message}" }
@@ -59,8 +58,7 @@ object LobbyEventsTemplate : EventsTemplate() {
         unregisterChatFormat()
         unregisterKeepInventory()
 
-        listener.unregister()
-        listener.clear()
+        super.reset()
 
     }
 

@@ -1,11 +1,11 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.vote
 
+import net.darkdevelopers.darkbedrock.darkness.spigot.configs.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.IMPORTANT
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.TEXT
-import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.vote.interfaces.VotesHandler
 import org.bukkit.command.CommandSender
 
@@ -35,11 +35,11 @@ abstract class VotesHandler(override val votes: MutableSet<Vote>) : VotesHandler
             it.voter.remove(sender.name)
             if (it.name.equals(voteName, ignoreCase = true)) {
                 it.voter.add(sender.name)
-                sender.sendMessage("${Messages.PREFIX}${TEXT}Du hast für $IMPORTANT$voteName$TEXT abgestimmt")
+                sender.sendMessage("${messages.prefix}${TEXT}Du hast für $IMPORTANT$voteName$TEXT abgestimmt")
                 return true
             }
         }
-        sender.sendMessage("${Messages.PREFIX}${TEXT}Es ist ein ${IMPORTANT}Fehler$TEXT beim zählen deiner stimme aufgetreten!")
+        sender.sendMessage("${messages.prefix}${TEXT}Es ist ein ${IMPORTANT}Fehler$TEXT beim zählen deiner stimme aufgetreten!")
         return false
     }
 

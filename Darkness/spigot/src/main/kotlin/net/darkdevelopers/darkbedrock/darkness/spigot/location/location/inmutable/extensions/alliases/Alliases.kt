@@ -1,5 +1,5 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
 @file:Suppress("unused")
@@ -37,7 +37,7 @@ typealias DefaultLivingLocation = LivingLocation<Default>
 
 val <N> Location<*, Vector3<N>>.x: N get() = vector.x
 val <N> Location<*, Vector3<N>>.y: N get() = vector.y
-val <N> Location<*, Vector3<N>>.z: N get() = vector.y
+val <N> Location<*, Vector3<N>>.z: N get() = vector.z
 
 val <L> LookableLocation<*, *, Lookable<L>>.yaw: L get() = lookable.yaw
 val <L> LookableLocation<*, *, Lookable<L>>.pitch: L get() = lookable.pitch

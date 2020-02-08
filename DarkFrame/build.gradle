@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
 subprojects {
@@ -8,10 +8,10 @@ subprojects {
 
     dependencies {
 
+        jarLibs 'com.rollbar:rollbar-java:1.+'
         jarLibs "org.jetbrains.kotlin:kotlin-stdlib"
         jarLibs "org.jetbrains.kotlin:kotlin-reflect"
         jarLibs "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1"
-        jarLibs "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$versions_serialization"
         jarLibs "org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion"
         jarLibs "org.jetbrains.kotlin:kotlin-script-runtime:$kotlinVersion"
         jarLibs "org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion"

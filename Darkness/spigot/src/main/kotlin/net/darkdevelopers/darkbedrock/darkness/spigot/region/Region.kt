@@ -1,9 +1,9 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) and Lars Artmann | LartyHD 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.region
 
-import net.darkdevelopers.darkbedrock.darkness.spigot.location.extensions.BukkitLocation
+import net.darkdevelopers.darkbedrock.darkness.spigot.aliases.BukkitLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.extensions.toLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.location.inmutable.extensions.alliases.DefaultEntityLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.location.vector.inmutable.extensions.alliases.Vector3D
@@ -46,7 +46,7 @@ class Region @Deprecated("Will be changed to data class", ReplaceWith("Region.of
         pos1.toLocation().vector,
         pos2.toLocation().vector
     ) {
-        if (world != pos2.world.name) throw IllegalArgumentException("pos1 world and pos2 world must be the same")
+        require(world == pos2.world.name) { "pos1 world and pos2 world must be the same" }
     }
 
     override fun equals(other: Any?): Boolean {
