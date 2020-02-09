@@ -1,5 +1,5 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2020.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
@@ -30,8 +30,8 @@ abstract class Countdown internal constructor(var seconds: Int, private val logg
         logger.info("[${javaClass.simpleName}] Thread started")
         try {
             while (true) {
-                lambda()
                 Thread.sleep(sleep)
+                lambda()
             }
         } catch (ex: InterruptedException) {
             logger.info("[${javaClass.simpleName}] Thread stoped")

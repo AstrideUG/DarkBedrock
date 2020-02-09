@@ -23,9 +23,10 @@ class LobbyCountdown(
     seconds: Int = 60,
     val minPlayers: Int,
     val gameName: String,
-    val players: Collection<Player> = allPlayers
+    private val inputPlayers: () -> Collection<Player> = { allPlayers }
 ) : Countdown(seconds) {
 
+    val players get() = inputPlayers()
     var idling: Boolean = false
     private lateinit var idle: Thread
 
