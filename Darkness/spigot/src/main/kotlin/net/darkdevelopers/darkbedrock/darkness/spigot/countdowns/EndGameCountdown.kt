@@ -1,5 +1,5 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2020.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
@@ -8,17 +8,15 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.events.countdown.EndGameCo
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.call
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.events.plugin
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils
 import org.bukkit.entity.Player
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players as allPlayers
 
-/**
- * Created on 24.06.2017 17:22.
- * @author Lars Artmann | LartyHD
- */
 class EndGameCountdown(
     seconds: Int = 15,
-    val players: Collection<Player> = Utils.players
+    private val inputPlayers: () -> Collection<Player> = { allPlayers }
 ) : Countdown(seconds) {
+
+    val players get() = inputPlayers()
 
     override fun start(): Unit = if (!isRunning) {
         isRunning = true

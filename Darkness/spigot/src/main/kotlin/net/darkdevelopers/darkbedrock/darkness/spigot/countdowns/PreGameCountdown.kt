@@ -1,5 +1,5 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2020.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.countdowns
 
@@ -10,15 +10,16 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTimings
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTitle
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.Colors.SECONDARY
-import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players
 import org.bukkit.Sound
+import org.bukkit.entity.Player
+import net.darkdevelopers.darkbedrock.darkness.spigot.utils.Utils.players as allPlayers
 
-/**
- * @author Lars Artmann | LartyHD
- * Created by LartyHD on 24.06.2017 18:01.
- * Last edit 01.06.2019
- */
-class PreGameCountdown(seconds: Int = 5) : Countdown(seconds) {
+class PreGameCountdown(
+    seconds: Int = 5,
+    private val inputPlayers: () -> Collection<Player> = { allPlayers }
+) : Countdown(seconds) {
+
+    val players get() = inputPlayers()
 
     override fun start(): Unit = if (!isRunning) {
         isRunning = true
