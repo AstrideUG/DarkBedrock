@@ -1,5 +1,5 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2020.
  */
 package net.darkdevelopers.darkbedrock.darkness.general.databases.sql
 
@@ -22,7 +22,7 @@ import kotlin.coroutines.suspendCoroutine
  * Created by Lars Artmann | LartyHD on 10.11.2017 00:44.
  * Last edit 07.06.2019
  */
-class SQL(private val mySQLData: SQLData, private val logger: Logger = Logger.getGlobal()) {
+class SQL(private val sqlData: SQLData, private val logger: Logger = Logger.getGlobal()) {
     private var connection: Connection? = null
         get() {
             if (field?.isValid(2)!!) {
@@ -70,20 +70,20 @@ class SQL(private val mySQLData: SQLData, private val logger: Logger = Logger.ge
     fun preparedQuerySync(preparedQuery: PreparedStatement) = preparedQuery.executeQuery()!!
 
     private fun connect() /*= if (isOpen())*/ {
-        logger.info("$prefix[${mySQLData.type}] The connection is made...")
+        logger.info("$prefix[${sqlData.type}] The connection is made...")
         connection = DriverManager.getConnection(
-            "jdbc:${mySQLData.type}://${mySQLData.host}:${mySQLData.port}/${mySQLData.database}",
-            mySQLData.username,
-            mySQLData.password
+            "jdbc:${sqlData.type}://${sqlData.host}:${sqlData.port}/${sqlData.database}${sqlData.addon}",
+            sqlData.username,
+            sqlData.password
         )
-        logger.info("$prefix[${mySQLData.type}] The connection was successfully established")
+        logger.info("$prefix[${sqlData.type}] The connection was successfully established")
     } //else System.err.println("${prefix}The connection has already established")
 
     private fun disconnect(connection: Connection?)/* = if (!isOpen()) */ {
-        logger.info("$prefix[${mySQLData.type}] The connection is closing...")
+        logger.info("$prefix[${sqlData.type}] The connection is closing...")
         connection?.close()
         this.connection = null
-        logger.info("$prefix[${mySQLData.type}] The connection was successfully closed")
+        logger.info("$prefix[${sqlData.type}] The connection was successfully closed")
     } //else System.err.println("${prefix}The connection has already closed")
 
     //private fun isOpen() = connection != null && connection?.isClosed == false

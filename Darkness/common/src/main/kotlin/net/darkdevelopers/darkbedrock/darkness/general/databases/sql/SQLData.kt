@@ -1,5 +1,5 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2020.
  */
 
 package net.darkdevelopers.darkbedrock.darkness.general.databases.sql
@@ -14,4 +14,5 @@ class SQLData(values: Map<String, Any?>) {
     val database: String by values.default { "database" }
     val username: String by values.default { "root" }
     val password: String by values.default { "root" }
+    val addon: String = ""
 }

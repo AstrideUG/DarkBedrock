@@ -1589,22 +1589,22 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.moandjiezana.toml/toml4j/0.7.2/b957d79fcb9e8a7d06c9634a0c1110128f65405a/toml4j-0.7.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.rollbar:rollbar-api:1.5.2">
+    <library name="Gradle: com.rollbar:rollbar-api:1.6.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-api/1.5.2/663455ac291a3e795213f96ee2aae635cac89ccc/rollbar-api-1.5.2.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-api/1.6.0/b5acd8d55c5f9969a3dcb8a2b85d9fc6b2f2a4d9/rollbar-api-1.6.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-api/1.5.2/e03fc194f2d8d88c97884a96f7037589e2fe6497/rollbar-api-1.5.2-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-api/1.6.0/1bd24c34368ee06d09d354e8cfdbcb421238d8c3/rollbar-api-1.6.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: com.rollbar:rollbar-java:1.5.2">
+    <library name="Gradle: com.rollbar:rollbar-java:1.6.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-java/1.5.2/dad7830014dbd91bcd234bb620bf51b940d2072b/rollbar-java-1.5.2.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-java/1.6.0/68d400ca093f5d182a029573a810229fbb6f825c/rollbar-java-1.6.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-java/1.5.2/ee820e8ba2476f5b97aa7ce5db9dd213e9332f4a/rollbar-java-1.5.2-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-java/1.6.0/4697a7276c7a72ab5d29153cf574158015d602b5/rollbar-java-1.6.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.velocitypowered:velocity-api:1.0-SNAPSHOT">
