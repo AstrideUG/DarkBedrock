@@ -14,5 +14,5 @@ class SQLData(values: Map<String, Any?>) {
     val database: String by values.default { "database" }
     val username: String by values.default { "root" }
     val password: String by values.default { "root" }
-    val addon: String = ""
+    val addon: String by values.default { "" }
 }
