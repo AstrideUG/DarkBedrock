@@ -25,7 +25,7 @@ import kotlin.coroutines.suspendCoroutine
 class SQL(private val sqlData: SQLData, private val logger: Logger = Logger.getGlobal()) {
     private var connection: Connection? = null
         get() {
-            if (field?.isValid(2)!!) {
+            if (field?.isValid(2) != true) {
                 disconnect(field)
                 connect()
             }
