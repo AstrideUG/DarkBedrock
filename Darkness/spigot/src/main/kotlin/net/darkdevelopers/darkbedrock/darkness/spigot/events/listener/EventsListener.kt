@@ -1,5 +1,5 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2020.
  */
 package net.darkdevelopers.darkbedrock.darkness.spigot.events.listener
 
@@ -38,7 +38,7 @@ object EventsListener : EventsTemplate() {
     }
 
     private fun changeGameProfile(plugin: Plugin) {
-        val baseURL = ".change.gameprofile.darkdevelopers.net"
+        val baseURL = ".change.gameprofile.astride.de"
 
         listen<PlayerLoginEvent>(plugin) { event ->
             thread {
