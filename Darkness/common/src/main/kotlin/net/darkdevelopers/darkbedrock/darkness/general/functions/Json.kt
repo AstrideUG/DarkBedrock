@@ -1,5 +1,5 @@
 /*
- * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2019.
+ * © Copyright by Astride UG (haftungsbeschränkt) 2018 - 2020.
  */
 
 @file:JvmName("JsonUtils")
@@ -30,6 +30,11 @@ fun JsonObject(input: Map<String, JsonElement>): JsonObject = jsonObjectOf(input
 
 fun jsonObjectOf(vararg input: Pair<String, JsonElement>): JsonObject = jsonObjectOf(mapOf(*input))
 
+@Suppress("UNCHECKED_CAST")
+@JvmName("jsonObjectOfString")
+fun jsonObjectOf(vararg input: Pair<String, Any>): JsonObject =
+    jsonObjectOf(*input.map { it.toJsonElement() } as Array<out Pair<String, JsonElement>>)
+
 fun jsonObjectOf(input: Map<String, JsonElement>): JsonObject =
     JsonObject().apply { input.entries.forEach { add(it.key, it.value) } }
 
@@ -40,6 +45,9 @@ fun JsonArray.toList(): List<Any?> = this.toKList().map { it.toObject() }
 fun Map<String, JsonElement>.toJsonObject(jsonObject: JsonObject = JsonObject()): JsonObject = jsonObject.apply {
     this@toJsonObject.forEach { (value, key) -> add(value, key) }
 }
+
+fun List<String>.toJsonPrimitive() = map { it.toJsonPrimitive() }
+fun List<String>.toJsonPrimitiveArray(): JsonArray = JsonArray(this.toJsonPrimitive())
 
 fun Any.toJsonPrimitive(default: Any.() -> JsonPrimitive? = { null }): JsonPrimitive? = when (this) {
     is Boolean -> toJsonPrimitive()
